@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره نامه پرو</title>
+
+<style>
+body{
+  margin:0;
+  background:#0f172a;
+  font-family:tahoma;
+  color:white;
+  text-align:center;
+}
+.header{
+  padding:40px 20px;
+  background:linear-gradient(135deg,#14532d,#0f172a);
+}
+.box{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+.card{
+  background:#1e293b;
+  padding:20px;
+  border-radius:18px;
+  margin-top:20px;
+}
+input,select,button{
+  padding:11px;
+  margin:6px;
+  border-radius:10px;
+  border:none;
+  font-size:15px;
+}
+button{
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
+}
+.edit{background:#3b82f6}
+.delete{background:#ef4444}
+.person{
+  background:#0f172a;
+  padding:12px;
+  border-radius:12px;
+  margin:8px 0;
+  text-align:right;
+}
+.child{
+  margin-right:25px;
+  color:#cbd5e1;
+}
+.tree-area{
+  overflow:auto;
+  background:#020617;
+  padding:30px;
+  border-radius:18px;
+  margin-top:20px;
+}
+.tree-node{
+  display:inline-block;
+  background:#2563eb;
+  color:white;
+  padding:12px 18px;
+  border-radius:14px;
+  min-width:120px;
+  margin:10px;
+  box-shadow:0 8px 20px rgba(0,0,0,.4);
+}
+.tree-children{
+  border-top:2px solid #64748b;
+  margin-top:18px;
+  padding-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.line{
+  width:2px;
+  height:20px;
+  background:#64748b;
+  margin:auto;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>🌳 شجره نامه پرو</h1>
+  <p>ثبت افراد، فرزندان، و نمایش درختی گرافیکی</p>
+</div>
+
+<div class="box">
+
+  <div class="card">
+    <h2>➕ افزودن فرد اصلی</h2>
+    <input id="name" placeholder="نام فرد">
+    <button onclick="addPerson()">افزودن</button>
+  </div>
+
+  <div class="card">
+    <h2>👶 افزودن فرزند</h2>
+    <select id="parentSelect"></select>
+    <input id="childName" placeholder="نام فرزند">
+    <button onclick="addChild()">افزودن فرزند</button>
+  </div>
+
+  <div class="card">
+    <h2>📋 مدیریت افراد</h2>
+    <div id="list"></div>
+  </div>
+
+  <div class="card">
+    <h2>🌳 نمایش گرافیکی شجره</h2>
+    <div id="tree" class="tree-area"></div>
+  </div>
+
+</div>
+
+<script>
+let people = JSON.parse(localStorage.getItem("people")) || [];
+
+function save(){
+  localStorage.setItem("people", JSON.stringify(people));
+  render();
+}
+
+function addPerson(){
+  let name = document.getElementById("name").value.trim();
+
+  if(!name){
+    alert("نام را وارد کنید");
+    return;
+  }
+
+  people.push({
+    id: Date.now(),
+    name: name,
+    children: []
+  });
+
+  document.getElementById("name").value = "";
+  save();
+}
+
+function addChild(){
+  let parentId = document.getElementById("parentSelect").value;
+  let childName = document.getElementById("childName").value.trim();
+
+  if(!childName){
+    alert("نام فرزند را وارد کنید");
+    return;
+  }
+
+  let parent = findPerson(people, parentId);
+
+  if(parent){
+    parent.children.push({
+      id: Date.now(),
+      name: childName,
+      children: []
+    });
+  }
+
+  document.getElementById("childName").value = "";
+  save();
+}
+
+function findPerson(list, id){
+  for(let p of list){
+    if(p.id == id) return p;
+    let found = findPerson(p.children || [], id);
+    if(found) return found;
+  }
+  return null;
+}
+
+function editPerson(id){
+  let person = findPerson(people, id);
+  let newName = prompt("نام جدید را وارد کنید:", person.name);
+
+  if(newName && newName.trim()){
+    person.name = newName.trim();
+    save();
+  }
+}
+
+function deletePerson(id){
+  if(!confirm("حذف شود؟")) return;
+
+  people = deleteFromList(people, id);
+  save();
+}
+
+function deleteFromList(list, id){
+  return list
+    .filter(p => p.id != id)
+    .map(p => ({
+      ...p,
+      children: deleteFromList(p.children || [], id)
+    }));
+}
+
+function renderOptions(list){
+  let html = "";
+
+  list.forEach(p => {
+    html += `<option value="${p.id}">${p.name}</option>`;
+    html += renderOptions(p.children || []);
+  });
+
+  return html;
+}
+
+function renderList(list){
+  let html = "";
+
+  list.forEach(p => {
+    html += `
+      <div class="person">
+        <strong>👤 ${p.name}</strong>
+        <button class="edit" onclick="editPerson(${p.id})">ویرایش نام</button>
+        <button class="delete" onclick="deletePerson(${p.id})">حذف</button>
+        <div class="child">
+          ${renderList(p.children || [])}
+        </div>
+      </div>
+    `;
+  });
+
+  return html;
+}
+
+function renderTreeNode(p){
+  let children = p.children || [];
+
+  return `
+    <div>
+      <div class="tree-node">👤 ${p.name}</div>
+      ${
+        children.length
+        ? `<div class="line"></div><div class="tree-children">${children.map(renderTreeNode).join("")}</div>`
+        : ""
+      }
+    </div>
+  `;
+}
+
+function renderTree(){
+  if(!people.length){
+    return "<p>هنوز فردی ثبت نشده است.</p>";
+  }
+
+  return people.map(renderTreeNode).join("");
+}
+
+function render(){
+  document.getElementById("parentSelect").innerHTML = renderOptions(people);
+  document.getElementById("list").innerHTML = renderList(people);
+  document.getElementById("tree").innerHTML = renderTree();
+}
+
+render();
+</script>
+
+</body>
+</html>Commit changes
