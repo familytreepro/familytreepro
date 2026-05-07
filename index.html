@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره نامه پرو</title>
+
+<style>
+body{margin:0;background:#0f172a;font-family:tahoma;color:white;text-align:center}
+.header{padding:35px 20px;background:linear-gradient(135deg,#14532d,#0f172a)}
+.box{max-width:1150px;margin:auto;padding:20px}
+.card{background:#1e293b;padding:20px;border-radius:18px;margin-top:20px}
+input,select,button{padding:11px;margin:6px;border-radius:10px;border:none;font-size:15px}
+button{background:#22c55e;color:white;cursor:pointer}
+.edit{background:#3b82f6}.delete{background:#ef4444}.backup{background:#f59e0b}
+.person{background:#0f172a;padding:12px;border-radius:12px;margin:8px 0;text-align:right}
+.tree-area{overflow:auto;background:#020617;padding:30px;border-radius:18px;margin-top:20px}
+.tree-node{display:inline-block;color:white;padding:12px 18px;border-radius:14px;min-width:150px;margin:10px;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.male{background:#2563eb}
+.female{background:#db2777}
+.unknown{background:#475569}
+.tree-children{border-top:2px solid #64748b;margin-top:18px;padding-top:18px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.line{width:2px;height:20px;background:#64748b;margin:auto}
+.info{font-size:13px;color:#e5e7eb;margin-top:6px}
+.result{background:#020617;border:1px solid #334155;border-radius:12px;padding:12px;margin:8px;text-align:right}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>🌳 شجره نامه پرو</h1>
+  <p>نسخه خانواده کامل: پدر، مادر، همسر، فرزند دختر و پسر</p>
+</div>
+
+<div class="box">
+
+  <div class="card">
+    <h2>➕ افزودن فرد اصلی</h2>
+    <input id="name" placeholder="نام فرد">
+    <select id="gender">
+      <option value="male">آقا</option>
+      <option value="female">خانم</option>
+    </select>
+    <input id="father" placeholder="نام پدر">
+    <input id="mother" placeholder="نام مادر">
+    <input id="spouse" placeholder="نام همسر">
+    <button onclick="addPerson()">افزودن فرد</button>
+  </div>
+
+  <div class="card">
+    <h2>👶 افزودن فرزند</h2>
+    <select id="parentSelect"></select>
+    <input id="childName" placeholder="نام فرزند">
+    <select id="childGender">
+      <option value="male">👦 پسر</option>
+      <option value="female">👧 دختر</option>
+    </select>
+    <input id="childFather" placeholder="نام پدر">
+    <input id="childMother" placeholder="نام مادر">
+    <input id="childSpouse" placeholder="نام همسر">
+    <button onclick="addChild()">افزودن فرزند</button>
+  </div>
+
+  <div class="card">
+    <h2>🔎 جستجو</h2>
+    <input id="searchInput" placeholder="نام را جستجو کنید" oninput="searchPeople()">
+    <button onclick="clearSearch()">پاک کردن</button>
+    <div id="searchResults"></div>
+  </div>
+
+  <div class="card">
+    <h2>💾 پشتیبان‌گیری</h2>
+    <button class="backup" onclick="exportBackup()">📤 خروجی</button>
+    <button class="backup" onclick="document.getElementById('backupFile').click()">📥 ورود اطلاعات</button>
+    <input type="file" id="backupFile" accept=".json" style="display:none" onchange="importBackup(event)">
+    <button class="delete" onclick="clearAllData()">🧹 حذف همه</button>
+  </div>
+
+  <div class="card">
+    <h2>📋 مدیریت افراد</h2>
+    <div id="list"></div>
+  </div>
+
+  <div class="card">
+    <h2>🌳 نمایش گرافیکی شجره</h2>
+    <div id="tree" class="tree-area"></div>
+  </div>
+
+</div>
+
+<script>
+let people = JSON.parse(localStorage.getItem("people")) || [];
+let currentSearch = "";
+
+function save(){
+  localStorage.setItem("people", JSON.stringify(people));
+  render();
+}
+
+function icon(gender){
+  return gender === "male" ? "👦" : gender === "female" ? "👧" : "👤";
+}
+
+function addPerson(){
+  let name = document.getElementById("name").value.trim();
+  if(!name){ alert("نام را وارد کنید"); return; }
+
+  people.push({
+    id: Date.now(),
+    name,
+    gender: document.getElementById("gender").value,
+    father: document.getElementById("father").value.trim(),
+    mother: document.getElementById("mother").value.trim(),
+    spouse: document.getElementById("spouse").value.trim(),
+    children: []
+  });
+
+  ["name","father","mother","spouse"].forEach(id => document.getElementById(id).value = "");
+  save();
+}
+
+function addChild(){
+  let parentId = document.getElementById("parentSelect").value;
+  let childName = document.getElementById("childName").value.trim();
+
+  if(!childName){ alert("نام فرزند را وارد کنید"); return; }
+
+  let parent = findPerson(people, parentId);
+
+  if(parent){
+    parent.children.push({
+      id: Date.now(),
+      name: childName,
+      gender: document.getElementById("childGender").value,
+      father: document.getElementById("childFather").value.trim(),
+      mother: document.getElementById("childMother").value.trim(),
+      spouse: document.getElementById("childSpouse").value.trim(),
+      children: []
+    });
+  }
+
+  ["childName","childFather","childMother","childSpouse"].forEach(id => document.getElementById(id).value = "");
+  save();
+}
+
+function findPerson(list, id){
+  for(let p of list){
+    if(p.id == id) return p;
+    let found = findPerson(p.children || [], id);
+    if(found) return found;
+  }
+  return null;
+}
+
+function editPerson(id){
+  let p = findPerson(people, id);
+  let newName = prompt("نام جدید:", p.name);
+  if(newName && newName.trim()){
+    p.name = newName.trim();
+    save();
+  }
+}
+
+function editInfo(id){
+  let p = findPerson(people, id);
+  let father = prompt("نام پدر:", p.father || "");
+  let mother = prompt("نام مادر:", p.mother || "");
+  let spouse = prompt("نام همسر:", p.spouse || "");
+
+  p.father = father || "";
+  p.mother = mother || "";
+  p.spouse = spouse || "";
+  save();
+}
+
+function deletePerson(id){
+  if(!confirm("حذف شود؟")) return;
+  people = deleteFromList(people, id);
+  save();
+}
+
+function deleteFromList(list, id){
+  return list
+    .filter(p => p.id != id)
+    .map(p => ({...p, children: deleteFromList(p.children || [], id)}));
+}
+
+function renderOptions(list){
+  let html = "";
+  list.forEach(p => {
+    html += `<option value="${p.id}">${p.name}</option>`;
+    html += renderOptions(p.children || []);
+  });
+  return html;
+}
+
+function renderList(list){
+  let html = "";
+  list.forEach(p => {
+    html += `
+      <div class="person">
+        <strong>${icon(p.gender)} ${p.name}</strong>
+        <div class="info">
+          پدر: ${p.father || "-"} | مادر: ${p.mother || "-"} | همسر: ${p.spouse || "-"}
+        </div>
+        <button class="edit" onclick="editPerson(${p.id})">ویرایش نام</button>
+        <button class="edit" onclick="editInfo(${p.id})">ویرایش مشخصات</button>
+        <button class="delete" onclick="deletePerson(${p.id})">حذف</button>
+        <div style="margin-right:25px">${renderList(p.children || [])}</div>
+      </div>
+    `;
+  });
+  return html;
+}
+
+function renderTreeNode(p){
+  let children = p.children || [];
+  let cls = p.gender === "male" ? "male" : p.gender === "female" ? "female" : "unknown";
+
+  return `
+    <div>
+      <div class="tree-node ${cls}">
+        <div>${icon(p.gender)} ${p.name}</div>
+        <div class="info">پدر: ${p.father || "-"}</div>
+        <div class="info">مادر: ${p.mother || "-"}</div>
+        <div class="info">همسر: ${p.spouse || "-"}</div>
+      </div>
+      ${
+        children.length
+        ? `<div class="line"></div><div class="tree-children">${children.map(renderTreeNode).join("")}</div>`
+        : ""
+      }
+    </div>
+  `;
+}
+
+function renderTree(){
+  if(!people.length) return "<p>هنوز فردی ثبت نشده است.</p>";
+  return people.map(renderTreeNode).join("");
+}
+
+function flattenPeople(list, path=""){
+  let all = [];
+  list.forEach(p => {
+    let currentPath = path ? path + " ← " + p.name : p.name;
+    all.push({...p, path: currentPath});
+    all = all.concat(flattenPeople(p.children || [], currentPath));
+  });
+  return all;
+}
+
+function searchPeople(){
+  currentSearch = document.getElementById("searchInput").value.trim();
+  let box = document.getElementById("searchResults");
+
+  if(!currentSearch){ box.innerHTML = ""; return; }
+
+  let results = flattenPeople(people).filter(p =>
+    p.name.toLowerCase().includes(currentSearch.toLowerCase())
+  );
+
+  box.innerHTML = results.length ? results.map(p => `
+    <div class="result">
+      <strong>${icon(p.gender)} ${p.name}</strong><br>
+      <small>${p.path}</small>
+    </div>
+  `).join("") : "<p>نتیجه‌ای پیدا نشد.</p>";
+}
+
+function clearSearch(){
+  document.getElementById("searchInput").value = "";
+  document.getElementById("searchResults").innerHTML = "";
+}
+
+function exportBackup(){
+  let blob = new Blob([JSON.stringify({people}, null, 2)], {type:"application/json"});
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "shajare-backup.json";
+  link.click();
+}
+
+function importBackup(event){
+  let file = event.target.files[0];
+  if(!file) return;
+
+  let reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      let data = JSON.parse(e.target.result);
+      people = data.people || [];
+      save();
+      alert("اطلاعات وارد شد");
+    }catch{
+      alert("فایل معتبر نیست");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function clearAllData(){
+  if(confirm("همه اطلاعات حذف شود؟")){
+    people = [];
+    localStorage.removeItem("people");
+    render();
+  }
+}
+
+function render(){
+  document.getElementById("parentSelect").innerHTML = renderOptions(people);
+  document.getElementById("list").innerHTML = renderList(people);
+  document.getElementById("tree").innerHTML = renderTree();
+}
+
+render();
+</script>
+
+</body>
+</html>
+Commit changes
