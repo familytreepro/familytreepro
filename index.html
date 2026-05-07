@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره نامه پایدار</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0f172a;color:white;font-family:tahoma;text-align:center}
+.header{background:#111827;padding:30px 15px}
+.header h1{margin:0;color:#22c55e}
+.container{max-width:1100px;margin:auto;padding:15px}
+.card{background:#1e293b;padding:18px;border-radius:16px;margin-top:18px}
+input,select,textarea{width:90%;max-width:400px;padding:10px;margin:6px;border-radius:10px;border:1px solid #334155;background:#020617;color:white;font-family:tahoma}
+textarea{min-height:70px}
+button{padding:10px 14px;border:none;border-radius:10px;margin:5px;cursor:pointer;font-family:tahoma;background:#22c55e;color:white}
+.edit{background:#3b82f6}
+.delete{background:#ef4444}
+.ancestor{background:#f59e0b}
+.person{background:#0f172a;border-radius:12px;padding:12px;margin:10px 0;text-align:right}
+.info{font-size:13px;color:#cbd5e1;line-height:1.8}
+.tree{overflow:auto;background:#020617;border-radius:16px;padding:20px}
+.node{display:inline-block;min-width:150px;padding:14px;border-radius:14px;margin:10px;color:white}
+.male{background:#2563eb}
+.female{background:#db2777}
+.children{display:flex;justify-content:center;flex-wrap:wrap;gap:16px;border-top:2px dashed #475569;margin-top:18px;padding-top:18px}
+.line{width:3px;height:20px;background:#475569;margin:auto}
+.stats{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}
+.stat{background:#020617;padding:14px;border-radius:14px;min-width:130px}
+.stat strong{font-size:24px;color:#22c55e}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+<h1>🌳 شجره نامه پایدار</h1>
+<p>نسخه پایدار با دکمه افزودن پدر و پدربزرگ</p>
+</div>
+
+<div class="container">
+
+<div class="card">
+<h2>📊 داشبورد</h2>
+<div class="stats">
+<div class="stat">👥 کل افراد<br><strong id="totalCount">0</strong></div>
+<div class="stat">👦 پسرها<br><strong id="maleCount">0</strong></div>
+<div class="stat">👧 دخترها<br><strong id="femaleCount">0</strong></div>
+<div class="stat">🌳 نسل‌ها<br><strong id="genCount">0</strong></div>
+</div>
+</div>
+
+<div class="card">
+<h2>➕ افزودن فرد اصلی</h2>
+<input id="name" placeholder="نام">
+<select id="gender">
+<option value="male">آقا</option>
+<option value="female">خانم</option>
+</select>
+<input id="father" placeholder="نام پدر">
+<input id="mother" placeholder="نام مادر">
+<input id="spouse" placeholder="نام همسر">
+<input id="birthPlace" placeholder="شهر">
+<textarea id="notes" placeholder="توضیحات"></textarea>
+<br>
+<button onclick="addPerson()">افزودن</button>
+</div>
+
+<div class="card">
+<h2>👶 افزودن فرزند</h2>
+<select id="parentSelect"></select>
+<input id="childName" placeholder="نام فرزند">
+<select id="childGender">
+<option value="male">👦 پسر</option>
+<option value="female">👧 دختر</option>
+</select>
+<button onclick="addChild()">افزودن فرزند</button>
+</div>
+
+<div class="card">
+<h2>📋 مدیریت افراد</h2>
+<div id="list"></div>
+</div>
+
+<div class="card">
+<h2>🌳 شجره</h2>
+<div id="tree" class="tree"></div>
+</div>
+
+</div>
+
+<script>
+var people = JSON.parse(localStorage.getItem("people") || "[]");
+
+function save(){
+  localStorage.setItem("people", JSON.stringify(people));
+  render();
+}
+
+function icon(g){
+  return g === "male" ? "👦" : "👧";
+}
+
+function value(id){
+  return document.getElementById(id).value.trim();
+}
+
+function newId(){
+  return Date.now() + Math.floor(Math.random()*9999);
+}
+
+function makePerson(name, gender){
+  return {
+    id:newId(),
+    name:name,
+    gender:gender || "male",
+    father:"",
+    mother:"",
+    spouse:"",
+    birthPlace:"",
+    notes:"",
+    children:[]
+  };
+}
+
+function addPerson(){
+  if(!value("name")){
+    alert("نام را وارد کنید");
+    return;
+  }
+
+  people.push({
+    id:newId(),
+    name:value("name"),
+    gender:value("gender"),
+    father:value("father"),
+    mother:value("mother"),
+    spouse:value("spouse"),
+    birthPlace:value("birthPlace"),
+    notes:value("notes"),
+    children:[]
+  });
+
+  ["name","father","mother","spouse","birthPlace","notes"].forEach(function(id){
+    document.getElementById(id).value="";
+  });
+
+  save();
+}
+
+function addChild(){
+  var parentId = document.getElementById("parentSelect").value;
+
+  if(!value("childName")){
+    alert("نام فرزند را وارد کنید");
+    return;
+  }
+
+  var parent = findPerson(people,parentId);
+
+  if(!parent){
+    alert("ابتدا یک فرد اضافه کنید");
+    return;
+  }
+
+  parent.children.push({
+    id:newId(),
+    name:value("childName"),
+    gender:value("childGender"),
+    father:parent.name,
+    mother:"",
+    spouse:"",
+    birthPlace:"",
+    notes:"",
+    children:[]
+  });
+
+  document.getElementById("childName").value="";
+  save();
+}
+
+function findPerson(list,id){
+  for(var i=0;i<list.length;i++){
+    if(String(list[i].id) === String(id)){
+      return list[i];
+    }
+
+    var found = findPerson(list[i].children || [],id);
+
+    if(found){
+      return found;
+    }
+  }
+
+  return null;
+}
+
+function replaceWithNewParent(list,id,newParent){
+  for(var i=0;i<list.length;i++){
+    if(String(list[i].id) === String(id)){
+      var oldPerson = list[i];
+      oldPerson.father = newParent.name;
+      newParent.children = [oldPerson];
+      list[i] = newParent;
+      return true;
+    }
+
+    if(replaceWithNewParent(list[i].children || [],id,newParent)){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function addFather(id){
+  var person = findPerson(people,id);
+
+  if(!person){
+    return;
+  }
+
+  var name = prompt("نام پدر را وارد کنید:", person.father || "");
+
+  if(!name || !name.trim()){
+    return;
+  }
+
+  var father = makePerson(name.trim(),"male");
+
+  replaceWithNewParent(people,id,father);
+
+  save();
+}
+
+function addGrandFather(id){
+  var person = findPerson(people,id);
+
+  if(!person){
+    return;
+  }
+
+  var fatherName = prompt("نام پدر را وارد کنید:", person.father || "");
+
+  if(!fatherName || !fatherName.trim()){
+    return;
+  }
+
+  var grandName = prompt("نام پدربزرگ را وارد کنید:");
+
+  if(!grandName || !grandName.trim()){
+    return;
+  }
+
+  var father = makePerson(fatherName.trim(),"male");
+  var grandFather = makePerson(grandName.trim(),"male");
+
+  person.father = father.name;
+  father.father = grandFather.name;
+  father.children = [person];
+  grandFather.children = [father];
+
+  replaceExactPerson(people,id,grandFather);
+
+  save();
+}
+
+function replaceExactPerson(list,id,newNode){
+  for(var i=0;i<list.length;i++){
+    if(String(list[i].id) === String(id)){
+      list[i] = newNode;
+      return true;
+    }
+
+    if(replaceExactPerson(list[i].children || [],id,newNode)){
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function removePerson(list,id){
+  var result=[];
+
+  list.forEach(function(p){
+    if(String(p.id)!==String(id)){
+      p.children=removePerson(p.children||[],id);
+      result.push(p);
+    }
+  });
+
+  return result;
+}
+
+function deletePerson(id){
+  if(!confirm("حذف شود؟")){
+    return;
+  }
+
+  people=removePerson(people,id);
+
+  save();
+}
+
+function editName(id){
+  var p=findPerson(people,id);
+
+  if(!p) return;
+
+  var n=prompt("نام جدید:",p.name);
+
+  if(n && n.trim()){
+    p.name=n.trim();
+    save();
+  }
+}
+
+function renderOptions(list){
+  var html="";
+
+  list.forEach(function(p){
+    html += '<option value="'+p.id+'">'+p.name+'</option>';
+    html += renderOptions(p.children || []);
+  });
+
+  return html;
+}
+
+function renderList(list){
+  var html="";
+
+  list.forEach(function(p){
+    html += '<div class="person">';
+    html += '<strong>'+icon(p.gender)+' '+p.name+'</strong>';
+
+    html += '<div class="info">';
+    html += 'پدر: '+(p.father || "-");
+    html += ' | مادر: '+(p.mother || "-");
+    html += ' | همسر: '+(p.spouse || "-");
+    html += '<br>';
+    html += 'شهر: '+(p.birthPlace || "-");
+    html += '<br>';
+    html += 'توضیحات: '+(p.notes || "-");
+    html += '</div>';
+
+    html += '<button class="ancestor" onclick="addFather('+p.id+')">افزودن پدر</button>';
+    html += '<button class="ancestor" onclick="addGrandFather('+p.id+')">افزودن پدربزرگ</button>';
+    html += '<button class="edit" onclick="editName('+p.id+')">ویرایش</button>';
+    html += '<button class="delete" onclick="deletePerson('+p.id+')">حذف</button>';
+
+    html += '<div style="margin-right:25px">';
+    html += renderList(p.children || []);
+    html += '</div>';
+
+    html += '</div>';
+  });
+
+  return html;
+}
+
+function renderTreeNode(p){
+  var cls = p.gender === "male" ? "male" : "female";
+
+  var html = '<div>';
+
+  html += '<div class="node '+cls+'">';
+  html += '<div style="font-size:20px">';
+  html += icon(p.gender)+' '+p.name;
+  html += '</div>';
+
+  html += '<div class="info">';
+  html += 'پدر: '+(p.father || "-");
+  html += '<br>';
+  html += 'همسر: '+(p.spouse || "-");
+  html += '</div>';
+
+  html += '</div>';
+
+  if(p.children && p.children.length){
+    html += '<div class="line"></div>';
+    html += '<div class="children">';
+
+    p.children.forEach(function(c){
+      html += renderTreeNode(c);
+    });
+
+    html += '</div>';
+  }
+
+  html += '</div>';
+
+  return html;
+}
+
+function renderTree(){
+  if(!people.length){
+    return "<p>هنوز فردی ثبت نشده است.</p>";
+  }
+
+  var html="";
+
+  people.forEach(function(p){
+    html += renderTreeNode(p);
+  });
+
+  return html;
+}
+
+function allPeople(list){
+  var all=[];
+
+  list.forEach(function(p){
+    all.push(p);
+    all = all.concat(allPeople(p.children || []));
+  });
+
+  return all;
+}
+
+function generationCount(list){
+  if(!list.length){
+    return 0;
+  }
+
+  var max = 0;
+
+  list.forEach(function(p){
+    var d = generationCount(p.children || []);
+
+    if(d > max){
+      max = d;
+    }
+  });
+
+  return max + 1;
+}
+
+function renderStats(){
+  var all = allPeople(people);
+
+  var males = all.filter(function(p){
+    return p.gender === "male";
+  }).length;
+
+  var females = all.filter(function(p){
+    return p.gender === "female";
+  }).length;
+
+  document.getElementById("totalCount").innerText = all.length;
+  document.getElementById("maleCount").innerText = males;
+  document.getElementById("femaleCount").innerText = females;
+  document.getElementById("genCount").innerText = generationCount(people);
+}
+
+function render(){
+  document.getElementById("parentSelect").innerHTML = renderOptions(people);
+  document.getElementById("list").innerHTML = renderList(people);
+  document.getElementById("tree").innerHTML = renderTree();
+  renderStats();
+}
+
+render();
+</script>
+
+</body>
+</html>
+Commit changes
