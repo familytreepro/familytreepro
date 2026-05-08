@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره نامه خانواده</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:tahoma, Arial, sans-serif;
+  background:#f4f7fb;
+  color:#0f172a;
+  direction:rtl;
+}
+
+button,input,select{
+  font-family:tahoma, Arial, sans-serif;
+}
+
+#loginScreen{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#061a35,#0f274a);
+  padding:20px;
+}
+
+.login-box{
+  width:100%;
+  max-width:420px;
+  background:white;
+  border-radius:22px;
+  padding:30px;
+  text-align:center;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.login-box h1{
+  margin-top:0;
+  color:#0f274a;
+}
+
+.login-box input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d7deea;
+  border-radius:12px;
+  margin:10px 0;
+}
+
+.login-box button{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#16a34a;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.app{
+  display:none;
+}
+
+.topbar{
+  height:64px;
+  background:#071b35;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 24px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.top-title{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.top-date{
+  color:#e5e7eb;
+  font-size:14px;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  min-height:calc(100vh - 64px);
+}
+
+.sidebar{
+  background:linear-gradient(180deg,#071b35,#08213f);
+  color:white;
+  padding:20px 14px;
+}
+
+.profile{
+  text-align:center;
+  padding:12px 0 22px;
+}
+
+.avatar{
+  width:86px;
+  height:86px;
+  margin:auto;
+  border-radius:50%;
+  background:#f1f5f9;
+  color:#94a3b8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+}
+
+.online{
+  color:#22c55e;
+  font-size:14px;
+  margin-top:8px;
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 16px;
+  margin:8px 0;
+  border-radius:10px;
+  color:#e5e7eb;
+  cursor:pointer;
+}
+
+.menu-item.active{
+  background:#2563eb;
+  color:white;
+}
+
+.menu-item.dark{
+  background:rgba(2,6,23,.45);
+}
+
+.system-box{
+  margin-top:22px;
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:14px;
+  padding:14px;
+  font-size:13px;
+  line-height:2;
+  color:#e5e7eb;
+}
+
+.content{
+  padding:20px;
+  overflow:auto;
+}
+
+.page-title{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:8px 0 22px;
+}
+
+.page-title h1{
+  margin:0;
+  font-size:28px;
+}
+
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:18px;
+  margin-bottom:22px;
+}
+
+.stat-card{
+  background:white;
+  border:1px solid #e5eaf2;
+  border-radius:14px;
+  padding:22px;
+  min-height:118px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  box-shadow:0 8px 22px rgba(15,23,42,.04);
+}
+
+.stat-card .num{
+  font-size:30px;
+  font-weight:bold;
+  margin:8px 0;
+}
+
+.icon-big{
+  font-size:40px;
+}
+
+.purple{background:#fbf7ff;color:#7c3aed}
+.blue{background:#f4f8ff;color:#2563eb}
+.pink{background:#fff5fa;color:#db2777}
+.green{background:#f4fff8;color:#16a34a}
+
+.main-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.panel{
+  background:white;
+  border:1px solid #e5eaf2;
+  border-radius:14px;
+  padding:20px;
+  box-shadow:0 8px 22px rgba(15,23,42,.04);
+  margin-bottom:18px;
+}
+
+.panel h2{
+  margin-top:0;
+  font-size:20px;
+}
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+
+.quick-btn{
+  min-height:110px;
+  border:1px solid #e0e7ff;
+  border-radius:12px;
+  background:#f8fbff;
+  cursor:pointer;
+  font-size:16px;
+  color:#2563eb;
+}
+
+.quick-btn.green-btn{color:#16a34a;background:#f5fff8}
+.quick-btn.orange-btn{color:#ea580c;background:#fff8f0}
+.quick-btn.purple-btn{color:#7c3aed;background:#fbf7ff}
+
+.form-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:10px;
+}
+
+.form-row input,.form-row select{
+  flex:1;
+  min-width:160px;
+  padding:12px;
+  border:1px solid #d7deea;
+  border-radius:10px;
+}
+
+.action-btn{
+  padding:12px 18px;
+  border:none;
+  border-radius:10px;
+  background:#16a34a;
+  color:white;
+  cursor:pointer;
+}
+
+.blue-btn{background:#2563eb}
+.red-btn{background:#ef4444}
+.orange-btn-main{background:#f59e0b}
+
+.activity-item{
+  display:flex;
+  justify-content:space-between;
+  padding:14px 0;
+  border-bottom:1px solid #eef2f7;
+  color:#334155;
+}
+
+.dot{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  display:inline-block;
+  margin-left:8px;
+}
+
+.dot.blue-dot{background:#2563eb}
+.dot.green-dot{background:#16a34a}
+.dot.pink-dot{background:#db2777}
+
+.person{
+  background:#f8fafc;
+  border:1px solid #e2e8f0;
+  padding:14px;
+  border-radius:12px;
+  margin:10px 0;
+}
+
+.child{
+  margin-right:26px;
+  padding:8px;
+  color:#475569;
+}
+
+.tree-area{
+  background:white;
+  border:1px solid #e5eaf2;
+  border-radius:14px;
+  padding:22px;
+  text-align:center;
+  overflow:auto;
+}
+
+.node{
+  display:inline-block;
+  min-width:150px;
+  padding:12px 18px;
+  border-radius:10px;
+  margin:8px;
+  border:1px solid #93c5fd;
+  color:#1e3a8a;
+  background:#f8fbff;
+}
+
+.node.female{
+  border-color:#f9a8d4;
+  color:#9d174d;
+  background:#fff5fa;
+}
+
+.children-line{
+  border-top:2px solid #94a3b8;
+  margin-top:12px;
+  padding-top:12px;
+}
+
+.password-panel{
+  display:grid;
+  grid-template-columns:1.4fr 1fr;
+  gap:18px;
+}
+
+.password-inputs input{
+  width:100%;
+  padding:14px;
+  border:1px solid #d7deea;
+  border-radius:10px;
+  margin-bottom:12px;
+}
+
+.security-note{
+  background:#fffaf0;
+  border:1px solid #fed7aa;
+  border-radius:12px;
+  padding:18px;
+  line-height:2;
+}
+
+.footer{
+  background:white;
+  border:1px solid #e5eaf2;
+  border-radius:14px;
+  padding:16px;
+  color:#64748b;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.logout-link{
+  color:#ef4444;
+  cursor:pointer;
+}
+
+@media(max-width:950px){
+  .layout{
+    grid-template-columns:1fr;
+  }
+  .sidebar{
+    order:2;
+  }
+  .content{
+    order:1;
+  }
+  .cards-grid,.main-grid,.password-panel{
+    grid-template-columns:1fr;
+  }
+  .topbar{
+    padding:0 12px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>🔐 ورود به شجره نامه</h1>
+    <p>برای ورود رمز را وارد کنید</p>
+    <input id="passwordInput" type="password" placeholder="رمز ورود">
+    <button onclick="login()">ورود</button>
+    <p id="loginError" style="color:#ef4444"></p>
+    <p style="font-size:13px;color:#64748b">رمز پیش‌فرض: 1234</p>
+  </div>
+</div>
+
+<div id="app" class="app">
+
+  <div class="topbar">
+    <div>🔒 خروج</div>
+    <div class="top-date">جمعه ۱۸ اردیبهشت ۱۴۰۵</div>
+    <div class="top-title">🌳 سامانه شجره نامه</div>
+  </div>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar">👤</div>
+        <h3>مدیر سیستم</h3>
+        <div class="online">● آنلاین</div>
+      </div>
+
+      <div class="menu-item active">داشبورد <span>🏠</span></div>
+      <div class="menu-item">افراد <span>👤</span></div>
+      <div class="menu-item">خانواده‌ها <span>👥</span></div>
+      <div class="menu-item">شجره‌نامه <span>🌳</span></div>
+      <div class="menu-item">گزارش‌ها <span>📊</span></div>
+      <div class="menu-item">یادداشت‌ها <span>📝</span></div>
+      <div class="menu-item">عملیات پایه <span>⚙️</span></div>
+      <div class="menu-item dark">تغییر رمز عبور <span>🔒</span></div>
+      <div class="menu-item" onclick="exportData()">پشتیبان‌گیری <span>💾</span></div>
+      <div class="menu-item" onclick="document.getElementById('importFile').click()">بازیابی اطلاعات <span>⬇️</span></div>
+      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+
+      <div class="system-box">
+        <b>🖥 اطلاعات سیستم</b><br>
+        نسخه برنامه: 1.0.0<br>
+        وضعیت: <span style="color:#22c55e">آنلاین</span><br>
+        حجم اطلاعات: محلی<br>
+        تاریخ نصب: ۱۴۰۵/۰۲/۱۸
+      </div>
+    </aside>
+
+    <main class="content">
+
+      <div class="page-title">
+        <h1>داشبورد</h1>
+        <span>🏠 خانه</span>
+      </div>
+
+      <div class="cards-grid">
+        <div class="stat-card purple">
+          <div>کل افراد<div class="num" id="total">0</div><small>نفر</small></div>
+          <div class="icon-big">👥</div>
+        </div>
+        <div class="stat-card blue">
+          <div>مردان<div class="num" id="male">0</div><small>نفر</small></div>
+          <div class="icon-big">👨</div>
+        </div>
+        <div class="stat-card pink">
+          <div>زنان<div class="num" id="female">0</div><small>نفر</small></div>
+          <div class="icon-big">👩</div>
+        </div>
+        <div class="stat-card green">
+          <div>نسل‌ها<div class="num" id="generation">1</div><small>نسل</small></div>
+          <div class="icon-big">🌳</div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="panel">
+          <h2>⚡ دسترسی سریع</h2>
+          <div class="quick-grid">
+            <button class="quick-btn" onclick="focusAdd()">👤➕<br>افزودن فرد</button>
+            <button class="quick-btn green-btn" onclick="focusChild()">👥➕<br>افزودن خانواده</button>
+            <button class="quick-btn purple-btn" onclick="scrollToTree()">🌳<br>مشاهده شجره</button>
+            <button class="quick-btn orange-btn" onclick="exportData()">📈<br>گزارش گیری</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>🕘 آخرین فعالیت‌ها</h2>
+          <div id="activityList"></div>
+        </div>
+      </div>
+
+      <div class="main-grid">
+        <div class="panel" id="addSection">
+          <h2>➕ افزودن فرد اصلی</h2>
+          <div class="form-row">
+            <input id="name" placeholder="نام فرد">
+            <select id="gender">
+              <option value="male">مرد</option>
+              <option value="female">زن</option>
+            </select>
+          </div>
+          <button class="action-btn" onclick="addPerson()">افزودن فرد</button>
+        </div>
+
+        <div class="panel" id="childSection">
+          <h2>👶 افزودن فرزند</h2>
+          <div class="form-row">
+            <select id="parentSelect"></select>
+            <input id="childName" placeholder="نام فرزند">
+            <select id="childGender">
+              <option value="male">پسر</option>
+              <option value="female">دختر</option>
+            </select>
+          </div>
+          <button class="action-btn" onclick="addChild()">افزودن فرزند</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>📋 آخرین افراد ثبت شده</h2>
+        <div id="list"></div>
+      </div>
+
+      <div class="tree-area" id="treeSection">
+        <h2>🌳 نمایش سریع شجره</h2>
+        <div id="tree"></div>
+      </div>
+
+      <div class="panel">
+        <h2>🔒 تغییر رمز عبور</h2>
+        <div class="password-panel">
+          <div class="password-inputs">
+            <input id="oldPass" type="password" placeholder="رمز عبور فعلی را وارد کنید">
+            <input id="newPass" type="password" placeholder="رمز عبور جدید را وارد کنید">
+            <input id="repeatPass" type="password" placeholder="تکرار رمز عبور جدید">
+            <button class="action-btn" onclick="changePassword()">🔒 ذخیره تغییرات</button>
+          </div>
+          <div class="security-note">
+            <b>🛡 نکات امنیتی</b><br>
+            رمز عبور قوی استفاده کنید<br>
+            حداقل ۴ کاراکتر وارد کنید<br>
+            رمز خود را به اشتراک نگذارید
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span class="logout-link" onclick="logout()">خروج از حساب کاربری ↩</span>
+        <span>برای حفظ امنیت اطلاعات خود، لطفاً رمز عبور خود را دوره‌ای تغییر دهید.</span>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<script>
+var defaultPassword = "1234";
+var savedPassword = localStorage.getItem("family_password") || defaultPassword;
+var people = JSON.parse(localStorage.getItem("family_dashboard_people") || "[]");
+var activities = JSON.parse(localStorage.getItem("family_dashboard_activities") || "[]");
+
+function checkLogin(){
+  if(localStorage.getItem("family_logged_in") === "yes"){
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  }
+}
+
+function login(){
+  var pass = document.getElementById("passwordInput").value;
+  if(pass === savedPassword){
+    localStorage.setItem("family_logged_in","yes");
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  }else{
+    document.getElementById("loginError").innerText = "رمز اشتباه است";
+  }
+}
+
+function logout(){
+  localStorage.removeItem("family_logged_in");
+  location.reload();
+}
+
+function changePassword(){
+  var oldPass = document.getElementById("oldPass").value;
+  var newPass = document.getElementById("newPass").value;
+  var repeatPass = document.getElementById("repeatPass").value;
+
+  if(oldPass !== savedPassword){
+    alert("رمز فعلی اشتباه است");
+    return;
+  }
+
+  if(newPass.length < 4){
+    alert("رمز جدید باید حداقل ۴ کاراکتر باشد");
+    return;
+  }
+
+  if(newPass !== repeatPass){
+    alert("تکرار رمز جدید درست نیست");
+    return;
+  }
+
+  localStorage.setItem("family_password", newPass);
+  savedPassword = newPass;
+  document.getElementById("oldPass").value = "";
+  document.getElementById("newPass").value = "";
+  document.getElementById("repeatPass").value = "";
+  alert("رمز با موفقیت تغییر کرد");
+}
+
+function save(){
+  localStorage.setItem("family_dashboard_people", JSON.stringify(people));
+  localStorage.setItem("family_dashboard_activities", JSON.stringify(activities));
+  render();
+}
+
+function icon(g){
+  return g === "male" ? "👨" : "👩";
+}
+
+function addActivity(text,type){
+  activities.unshift({text:text,type:type || "blue"});
+  activities = activities.slice(0,4);
+}
+
+function addPerson(){
+  var name = document.getElementById("name").value.trim();
+  var gender = document.getElementById("gender").value;
+
+  if(name === ""){
+    alert("نام را وارد کنید");
+    return;
+  }
+
+  people.push({name:name,gender:gender,children:[]});
+  document.getElementById("name").value = "";
+  addActivity("فرد جدید '" + name + "' اضافه شد", gender === "male" ? "blue" : "pink");
+  save();
+}
+
+function addChild(){
+  var parentIndex = document.getElementById("parentSelect").value;
+  var childName = document.getElementById("childName").value.trim();
+  var childGender = document.getElementById("childGender").value;
+
+  if(people.length === 0){
+    alert("اول یک فرد اصلی اضافه کنید");
+    return;
+  }
+
+  if(childName === ""){
+    alert("نام فرزند را وارد کنید");
+    return;
+  }
+
+  people[parentIndex].children.push({name:childName,gender:childGender});
+  document.getElementById("childName").value = "";
+  addActivity("فرزند جدید '" + childName + "' اضافه شد", "green");
+  save();
+}
+
+function editPerson(index){
+  var newName = prompt("نام جدید:", people[index].name);
+  if(newName && newName.trim()){
+    people[index].name = newName.trim();
+    addActivity("اطلاعات فرد ویرایش شد","pink");
+    save();
+  }
+}
+
+function editChild(parentIndex, childIndex){
+  var newName = prompt("نام جدید فرزند:", people[parentIndex].children[childIndex].name);
+  if(newName && newName.trim()){
+    people[parentIndex].children[childIndex].name = newName.trim();
+    addActivity("اطلاعات فرزند ویرایش شد","pink");
+    save();
+  }
+}
+
+function deletePerson(index){
+  if(confirm("این فرد و فرزندانش حذف شوند؟")){
+    people.splice(index,1);
+    addActivity("یک فرد حذف شد","pink");
+    save();
+  }
+}
+
+function deleteChild(parentIndex, childIndex){
+  if(confirm("این فرزند حذف شود؟")){
+    people[parentIndex].children.splice(childIndex,1);
+    addActivity("یک فرزند حذف شد","pink");
+    save();
+  }
+}
+
+function exportData(){
+  var blob = new Blob([JSON.stringify(people,null,2)], {type:"application/json"});
+  var link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "family-backup.json";
+  link.click();
+}
+
+function importData(event){
+  var file = event.target.files[0];
+  if(!file) return;
+
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try{
+      var data = JSON.parse(e.target.result);
+      if(Array.isArray(data)){
+        people = data;
+        addActivity("اطلاعات بازیابی شد","green");
+        save();
+        alert("اطلاعات وارد شد");
+      }else{
+        alert("فایل معتبر نیست");
+      }
+    }catch(err){
+      alert("خطا در خواندن فایل");
+    }
+  };
+  reader.readAsText(file);
+}
+
+function renderTreeNode(person){
+  var html = "<div>";
+  html += "<div class='node " + (person.gender === "female" ? "female" : "") + "'>";
+  html += icon(person.gender) + " " + person.name + "</div>";
+
+  if(person.children && person.children.length){
+    html += "<div class='children-line'>";
+    for(var i=0;i<person.children.length;i++){
+      html += renderTreeNode(person.children[i]);
+    }
+    html += "</div>";
+  }
+
+  html += "</div>";
+  return html;
+}
+
+function allPeople(){
+  var all = [];
+  for(var i=0;i<people.length;i++){
+    all.push(people[i]);
+    for(var j=0;j<people[i].children.length;j++){
+      all.push(people[i].children[j]);
+    }
+  }
+  return all;
+}
+
+function generationCount(){
+  var max = people.length ? 1 : 0;
+  for(var i=0;i<people.length;i++){
+    if(people[i].children.length) max = 2;
+  }
+  return max;
+}
+
+function render(){
+  var listHtml = "";
+  var selectHtml = "";
+  var treeHtml = "";
+  var all = allPeople();
+  var male = 0;
+  var female = 0;
+
+  for(var a=0;a<all.length;a++){
+    if(all[a].gender === "male") male++; else female++;
+  }
+
+  for(var i=0;i<people.length;i++){
+    selectHtml += "<option value='" + i + "'>" + people[i].name + "</option>";
+
+    listHtml += "<div class='person'>";
+    listHtml += "<b>" + icon(people[i].gender) + " " + people[i].name + "</b>";
+    listHtml += " <button class='blue-btn' onclick='editPerson("+i+")'>ویرایش</button>";
+    listHtml += " <button class='red-btn' onclick='deletePerson("+i+")'>حذف</button>";
+
+    for(var j=0;j<people[i].children.length;j++){
+      listHtml += "<div class='child'>";
+      listHtml += icon(people[i].children[j].gender) + " " + people[i].children[j].name;
+      listHtml += " <button class='blue-btn' onclick='editChild("+i+","+j+")'>ویرایش</button>";
+      listHtml += " <button class='red-btn' onclick='deleteChild("+i+","+j+")'>حذف</button>";
+      listHtml += "</div>";
+    }
+
+    listHtml += "</div>";
+    treeHtml += renderTreeNode(people[i]);
+  }
+
+  document.getElementById("total").innerText = all.length;
+  document.getElementById("male").innerText = male;
+  document.getElementById("female").innerText = female;
+  document.getElementById("generation").innerText = generationCount();
+
+  document.getElementById("parentSelect").innerHTML = selectHtml;
+  document.getElementById("list").innerHTML = listHtml || "<p>هنوز فردی ثبت نشده است.</p>";
+  document.getElementById("tree").innerHTML = treeHtml || "<p>هنوز شجره‌ای ثبت نشده است.</p>";
+
+  var activityHtml = "";
+  for(var k=0;k<activities.length;k++){
+    var cls = activities[k].type === "green" ? "green-dot" : activities[k].type === "pink" ? "pink-dot" : "blue-dot";
+    activityHtml += "<div class='activity-item'><span><i class='dot "+cls+"'></i>"+activities[k].text+"</span><small>اکنون</small></div>";
+  }
+  document.getElementById("activityList").innerHTML = activityHtml || "<p>هنوز فعالیتی ثبت نشده است.</p>";
+}
+
+function focusAdd(){
+  document.getElementById("addSection").scrollIntoView({behavior:"smooth"});
+}
+
+function focusChild(){
+  document.getElementById("childSection").scrollIntoView({behavior:"smooth"});
+}
+
+function scrollToTree(){
+  document.getElementById("treeSection").scrollIntoView({behavior:"smooth"});
+}
+
+checkLogin();
+render();
+</script>
+
+</body>
+</html>
