@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره‌نامه پرو</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:tahoma;
+  color:#fff;
+  text-align:center;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(250,204,21,.22), transparent 28%),
+    radial-gradient(circle at 80% 0%, rgba(34,197,94,.18), transparent 28%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+}
+
+.header{
+  padding:50px 20px;
+  background:
+    linear-gradient(135deg,rgba(120,53,15,.95),rgba(15,23,42,.95)),
+    url("");
+  border-bottom:1px solid rgba(250,204,21,.25);
+  box-shadow:0 15px 45px rgba(0,0,0,.45);
+}
+
+.header h1{
+  font-size:44px;
+  margin:0;
+  color:#facc15;
+  text-shadow:0 0 20px rgba(250,204,21,.35);
+}
+
+.header p{
+  color:#fde68a;
+  font-size:16px;
+}
+
+.box{
+  max-width:1200px;
+  margin:auto;
+  padding:20px;
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  margin-top:20px;
+}
+
+.dash-card{
+  background:linear-gradient(135deg,rgba(30,41,59,.92),rgba(15,23,42,.95));
+  border:1px solid rgba(250,204,21,.25);
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 12px 35px rgba(0,0,0,.35);
+}
+
+.dash-card h3{
+  margin:0;
+  color:#facc15;
+}
+
+.dash-card strong{
+  font-size:30px;
+  display:block;
+  margin-top:10px;
+}
+
+.card{
+  background:rgba(15,23,42,.88);
+  border:1px solid rgba(250,204,21,.18);
+  border-radius:24px;
+  padding:22px;
+  margin-top:22px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+.card h2{
+  color:#facc15;
+}
+
+input,select,textarea{
+  padding:12px;
+  margin:6px;
+  border-radius:14px;
+  border:1px solid #475569;
+  background:#020617;
+  color:white;
+  font-family:tahoma;
+  font-size:15px;
+}
+
+textarea{
+  width:90%;
+  min-height:70px;
+}
+
+button{
+  padding:12px 18px;
+  margin:6px;
+  border-radius:14px;
+  border:none;
+  background:linear-gradient(135deg,#facc15,#ca8a04);
+  color:#111827;
+  font-weight:bold;
+  cursor:pointer;
+  font-family:tahoma;
+  box-shadow:0 8px 20px rgba(250,204,21,.25);
+}
+
+button:hover{
+  transform:translateY(-1px);
+  opacity:.92;
+}
+
+.edit{background:linear-gradient(135deg,#38bdf8,#2563eb);color:white}
+.delete{background:linear-gradient(135deg,#ef4444,#991b1b);color:white}
+.backup{background:linear-gradient(135deg,#22c55e,#15803d);color:white}
+.print{background:linear-gradient(135deg,#a855f7,#6d28d9);color:white}
+
+.person{
+  background:linear-gradient(135deg,#020617,#111827);
+  border:1px solid rgba(250,204,21,.12);
+  padding:14px;
+  border-radius:18px;
+  margin:10px 0;
+  text-align:right;
+}
+
+.info{
+  color:#cbd5e1;
+  font-size:13px;
+  line-height:1.8;
+}
+
+.tree-area{
+  overflow:auto;
+  background:
+    linear-gradient(rgba(250,204,21,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(250,204,21,.04) 1px, transparent 1px),
+    #020617;
+  background-size:32px 32px;
+  padding:35px;
+  border-radius:24px;
+  border:1px solid rgba(250,204,21,.18);
+}
+
+.tree-node{
+  display:inline-block;
+  min-width:170px;
+  margin:12px;
+  padding:16px 20px;
+  border-radius:20px;
+  color:white;
+  box-shadow:0 14px 35px rgba(0,0,0,.45);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.male{background:linear-gradient(135deg,#2563eb,#1e3a8a)}
+.female{background:linear-gradient(135deg,#db2777,#831843)}
+
+.line{
+  width:3px;
+  height:24px;
+  background:#facc15;
+  margin:auto;
+  border-radius:20px;
+}
+
+.tree-children{
+  border-top:2px dashed #facc15;
+  margin-top:18px;
+  padding-top:18px;
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+
+.result{
+  background:#020617;
+  border:1px solid #475569;
+  border-radius:14px;
+  padding:12px;
+  margin:8px;
+  text-align:right;
+}
+
+@media(max-width:700px){
+  input,select,textarea{width:92%}
+  .header h1{font-size:30px}
+}
+
+@media print{
+  .no-print{display:none!important}
+  body{background:white;color:black}
+  .card,.tree-area{background:white;color:black}
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>🌳 شجره‌نامه پرو</h1>
+  <p>نسخه لوکس با داشبورد خانوادگی</p>
+</div>
+
+<div class="box">
+
+<div class="dashboard">
+  <div class="dash-card"><h3>👥 کل افراد</h3><strong id="dashTotal">0</strong></div>
+  <div class="dash-card"><h3>👦 پسرها</h3><strong id="dashMale">0</strong></div>
+  <div class="dash-card"><h3>👧 دخترها</h3><strong id="dashFemale">0</strong></div>
+  <div class="dash-card"><h3>🌳 نسل‌ها</h3><strong id="dashGen">0</strong></div>
+</div>
+
+<div class="card no-print">
+<h2>➕ افزودن فرد اصلی</h2>
+<input id="name" placeholder="نام فرد">
+<select id="gender">
+<option value="male">آقا</option>
+<option value="female">خانم</option>
+</select>
+<input id="father" placeholder="نام پدر">
+<input id="mother" placeholder="نام مادر">
+<input id="spouse" placeholder="نام همسر">
+<br>
+<input id="birthDate" placeholder="تاریخ تولد">
+<input id="birthPlace" placeholder="شهر / محل تولد">
+<input id="phone" placeholder="شماره تماس">
+<br>
+<textarea id="notes" placeholder="توضیحات"></textarea>
+<br>
+<button onclick="addPerson()">افزودن فرد</button>
+</div>
+
+<div class="card no-print">
+<h2>👶 افزودن فرزند</h2>
+<select id="parentSelect"></select>
+<input id="childName" placeholder="نام فرزند">
+<select id="childGender">
+<option value="male">👦 پسر</option>
+<option value="female">👧 دختر</option>
+</select>
+<input id="childFather" placeholder="نام پدر">
+<input id="childMother" placeholder="نام مادر">
+<input id="childSpouse" placeholder="نام همسر">
+<br>
+<input id="childBirthDate" placeholder="تاریخ تولد">
+<input id="childBirthPlace" placeholder="شهر / محل تولد">
+<input id="childPhone" placeholder="شماره تماس">
+<br>
+<textarea id="childNotes" placeholder="توضیحات"></textarea>
+<br>
+<button onclick="addChild()">افزودن فرزند</button>
+</div>
+
+<div class="card no-print">
+<h2>🔎 جستجو</h2>
+<input id="searchInput" placeholder="جستجو نام، پدر، مادر، همسر یا شهر" oninput="searchPeople()">
+<button onclick="clearSearch()">پاک کردن</button>
+<div id="searchResults"></div>
+</div>
+
+<div class="card no-print">
+<h2>💾 ابزارها</h2>
+<button class="backup" onclick="exportBackup()">📤 خروجی</button>
+<button class="backup" onclick="document.getElementById('backupFile').click()">📥 ورود اطلاعات</button>
+<input type="file" id="backupFile" accept=".json" style="display:none" onchange="importBackup(event)">
+<button class="print" onclick="window.print()">🖨 چاپ / PDF</button>
+<button class="delete" onclick="clearAllData()">🧹 حذف همه</button>
+</div>
+
+<div class="card no-print">
+<h2>📋 مدیریت افراد</h2>
+<div id="list"></div>
+</div>
+
+<div class="card">
+<h2>🌳 نمایش شجره</h2>
+<div id="tree" class="tree-area"></div>
+</div>
+
+</div>
+
+<script>
+var people = JSON.parse(localStorage.getItem("people") || "[]");
+
+function save(){
+  localStorage.setItem("people", JSON.stringify(people));
+  render();
+}
+
+function icon(g){
+  return g === "male" ? "👦" : "👧";
+}
+
+function val(id){
+  return document.getElementById(id).value.trim();
+}
+
+function clear(ids){
+  ids.forEach(function(id){
+    document.getElementById(id).value = "";
+  });
+}
+
+function nid(){
+  return Date.now() + Math.floor(Math.random()*9999);
+}
+
+function addPerson(){
+  if(!val("name")){alert("نام را وارد کنید");return;}
+
+  people.push({
+    id:nid(),
+    name:val("name"),
+    gender:val("gender"),
+    father:val("father"),
+    mother:val("mother"),
+    spouse:val("spouse"),
+    birthDate:val("birthDate"),
+    birthPlace:val("birthPlace"),
+    phone:val("phone"),
+    notes:val("notes"),
+    children:[]
+  });
+
+  clear(["name","father","mother","spouse","birthDate","birthPlace","phone","notes"]);
+  save();
+}
+
+function addChild(){
+  if(!val("childName")){alert("نام فرزند را وارد کنید");return;}
+
+  var parent=findPerson(people,document.getElementById("parentSelect").value);
+
+  if(!parent){alert("اول یک فرد اضافه کنید");return;}
+
+  parent.children.push({
+    id:nid(),
+    name:val("childName"),
+    gender:val("childGender"),
+    father:val("childFather"),
+    mother:val("childMother"),
+    spouse:val("childSpouse"),
+    birthDate:val("childBirthDate"),
+    birthPlace:val("childBirthPlace"),
+    phone:val("childPhone"),
+    notes:val("childNotes"),
+    children:[]
+  });
+
+  clear(["childName","childFather","childMother","childSpouse","childBirthDate","childBirthPlace","childPhone","childNotes"]);
+  save();
+}
+
+function findPerson(list,id){
+  for(var i=0;i<list.length;i++){
+    if(String(list[i].id)===String(id)) return list[i];
+    var f=findPerson(list[i].children||[],id);
+    if(f) return f;
+  }
+  return null;
+}
+
+function editName(id){
+  var p=findPerson(people,id);
+  var n=prompt("نام جدید:",p.name);
+  if(n&&n.trim()){p.name=n.trim();save();}
+}
+
+function editInfo(id){
+  var p=findPerson(people,id);
+  p.father=prompt("نام پدر:",p.father||"")||"";
+  p.mother=prompt("نام مادر:",p.mother||"")||"";
+  p.spouse=prompt("نام همسر:",p.spouse||"")||"";
+  p.birthDate=prompt("تاریخ تولد:",p.birthDate||"")||"";
+  p.birthPlace=prompt("شهر:",p.birthPlace||"")||"";
+  p.phone=prompt("تماس:",p.phone||"")||"";
+  p.notes=prompt("توضیحات:",p.notes||"")||"";
+  save();
+}
+
+function deletePerson(id){
+  if(!confirm("حذف شود؟"))return;
+  people=removePerson(people,id);
+  save();
+}
+
+function removePerson(list,id){
+  var out=[];
+  list.forEach(function(p){
+    if(String(p.id)!==String(id)){
+      p.children=removePerson(p.children||[],id);
+      out.push(p);
+    }
+  });
+  return out;
+}
+
+function renderOptions(list){
+  var html="";
+  list.forEach(function(p){
+    html+='<option value="'+p.id+'">'+p.name+'</option>';
+    html+=renderOptions(p.children||[]);
+  });
+  return html;
+}
+
+function renderList(list){
+  var html="";
+  list.forEach(function(p){
+    html+='<div class="person">';
+    html+='<strong>'+icon(p.gender)+' '+p.name+'</strong>';
+    html+='<div class="info">پدر: '+(p.father||"-")+' | مادر: '+(p.mother||"-")+' | همسر: '+(p.spouse||"-")+'<br>';
+    html+='تولد: '+(p.birthDate||"-")+' | شهر: '+(p.birthPlace||"-")+' | تماس: '+(p.phone||"-")+'<br>';
+    html+='توضیحات: '+(p.notes||"-")+'</div>';
+    html+='<button class="edit" onclick="editName('+p.id+')">ویرایش نام</button>';
+    html+='<button class="edit" onclick="editInfo('+p.id+')">ویرایش مشخصات</button>';
+    html+='<button class="delete" onclick="deletePerson('+p.id+')">حذف</button>';
+    html+='<div style="margin-right:25px">'+renderList(p.children||[])+'</div>';
+    html+='</div>';
+  });
+  return html;
+}
+
+function renderTreeNode(p){
+  var cls=p.gender==="male"?"male":"female";
+  var html='<div><div class="tree-node '+cls+'">';
+  html+='<div style="font-size:20px">'+icon(p.gender)+' '+p.name+'</div>';
+  html+='<div class="info">پدر: '+(p.father||"-")+'</div>';
+  html+='<div class="info">مادر: '+(p.mother||"-")+'</div>';
+  html+='<div class="info">همسر: '+(p.spouse||"-")+'</div>';
+  html+='<div class="info">تولد: '+(p.birthDate||"-")+'</div>';
+  html+='</div>';
+
+  if(p.children&&p.children.length){
+    html+='<div class="line"></div><div class="tree-children">';
+    p.children.forEach(function(c){html+=renderTreeNode(c);});
+    html+='</div>';
+  }
+
+  html+='</div>';
+  return html;
+}
+
+function renderTree(){
+  if(!people.length)return "<p>هنوز فردی ثبت نشده است.</p>";
+  return people.map(renderTreeNode).join("");
+}
+
+function allPeople(list){
+  var a=[];
+  list.forEach(function(p){
+    a.push(p);
+    a=a.concat(allPeople(p.children||[]));
+  });
+  return a;
+}
+
+function genCount(list){
+  if(!list.length)return 0;
+  var max=0;
+  list.forEach(function(p){
+    var d=genCount(p.children||[]);
+    if(d>max)max=d;
+  });
+  return max+1;
+}
+
+function renderDashboard(){
+  var a=allPeople(people);
+  document.getElementById("dashTotal").innerText=a.length;
+  document.getElementById("dashMale").innerText=a.filter(function(p){return p.gender==="male"}).length;
+  document.getElementById("dashFemale").innerText=a.filter(function(p){return p.gender==="female"}).length;
+  document.getElementById("dashGen").innerText=genCount(people);
+}
+
+function flat(list,path){
+  var a=[];
+  list.forEach(function(p){
+    var current=path?path+" ← "+p.name:p.name;
+    p.path=current;
+    a.push(p);
+    a=a.concat(flat(p.children||[],current));
+  });
+  return a;
+}
+
+function searchPeople(){
+  var s=val("searchInput").toLowerCase();
+  var box=document.getElementById("searchResults");
+  if(!s){box.innerHTML="";return;}
+
+  var r=flat(people,"").filter(function(p){
+    return (p.name||"").toLowerCase().includes(s) ||
+           (p.father||"").toLowerCase().includes(s) ||
+           (p.mother||"").toLowerCase().includes(s) ||
+           (p.spouse||"").toLowerCase().includes(s) ||
+           (p.birthPlace||"").toLowerCase().includes(s);
+  });
+
+  box.innerHTML=r.length?r.map(function(p){
+    return '<div class="result"><strong>'+icon(p.gender)+' '+p.name+'</strong><br><small>'+p.path+'</small></div>';
+  }).join(""):"<p>نتیجه‌ای پیدا نشد.</p>";
+}
+
+function clearSearch(){
+  document.getElementById("searchInput").value="";
+  document.getElementById("searchResults").innerHTML="";
+}
+
+function exportBackup(){
+  var blob=new Blob([JSON.stringify({people:people},null,2)],{type:"application/json"});
+  var link=document.createElement("a");
+  link.href=URL.createObjectURL(blob);
+  link.download="shajare-backup.json";
+  link.click();
+}
+
+function importBackup(e){
+  var file=e.target.files[0];
+  if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      var data=JSON.parse(ev.target.result);
+      people=data.people||[];
+      save();
+      alert("اطلاعات وارد شد");
+    }catch(err){alert("فایل معتبر نیست");}
+  };
+  reader.readAsText(file);
+}
+
+function clearAllData(){
+  if(confirm("همه اطلاعات حذف شود؟")){
+    people=[];
+    localStorage.removeItem("people");
+    render();
+  }
+}
+
+function render(){
+  document.getElementById("parentSelect").innerHTML=renderOptions(people);
+  document.getElementById("list").innerHTML=renderList(people);
+  document.getElementById("tree").innerHTML=renderTree();
+  renderDashboard();
+}
+
+render();
+</script>
+
+</body>
+</html>
+Commit changes
