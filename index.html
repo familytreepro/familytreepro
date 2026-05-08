@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره نامه</title>
+
+<style>
+body{
+  margin:0;
+  font-family:tahoma;
+  background:#0f172a;
+  color:white;
+  text-align:center;
+}
+
+.box{
+  max-width:700px;
+  margin:40px auto;
+  background:#1e293b;
+  padding:25px;
+  border-radius:18px;
+}
+
+input{
+  padding:12px;
+  margin:8px;
+  border:none;
+  border-radius:10px;
+  width:80%;
+  max-width:300px;
+  font-family:tahoma;
+}
+
+button{
+  padding:12px 16px;
+  margin:8px;
+  border:none;
+  border-radius:10px;
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
+  font-family:tahoma;
+}
+
+.delete{
+  background:#ef4444;
+}
+
+.person{
+  background:#020617;
+  margin:10px 0;
+  padding:14px;
+  border-radius:12px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>🌳 شجره نامه</h1>
+
+<input id="name" placeholder="نام فرد">
+
+<br>
+
+<button onclick="addPerson()">افزودن</button>
+
+<hr>
+
+<div id="list"></div>
+
+</div>
+
+<script>
+var people = JSON.parse(localStorage.getItem("people") || "[]");
+
+function save(){
+  localStorage.setItem("people", JSON.stringify(people));
+  render();
+}
+
+function addPerson(){
+
+  var name = document.getElementById("name").value.trim();
+
+  if(name === ""){
+    alert("نام را وارد کنید");
+    return;
+  }
+
+  people.push(name);
+
+  document.getElementById("name").value = "";
+
+  save();
+}
+
+function removePerson(index){
+
+  people.splice(index,1);
+
+  save();
+}
+
+function render(){
+
+  var html = "";
+
+  for(var i=0;i<people.length;i++){
+
+    html += "<div class='person'>";
+
+    html += "👤 " + people[i];
+
+    html += " <button class='delete' onclick='removePerson("+i+")'>حذف</button>";
+
+    html += "</div>";
+  }
+
+  document.getElementById("list").innerHTML = html;
+}
+
+render();
+</script>
+
+</body>
+</html>
+Commit changes
