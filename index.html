@@ -1,65 +1,95 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>سامانه شجره نامه</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سامانه شجره نامه خانواده</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:tahoma,Arial;background:#f3f6fb;color:#172033}
+body{margin:0;font-family:tahoma,Arial;background:#eef3f9;color:#172033}
 button,input,select{font-family:tahoma,Arial}
-#login{position:fixed;inset:0;background:#071b35;display:flex;align-items:center;justify-content:center;z-index:10}
-.loginbox{width:90%;max-width:390px;background:#fff;border-radius:22px;padding:28px;text-align:center;box-shadow:0 20px 60px #0005}
+#login{position:fixed;inset:0;background:linear-gradient(135deg,#06152b,#071b35,#0b2a55);display:flex;align-items:center;justify-content:center;z-index:99}
+.loginbox{width:92%;max-width:420px;background:#fff;border-radius:24px;padding:32px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.35)}
+.loginbox h1{margin-top:0;color:#071b35}
 .loginbox input{width:100%;padding:14px;border:1px solid #dbe3ef;border-radius:12px;margin:10px 0}
-.loginbox button,.btn{padding:12px 18px;border:0;border-radius:10px;background:#16a34a;color:#fff;cursor:pointer}
-#app{display:none}.top{height:64px;background:#071b35;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
-.layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 64px)}
-.side{background:#0a2342;color:#fff;padding:20px 14px}.avatar{width:82px;height:82px;border-radius:50%;background:#fff;color:#94a3b8;margin:auto;display:flex;align-items:center;justify-content:center;font-size:42px}.profile{text-align:center}.online{color:#22c55e}
-.menu{padding:14px 16px;margin:8px 0;border-radius:12px;background:#102d55;color:#e5e7eb;cursor:pointer;display:flex;justify-content:space-between}.menu.active{background:#2563eb}
-.sys{border:1px solid #ffffff30;border-radius:14px;padding:14px;line-height:2;margin-top:20px;font-size:13px;color:#dbeafe}
-.main{padding:22px;overflow:auto}.title{display:flex;gap:10px;align-items:center;margin-bottom:18px}.title h1{margin:0}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px}.card{background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 22px #0f172a12;border:1px solid #e5eaf2}
-.stat{display:flex;align-items:center;justify-content:space-between}.num{font-size:30px;font-weight:bold;margin-top:8px}.ico{font-size:38px}.purple{color:#7c3aed;background:#fbf7ff}.blue{color:#2563eb;background:#f4f8ff}.pink{color:#db2777;background:#fff5fa}.green{color:#16a34a;background:#f4fff8}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.panel{background:#fff;border-radius:16px;padding:20px;box-shadow:0 8px 22px #0f172a12;border:1px solid #e5eaf2;margin-bottom:18px}
-.quick{display:grid;grid-template-columns:1fr 1fr;gap:14px}.q{min-height:95px;border:1px solid #dbeafe;border-radius:14px;background:#f8fbff;color:#2563eb;font-size:16px;cursor:pointer}.q.g{color:#16a34a;background:#f5fff8}.q.p{color:#7c3aed;background:#fbf7ff}.q.o{color:#ea580c;background:#fff8f0}
-.row{display:flex;flex-wrap:wrap;gap:10px}.row input,.row select{flex:1;min-width:160px;padding:12px;border:1px solid #d7deea;border-radius:10px}.edit{background:#2563eb}.del{background:#ef4444}.orange{background:#f59e0b}
-.person{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;border-radius:12px;margin:10px 0}.child{margin-right:28px;padding:8px;color:#475569}
-.tree{background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:22px;text-align:center;overflow:auto;margin-bottom:18px}.node{display:inline-block;min-width:150px;padding:12px 18px;border-radius:12px;margin:8px;border:1px solid #93c5fd;color:#1e3a8a;background:#f8fbff}.node.female{border-color:#f9a8d4;color:#9d174d;background:#fff5fa}.children{border-top:2px solid #94a3b8;margin-top:12px;padding-top:12px}
-.pass{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}.pass input{width:100%;padding:13px;border:1px solid #d7deea;border-radius:10px;margin-bottom:10px}.note{background:#fffaf0;border:1px solid #fed7aa;border-radius:12px;padding:16px;line-height:2}.act{display:flex;justify-content:space-between;border-bottom:1px solid #eef2f7;padding:12px 0;color:#334155}.dot{width:11px;height:11px;border-radius:50%;display:inline-block;margin-left:8px;background:#2563eb}.dot.g{background:#16a34a}.dot.p{background:#db2777}
-.foot{background:#fff;border:1px solid #e5eaf2;border-radius:14px;padding:16px;display:flex;justify-content:space-between;color:#64748b}.logout{color:#ef4444;cursor:pointer}
-@media(max-width:950px){.layout{grid-template-columns:1fr}.cards,.grid,.pass{grid-template-columns:1fr}.side{order:2}.main{order:1}.top{padding:0 12px}}
+.loginbox button,.btn{padding:12px 18px;border:0;border-radius:12px;background:#16a34a;color:#fff;cursor:pointer}
+#app{display:none}
+.top{height:66px;background:#071b35;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.layout{display:grid;grid-template-columns:285px 1fr;min-height:calc(100vh - 66px)}
+.side{background:linear-gradient(180deg,#071b35,#0a2445);color:#fff;padding:20px 14px}
+.profile{text-align:center;padding:10px 0 20px}
+.avatar{width:84px;height:84px;border-radius:50%;background:#fff;color:#94a3b8;margin:auto;display:flex;align-items:center;justify-content:center;font-size:44px}
+.online{color:#22c55e;font-size:14px}
+.menu{padding:14px 16px;margin:8px 0;border-radius:12px;background:rgba(255,255,255,.08);color:#e5e7eb;cursor:pointer;display:flex;justify-content:space-between}
+.menu.active{background:#2563eb;color:#fff}
+.sys{margin-top:22px;border:1px solid rgba(255,255,255,.2);border-radius:14px;padding:14px;line-height:2;font-size:13px;color:#dbeafe}
+.main{padding:22px;overflow:auto}
+.title{display:flex;align-items:center;gap:10px;margin-bottom:20px}
+.title h1{margin:0;font-size:28px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:20px}
+.card{background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 28px rgba(15,23,42,.08);border:1px solid #e5eaf2}
+.stat{display:flex;align-items:center;justify-content:space-between}
+.num{font-size:32px;font-weight:bold;margin-top:8px}
+.ico{font-size:40px}
+.purple{color:#7c3aed;background:#fbf7ff}
+.blue{color:#2563eb;background:#f4f8ff}
+.pink{color:#db2777;background:#fff5fa}
+.green{color:#16a34a;background:#f4fff8}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.panel{background:#fff;border-radius:18px;padding:22px;box-shadow:0 10px 28px rgba(15,23,42,.08);border:1px solid #e5eaf2;margin-bottom:18px}
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.q{min-height:100px;border:1px solid #dbeafe;border-radius:16px;background:#f8fbff;color:#2563eb;font-size:16px;cursor:pointer}
+.q.g{color:#16a34a;background:#f5fff8}.q.p{color:#7c3aed;background:#fbf7ff}.q.o{color:#ea580c;background:#fff8f0}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+.row input,.row select{flex:1;min-width:160px;padding:12px;border:1px solid #d7deea;border-radius:10px}
+.edit{background:#2563eb}.del{background:#ef4444}
+.person{background:#f8fafc;border:1px solid #e2e8f0;padding:14px;border-radius:12px;margin:10px 0}
+.child{margin-right:28px;padding:8px;color:#475569}
+.tree{background:#fff;border:1px solid #e5eaf2;border-radius:18px;padding:22px;text-align:center;overflow:auto;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.08)}
+.node{display:inline-block;min-width:150px;padding:12px 18px;border-radius:12px;margin:8px;border:1px solid #93c5fd;color:#1e3a8a;background:#f8fbff}
+.node.female{border-color:#f9a8d4;color:#9d174d;background:#fff5fa}
+.children{border-top:2px dashed #94a3b8;margin-top:12px;padding-top:12px}
+.act{display:flex;justify-content:space-between;border-bottom:1px solid #eef2f7;padding:12px 0;color:#334155}
+.dot{width:11px;height:11px;border-radius:50%;display:inline-block;margin-left:8px;background:#2563eb}
+.dot.g{background:#16a34a}.dot.p{background:#db2777}
+.pass{display:grid;grid-template-columns:1.4fr 1fr;gap:18px}
+.pass input{width:100%;padding:13px;border:1px solid #d7deea;border-radius:10px;margin-bottom:10px}
+.note{background:#fffaf0;border:1px solid #fed7aa;border-radius:12px;padding:16px;line-height:2}
+.foot{background:#fff;border:1px solid #e5eaf2;border-radius:14px;padding:16px;display:flex;justify-content:space-between;color:#64748b}
+.logout{color:#ef4444;cursor:pointer}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.cards,.grid,.pass{grid-template-columns:1fr}.side{order:2}.main{order:1}.top{padding:0 12px;font-size:13px}}
 </style>
 </head>
 <body>
 <div id="login"><div class="loginbox"><h1>🔐 ورود به سامانه</h1><p>رمز ورود را وارد کنید</p><input id="loginPass" type="password" placeholder="رمز ورود"><button onclick="login()">ورود</button><p id="err" style="color:#ef4444"></p><small>رمز پیش‌فرض: 1234</small></div></div>
-<div id="app">
-<div class="top"><span onclick="logout()" style="cursor:pointer">🔒 خروج</span><span>سامانه آنلاین</span><b>🌳 شجره نامه خانواده</b></div>
-<div class="layout">
-<aside class="side"><div class="profile"><div class="avatar">👤</div><h3>مدیر سیستم</h3><div class="online">● آنلاین</div></div><div class="menu active">داشبورد <span>🏠</span></div><div class="menu">افراد <span>👤</span></div><div class="menu">خانواده‌ها <span>👥</span></div><div class="menu" onclick="scrollTree()">شجره نامه <span>🌳</span></div><div class="menu" onclick="exportData()">پشتیبان‌گیری <span>💾</span></div><div class="menu" onclick="document.getElementById('importFile').click()">بازیابی <span>⬇️</span></div><input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)"><div class="menu" onclick="goPass()">تغییر رمز <span>🔒</span></div><div class="sys"><b>🖥 اطلاعات سیستم</b><br>نسخه: 1.0.0<br>ذخیره‌سازی: مرورگر<br>وضعیت: <span style="color:#22c55e">فعال</span></div></aside>
-<main class="main"><div class="title"><h1>داشبورد</h1><span>🏠 خانه</span></div>
-<div class="cards"><div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div><small>نفر</small></div><div class="ico">👥</div></div><div class="card stat blue"><div>مردان<div class="num" id="male">0</div><small>نفر</small></div><div class="ico">👨</div></div><div class="card stat pink"><div>زنان<div class="num" id="female">0</div><small>نفر</small></div><div class="ico">👩</div></div><div class="card stat green"><div>نسل‌ها<div class="num" id="gen">0</div><small>نسل</small></div><div class="ico">🌳</div></div></div>
-<div class="grid"><div class="panel"><h2>⚡ دسترسی سریع</h2><div class="quick"><button class="q" onclick="focusAdd()">👤➕<br>افزودن فرد</button><button class="q g" onclick="focusChild()">👶➕<br>افزودن فرزند</button><button class="q p" onclick="scrollTree()">🌳<br>مشاهده شجره</button><button class="q o" onclick="exportData()">📈<br>خروجی</button></div></div><div class="panel"><h2>🕘 آخرین فعالیت‌ها</h2><div id="acts"></div></div></div>
-<div class="grid"><div class="panel" id="addSec"><h2>➕ افزودن فرد اصلی</h2><div class="row"><input id="name" placeholder="نام فرد"><select id="gender"><option value="male">مرد</option><option value="female">زن</option></select></div><button class="btn" onclick="addPerson()">افزودن فرد</button></div><div class="panel" id="childSec"><h2>👶 افزودن فرزند</h2><div class="row"><select id="parentSelect"></select><input id="childName" placeholder="نام فرزند"><select id="childGender"><option value="male">پسر</option><option value="female">دختر</option></select></div><button class="btn" onclick="addChild()">افزودن فرزند</button></div></div>
-<div class="panel"><h2>📋 افراد ثبت شده</h2><div id="list"></div></div><div class="tree" id="treeSec"><h2>🌳 نمایش شجره</h2><div id="tree"></div></div>
-<div class="panel" id="passSec"><h2>🔒 تغییر رمز عبور</h2><div class="pass"><div><input id="oldPass" type="password" placeholder="رمز فعلی"><input id="newPass" type="password" placeholder="رمز جدید"><input id="repeatPass" type="password" placeholder="تکرار رمز جدید"><button class="btn" onclick="changePassword()">ذخیره رمز</button></div><div class="note"><b>🛡 نکات امنیتی</b><br>رمز حداقل ۴ کاراکتر باشد.<br>رمز را به دیگران ندهید.</div></div></div><div class="foot"><span class="logout" onclick="logout()">خروج از حساب کاربری ↩</span><span>اطلاعات روی همین مرورگر ذخیره می‌شود.</span></div>
-</main></div></div>
+<div id="app"><div class="top"><span onclick="logout()" style="cursor:pointer">🔒 خروج</span><span>سامانه آنلاین</span><b>🌳 شجره نامه خانواده</b></div><div class="layout"><aside class="side"><div class="profile"><div class="avatar">👤</div><h3>مدیر سیستم</h3><div class="online">● آنلاین</div></div><div class="menu active">داشبورد <span>🏠</span></div><div class="menu" onclick="focusAdd()">افراد <span>👤</span></div><div class="menu" onclick="focusChild()">خانواده‌ها <span>👥</span></div><div class="menu" onclick="scrollTree()">شجره نامه <span>🌳</span></div><div class="menu" onclick="exportData()">پشتیبان‌گیری <span>💾</span></div><div class="menu" onclick="document.getElementById('importFile').click()">بازیابی <span>⬇️</span></div><input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)"><div class="menu" onclick="goPass()">تغییر رمز <span>🔒</span></div><div class="sys"><b>🖥 اطلاعات سیستم</b><br>نسخه: 1.0.0<br>ذخیره‌سازی: مرورگر<br>وضعیت: <span style="color:#22c55e">فعال</span></div></aside><main class="main"><div class="title"><h1>داشبورد</h1><span>🏠 خانه</span></div><div class="cards"><div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div><small>نفر</small></div><div class="ico">👥</div></div><div class="card stat blue"><div>مردان<div class="num" id="male">0</div><small>نفر</small></div><div class="ico">👨</div></div><div class="card stat pink"><div>زنان<div class="num" id="female">0</div><small>نفر</small></div><div class="ico">👩</div></div><div class="card stat green"><div>نسل‌ها<div class="num" id="gen">0</div><small>نسل</small></div><div class="ico">🌳</div></div></div><div class="grid"><div class="panel"><h2>⚡ دسترسی سریع</h2><div class="quick"><button class="q" onclick="focusAdd()">👤➕<br>افزودن فرد</button><button class="q g" onclick="focusChild()">👶➕<br>افزودن فرزند</button><button class="q p" onclick="scrollTree()">🌳<br>مشاهده شجره</button><button class="q o" onclick="exportData()">📈<br>خروجی</button></div></div><div class="panel"><h2>🕘 آخرین فعالیت‌ها</h2><div id="acts"></div></div></div><div class="grid"><div class="panel" id="addSec"><h2>➕ افزودن فرد اصلی</h2><div class="row"><input id="name" placeholder="نام فرد"><select id="gender"><option value="male">مرد</option><option value="female">زن</option></select></div><button class="btn" onclick="addPerson()">افزودن فرد</button></div><div class="panel" id="childSec"><h2>👶 افزودن فرزند</h2><div class="row"><select id="parentSelect"></select><input id="childName" placeholder="نام فرزند"><select id="childGender"><option value="male">پسر</option><option value="female">دختر</option></select></div><button class="btn" onclick="addChild()">افزودن فرزند</button></div></div><div class="panel"><h2>📋 افراد ثبت شده</h2><div id="list"></div></div><div class="tree" id="treeSec"><h2>🌳 نمایش شجره</h2><div id="tree"></div></div><div class="panel" id="passSec"><h2>🔒 تغییر رمز عبور</h2><div class="pass"><div><input id="oldPass" type="password" placeholder="رمز فعلی"><input id="newPass" type="password" placeholder="رمز جدید"><input id="repeatPass" type="password" placeholder="تکرار رمز جدید"><button class="btn" onclick="changePassword()">ذخیره رمز</button></div><div class="note"><b>🛡 نکات امنیتی</b><br>رمز حداقل ۴ کاراکتر باشد.<br>رمز را به دیگران ندهید.</div></div></div><div class="foot"><span class="logout" onclick="logout()">خروج از حساب کاربری ↩</span><span>اطلاعات روی همین مرورگر ذخیره می‌شود.</span></div></main></div></div>
 <script>
-var pass=localStorage.getItem("ft_pass")||"1234",people=JSON.parse(localStorage.getItem("ft_people")||"[]"),acts=JSON.parse(localStorage.getItem("ft_acts")||"[]");
-function login(){var p=document.getElementById("loginPass").value;if(p===pass){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render()}else document.getElementById("err").innerText="رمز اشتباه است"}
+var pass=localStorage.getItem("ft_pass")||"1234";
+var people=JSON.parse(localStorage.getItem("ft_people")||"[]");
+var acts=JSON.parse(localStorage.getItem("ft_acts")||"[]");
+function login(){var p=document.getElementById("loginPass").value;if(p===pass){document.getElementById("login").style.display="none";document.getElementById("app").style.display="block";render()}else{document.getElementById("err").innerText="رمز اشتباه است"}}
 function logout(){document.getElementById("app").style.display="none";document.getElementById("login").style.display="flex"}
 function save(){localStorage.setItem("ft_people",JSON.stringify(people));localStorage.setItem("ft_acts",JSON.stringify(acts));render()}
-function icon(g){return g==="male"?"👨":"👩"}function act(t,c){acts.unshift({t:t,c:c||"blue"});acts=acts.slice(0,4)}
-function addPerson(){var n=document.getElementById("name").value.trim(),g=document.getElementById("gender").value;if(!n){alert("نام را وارد کنید");return}people.push({name:n,gender:g,children:[]});document.getElementById("name").value="";act("فرد جدید اضافه شد: "+n,g==="male"?"blue":"pink");save()}
-function addChild(){var pi=document.getElementById("parentSelect").value,n=document.getElementById("childName").value.trim(),g=document.getElementById("childGender").value;if(!people.length){alert("اول یک فرد اصلی اضافه کنید");return}if(!n){alert("نام فرزند را وارد کنید");return}people[pi].children.push({name:n,gender:g,children:[]});document.getElementById("childName").value="";act("فرزند جدید اضافه شد: "+n,"green");save()}
-function editPerson(i){var n=prompt("نام جدید:",people[i].name);if(n&&n.trim()){people[i].name=n.trim();save()}}function editChild(i,j){var n=prompt("نام جدید:",people[i].children[j].name);if(n&&n.trim()){people[i].children[j].name=n.trim();save()}}
-function delPerson(i){if(confirm("حذف شود؟")){people.splice(i,1);save()}}function delChild(i,j){if(confirm("حذف شود؟")){people[i].children.splice(j,1);save()}}
-function changePassword(){var o=document.getElementById("oldPass").value,n=document.getElementById("newPass").value,r=document.getElementById("repeatPass").value;if(o!==pass){alert("رمز فعلی اشتباه است");return}if(n.length<4){alert("رمز جدید کوتاه است");return}if(n!==r){alert("تکرار رمز درست نیست");return}pass=n;localStorage.setItem("ft_pass",n);alert("رمز تغییر کرد")}
-function exportData(){var b=new Blob([JSON.stringify(people,null,2)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="family-backup.json";a.click()}
-function importData(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);if(Array.isArray(d)){people=d;act("اطلاعات بازیابی شد","green");save();alert("اطلاعات وارد شد")}else alert("فایل معتبر نیست")}catch(x){alert("خطا در فایل")}};r.readAsText(f)}
-function node(p){var h="<div><div class='node "+(p.gender==="female"?"female":"")+"'>"+icon(p.gender)+" "+p.name+"</div>";if(p.children&&p.children.length){h+="<div class='children'>";for(var i=0;i<p.children.length;i++)h+=node(p.children[i]);h+="</div>"}return h+"</div>"}
-function all(){var a=[];for(var i=0;i<people.length;i++){a.push(people[i]);for(var j=0;j<people[i].children.length;j++)a.push(people[i].children[j])}return a}
-function generation(){for(var i=0;i<people.length;i++)if(people[i].children.length)return 2;return people.length?1:0}
-function render(){var l="",s="",t="",a=all(),m=0,f=0;for(var x=0;x<a.length;x++)a[x].gender==="male"?m++:f++;for(var i=0;i<people.length;i++){s+="<option value='"+i+"'>"+people[i].name+"</option>";l+="<div class='person'><b>"+icon(people[i].gender)+" "+people[i].name+"</b> <button class='btn edit' onclick='editPerson("+i+")'>ویرایش</button> <button class='btn del' onclick='delPerson("+i+")'>حذف</button>";for(var j=0;j<people[i].children.length;j++)l+="<div class='child'>"+icon(people[i].children[j].gender)+" "+people[i].children[j].name+" <button class='btn edit' onclick='editChild("+i+","+j+")'>ویرایش</button> <button class='btn del' onclick='delChild("+i+","+j+")'>حذف</button></div>";l+="</div>";t+=node(people[i])}document.getElementById("total").innerText=a.length;document.getElementById("male").innerText=m;document.getElementById("female").innerText=f;document.getElementById("gen").innerText=generation();document.getElementById("parentSelect").innerHTML=s;document.getElementById("list").innerHTML=l||"<p>هنوز فردی ثبت نشده است.</p>";document.getElementById("tree").innerHTML=t||"<p>هنوز شجره‌ای ثبت نشده است.</p>";var ah="";for(var k=0;k<acts.length;k++){var dc=acts[k].c==="green"?"g":acts[k].c==="pink"?"p":"";ah+="<div class='act'><span><i class='dot "+dc+"'></i>"+acts[k].t+"</span><small>اکنون</small></div>"}document.getElementById("acts").innerHTML=ah||"<p>هنوز فعالیتی ثبت نشده است.</p>"}
-function focusAdd(){document.getElementById("addSec").scrollIntoView({behavior:"smooth"})}function focusChild(){document.getElementById("childSec").scrollIntoView({behavior:"smooth"})}function scrollTree(){document.getElementById("treeSec").scrollIntoView({behavior:"smooth"})}function goPass(){document.getElementById("passSec").scrollIntoView({behavior:"smooth"})}render();
+function icon(g){return g==="male"?"👨":"👩"}
+function act(t,c){acts.unshift({t:t,c:c||"blue"});acts=acts.slice(0,4)}
+function addPerson(){var n=document.getElementById("name").value.trim();var g=document.getElementById("gender").value;if(!n){alert("نام را وارد کنید");return}people.push({name:n,gender:g,children:[]});document.getElementById("name").value="";act("فرد جدید اضافه شد: "+n,g==="male"?"blue":"pink");save()}
+function addChild(){var pi=document.getElementById("parentSelect").value;var n=document.getElementById("childName").value.trim();var g=document.getElementById("childGender").value;if(!people.length){alert("اول یک فرد اصلی اضافه کنید");return}if(!n){alert("نام فرزند را وارد کنید");return}people[pi].children.push({name:n,gender:g,children:[]});document.getElementById("childName").value="";act("فرزند جدید اضافه شد: "+n,"green");save()}
+function editPerson(i){var n=prompt("نام جدید:",people[i].name);if(n&&n.trim()){people[i].name=n.trim();save()}}
+function editChild(i,j){var n=prompt("نام جدید:",people[i].children[j].name);if(n&&n.trim()){people[i].children[j].name=n.trim();save()}}
+function delPerson(i){if(confirm("حذف شود؟")){people.splice(i,1);save()}}
+function delChild(i,j){if(confirm("حذف شود؟")){people[i].children.splice(j,1);save()}}
+function changePassword(){var o=document.getElementById("oldPass").value;var n=document.getElementById("newPass").value;var r=document.getElementById("repeatPass").value;if(o!==pass){alert("رمز فعلی اشتباه است");return}if(n.length<4){alert("رمز جدید کوتاه است");return}if(n!==r){alert("تکرار رمز درست نیست");return}pass=n;localStorage.setItem("ft_pass",n);alert("رمز تغییر کرد")}
+function exportData(){var b=new Blob([JSON.stringify(people,null,2)],{type:"application/json"});var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="family-backup.json";a.click()}
+function importData(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);if(Array.isArray(d)){people=d;act("اطلاعات بازیابی شد","green");save();alert("اطلاعات وارد شد")}else{alert("فایل معتبر نیست")}}catch(x){alert("خطا در فایل")}};r.readAsText(f)}
+function node(p){var h="<div><div class='node "+(p.gender==="female"?"female":"")+"'>"+icon(p.gender)+" "+p.name+"</div>";if(p.children&&p.children.length){h+="<div class='children'>";for(var i=0;i<p.children.length;i++){h+=node(p.children[i])}h+="</div>"}return h+"</div>"}
+function all(){var a=[];for(var i=0;i<people.length;i++){a.push(people[i]);for(var j=0;j<people[i].children.length;j++){a.push(people[i].children[j])}}return a}
+function generation(){for(var i=0;i<people.length;i++){if(people[i].children.length){return 2}}return people.length?1:0}
+function render(){var l="",s="",t="",a=all(),m=0,f=0;for(var x=0;x<a.length;x++){if(a[x].gender==="male"){m++}else{f++}}for(var i=0;i<people.length;i++){s+="<option value='"+i+"'>"+people[i].name+"</option>";l+="<div class='person'><b>"+icon(people[i].gender)+" "+people[i].name+"</b> ";l+="<button class='btn edit' onclick='editPerson("+i+")'>ویرایش</button> ";l+="<button class='btn del' onclick='delPerson("+i+")'>حذف</button>";for(var j=0;j<people[i].children.length;j++){l+="<div class='child'>"+icon(people[i].children[j].gender)+" "+people[i].children[j].name+" ";l+="<button class='btn edit' onclick='editChild("+i+","+j+")'>ویرایش</button> ";l+="<button class='btn del' onclick='delChild("+i+","+j+")'>حذف</button></div>"}l+="</div>";t+=node(people[i])}document.getElementById("total").innerText=a.length;document.getElementById("male").innerText=m;document.getElementById("female").innerText=f;document.getElementById("gen").innerText=generation();document.getElementById("parentSelect").innerHTML=s;document.getElementById("list").innerHTML=l||"<p>هنوز فردی ثبت نشده است.</p>";document.getElementById("tree").innerHTML=t||"<p>هنوز شجره‌ای ثبت نشده است.</p>";var ah="";for(var k=0;k<acts.length;k++){var dc=acts[k].c==="green"?"g":acts[k].c==="pink"?"p":"";ah+="<div class='act'><span><i class='dot "+dc+"'></i>"+acts[k].t+"</span><small>اکنون</small></div>"}document.getElementById("acts").innerHTML=ah||"<p>هنوز فعالیتی ثبت نشده است.</p>"}
+function focusAdd(){document.getElementById("addSec").scrollIntoView({behavior:"smooth"})}
+function focusChild(){document.getElementById("childSec").scrollIntoView({behavior:"smooth"})}
+function scrollTree(){document.getElementById("treeSec").scrollIntoView({behavior:"smooth"})}
+function goPass(){document.getElementById("passSec").scrollIntoView({behavior:"smooth"})}
+render();
 </script>
-</body></html>
+</body>
+</html>
