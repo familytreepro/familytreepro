@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره‌نامه پرو</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at top right, rgba(34,197,94,.22), transparent 35%),
+    radial-gradient(circle at top left, rgba(59,130,246,.18), transparent 35%),
+    #0f172a;
+  font-family:tahoma, Arial, sans-serif;
+  color:white;
+  text-align:center;
+}
+.header{
+  padding:45px 20px;
+  background:linear-gradient(135deg,#064e3b,#0f172a);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 10px 40px rgba(0,0,0,.35);
+}
+.header h1{font-size:42px;margin:0 0 12px}
+.header p{color:#cbd5e1;font-size:16px}
+.box{max-width:1180px;margin:auto;padding:22px}
+.card{
+  background:rgba(30,41,59,.88);
+  backdrop-filter:blur(10px);
+  padding:22px;
+  border-radius:22px;
+  margin-top:22px;
+  border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 12px 35px rgba(0,0,0,.28);
+}
+.card h2{margin-top:0;color:#dcfce7}
+input,select,textarea{
+  padding:12px;margin:7px;border-radius:12px;border:1px solid #334155;
+  font-size:15px;font-family:tahoma;background:#020617;color:white;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:#22c55e;box-shadow:0 0 0 3px rgba(34,197,94,.15)}
+textarea{width:85%;min-height:75px}
+button{
+  padding:12px 18px;margin:6px;border-radius:12px;border:none;font-size:15px;font-family:tahoma;
+  background:linear-gradient(135deg,#22c55e,#16a34a);color:white;cursor:pointer;
+  box-shadow:0 8px 18px rgba(34,197,94,.22);
+}
+button:hover{transform:translateY(-1px);opacity:.92}
+.edit{background:linear-gradient(135deg,#3b82f6,#2563eb)}
+.delete{background:linear-gradient(135deg,#ef4444,#b91c1c)}
+.backup{background:linear-gradient(135deg,#f59e0b,#d97706)}
+.print{background:linear-gradient(135deg,#8b5cf6,#6d28d9)}
+.person{
+  background:linear-gradient(135deg,#020617,#111827);
+  padding:14px;border-radius:16px;margin:10px 0;text-align:right;border:1px solid rgba(255,255,255,.07);
+}
+.tree-area{
+  overflow:auto;background:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+    #020617;
+  background-size:30px 30px;padding:35px;border-radius:22px;margin-top:20px;border:1px solid rgba(255,255,255,.08);
+}
+.tree-node{
+  display:inline-block;color:white;padding:16px 20px;border-radius:18px;min-width:170px;margin:12px;
+  box-shadow:0 12px 28px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.18);transition:.2s;
+}
+.tree-node:hover{transform:scale(1.04)}
+.male{background:linear-gradient(135deg,#2563eb,#1e40af)}
+.female{background:linear-gradient(135deg,#db2777,#9d174d)}
+.unknown{background:linear-gradient(135deg,#64748b,#334155)}
+.tree-children{
+  border-top:2px dashed #64748b;margin-top:20px;padding-top:20px;
+  display:flex;justify-content:center;gap:22px;flex-wrap:wrap;
+}
+.line{width:3px;height:24px;background:linear-gradient(#22c55e,#64748b);margin:auto;border-radius:20px}
+.info{font-size:13px;color:#e5e7eb;margin-top:7px;line-height:1.8}
+.result{background:#020617;border:1px solid #334155;border-radius:14px;padding:14px;margin:10px;text-align:right}
+.stats-box{display:flex;flex-wrap:wrap;justify-content:center;gap:14px}
+.stat-item{
+  background:linear-gradient(135deg,#020617,#111827);border:1px solid rgba(255,255,255,.08);
+  padding:18px;border-radius:18px;min-width:150px;box-shadow:0 8px 25px rgba(0,0,0,.25);
+}
+.stat-item strong{font-size:24px;color:#22c55e}
+.badge{display:inline-block;padding:4px 9px;border-radius:999px;background:#064e3b;color:#bbf7d0;font-size:12px}
+@media(max-width:700px){
+  .header h1{font-size:32px}.box{padding:12px}.card{padding:16px}
+  input,select,textarea{width:92%}.tree-area{padding:18px}.tree-node{min-width:140px;padding:13px}
+}
+@media print{
+  body{background:white;color:black}.no-print{display:none!important}.header{background:white;color:black;box-shadow:none}
+  .box{max-width:none;padding:0}.card{background:white;color:black;border:none;box-shadow:none}
+  .tree-area{background:white;color:black;overflow:visible}.tree-node{box-shadow:none;color:white}
+  button,input,select,textarea{display:none}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🌳 شجره‌نامه پرو</h1>
+  <p>نسخه حرفه‌ای: خانواده، اطلاعات کامل، آمار، جستجو، پشتیبان‌گیری و چاپ PDF</p>
+</div>
+
+<div class="box">
+  <div class="card no-print">
+    <h2>➕ افزودن فرد اصلی</h2>
+    <input id="name" placeholder="نام فرد">
+    <select id="gender"><option value="male">آقا</option><option value="female">خانم</option></select>
+    <input id="father" placeholder="نام پدر">
+    <input id="mother" placeholder="نام مادر">
+    <input id="spouse" placeholder="نام همسر">
+    <br>
+    <input id="birthDate" placeholder="تاریخ تولد">
+    <input id="birthPlace" placeholder="شهر / محل تولد">
+    <input id="phone" placeholder="شماره تماس">
+    <br>
+    <textarea id="notes" placeholder="توضیحات کوتاه"></textarea>
+    <br>
+    <button onclick="addPerson()">افزودن فرد</button>
+  </div>
+
+  <div class="card no-print">
+    <h2>👶 افزودن فرزند</h2>
+    <select id="parentSelect"></select>
+    <input id="childName" placeholder="نام فرزند">
+    <select id="childGender"><option value="male">👦 پسر</option><option value="female">👧 دختر</option></select>
+    <input id="childFather" placeholder="نام پدر">
+    <input id="childMother" placeholder="نام مادر">
+    <input id="childSpouse" placeholder="نام همسر">
+    <br>
+    <input id="childBirthDate" placeholder="تاریخ تولد">
+    <input id="childBirthPlace" placeholder="شهر / محل تولد">
+    <input id="childPhone" placeholder="شماره تماس">
+    <br>
+    <textarea id="childNotes" placeholder="توضیحات کوتاه"></textarea>
+    <br>
+    <button onclick="addChild()">افزودن فرزند</button>
+  </div>
+
+  <div class="card no-print">
+    <h2>🔎 جستجو</h2>
+    <input id="searchInput" placeholder="نام، پدر، مادر، همسر یا شهر را جستجو کنید" oninput="searchPeople()">
+    <button onclick="clearSearch()">پاک کردن</button>
+    <div id="searchResults"></div>
+  </div>
+
+  <div class="card no-print">
+    <h2>💾 پشتیبان‌گیری</h2>
+    <button class="backup" onclick="exportBackup()">📤 خروجی</button>
+    <button class="backup" onclick="document.getElementById('backupFile').click()">📥 ورود اطلاعات</button>
+    <input type="file" id="backupFile" accept=".json" style="display:none" onchange="importBackup(event)">
+    <button class="delete" onclick="clearAllData()">🧹 حذف همه</button>
+  </div>
+
+  <div class="card no-print">
+    <h2>🖨 چاپ / PDF</h2>
+    <button class="print" onclick="window.print()">چاپ شجره / ذخیره PDF</button>
+    <p style="color:#cbd5e1;font-size:14px">در پنجره چاپ، گزینه Save as PDF را انتخاب کن.</p>
+  </div>
+
+  <div class="card">
+    <h2>📊 آمار خانواده</h2>
+    <div id="stats"></div>
+  </div>
+
+  <div class="card no-print">
+    <h2>📋 مدیریت افراد</h2>
+    <div id="list"></div>
+  </div>
+
+  <div class="card">
+    <h2>🌳 نمایش گرافیکی شجره</h2>
+    <div id="tree" class="tree-area"></div>
+  </div>
+</div>
+
+<script>
+let people = JSON.parse(localStorage.getItem("people")) || [];
+
+function save(){ localStorage.setItem("people", JSON.stringify(people)); render(); }
+function icon(gender){ if(gender==="male") return "👦"; if(gender==="female") return "👧"; return "👤"; }
+
+function addPerson(){
+  let p = {
+    id: Date.now(),
+    name: document.getElementById("name").value.trim(),
+    gender: document.getElementById("gender").value,
+    father: document.getElementById("father").value.trim(),
+    mother: document.getElementById("mother").value.trim(),
+    spouse: document.getElementById("spouse").value.trim(),
+    birthDate: document.getElementById("birthDate").value.trim(),
+    birthPlace: document.getElementById("birthPlace").value.trim(),
+    phone: document.getElementById("phone").value.trim(),
+    notes: document.getElementById("notes").value.trim(),
+    children:[]
+  };
+  if(!p.name){ alert("نام را وارد کنید"); return; }
+  people.push(p);
+  ["name","father","mother","spouse","birthDate","birthPlace","phone","notes"].forEach(id=>document.getElementById(id).value="");
+  save();
+}
+
+function addChild(){
+  let parentId = document.getElementById("parentSelect").value;
+  let name = document.getElementById("childName").value.trim();
+  if(!name){ alert("نام فرزند را وارد کنید"); return; }
+  let parent = findPerson(people,parentId);
+  if(parent){
+    parent.children.push({
+      id: Date.now(),
+      name,
+      gender: document.getElementById("childGender").value,
+      father: document.getElementById("childFather").value.trim(),
+      mother: document.getElementById("childMother").value.trim(),
+      spouse: document.getElementById("childSpouse").value.trim(),
+      birthDate: document.getElementById("childBirthDate").value.trim(),
+      birthPlace: document.getElementById("childBirthPlace").value.trim(),
+      phone: document.getElementById("childPhone").value.trim(),
+      notes: document.getElementById("childNotes").value.trim(),
+      children:[]
+    });
+  }
+  ["childName","childFather","childMother","childSpouse","childBirthDate","childBirthPlace","childPhone","childNotes"].forEach(id=>document.getElementById(id).value="");
+  save();
+}
+
+function findPerson(list,id){
+  for(let p of list){
+    if(p.id==id) return p;
+    let found = findPerson(p.children||[],id);
+    if(found) return found;
+  }
+  return null;
+}
+
+function editPerson(id){
+  let p = findPerson(people,id); if(!p) return;
+  let newName = prompt("نام جدید:", p.name);
+  if(newName && newName.trim()){ p.name = newName.trim(); save(); }
+}
+
+function editInfo(id){
+  let p = findPerson(people,id); if(!p) return;
+  p.father = prompt("نام پدر:", p.father || "") || "";
+  p.mother = prompt("نام مادر:", p.mother || "") || "";
+  p.spouse = prompt("نام همسر:", p.spouse || "") || "";
+  p.birthDate = prompt("تاریخ تولد:", p.birthDate || "") || "";
+  p.birthPlace = prompt("شهر / محل تولد:", p.birthPlace || "") || "";
+  p.phone = prompt("شماره تماس:", p.phone || "") || "";
+  p.notes = prompt("توضیحات:", p.notes || "") || "";
+  save();
+}
+
+function deletePerson(id){
+  if(!confirm("حذف شود؟")) return;
+  people = deleteFromList(people,id);
+  save();
+}
+
+function deleteFromList(list,id){
+  return list.filter(p=>p.id!=id).map(p=>({...p, children:deleteFromList(p.children||[],id)}));
+}
+
+function renderOptions(list){
+  let html="";
+  list.forEach(p=>{ html += `<option value="${p.id}">${p.name}</option>`; html += renderOptions(p.children||[]); });
+  return html;
+}
+
+function renderList(list){
+  let html="";
+  list.forEach(p=>{
+    html += `<div class="person">
+      <strong>${icon(p.gender)} ${p.name}</strong> <span class="badge">${p.gender==="male"?"آقا":"خانم"}</span>
+      <div class="info">
+        پدر: ${p.father||"-"} | مادر: ${p.mother||"-"} | همسر: ${p.spouse||"-"}<br>
+        تولد: ${p.birthDate||"-"} | شهر: ${p.birthPlace||"-"} | تماس: ${p.phone||"-"}<br>
+        توضیحات: ${p.notes||"-"}
+      </div>
+      <button class="edit" onclick="editPerson(${p.id})">ویرایش نام</button>
+      <button class="edit" onclick="editInfo(${p.id})">ویرایش مشخصات</button>
+      <button class="delete" onclick="deletePerson(${p.id})">حذف</button>
+      <div style="margin-right:25px">${renderList(p.children||[])}</div>
+    </div>`;
+  });
+  return html;
+}
+
+function renderTreeNode(p){
+  let cls = p.gender==="male" ? "male" : p.gender==="female" ? "female" : "unknown";
+  let children = p.children || [];
+  return `<div>
+    <div class="tree-node ${cls}">
+      <div style="font-size:20px">${icon(p.gender)} ${p.name}</div>
+      <div class="info">پدر: ${p.father||"-"}</div>
+      <div class="info">مادر: ${p.mother||"-"}</div>
+      <div class="info">همسر: ${p.spouse||"-"}</div>
+      <div class="info">تولد: ${p.birthDate||"-"}</div>
+      <div class="info">شهر: ${p.birthPlace||"-"}</div>
+    </div>
+    ${children.length ? `<div class="line"></div><div class="tree-children">${children.map(renderTreeNode).join("")}</div>` : ""}
+  </div>`;
+}
+
+function renderTree(){ return people.length ? people.map(renderTreeNode).join("") : "<p>هنوز فردی ثبت نشده است.</p>"; }
+
+function flattenPeople(list,path=""){
+  let all=[];
+  list.forEach(p=>{
+    let currentPath = path ? path + " ← " + p.name : p.name;
+    all.push({...p,path:currentPath});
+    all = all.concat(flattenPeople(p.children||[],currentPath));
+  });
+  return all;
+}
+
+function searchPeople(){
+  let search = document.getElementById("searchInput").value.trim().toLowerCase();
+  let box = document.getElementById("searchResults");
+  if(!search){ box.innerHTML=""; return; }
+  let results = flattenPeople(people).filter(p =>
+    (p.name||"").toLowerCase().includes(search) ||
+    (p.father||"").toLowerCase().includes(search) ||
+    (p.mother||"").toLowerCase().includes(search) ||
+    (p.spouse||"").toLowerCase().includes(search) ||
+    (p.birthPlace||"").toLowerCase().includes(search)
+  );
+  box.innerHTML = results.length ? results.map(p=>`<div class="result">
+    <strong>${icon(p.gender)} ${p.name}</strong><br>
+    <small>${p.path}</small><br>
+    <small>پدر: ${p.father||"-"} | مادر: ${p.mother||"-"} | شهر: ${p.birthPlace||"-"}</small>
+  </div>`).join("") : "<p>نتیجه‌ای پیدا نشد.</p>";
+}
+
+function clearSearch(){ document.getElementById("searchInput").value=""; document.getElementById("searchResults").innerHTML=""; }
+
+function exportBackup(){
+  let blob = new Blob([JSON.stringify({people},null,2)], {type:"application/json"});
+  let link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "shajare-backup.json";
+  link.click();
+}
+
+function importBackup(event){
+  let file = event.target.files[0]; if(!file) return;
+  let reader = new FileReader();
+  reader.onload = function(e){
+    try{ let data = JSON.parse(e.target.result); people = data.people || []; save(); alert("اطلاعات وارد شد"); }
+    catch{ alert("فایل معتبر نیست"); }
+  };
+  reader.readAsText(file);
+}
+
+function clearAllData(){
+  if(confirm("همه اطلاعات حذف شود؟")){
+    people=[]; localStorage.removeItem("people"); render();
+  }
+}
+
+function getAllPeople(list){
+  let all=[];
+  list.forEach(p=>{ all.push(p); all = all.concat(getAllPeople(p.children||[])); });
+  return all;
+}
+
+function countGenerations(list){
+  if(!list.length) return 0;
+  let max=0;
+  list.forEach(p=>{ let depth = countGenerations(p.children||[]); if(depth>max) max=depth; });
+  return max+1;
+}
+
+function renderStats(){
+  let all = getAllPeople(people);
+  let total = all.length;
+  let males = all.filter(p=>p.gender==="male").length;
+  let females = all.filter(p=>p.gender==="female").length;
+  let married = all.filter(p=>p.spouse && p.spouse.trim()!=="").length;
+  let generations = countGenerations(people);
+  document.getElementById("stats").innerHTML = `<div class="stats-box">
+    <div class="stat-item">👥 کل افراد<br><strong>${total}</strong></div>
+    <div class="stat-item">👦 پسرها<br><strong>${males}</strong></div>
+    <div class="stat-item">👧 دخترها<br><strong>${females}</strong></div>
+    <div class="stat-item">💍 دارای همسر<br><strong>${married}</strong></div>
+    <div class="stat-item">🌳 نسل‌ها<br><strong>${generations}</strong></div>
+  </div>`;
+}
+
+function render(){
+  document.getElementById("parentSelect").innerHTML = renderOptions(people);
+  document.getElementById("list").innerHTML = renderList(people);
+  document.getElementById("tree").innerHTML = renderTree();
+  renderStats();
+}
+render();
+</script>
+</body>
+</html>
