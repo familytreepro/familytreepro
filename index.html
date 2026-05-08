@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>شجره نامه خانواده</title>
+<style>
+body{
+margin:0;
+font-family:tahoma;
+background:#f4f7fb;
+}
+.topbar{
+background:#071b35;
+color:white;
+padding:18px;
+text-align:center;
+font-size:22px;
+}
+.layout{
+display:flex;
+min-height:100vh;
+}
+.sidebar{
+width:260px;
+background:#0a1f3d;
+color:white;
+padding:20px;
+}
+.sidebar h2{
+text-align:center;
+}
+.menu{
+background:#10294d;
+padding:12px;
+border-radius:10px;
+margin:10px 0;
+}
+.content{
+flex:1;
+padding:20px;
+}
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:15px;
+}
+.card{
+background:white;
+padding:20px;
+border-radius:14px;
+text-align:center;
+box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+.big{
+font-size:30px;
+font-weight:bold;
+margin-top:10px;
+}
+.panel{
+background:white;
+padding:20px;
+border-radius:14px;
+margin-top:20px;
+box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+input,select,button{
+padding:12px;
+margin:7px;
+border-radius:10px;
+border:1px solid #ddd;
+font-family:tahoma;
+}
+button{
+background:#16a34a;
+color:white;
+border:none;
+cursor:pointer;
+}
+.person{
+background:#f8fafc;
+padding:12px;
+border-radius:10px;
+margin:10px 0;
+}
+.delete{
+background:#ef4444;
+}
+.edit{
+background:#2563eb;
+}
+.login{
+position:fixed;
+inset:0;
+background:#071b35;
+display:flex;
+align-items:center;
+justify-content:center;
+}
+.login-box{
+background:white;
+padding:30px;
+border-radius:18px;
+width:90%;
+max-width:400px;
+text-align:center;
+}
+.login-box input{
+width:90%;
+}
+</style>
+</head>
+<body>
+
+<div id="loginPage" class="login">
+<div class="login-box">
+<h2>🔐 ورود به سامانه</h2>
+<input type="password" id="password" placeholder="رمز ورود">
+<br>
+<button onclick="login()">ورود</button>
+<p style="color:gray">رمز پیش فرض: 1234</p>
+</div>
+</div>
+
+<div id="app" style="display:none">
+<div class="topbar">🌳 سامانه شجره نامه خانواده</div>
+
+<div class="layout">
+
+<div class="sidebar">
+<h2>داشبورد</h2>
+<div class="menu">🏠 صفحه اصلی</div>
+<div class="menu">👥 افراد</div>
+<div class="menu">🌳 شجره نامه</div>
+<div class="menu">📊 گزارشات</div>
+<div class="menu">⚙ تنظیمات</div>
+<div class="menu" onclick="changePassword()">🔒 تغییر رمز</div>
+</div>
+
+<div class="content">
+
+<div class="cards">
+<div class="card">
+👥 کل افراد
+<div class="big" id="total">0</div>
+</div>
+
+<div class="card">
+👨 مردان
+<div class="big" id="male">0</div>
+</div>
+
+<div class="card">
+👩 زنان
+<div class="big" id="female">0</div>
+</div>
+</div>
+
+<div class="panel">
+<h3>➕ افزودن فرد</h3>
+<input id="name" placeholder="نام فرد">
+<select id="gender">
+<option value="male">مرد</option>
+<option value="female">زن</option>
+</select>
+<button onclick="addPerson()">افزودن</button>
+</div>
+
+<div class="panel">
+<h3>📋 لیست افراد</h3>
+<div id="list"></div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+var savedPassword = localStorage.getItem('family_password') || '1234';
+var people = JSON.parse(localStorage.getItem('family_people') || '[]');
+
+function login(){
+var pass = document.getElementById('password').value;
+
+if(pass === savedPassword){
+document.getElementById('loginPage').style.display='none';
+document.getElementById('app').style.display='block';
+}else{
+alert('رمز اشتباه است');
+}
+}
+
+function changePassword(){
+var oldPass = prompt('رمز فعلی را وارد کنید');
+
+if(oldPass !== savedPassword){
+alert('رمز اشتباه است');
+return;
+}
+
+var newPass = prompt('رمز جدید را وارد کنید');
+
+if(!newPass || newPass.length < 4){
+alert('رمز کوتاه است');
+return;
+}
+
+savedPassword = newPass;
+localStorage.setItem('family_password',newPass);
+alert('رمز تغییر کرد');
+}
+
+function save(){
+localStorage.setItem('family_people',JSON.stringify(people));
+render();
+}
+
+function addPerson(){
+var name = document.getElementById('name').value.trim();
+var gender = document.getElementById('gender').value;
+
+if(name === ''){
+alert('نام را وارد کنید');
+return;
+}
+
+people.push({
+name:name,
+gender:gender
+});
+
+document.getElementById('name').value='';
+
+save();
+}
+
+function deletePerson(index){
+people.splice(index,1);
+save();
+}
+
+function editPerson(index){
+var n = prompt('نام جدید',people[index].name);
+
+if(n && n.trim()){
+people[index].name = n.trim();
+save();
+}
+}
+
+function render(){
+var html='';
+var male=0;
+var female=0;
+
+for(var i=0;i<people.length;i++){
+
+if(people[i].gender === 'male'){
+male++;
+}else{
+female++;
+}
+
+html += "<div class='person'>";
+html += (people[i].gender === 'male' ? '👨 ' : '👩 ');
+html += people[i].name;
+html += " <button class='edit' onclick='editPerson("+i+")'>ویرایش</button>";
+html += " <button class='delete' onclick='deletePerson("+i+")'>حذف</button>";
+html += "</div>";
+}
+
+document.getElementById('list').innerHTML = html;
+document.getElementById('total').innerText = people.length;
+document.getElementById('male').innerText = male;
+document.getElementById('female').innerText = female;
+}
+
+render();
+</script>
+
+</body>
+</html>
+Commit changes
