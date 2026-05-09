@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سامانه شجره نامه</title>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:tahoma;
+background:#eef3f9;
+color:#172033;
+}
+
+.top{
+height:70px;
+background:#071b35;
+color:white;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 20px;
+}
+
+.layout{
+display:grid;
+grid-template-columns:280px 1fr;
+min-height:calc(100vh - 70px);
+}
+
+.side{
+background:#0a2445;
+padding:20px;
+color:white;
+}
+
+.menu{
+background:#12325c;
+padding:14px;
+border-radius:12px;
+margin:10px 0;
+cursor:pointer;
+}
+
+.main{
+padding:20px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.num{
+font-size:30px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.panel{
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+margin-bottom:20px;
+}
+
+.row{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+margin-bottom:10px;
+}
+
+.row input,
+.row select{
+flex:1;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+}
+
+.btn{
+background:#16a34a;
+color:white;
+border:0;
+padding:12px 18px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.edit{
+background:#2563eb;
+}
+
+.del{
+background:#ef4444;
+}
+
+.person{
+background:#f8fafc;
+padding:12px;
+border-radius:12px;
+margin:10px 0;
+border:1px solid #e2e8f0;
+}
+
+.child{
+margin-right:30px;
+padding:8px;
+}
+
+.tree{
+background:white;
+padding:20px;
+border-radius:16px;
+box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+.node{
+display:inline-block;
+padding:12px 18px;
+background:#dbeafe;
+border-radius:12px;
+margin:8px;
+}
+
+.node.female{
+background:#fce7f3;
+}
+
+.children{
+border-top:2px dashed #94a3b8;
+margin-top:10px;
+padding-top:10px;
+}
+
+.search{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-bottom:15px;
+}
+
+@media(max-width:900px){
+
+.layout{
+grid-template-columns:1fr;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="top">
+<div>🌳 سامانه شجره نامه</div>
+<div id="clock"></div>
+</div>
+
+<div class="layout">
+
+<div class="side">
+
+<div class="menu">🏠 داشبورد</div>
+<div class="menu">👤 افراد</div>
+<div class="menu">👶 فرزندان</div>
+<div class="menu">🌳 شجره</div>
+
+</div>
+
+<div class="main">
+
+<div class="cards">
+
+<div class="card">
+👥 کل افراد
+<div class="num" id="total">0</div>
+</div>
+
+<div class="card">
+👨 مردان
+<div class="num" id="male">0</div>
+</div>
+
+<div class="card">
+👩 زنان
+<div class="num" id="female">0</div>
+</div>
+
+<div class="card">
+🌳 نسل‌ها
+<div class="num" id="gen">0</div>
+</div>
+
+</div>
+
+<div class="panel">
+
+<h2>➕ افزودن فرد</h2>
+
+<div class="row">
+
+<input id="name" placeholder="نام">
+
+<select id="gender">
+<option value="male">مرد</option>
+<option value="female">زن</option>
+</select>
+
+</div>
+
+<button class="btn" onclick="addPerson()">
+افزودن
+</button>
+
+</div>
+
+<div class="panel">
+
+<h2>👶 افزودن فرزند</h2>
+
+<div class="row">
+
+<select id="parent"></select>
+
+<input id="childName" placeholder="نام فرزند">
+
+<select id="childGender">
+<option value="male">پسر</option>
+<option value="female">دختر</option>
+</select>
+
+</div>
+
+<button class="btn" onclick="addChild()">
+افزودن فرزند
+</button>
+
+</div>
+
+<div class="panel">
+
+<h2>🔍 جستجو</h2>
+
+<input
+class="search"
+id="search"
+placeholder="جستجو..."
+oninput="render()"
+>
+
+<div id="list"></div>
+
+</div>
+
+<div class="tree">
+
+<h2>🌳 شجره نامه</h2>
+
+<div id="tree"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+var people=[];
+
+function icon(g){
+
+return g==="male" ? "👨" : "👩";
+
+}
+
+function addPerson(){
+
+var name=document.getElementById("name").value.trim();
+
+var gender=document.getElementById("gender").value;
+
+if(!name){
+
+alert("نام را وارد کنید");
+
+return;
+
+}
+
+people.push({
+
+name:name,
+gender:gender,
+children:[]
+
+});
+
+document.getElementById("name").value="";
+
+render();
+
+}
+
+function addChild(){
+
+var parent=document.getElementById("parent").value;
+
+var name=document.getElementById("childName").value.trim();
+
+var gender=document.getElementById("childGender").value;
+
+if(!people.length){
+
+alert("اول فرد اضافه کنید");
+
+return;
+
+}
+
+if(!name){
+
+alert("نام فرزند را وارد کنید");
+
+return;
+
+}
+
+people[parent].children.push({
+
+name:name,
+gender:gender
+
+});
+
+document.getElementById("childName").value="";
+
+render();
+
+}
+
+function node(person){
+
+var html="";
+
+html+=`
+<div>
+
+<div class="node ${person.gender==="female"?"female":""}">
+${icon(person.gender)} ${person.name}
+</div>
+`;
+
+if(person.children && person.children.length){
+
+html+=`<div class="children">`;
+
+person.children.forEach(function(child){
+
+html+=node(child);
+
+});
+
+html+=`</div>`;
+
+}
+
+html+=`</div>`;
+
+return html;
+
+}
+
+function render(){
+
+var list="";
+var tree="";
+var options="";
+
+var total=0;
+var male=0;
+var female=0;
+
+var search=document
+.getElementById("search")
+.value
+.toLowerCase();
+
+people.forEach(function(person,index){
+
+options+=`
+<option value="${index}">
+${person.name}
+</option>
+`;
+
+if(
+person.name.toLowerCase().includes(search)
+){
+
+list+=`
+<div class="person">
+
+<b>
+${icon(person.gender)}
+${person.name}
+</b>
+
+<button
+class="btn edit"
+onclick="editPerson(${index})"
+>
+ویرایش
+</button>
+
+<button
+class="btn del"
+onclick="deletePerson(${index})"
+>
+حذف
+</button>
+
+`;
+
+person.children.forEach(function(child){
+
+list+=`
+<div class="child">
+${icon(child.gender)}
+${child.name}
+</div>
+`;
+
+});
+
+list+=`</div>`;
+
+}
+
+tree+=node(person);
+
+total++;
+
+if(person.gender==="male"){
+male++;
+}else{
+female++;
+}
+
+person.children.forEach(function(child){
+
+total++;
+
+if(child.gender==="male"){
+male++;
+}else{
+female++;
+}
+
+});
+
+});
+
+document.getElementById("list").innerHTML=list;
+document.getElementById("tree").innerHTML=tree;
+document.getElementById("parent").innerHTML=options;
+
+document.getElementById("total").innerText=total;
+document.getElementById("male").innerText=male;
+document.getElementById("female").innerText=female;
+document.getElementById("gen").innerText=people.length?2:0;
+
+}
+
+function editPerson(index){
+
+var name=prompt(
+"نام جدید",
+people[index].name
+);
+
+if(name){
+
+people[index].name=name;
+
+render();
+
+}
+
+}
+
+function deletePerson(index){
+
+if(confirm("حذف شود؟")){
+
+people.splice(index,1);
+
+render();
+
+}
+
+}
+
+setInterval(function(){
+
+document.getElementById("clock")
+.innerText=
+new Date().toLocaleString("fa-IR");
+
+},1000);
+
+render();
+
+</script>
+
+</body>
+</html>
+Commit changes
