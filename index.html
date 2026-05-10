@@ -1,0 +1,4853 @@
+<!DOCTYPE html>  <html lang="fa" dir="rtl">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>سامانه شجره‌نامه حرفه‌ای</title>  <style>  
+*{box-sizing:border-box}  
+:root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
+body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
+body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#cbd5e1;--line:#334155}  
+button,input,select{font-family:tahoma,Arial}  
+  
+#login{position:fixed;inset:0;background:#071b35;display:flex;align-items:center;justify-content:center;z-index:99}  
+.loginbox{background:white;color:#172033;width:92%;max-width:390px;padding:28px;border-radius:22px;text-align:center}  
+.loginbox input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:12px}  
+  
+.topbar{height:66px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 22px}  
+.layout{display:grid;grid-template-columns:285px 1fr;min-height:calc(100vh - 66px)}  
+.sidebar{background:linear-gradient(180deg,#071b35,#0a2445);color:white;padding:20px 14px}  
+.profile{text-align:center;padding:10px 0 20px}  
+.avatar{width:86px;height:86px;border-radius:50%;background:white;color:#94a3b8;margin:auto;display:flex;align-items:center;justify-content:center;font-size:45px}  
+.online{color:#22c55e;font-size:14px}  
+.menu{padding:14px 16px;margin:8px 0;border-radius:12px;background:rgba(255,255,255,.08);color:#e5e7eb;cursor:pointer;display:flex;justify-content:space-between}  
+.menu.active{background:var(--blue)}  
+.main{padding:22px;overflow:auto}  
+.page-title{display:flex;gap:10px;align-items:center;margin-bottom:20px}  
+  
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:20px}  
+.card,.panel,.tree-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}  
+.stat{display:flex;align-items:center;justify-content:space-between}  
+.num{font-size:32px;font-weight:bold;margin-top:8px}  
+.icon{font-size:40px}  
+.purple{background:#fbf7ff;color:#7c3aed}.blue{background:#f4f8ff;color:#2563eb}.pink{background:#fff5fa;color:#db2777}.green{background:#f4fff8;color:#16a34a}  
+body.dark .purple,body.dark .blue,body.dark .pink,body.dark .green{background:var(--card)}  
+  
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}  
+.form-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}  
+.form-row input,.form-row select,.search{flex:1;min-width:155px;padding:12px;border:1px solid #d7deea;border-radius:10px;background:white;color:#172033}  
+body.dark .form-row input,body.dark .form-row select,body.dark .search{background:#0f172a;color:white;border-color:#334155}  
+  
+.btn{border:0;border-radius:10px;padding:11px 16px;color:white;background:var(--green);cursor:pointer;margin:4px}  
+.blue-btn{background:var(--blue)}.red-btn{background:var(--red)}.pink-btn{background:var(--pink)}.gray-btn{background:#64748b}  
+  
+.person-row,.timeline-item,.birthday-item{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:12px;padding:13px;margin:9px 0}  
+.thumb{width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;background:#e2e8f0;margin-left:8px;vertical-align:middle}  
+.thumb img{width:100%;height:100%;object-fit:cover}  
+  
+.tree-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}  
+.tree-wrap{overflow:auto;direction:ltr;padding:20px;border-radius:14px;background:rgba(148,163,184,.06)}  
+.tree-stage{transform-origin:top center;transition:.2s}  
+.tree ul{padding-top:25px;position:relative;display:flex;justify-content:center}  
+.tree li{list-style:none;text-align:center;position:relative;padding:25px 10px 0}  
+.tree li::before,.tree li::after{content:'';position:absolute;top:0;width:50%;height:25px;border-top:2px solid #94a3b8}  
+.tree li::before{right:50%;border-right:2px solid #94a3b8}  
+.tree li::after{left:50%;border-left:2px solid #94a3b8}  
+.tree li:only-child::before,.tree li:only-child::after{display:none}  
+.tree li:only-child{padding-top:0}  
+.tree li:first-child::before,.tree li:last-child::after{border:0}  
+.tree ul ul::before{content:'';position:absolute;top:0;left:50%;height:25px;border-left:2px solid #94a3b8}  
+  
+.node{min-width:170px;display:inline-block;background:#f8fbff;border:1.5px solid #93c5fd;border-radius:14px;padding:12px;direction:rtl;box-shadow:0 8px 18px rgba(37,99,235,.08);cursor:grab}  
+.node.female{background:#fff5fa;border-color:#f9a8d4}  
+.node.match{outline:4px solid #f59e0b}  
+.node img{width:48px;height:48px;border-radius:50%;object-fit:cover;display:block;margin:auto}  
+.node small{color:var(--muted)}  
+  
+.context-menu{position:fixed;display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 15px 40px rgba(0,0,0,.2);z-index:200;overflow:hidden}  
+.context-menu button{display:block;width:190px;border:0;background:transparent;color:var(--text);padding:12px;text-align:right;cursor:pointer}  
+.context-menu button:hover{background:rgba(148,163,184,.15)}  
+  
+.footer{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--muted);display:flex;justify-content:space-between}  
+  
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{order:2}.main{order:1}.cards,.grid-2{grid-template-columns:1fr}.topbar{font-size:13px;padding:0 12px}}  
+@media print{#login,.topbar,.sidebar,.no-print,.btn{display:none!important}.layout{display:block}.main{padding:0}body{background:white;color:black}.card,.panel,.tree-card{box-shadow:none;border:1px solid #ddd}}  
+</style>  <link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#2563eb">
+</head>  <body>  <div id="login">  
+  <div class="loginbox">  
+    <h2>🔐 ورود به سامانه</h2>  
+    <input id="loginUser" value="admin" placeholder="نام کاربری">  
+    <input id="loginPass" type="password" placeholder="رمز ورود">  
+    <button class="btn" onclick="login()">ورود</button>  
+    <p id="loginError" style="color:red"></p>  
+    <small>نام کاربری: admin | رمز: 1234</small>  
+  </div>  
+</div>  <div id="app" style="display:none">  
+  <div class="topbar">  
+    <span onclick="logout()" style="cursor:pointer">🔒 خروج</span>  
+    <span id="clock">سامانه آنلاین</span>  
+    <b>🌳 سامانه شجره‌نامه خانواده</b>  
+  </div>    <div class="layout">  
+    <aside class="sidebar no-print">  
+      <div class="profile">  
+        <div class="avatar">👤</div>  
+        <h3>مدیر سیستم</h3>  
+        <div class="online">● آنلاین</div>  
+      </div>  
+      <div class="menu active">داشبورد <span>🏠</span></div>  
+      <div class="menu" onclick="focusAdd()">افراد <span>👤</span></div>  
+      <div class="menu" onclick="scrollTree()">شجره <span>🌳</span></div>  
+      <div class="menu" onclick="scrollTimeline()">Timeline <span>🕘</span></div>  
+      <div class="menu" onclick="window.print()">چاپ PDF <span>🖨</span></div>  
+      <div class="menu" onclick="exportData()">پشتیبان‌گیری <span>💾</span></div>  
+      <div class="menu" onclick="document.getElementById('importFile').click()">بازیابی <span>⬇️</span></div>  
+      <input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)">  
+      <div class="menu" onclick="toggleDark()">حالت شب <span>🌙</span></div>  
+      <div class="menu" onclick="changePassword()">تغییر رمز <span>🔒</span></div>  
+    </aside>  <main class="main">  
+  <div class="page-title"><h1>داشبورد</h1><span>🏠 خانه</span></div>  
+
+  <div class="cards">  
+    <div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div></div><div class="icon">👥</div></div>  
+    <div class="card stat blue"><div>مردان<div class="num" id="male">0</div></div><div class="icon">👨</div></div>  
+    <div class="card stat pink"><div>زنان<div class="num" id="female">0</div></div><div class="icon">👩</div></div>  
+    <div class="card stat green"><div>نسل‌ها<div class="num" id="gens">0</div></div><div class="icon">🌳</div></div>  
+  </div>  
+
+  <div class="grid-2 no-print">  
+    <div class="panel" id="addSec">  
+      <h2>➕ افزودن / ویرایش فرد</h2>  
+      <input type="hidden" id="editId">  
+      <div class="form-row">  
+        <input id="name" placeholder="نام فرد">  
+        <select id="gender"><option value="male">مرد</option><option value="female">زن</option></select>  
+        <input id="birth" placeholder="سال تولد">  
+      </div>  
+      <div class="form-row">  
+        <select id="parent"><option value="">بدون پدر/مادر</option></select>  
+        <input id="job" placeholder="شغل">  
+        <input id="phone" placeholder="شماره تماس">  
+      </div>  
+      <div class="form-row">  
+        <input id="photo" type="file" accept="image/*">  
+      </div>  
+      <button class="btn" onclick="savePerson()">ذخیره فرد</button>  
+      <button class="btn red-btn" onclick="clearForm()">پاک کردن فرم</button>  
+    </div>  
+
+    <div class="panel">  
+      <h2>🔍 جستجوی زنده</h2>  
+      <input class="search" id="search" placeholder="جستجو در نام، شغل یا تماس..." oninput="render()">  
+      <div id="list"></div>  
+    </div>  
+  </div>  
+
+  <div class="grid-2">  
+    <div class="panel">  
+      <h2>🎂 تقویم تولدها</h2>  
+      <div id="birthdays"></div>  
+    </div>  
+    <div class="panel" id="timelineSec">  
+      <h2>🕘 Timeline خانوادگی</h2>  
+      <div id="timeline"></div>  
+    </div>  
+  </div>  
+
+  <section class="tree-card" id="treeSection">  
+    <h2>🌳 چارت شجره‌نامه</h2>  
+    <div class="tree-toolbar no-print">  
+      <button class="btn blue-btn" onclick="zoomIn()">＋ بزرگ‌نمایی</button>  
+      <button class="btn blue-btn" onclick="zoomOut()">－ کوچک‌نمایی</button>  
+      <button class="btn gray-btn" onclick="resetZoom()">100%</button>  
+      <button class="btn pink-btn" onclick="toggleFullscreen()">تمام‌صفحه</button>  
+      <button class="btn" onclick="exportPNG()">خروجی PNG</button>  
+    </div>  
+    <div class="tree-wrap" id="treeWrap">  
+      <div class="tree-stage" id="treeStage">  
+        <div class="tree" id="tree"></div>  
+      </div>  
+    </div>  
+  </section>  
+
+  <div class="footer">  
+    <span>ذخیره دائمی در مرورگر ✅</span>  
+    <span>Zoom، PNG، Timeline، تولدها، راست‌کلیک ✅</span>  
+  </div>  
+</main>
+
+  </div>  
+</div>  <div class="context-menu" id="contextMenu">  
+  <button onclick="ctxEdit()">✏️ ویرایش</button>  
+  <button onclick="ctxAddChild()">👶 افزودن فرزند</button>  
+  <button onclick="ctxDelete()">🗑 حذف شاخه</button>  
+</div>  <script>  
+let password=localStorage.getItem("family_pass")||"1234";  
+let zoom=1;  
+let dragId=null;  
+let ctxId=null;  
+  
+let people=JSON.parse(localStorage.getItem("family_people_v11")||"null")||[  
+{id:1,name:"حاج محمدرضا احمدی",gender:"male",birth:"1330",parentId:"",job:"",phone:"",photo:""},  
+{id:2,name:"بی‌بی فاطمه محمدی",gender:"female",birth:"1335",parentId:"",job:"",phone:"",photo:""},  
+{id:3,name:"علی احمدی",gender:"male",birth:"1355",parentId:1,job:"",phone:"",photo:""},  
+{id:4,name:"مریم احمدی",gender:"female",birth:"1357",parentId:1,job:"",phone:"",photo:""},  
+{id:5,name:"حسین احمدی",gender:"male",birth:"1360",parentId:1,job:"",phone:"",photo:""},  
+{id:6,name:"زهرا احمدی",gender:"female",birth:"1365",parentId:1,job:"",phone:"",photo:""},  
+{id:7,name:"پارسا احمدی",gender:"male",birth:"1385",parentId:3,job:"",phone:"",photo:""},  
+{id:8,name:"سارا احمدی",gender:"female",birth:"1388",parentId:3,job:"",phone:"",photo:""},  
+{id:9,name:"محمد احمدی",gender:"male",birth:"1390",parentId:5,job:"",phone:"",photo:""}  
+];  
+  
+if(localStorage.getItem("family_dark")==="yes")document.body.classList.add("dark");  
+  
+function login(){  
+  let u=document.getElementById("loginUser").value.trim();  
+  let p=document.getElementById("loginPass").value;  
+  if(u==="admin" && p===password){  
+    document.getElementById("login").style.display="none";  
+    document.getElementById("app").style.display="block";  
+    render();  
+  }else document.getElementById("loginError").innerText="نام کاربری یا رمز اشتباه است";  
+}  
+  
+function logout(){location.reload()}  
+function save(){localStorage.setItem("family_people_v11",JSON.stringify(people));render()}  
+function uid(){return Date.now()+Math.floor(Math.random()*999)}  
+function icon(g){return g==="female"?"👩":"👨"}  
+  
+function savePerson(){  
+  let id=document.getElementById("editId").value;  
+  let name=document.getElementById("name").value.trim();  
+  if(!name){alert("نام را وارد کنید");return}  
+  
+  let file=document.getElementById("photo").files[0];  
+  
+  let finish=function(photo){  
+    let data={  
+      id:id?Number(id):uid(),  
+      name:name,  
+      gender:document.getElementById("gender").value,  
+      birth:document.getElementById("birth").value.trim(),  
+      parentId:document.getElementById("parent").value||"",  
+      job:document.getElementById("job").value.trim(),  
+      phone:document.getElementById("phone").value.trim(),  
+      photo:photo  
+    };  
+  
+    if(id){  
+      let old=people.find(p=>p.id==id);  
+      data.photo=photo||old.photo||"";  
+      Object.assign(old,data);  
+    }else people.push(data);  
+  
+    clearForm();  
+    save();  
+  };  
+  
+  if(file){  
+    let r=new FileReader();  
+    r.onload=e=>finish(e.target.result);  
+    r.readAsDataURL(file);  
+  }else finish("");  
+}  
+  
+function editPerson(id){  
+  let p=people.find(x=>x.id==id);  
+  document.getElementById("editId").value=p.id;  
+  document.getElementById("name").value=p.name;  
+  document.getElementById("gender").value=p.gender;  
+  document.getElementById("birth").value=p.birth||"";  
+  document.getElementById("parent").value=p.parentId||"";  
+  document.getElementById("job").value=p.job||"";  
+  document.getElementById("phone").value=p.phone||"";  
+  focusAdd();  
+}  
+  
+function deletePerson(id){  
+  if(!confirm("این فرد و زیرشاخه‌هایش حذف شوند؟"))return;  
+  let ids=[id,...descendants(id)];  
+  people=people.filter(p=>!ids.includes(p.id));  
+  save();  
+}  
+  
+function descendants(id){  
+  let out=[];  
+  people.filter(p=>p.parentId==id).forEach(c=>{  
+    out.push(c.id,...descendants(c.id));  
+  });  
+  return out;  
+}  
+  
+function clearForm(){  
+  ["editId","name","birth","job","phone"].forEach(id=>document.getElementById(id).value="");  
+  document.getElementById("parent").value="";  
+  document.getElementById("photo").value="";  
+}  
+  
+function render(){  
+  renderStats();  
+  renderParentOptions();  
+  renderList();  
+  renderTree();  
+  renderBirthdays();  
+  renderTimeline();  
+}  
+  
+function renderStats(){  
+  document.getElementById("total").innerText=people.length;  
+  document.getElementById("male").innerText=people.filter(p=>p.gender==="male").length;  
+  document.getElementById("female").innerText=people.filter(p=>p.gender==="female").length;  
+  document.getElementById("gens").innerText=maxDepth();  
+}  
+  
+function maxDepth(){  
+  function depth(p){  
+    let ch=people.filter(x=>x.parentId==p.id);  
+    return ch.length?1+Math.max(...ch.map(depth)):1;  
+  }  
+  let roots=people.filter(p=>!p.parentId);  
+  return roots.length?Math.max(...roots.map(depth)):0;  
+}  
+  
+function renderParentOptions(){  
+  let current=document.getElementById("parent").value;  
+  document.getElementById("parent").innerHTML='<option value="">بدون پدر/مادر</option>'+people.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");  
+  document.getElementById("parent").value=current;  
+}  
+  
+function renderList(){  
+  let q=document.getElementById("search").value.trim().toLowerCase();  
+  let list=people.filter(p=>(p.name+p.job+p.phone).toLowerCase().includes(q));  
+  document.getElementById("list").innerHTML=list.map(p=>`  
+    <div class="person-row">  
+      <span class="thumb">${p.photo?`<img src="${p.photo}">`:icon(p.gender)}</span>  
+      <b>${p.name}</b> <small>${p.birth||""}</small>  
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>  
+      <button class="btn red-btn" onclick="deletePerson(${p.id})">حذف</button>  
+    </div>  
+  `).join("")||"<p>نتیجه‌ای نیست.</p>";  
+}  
+  
+function renderTree(){  
+  let q=document.getElementById("search").value.trim().toLowerCase();  
+  let roots=people.filter(p=>!p.parentId || !people.some(x=>x.id==p.parentId));  
+  document.getElementById("tree").innerHTML="<ul>"+roots.map(p=>node(p,q)).join("")+"</ul>";  
+}  
+  
+function node(p,q){  
+  let children=people.filter(x=>x.parentId==p.id);  
+  let match=q && (p.name+p.job+p.phone).toLowerCase().includes(q);  
+  return `  
+  <li>  
+    <div class="node ${p.gender==="female"?"female":""} ${match?"match":""}"  
+      draggable="true"  
+      ondragstart="dragStart(${p.id})"  
+      ondragover="event.preventDefault()"  
+      ondrop="dropOn(${p.id})"  
+      oncontextmenu="openContext(event,${p.id})">  
+      ${p.photo?`<img src="${p.photo}">`:`<div style="font-size:32px">${icon(p.gender)}</div>`}  
+      <b>${p.name}</b><br>  
+      <small>${p.birth||""}</small><br>  
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>  
+    </div>  
+    ${children.length?`<ul>${children.map(c=>node(c,q)).join("")}</ul>`:""}  
+  </li>`;  
+}  
+  
+function dragStart(id){dragId=id}  
+  
+function dropOn(targetId){  
+  if(!dragId || dragId===targetId)return;  
+  if(descendants(dragId).includes(targetId)){alert("نمی‌شود زیرمجموعه خودش شود");return}  
+  let p=people.find(x=>x.id==dragId);  
+  p.parentId=targetId;  
+  dragId=null;  
+  save();  
+}  
+  
+function renderBirthdays(){  
+  let arr=people.filter(p=>p.birth).sort((a,b)=>String(a.birth).localeCompare(String(b.birth)));  
+  document.getElementById("birthdays").innerHTML=arr.map(p=>`  
+    <div class="birthday-item">🎂 ${p.name} — ${p.birth}</div>  
+  `).join("")||"<p>تولدی ثبت نشده است.</p>";  
+}  
+  
+function renderTimeline(){  
+  let arr=people.filter(p=>p.birth).sort((a,b)=>Number(a.birth)-Number(b.birth));  
+  document.getElementById("timeline").innerHTML=arr.map(p=>`  
+    <div class="timeline-item">🕘 ${p.birth} — ${p.name} متولد شد</div>  
+  `).join("")||"<p>Timeline خالی است.</p>";  
+}  
+  
+function zoomIn(){zoom+=0.1;applyZoom()}  
+function zoomOut(){zoom=Math.max(0.4,zoom-0.1);applyZoom()}  
+function resetZoom(){zoom=1;applyZoom()}  
+function applyZoom(){document.getElementById("treeStage").style.transform=`scale(${zoom})`}  
+  
+function toggleFullscreen(){  
+  let el=document.getElementById("treeSection");  
+  if(!document.fullscreenElement)el.requestFullscreen();  
+  else document.exitFullscreen();  
+}  
+  
+function exportPNG(){  
+  let node=document.getElementById("treeWrap");  
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${node.scrollWidth}" height="${node.scrollHeight}">  
+  <foreignObject width="100%" height="100%">  
+  <div xmlns="http://www.w3.org/1999/xhtml">${node.innerHTML}</div>  
+  </foreignObject></svg>`;  
+  let img=new Image();  
+  let url="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);  
+  img.onload=function(){  
+    let canvas=document.createElement("canvas");  
+    canvas.width=node.scrollWidth;  
+    canvas.height=node.scrollHeight;  
+    let ctx=canvas.getContext("2d");  
+    ctx.fillStyle="#ffffff";  
+    ctx.fillRect(0,0,canvas.width,canvas.height);  
+    ctx.drawImage(img,0,0);  
+    let a=document.createElement("a");  
+    a.download="family-tree.png";  
+    a.href=canvas.toDataURL("image/png");  
+    a.click();  
+  };  
+  img.src=url;  
+}  
+  
+function openContext(e,id){  
+  e.preventDefault();  
+  ctxId=id;  
+  let menu=document.getElementById("contextMenu");  
+  menu.style.display="block";  
+  menu.style.left=e.clientX+"px";  
+  menu.style.top=e.clientY+"px";  
+}  
+  
+document.addEventListener("click",()=>document.getElementById("contextMenu").style.display="none");  
+  
+function ctxEdit(){editPerson(ctxId)}  
+function ctxDelete(){deletePerson(ctxId)}  
+function ctxAddChild(){  
+  let name=prompt("نام فرزند:");  
+  if(!name)return;  
+  people.push({id:uid(),name:name,gender:"male",birth:"",parentId:ctxId,job:"",phone:"",photo:""});  
+  save();  
+}  
+  
+function exportData(){  
+  let b=new Blob([JSON.stringify(people,null,2)],{type:"application/json"});  
+  let a=document.createElement("a");  
+  a.href=URL.createObjectURL(b);  
+  a.download="family-backup.json";  
+  a.click();  
+}  
+  
+function importData(e){  
+  let file=e.target.files[0]; if(!file)return;  
+  let r=new FileReader();  
+  r.onload=function(ev){  
+    try{people=JSON.parse(ev.target.result);save();alert("بازیابی شد")}  
+    catch(err){alert("فایل معتبر نیست")}  
+  };  
+  r.readAsText(file);  
+}  
+  
+function toggleDark(){  
+  document.body.classList.toggle("dark");  
+  localStorage.setItem("family_dark",document.body.classList.contains("dark")?"yes":"no");  
+}  
+  
+function changePassword(){  
+  let old=prompt("رمز فعلی:");  
+  if(old!==password){alert("رمز اشتباه است");return}  
+  let np=prompt("رمز جدید:");  
+  if(!np || np.length<4){alert("رمز کوتاه است");return}  
+  password=np;  
+  localStorage.setItem("family_pass",password);  
+  alert("رمز تغییر کرد");  
+}  
+  
+function focusAdd(){document.getElementById("addSec").scrollIntoView({behavior:"smooth"})}  
+function scrollTree(){document.getElementById("treeSection").scrollIntoView({behavior:"smooth"})}  
+function scrollTimeline(){document.getElementById("timelineSec").scrollIntoView({behavior:"smooth"})}  
+  
+setInterval(()=>document.getElementById("clock").innerText=new Date().toLocaleString("fa-IR"),1000);  
+render();  
+</script>  
+<style>  
+.mini-collapse{  
+  border:0;  
+  background:#f59e0b;  
+  color:white;  
+  border-radius:8px;  
+  padding:4px 8px;  
+  margin-top:6px;  
+  cursor:pointer;  
+  font-size:12px;  
+}  .extra-panel-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:18px;
+}
+
+.bar-row{
+margin:10px 0;
+}
+
+.bar-label{
+display:flex;
+justify-content:space-between;
+margin-bottom:5px;
+font-size:13px;
+}
+
+.bar-bg{
+background:#e2e8f0;
+height:12px;
+border-radius:999px;
+overflow:hidden;
+}
+
+.bar-fill{
+background:#2563eb;
+height:100%;
+border-radius:999px;
+}
+
+.share-box{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.share-box input{
+flex:1;
+padding:12px;
+border:1px solid #d7deea;
+border-radius:10px;
+}
+
+.color-dot{
+width:34px;
+height:34px;
+border-radius:50%;
+border:3px solid white;
+box-shadow:0 4px 10px rgba(0,0,0,.15);
+cursor:pointer;
+display:inline-block;
+margin:5px;
+}
+
+@media(max-width:950px){
+.extra-panel-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
+
+<script>  
+var collapsedBranches = JSON.parse(localStorage.getItem("collapsedBranches") || "{}");  
+var userRole = localStorage.getItem("family_role") || "admin";  
+  
+function installExtraPanels(){  
+  if(document.getElementById("extraPanels")) return;  
+  
+  var main = document.querySelector(".main");  
+  
+  var box = document.createElement("div");  
+  box.id = "extraPanels";  
+  box.className = "extra-panel-grid no-print";  
+  
+  box.innerHTML = `  
+    <div class="panel">  
+      <h2>📊 نمودار نسل‌ها</h2>  
+      <div id="generationChart"></div>  
+    </div>  
+  
+    <div class="panel">  
+      <h2>⚙️ تنظیمات حرفه‌ای</h2>  
+  
+      <h4>🎨 رنگ اصلی سایت</h4>  
+      <span class="color-dot" style="background:#2563eb" onclick="setMainColor('#2563eb')"></span>  
+      <span class="color-dot" style="background:#16a34a" onclick="setMainColor('#16a34a')"></span>  
+      <span class="color-dot" style="background:#7c3aed" onclick="setMainColor('#7c3aed')"></span>  
+      <span class="color-dot" style="background:#db2777" onclick="setMainColor('#db2777')"></span>  
+      <span class="color-dot" style="background:#ea580c" onclick="setMainColor('#ea580c')"></span>  
+  
+      <hr>  
+  
+      <h4>👤 سطح دسترسی</h4>  
+      <select id="roleSelect" onchange="setRole(this.value)" style="padding:12px;border-radius:10px;border:1px solid #ddd;width:100%">  
+        <option value="admin">مدیر</option>  
+        <option value="viewer">مشاهده‌گر</option>  
+      </select>  
+  
+      <hr>  
+  
+      <h4>🔗 لینک اشتراک خانواده</h4>  
+      <div class="share-box">  
+        <input id="shareLink" readonly>  
+        <button class="btn blue-btn" onclick="copyShareLink()">کپی لینک</button>  
+      </div>  
+    </div>  
+  `;  
+  
+  var footer = document.querySelector(".footer");  
+  main.insertBefore(box, footer);  
+  
+  document.getElementById("roleSelect").value = userRole;  
+  document.getElementById("shareLink").value = location.href;  
+}  
+  
+function setMainColor(color){  
+  document.documentElement.style.setProperty("--blue", color);  
+  localStorage.setItem("family_main_color", color);  
+}  
+  
+function loadMainColor(){  
+  var c = localStorage.getItem("family_main_color");  
+  if(c){  
+    document.documentElement.style.setProperty("--blue", c);  
+  }  
+}  
+  
+function setRole(role){  
+  userRole = role;  
+  localStorage.setItem("family_role", role);  
+  applyRole();  
+}  
+  
+function applyRole(){  
+  var isViewer = userRole === "viewer";  
+  
+  document.querySelectorAll("button").forEach(function(btn){  
+    var text = btn.innerText;  
+  
+    if(  
+      text.includes("ذخیره") ||  
+      text.includes("ویرایش") ||  
+      text.includes("حذف") ||  
+      text.includes("افزودن") ||  
+      text.includes("پاک کردن")  
+    ){  
+      btn.style.display = isViewer ? "none" : "";  
+    }  
+  });  
+  
+  document.querySelectorAll("input,select").forEach(function(el){  
+    if(el.id !== "search" && el.id !== "loginUser" && el.id !== "loginPass"){  
+      el.disabled = isViewer;  
+    }  
+  });  
+}  
+  
+function copyShareLink(){  
+  var link = document.getElementById("shareLink");  
+  link.select();  
+  document.execCommand("copy");  
+  alert("لینک کپی شد");  
+}  
+  
+function toggleBranch(id){  
+  collapsedBranches[id] = !collapsedBranches[id];  
+  localStorage.setItem("collapsedBranches", JSON.stringify(collapsedBranches));  
+  render();  
+}  
+  
+function generationMap(){  
+  var map = {};  
+  
+  function walk(person, level){  
+    if(!map[level]) map[level] = 0;  
+    map[level]++;  
+  
+    people  
+    .filter(function(p){ return String(p.parentId) === String(person.id); })  
+    .forEach(function(child){  
+      walk(child, level + 1);  
+    });  
+  }  
+  
+  people  
+  .filter(function(p){ return !p.parentId; })  
+  .forEach(function(root){  
+    walk(root, 1);  
+  });  
+  
+  return map;  
+}  
+  
+function renderGenerationChart(){  
+  var target = document.getElementById("generationChart");  
+  if(!target) return;  
+  
+  var map = generationMap();  
+  var max = Math.max.apply(null, Object.values(map).concat([1]));  
+  
+  var html = "";  
+  
+  Object.keys(map).forEach(function(level){  
+    var count = map[level];  
+    var percent = (count / max) * 100;  
+  
+    html += `  
+      <div class="bar-row">  
+        <div class="bar-label">  
+          <span>نسل ${level}</span>  
+          <span>${count} نفر</span>  
+        </div>  
+        <div class="bar-bg">  
+          <div class="bar-fill" style="width:${percent}%"></div>  
+        </div>  
+      </div>  
+    `;  
+  });  
+  
+  target.innerHTML = html || "<p>هنوز اطلاعاتی نیست.</p>";  
+}  
+  
+/* نسخه جدید node با جمع/باز کردن شاخه‌ها */  
+node = function(p,q){  
+  let children = people.filter(x=>x.parentId==p.id);  
+  let match = q && (p.name+p.job+p.phone).toLowerCase().includes(q);  
+  let isClosed = collapsedBranches[p.id];  
+  
+  return `  
+  <li>  
+    <div class="node ${p.gender==="female"?"female":""} ${match?"match":""}"  
+      draggable="true"  
+      ondragstart="dragStart(${p.id})"  
+      ondragover="event.preventDefault()"  
+      ondrop="dropOn(${p.id})"  
+      oncontextmenu="openContext(event,${p.id})">  
+  
+      ${p.photo?`<img src="${p.photo}">`:`<div style="font-size:32px">${icon(p.gender)}</div>`}  
+  
+      <b>${p.name}</b><br>  
+      <small>${p.birth||""}</small><br>  
+  
+      ${children.length ? `  
+        <button class="mini-collapse no-print" onclick="toggleBranch(${p.id});event.stopPropagation()">  
+          ${isClosed ? "باز کردن شاخه +" : "بستن شاخه −"}  
+        </button>  
+      ` : ""}  
+  
+      <br>  
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>  
+    </div>  
+  
+    ${children.length && !isClosed ? `<ul>${children.map(c=>node(c,q)).join("")}</ul>` : ""}  
+  </li>`;  
+};  
+  
+var oldRender = render;  
+  
+render = function(){  
+  oldRender();  
+  installExtraPanels();  
+  loadMainColor();  
+  renderGenerationChart();  
+  applyRole();  
+};  
+  
+render();  
+</script>  <style>  
+.profile-modal{  
+  position:fixed;  
+  inset:0;  
+  background:rgba(0,0,0,.55);  
+  display:none;  
+  align-items:center;  
+  justify-content:center;  
+  z-index:500;  
+}  
+  
+.profile-box{  
+  width:94%;  
+  max-width:850px;  
+  max-height:92vh;  
+  overflow:auto;  
+  background:var(--card);  
+  color:var(--text);  
+  border-radius:22px;  
+  padding:22px;  
+  box-shadow:0 30px 80px rgba(0,0,0,.35);  
+}  
+  
+.profile-head{  
+  display:flex;  
+  gap:18px;  
+  align-items:center;  
+  flex-wrap:wrap;  
+  border-bottom:1px solid var(--line);  
+  padding-bottom:16px;  
+  margin-bottom:16px;  
+}  
+  
+.profile-photo{  
+  width:110px;  
+  height:110px;  
+  border-radius:50%;  
+  background:#e2e8f0;  
+  display:flex;  
+  align-items:center;  
+  justify-content:center;  
+  overflow:hidden;  
+  font-size:58px;  
+}  
+  
+.profile-photo img{  
+  width:100%;  
+  height:100%;  
+  object-fit:cover;  
+}  
+  
+.profile-grid{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:16px;  
+}  
+  
+.profile-section{  
+  background:rgba(148,163,184,.08);  
+  border:1px solid var(--line);  
+  border-radius:16px;  
+  padding:14px;  
+}  
+  
+.gallery{  
+  display:flex;  
+  flex-wrap:wrap;  
+  gap:10px;  
+}  
+  
+.gallery img{  
+  width:90px;  
+  height:90px;  
+  border-radius:12px;  
+  object-fit:cover;  
+  border:1px solid var(--line);  
+}  
+  
+.file-item{  
+  background:rgba(148,163,184,.12);  
+  border-radius:10px;  
+  padding:10px;  
+  margin:8px 0;  
+}  
+  
+.person-timeline{  
+  border-right:3px solid #2563eb;  
+  padding-right:14px;  
+}  
+  
+.person-timeline div{  
+  margin:10px 0;  
+  padding:10px;  
+  background:rgba(37,99,235,.08);  
+  border-radius:12px;  
+}  
+  
+.node{  
+  transition:.25s;  
+}  
+  
+.node:hover{  
+  transform:translateY(-4px) scale(1.03);  
+}  
+  
+.tree li ul{  
+  animation:branchOpen .35s ease;  
+}  
+  
+@keyframes branchOpen{  
+  from{opacity:0;transform:translateY(-12px)}  
+  to{opacity:1;transform:translateY(0)}  
+}  
+  
+.birthday-alert{  
+  background:linear-gradient(135deg,#fff7ed,#ffedd5);  
+  border:1px solid #fed7aa;  
+  color:#9a3412;  
+  border-radius:14px;  
+  padding:12px;  
+  margin:10px 0;  
+}  
+  
+.relation-box{  
+  background:linear-gradient(135deg,#f8fafc,#eef2ff);  
+  border:1px solid #dbeafe;  
+  border-radius:14px;  
+  padding:14px;  
+}  
+  
+@media(max-width:800px){  
+  .profile-grid{  
+    grid-template-columns:1fr;  
+  }  
+}  
+</style>  <div class="profile-modal" id="fullProfileModal">  
+  <div class="profile-box">  
+    <div id="fullProfileContent"></div>  
+    <button class="btn red-btn" onclick="closeFullProfile()">بستن</button>  
+  </div>  
+</div>  <script>  
+function ensurePersonExtra(p){  
+  if(!p.gallery) p.gallery=[];  
+  if(!p.docs) p.docs=[];  
+  if(!p.voices) p.voices=[];  
+  if(!p.events) p.events=[];  
+  if(!p.memory) p.memory="";  
+  return p;  
+}  
+  
+function fileToBase64(file,callback){  
+  var reader=new FileReader();  
+  reader.onload=function(e){  
+    callback({  
+      name:file.name,  
+      type:file.type,  
+      data:e.target.result,  
+      date:new Date().toLocaleDateString("fa-IR")  
+    });  
+  };  
+  reader.readAsDataURL(file);  
+}  
+  
+function openFullProfile(id){  
+  var p=people.find(function(x){return String(x.id)===String(id)});  
+  if(!p) return;  
+  
+  ensurePersonExtra(p);  
+  
+  var parent=people.find(function(x){return String(x.id)===String(p.parentId)});  
+  var children=people.filter(function(x){return String(x.parentId)===String(p.id)});  
+  
+  var img=p.photo  
+  ? '<img src="'+p.photo+'">'  
+  : icon(p.gender);  
+  
+  var galleryHtml=p.gallery.map(function(g){  
+    return '<img src="'+g.data+'" title="'+g.name+'">';  
+  }).join("") || "<p>هنوز عکسی ثبت نشده است.</p>";  
+  
+  var docsHtml=p.docs.map(function(d,index){  
+    return '<div class="file-item">📂 '+d.name+' <a download="'+d.name+'" href="'+d.data+'">دانلود</a> <button class="btn red-btn" onclick="removeDoc('+p.id+','+index+')">حذف</button></div>';  
+  }).join("") || "<p>مدرکی ثبت نشده است.</p>";  
+  
+  var voicesHtml=p.voices.map(function(v,index){  
+    return '<div class="file-item">🎤 '+v.name+'<br><audio controls src="'+v.data+'"></audio><br><button class="btn red-btn" onclick="removeVoice('+p.id+','+index+')">حذف</button></div>';  
+  }).join("") || "<p>ویسی ثبت نشده است.</p>";  
+  
+  var eventsHtml=p.events.map(function(ev,index){  
+    return '<div>🕘 '+ev.date+' — '+ev.text+' <button class="btn red-btn" onclick="removeEvent('+p.id+','+index+')">حذف</button></div>';  
+  }).join("") || "<p>Timeline خالی است.</p>";  
+  
+  document.getElementById("fullProfileContent").innerHTML=`  
+    <div class="profile-head">  
+      <div class="profile-photo">${img}</div>  
+      <div>  
+        <h2>${p.name}</h2>  
+        <p>جنسیت: ${p.gender==="female"?"زن":"مرد"}</p>  
+        <p>تولد: ${p.birth||"-"}</p>  
+        <p>شغل: ${p.job||"-"}</p>  
+        <p>تماس: ${p.phone||"-"}</p>  
+        <p>والد: ${parent?parent.name:"-"}</p>  
+        <p>تعداد فرزندان: ${children.length}</p>  
+      </div>  
+    </div>  
+  
+    <div class="profile-grid">  
+  
+      <div class="profile-section">  
+        <h3>🖼 گالری عکس</h3>  
+        <input type="file" accept="image/*" multiple onchange="addGallery(${p.id},this.files)">  
+        <div class="gallery">${galleryHtml}</div>  
+      </div>  
+  
+      <div class="profile-section">  
+        <h3>🎤 ویس و خاطرات صوتی</h3>  
+        <input type="file" accept="audio/*" multiple onchange="addVoices(${p.id},this.files)">  
+        ${voicesHtml}  
+      </div>  
+  
+      <div class="profile-section">  
+        <h3>📂 مدارک و فایل‌ها</h3>  
+        <input type="file" multiple onchange="addDocs(${p.id},this.files)">  
+        ${docsHtml}  
+      </div>  
+  
+      <div class="profile-section">  
+        <h3>🎞 Timeline تصویری / رویدادها</h3>  
+        <input id="eventText_${p.id}" placeholder="مثلاً ازدواج، تولد، مهاجرت">  
+        <input id="eventDate_${p.id}" placeholder="تاریخ">  
+        <button class="btn" onclick="addEvent(${p.id})">افزودن رویداد</button>  
+        <div class="person-timeline">${eventsHtml}</div>  
+      </div>  
+  
+      <div class="profile-section" style="grid-column:1/-1">  
+        <h3>📝 خاطره متنی</h3>  
+        <textarea id="memory_${p.id}" style="width:100%;min-height:90px;border-radius:12px;padding:12px">${p.memory||""}</textarea>  <br>  
+    <button class="btn" onclick="saveMemory(${p.id})">ذخیره خاطره</button>  
+  </div>  
+
+</div>
+
+`;
+
+document.getElementById("fullProfileModal").style.display="flex";
+}
+
+function closeFullProfile(){
+document.getElementById("fullProfileModal").style.display="none";
+}
+
+function addGallery(id,files){
+var p=people.find(x=>x.id==id);
+ensurePersonExtra(p);
+Array.from(files).forEach(function(file){
+fileToBase64(file,function(data){
+p.gallery.push(data);
+save();
+openFullProfile(id);
+});
+});
+}
+
+function addDocs(id,files){
+var p=people.find(x=>x.id==id);
+ensurePersonExtra(p);
+Array.from(files).forEach(function(file){
+fileToBase64(file,function(data){
+p.docs.push(data);
+save();
+openFullProfile(id);
+});
+});
+}
+
+function addVoices(id,files){
+var p=people.find(x=>x.id==id);
+ensurePersonExtra(p);
+Array.from(files).forEach(function(file){
+fileToBase64(file,function(data){
+p.voices.push(data);
+save();
+openFullProfile(id);
+});
+});
+}
+
+function addEvent(id){
+var p=people.find(x=>x.id==id);
+ensurePersonExtra(p);
+
+var text=document.getElementById("eventText_"+id).value.trim();
+var date=document.getElementById("eventDate_"+id).value.trim();
+
+if(!text){
+alert("متن رویداد را وارد کنید");
+return;
+}
+
+p.events.push({
+text:text,
+date:date || new Date().toLocaleDateString("fa-IR")
+});
+
+save();
+openFullProfile(id);
+}
+
+function saveMemory(id){
+var p=people.find(x=>x.id==id);
+ensurePersonExtra(p);
+p.memory=document.getElementById("memory_"+id).value;
+save();
+alert("خاطره ذخیره شد");
+}
+
+function removeDoc(id,index){
+var p=people.find(x=>x.id==id);
+p.docs.splice(index,1);
+save();
+openFullProfile(id);
+}
+
+function removeVoice(id,index){
+var p=people.find(x=>x.id==id);
+p.voices.splice(index,1);
+save();
+openFullProfile(id);
+}
+
+function removeEvent(id,index){
+var p=people.find(x=>x.id==id);
+p.events.splice(index,1);
+save();
+openFullProfile(id);
+}
+
+var oldRenderList=renderList;
+renderList=function(){
+  let q=document.getElementById("search").value.trim().toLowerCase();
+  let list=people.filter(p=>(p.name+p.job+p.phone).toLowerCase().includes(q));
+  document.getElementById("list").innerHTML=list.map(p=>`
+    <div class="person-row">
+      <span class="thumb">${p.photo?`<img src="${p.photo}">`:icon(p.gender)}</span>
+      <b>${p.name}</b> <small>${p.birth||""}</small>
+      <button class="btn purple-btn" onclick="openFullProfile(${p.id})">پروفایل کامل</button>
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>
+      <button class="btn red-btn" onclick="deletePerson(${p.id})">حذف</button>
+    </div>
+  `).join("")||"<p>نتیجه‌ای نیست.</p>";
+};
+
+node=function(p,q){
+let children=people.filter(x=>x.parentId==p.id);
+let match=q && (p.name+p.job+p.phone).toLowerCase().includes(q);
+
+return `
+
+  <li>  
+    <div class="node ${p.gender==="female"?"female":""} ${match?"match":""}"  
+      draggable="true"  
+      ondragstart="dragStart(${p.id})"  
+      ondragover="event.preventDefault()"  
+      ondrop="dropOn(${p.id})"  
+      oncontextmenu="openContext(event,${p.id})">  
+      ${p.photo?`<img src="${p.photo}">`:`<div style="font-size:32px">${icon(p.gender)}</div>`}  
+      <b>${p.name}</b><br>  
+      <small>${p.birth||""}</small><br>  
+      <button class="btn purple-btn" onclick="openFullProfile(${p.id})">پروفایل</button>  
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>  
+    </div>  
+    ${children.length?`<ul>${children.map(c=>node(c,q)).join("")}</ul>`:""}  
+  </li>`;  
+};  function birthdayAlert(){
+var box=document.getElementById("birthdays");
+if(!box) return;
+
+var html=people
+.filter(function(p){return p.birth})
+.map(function(p){
+return `<div class="birthday-alert">🎂 ${p.name} — تولد ثبت‌شده: ${p.birth}</div>`;
+}).join("");
+
+box.innerHTML=html||"<p>تولدی ثبت نشده است.</p>";
+}
+
+function relationshipBetween(a,b){
+if(a==b) return "خود فرد";
+
+var pa=people.find(x=>x.id==a);
+var pb=people.find(x=>x.id==b);
+
+if(!pa||!pb) return "نامشخص";
+
+if(String(pb.parentId)===String(pa.id)) return pa.name+" پدر/مادر "+pb.name+" است";
+if(String(pa.parentId)===String(pb.id)) return pb.name+" پدر/مادر "+pa.name+" است";
+if(pa.parentId && String(pa.parentId)===String(pb.parentId)) return "خواهر / برادر";
+
+var ancestorsA=getAncestors(a);
+var ancestorsB=getAncestors(b);
+
+for(var i=0;i<ancestorsA.length;i++){
+if(ancestorsB.includes(ancestorsA[i])){
+var common=people.find(x=>x.id==ancestorsA[i]);
+return "جد مشترک: "+common.name;
+}
+}
+
+return "نسبت مستقیم پیدا نشد";
+}
+
+function getAncestors(id){
+var out=[];
+var current=people.find(x=>x.id==id);
+
+while(current && current.parentId){
+out.push(Number(current.parentId));
+current=people.find(x=>String(x.id)===String(current.parentId));
+}
+
+return out;
+}
+
+function installRelationshipPanel(){
+if(document.getElementById("relationPanel")) return;
+
+var panel=document.createElement("div");
+panel.className="panel no-print";
+panel.id="relationPanel";
+panel.innerHTML=`<h2>🧠 تشخیص نسبت خانوادگی</h2><div class="form-row"><select id="relA"></select><select id="relB"></select></div><button class="btn blue-btn" onclick="showRelation()">تشخیص نسبت</button><div id="relationResult" class="relation-box" style="margin-top:12px">نتیجه اینجا نمایش داده می‌شود.</div>`;
+
+var treeSection=document.getElementById("treeSection");
+treeSection.parentNode.insertBefore(panel,treeSection);
+}
+
+function refreshRelationshipOptions(){
+var a=document.getElementById("relA");
+var b=document.getElementById("relB");
+if(!a||!b) return;
+
+var opts=people.map(function(p){
+return `<option value="${p.id}">${p.name}</option>`;
+}).join("");
+
+a.innerHTML=opts;
+b.innerHTML=opts;
+}
+
+function showRelation(){
+var a=Number(document.getElementById("relA").value);
+var b=Number(document.getElementById("relB").value);
+document.getElementById("relationResult").innerText=relationshipBetween(a,b);
+}
+
+var oldRenderFinal=render;
+render=function(){
+oldRenderFinal();
+installRelationshipPanel();
+refreshRelationshipOptions();
+birthdayAlert();
+};
+
+render();
+</script>
+
+<!-- Firebase + چندکاربره + نقش‌ها + اشتراک عمومی -->  <script type="module">  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";  
+import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";  
+  
+/* این قسمت را از Firebase خودت جایگزین کن */  
+const firebaseConfig = {  
+  apiKey: "PASTE_API_KEY_HERE",  
+  authDomain: "PASTE_AUTH_DOMAIN_HERE",  
+  projectId: "PASTE_PROJECT_ID_HERE",  
+  storageBucket: "PASTE_STORAGE_BUCKET_HERE",  
+  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",  
+  appId: "PASTE_APP_ID_HERE"  
+};  
+  
+let db = null;
+let firebaseCloudReady = false;
+try{
+  if(firebaseConfig.apiKey !== "PASTE_API_KEY_HERE"){
+    const app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    firebaseCloudReady = true;
+  }
+}catch(e){
+  firebaseCloudReady = false;
+}  
+  
+/* شناسه خانواده */  
+let familyId = localStorage.getItem("family_cloud_id") || "my-family";  
+let role = localStorage.getItem("family_cloud_role") || "admin";  
+  
+/* ساخت پنل ابری */  
+function installCloudPanel(){  
+  if(document.getElementById("cloudPanel")) return;  
+  
+  const panel = document.createElement("div");  
+  panel.className = "panel no-print";  
+  panel.id = "cloudPanel";  
+  
+  panel.innerHTML = `  
+    <h2>☁ مدیریت ابری Firebase</h2>  
+  
+    <div class="form-row">  
+      <input id="familyCloudId" placeholder="شناسه خانواده" value="${familyId}">  
+      <select id="cloudRole">  
+        <option value="admin">مدیر</option>  
+        <option value="editor">ویرایشگر</option>  
+        <option value="viewer">مشاهده‌گر</option>  
+      </select>  
+    </div>  
+  
+    <button class="btn" onclick="cloudSave()">ذخیره روی ابر</button>  
+    <button class="btn blue-btn" onclick="cloudLoad()">دریافت از ابر</button>  
+    <button class="btn purple-btn" onclick="cloudLive()">همگام‌سازی زنده</button>  
+    <button class="btn orange-btn" onclick="makePublicLink()">ساخت لینک اشتراک</button>  
+  
+    <div id="cloudStatus" class="person-row" style="margin-top:12px">  
+      وضعیت: آماده  
+    </div>  
+  
+    <div class="person-row">  
+      <b>🔗 لینک عمومی فقط‌خواندنی:</b>  
+      <br>  
+      <input id="publicLink" class="search" readonly>  
+    </div>  
+  `;  
+  
+  const footer = document.querySelector(".footer");  
+  footer.parentNode.insertBefore(panel, footer);  
+  
+  document.getElementById("cloudRole").value = role;  
+}  
+  
+/* ذخیره ابری */  
+window.cloudSave = async function(){  
+  updateCloudSettings();  
+  
+  if(role === "viewer"){  
+    alert("شما فقط اجازه مشاهده دارید");  
+    return;  
+  }  
+  
+  if(!firebaseCloudReady){ cloudMessage("⚠️ Firebase هنوز تنظیم نشده است"); return; }
+
+  try{  
+    await setDoc(doc(db, "families", familyId), {  
+      people: people,  
+      updatedAt: new Date().toISOString()  
+    });  
+  
+    cloudMessage("✅ اطلاعات روی Firebase ذخیره شد");  
+  }catch(e){  
+    cloudMessage("❌ خطا در ذخیره: " + e.message);  
+  }  
+};  
+  
+/* دریافت از ابر */  
+window.cloudLoad = async function(){  
+  updateCloudSettings();  
+  
+  if(!firebaseCloudReady){ cloudMessage("⚠️ Firebase هنوز تنظیم نشده است"); return; }
+
+  try{  
+    const snap = await getDoc(doc(db, "families", familyId));  
+  
+    if(!snap.exists()){  
+      cloudMessage("⚠️ اطلاعاتی برای این خانواده پیدا نشد");  
+      return;  
+    }  
+  
+    const data = snap.data();  
+  
+    if(Array.isArray(data.people)){  
+      people = data.people;  
+      save();  
+      cloudMessage("✅ اطلاعات از Firebase دریافت شد");  
+    }else{  
+      cloudMessage("⚠️ داده معتبر نیست");  
+    }  
+  
+  }catch(e){  
+    cloudMessage("❌ خطا در دریافت: " + e.message);  
+  }  
+};  
+  
+/* همگام‌سازی زنده */  
+let unsubscribeCloud = null;  
+  
+window.cloudLive = function(){  
+  updateCloudSettings();  
+  
+  if(unsubscribeCloud){  
+    unsubscribeCloud();  
+    unsubscribeCloud = null;  
+  }  
+  
+  if(!firebaseCloudReady){ cloudMessage("⚠️ Firebase هنوز تنظیم نشده است"); return; }
+
+  unsubscribeCloud = onSnapshot(doc(db, "families", familyId), function(snap){  
+    if(snap.exists()){  
+      const data = snap.data();  
+  
+      if(Array.isArray(data.people)){  
+        people = data.people;  
+        localStorage.setItem("family_people_v11", JSON.stringify(people));  
+        render();  
+        cloudMessage("🔄 همگام‌سازی زنده فعال است");  
+      }  
+    }  
+  }, function(error){  
+    cloudMessage("❌ خطای همگام‌سازی: " + error.message);  
+  });  
+};  
+  
+/* لینک عمومی */  
+window.makePublicLink = function(){  
+  updateCloudSettings();  
+  
+  const url =  
+    location.origin +  
+    location.pathname +  
+    "?family=" +  
+    encodeURIComponent(familyId) +  
+    "&role=viewer";  
+  
+  document.getElementById("publicLink").value = url;  
+  
+  navigator.clipboard?.writeText(url);  
+  
+  cloudMessage("🔗 لینک عمومی ساخته و کپی شد");  
+};  
+  
+/* تنظیمات */  
+function updateCloudSettings(){  
+  familyId = document.getElementById("familyCloudId").value.trim() || "my-family";  
+  role = document.getElementById("cloudRole").value;  
+  
+  localStorage.setItem("family_cloud_id", familyId);  
+  localStorage.setItem("family_cloud_role", role);  
+  
+  applyCloudRole();  
+}  
+  
+/* نقش‌ها */  
+function applyCloudRole(){  
+  const currentRole = localStorage.getItem("family_cloud_role") || "admin";  
+  
+  const readonly = currentRole === "viewer";  
+  
+  document.querySelectorAll("button").forEach(function(btn){  
+    const t = btn.innerText;  
+  
+    if(  
+      readonly &&  
+      (  
+        t.includes("ذخیره") ||  
+        t.includes("ویرایش") ||  
+        t.includes("حذف") ||  
+        t.includes("افزودن") ||  
+        t.includes("Drag") ||  
+        t.includes("پاک")  
+      )  
+    ){  
+      btn.style.display = "none";  
+    }  
+  });  
+  
+  document.querySelectorAll("input,select").forEach(function(el){  
+    if(readonly && !["search","familyCloudId","cloudRole","publicLink"].includes(el.id)){  
+      el.disabled = true;  
+    }  
+  });  
+}  
+  
+/* اگر با لینک عمومی وارد شد */  
+function checkPublicLink(){  
+  const params = new URLSearchParams(location.search);  
+  const f = params.get("family");  
+  const r = params.get("role");  
+  
+  if(f){  
+    localStorage.setItem("family_cloud_id", f);  
+    familyId = f;  
+  }  
+  
+  if(r){  
+    localStorage.setItem("family_cloud_role", r);  
+    role = r;  
+  }  
+}  
+  
+/* پیام وضعیت */  
+function cloudMessage(msg){  
+  const el = document.getElementById("cloudStatus");  
+  if(el) el.innerText = msg;  
+}  
+  
+/* اضافه کردن تقویم رویدادها */  
+function installEventCalendar(){  
+  if(document.getElementById("eventCalendarPanel")) return;  
+  
+  const panel = document.createElement("div");  
+  panel.className = "panel";  
+  panel.id = "eventCalendarPanel";  
+  
+  panel.innerHTML = `  
+    <h2>📆 تقویم رویدادهای خانواده</h2>  
+    <div id="eventCalendar"></div>  
+  `;  
+  
+  const tree = document.getElementById("treeSection");  
+  tree.parentNode.insertBefore(panel, tree);  
+}  
+  
+function renderEventCalendar(){  
+  const el = document.getElementById("eventCalendar");  
+  if(!el) return;  
+  
+  const rows = people  
+    .filter(p => p.birth)  
+    .map(p => `  
+      <div class="birthday-item">  
+        🎂 ${p.name} — ${p.birth}  
+      </div>  
+    `)  
+    .join("");  
+  
+  el.innerHTML = rows || "<p>رویدادی ثبت نشده است.</p>";  
+}  
+  
+/* داشبورد آماری حرفه‌ای */  
+function installAdvancedStats(){  
+  if(document.getElementById("advancedStatsPanel")) return;  
+  
+  const panel = document.createElement("div");  
+  panel.className = "panel";  
+  panel.id = "advancedStatsPanel";  
+  
+  panel.innerHTML = `  
+    <h2>🏆 آمار حرفه‌ای خانواده</h2>  
+    <div id="advancedStats"></div>  
+  `;  
+  
+  const tree = document.getElementById("treeSection");  
+  tree.parentNode.insertBefore(panel, tree);  
+}  
+  
+function renderAdvancedStats(){  
+  const el = document.getElementById("advancedStats");  
+  if(!el) return;  
+  
+  const total = people.length;  
+  const male = people.filter(p => p.gender === "male").length;  
+  const female = people.filter(p => p.gender === "female").length;  
+  const roots = people.filter(p => !p.parentId).length;  
+  const withPhoto = people.filter(p => p.photo).length;  
+  
+  el.innerHTML = `  
+    <div class="person-row">👥 کل افراد: ${total}</div>  
+    <div class="person-row">👨 مردان: ${male}</div>  
+    <div class="person-row">👩 زنان: ${female}</div>  
+    <div class="person-row">🌳 ریشه‌های خانواده: ${roots}</div>  
+    <div class="person-row">🖼 افراد دارای عکس: ${withPhoto}</div>  
+  `;  
+}  
+  
+/* اتصال به render اصلی */  
+const oldRenderFirebaseAddon = render;  
+  
+window.render = function(){  
+  oldRenderFirebaseAddon();  
+  installCloudPanel();  
+  installEventCalendar();  
+  installAdvancedStats();  
+  renderEventCalendar();  
+  renderAdvancedStats();  
+  applyCloudRole();  
+};  
+  
+/* اجرا */  
+checkPublicLink();  
+installCloudPanel();  
+installEventCalendar();  
+installAdvancedStats();  
+render();  
+  </script>
+<style>
+.spouse-line{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin-top:8px;
+  flex-wrap:wrap;
+}
+
+.spouse-badge{
+  background:#ecfeff;
+  border:1px solid #67e8f9;
+  color:#155e75;
+  border-radius:999px;
+  padding:4px 10px;
+  font-size:12px;
+}
+
+.dead-badge{
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  color:#991b1b;
+  border-radius:999px;
+  padding:4px 8px;
+  font-size:11px;
+  margin-top:6px;
+  display:inline-block;
+}
+
+.grave-box{
+  background:#f8fafc;
+  border:1px dashed #94a3b8;
+  border-radius:12px;
+  padding:10px;
+  margin-top:10px;
+  font-size:13px;
+}
+
+.qr-box{
+  margin-top:12px;
+  text-align:center;
+}
+
+.qr-box canvas{
+  background:white;
+  padding:8px;
+  border-radius:12px;
+}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+
+<script>
+/* ساختار جدید */
+function ensureFamilyFields(p){
+  if(!p.spouses) p.spouses=[];
+  if(!p.isDead) p.isDead=false;
+  if(!p.deathDate) p.deathDate="";
+  if(!p.gravePlace) p.gravePlace="";
+  return p;
+}
+
+/* پنل ازدواج */
+function installMarriagePanel(){
+  if(document.getElementById("marriagePanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="marriagePanel";
+
+  panel.innerHTML=`
+    <h2>💍 مدیریت ازدواج و همسر</h2>
+
+    <div class="form-row">
+      <select id="spouseA"></select>
+      <select id="spouseB"></select>
+    </div>
+
+    <button class="btn pink-btn" onclick="addMarriage()">ثبت ازدواج</button>
+
+    <div id="marriageList" style="margin-top:12px"></div>
+  `;
+
+  const tree=document.getElementById("treeSection");
+  tree.parentNode.insertBefore(panel,tree);
+
+  refreshMarriageOptions();
+}
+
+/* گزینه‌ها */
+function refreshMarriageOptions(){
+  const a=document.getElementById("spouseA");
+  const b=document.getElementById("spouseB");
+
+  if(!a||!b) return;
+
+  const html=people.map(p=>
+    `<option value="${p.id}">${p.name}</option>`
+  ).join("");
+
+  a.innerHTML=html;
+  b.innerHTML=html;
+
+  renderMarriageList();
+}
+
+/* ثبت ازدواج */
+function addMarriage(){
+  const a=Number(document.getElementById("spouseA").value);
+  const b=Number(document.getElementById("spouseB").value);
+
+  if(a===b){
+    alert("یک فرد نمی‌تواند همسر خودش باشد");
+    return;
+  }
+
+  const pa=people.find(x=>x.id===a);
+  const pb=people.find(x=>x.id===b);
+
+  ensureFamilyFields(pa);
+  ensureFamilyFields(pb);
+
+  if(!pa.spouses.includes(b)) pa.spouses.push(b);
+  if(!pb.spouses.includes(a)) pb.spouses.push(a);
+
+  save();
+  renderMarriageList();
+
+  alert("ازدواج ثبت شد");
+}
+
+/* لیست ازدواج‌ها */
+function renderMarriageList(){
+  const box=document.getElementById("marriageList");
+  if(!box) return;
+
+  let rows=[];
+
+  people.forEach(p=>{
+    ensureFamilyFields(p);
+
+    p.spouses.forEach(id=>{
+      if(p.id < id){
+        const spouse=people.find(x=>x.id===id);
+
+        if(spouse){
+          rows.push(`
+            <div class="person-row">
+              💍 ${p.name} ❤️ ${spouse.name}
+            </div>
+          `);
+        }
+      }
+    });
+  });
+
+  box.innerHTML=rows.join("") || "<p>هنوز ازدواجی ثبت نشده است.</p>";
+}
+
+/* فوت */
+function markAsDead(id){
+  const p=people.find(x=>x.id==id);
+
+  ensureFamilyFields(p);
+
+  const date=prompt("تاریخ فوت:");
+  if(date===null) return;
+
+  const grave=prompt("محل دفن:");
+  if(grave===null) return;
+
+  p.isDead=true;
+  p.deathDate=date;
+  p.gravePlace=grave;
+
+  save();
+
+  alert("ثبت شد");
+}
+
+/* حذف فوت */
+function unmarkDead(id){
+  const p=people.find(x=>x.id==id);
+
+  p.isDead=false;
+  p.deathDate="";
+  p.gravePlace="";
+
+  save();
+}
+
+/* QR */
+function renderQR(id,target){
+  const p=people.find(x=>x.id==id);
+  if(!p) return;
+
+  const text=`
+نام: ${p.name}
+تولد: ${p.birth || "-"}
+شغل: ${p.job || "-"}
+تماس: ${p.phone || "-"}
+`;
+
+  QRCode.toCanvas(text,{width:130},function(err,canvas){
+    if(err) return;
+    const box=document.getElementById(target);
+    if(box){
+      box.innerHTML="";
+      box.appendChild(canvas);
+    }
+  });
+}
+
+/* نسخه جدید پروفایل */
+const oldOpenProfile=openFullProfile;
+
+openFullProfile=function(id){
+  oldOpenProfile(id);
+
+  const p=people.find(x=>x.id==id);
+  ensureFamilyFields(p);
+
+  const content=document.getElementById("fullProfileContent");
+
+  let spouses=p.spouses.map(id=>{
+    const s=people.find(x=>x.id===id);
+    return s ? `<span class="spouse-badge">❤️ ${s.name}</span>` : "";
+  }).join("");
+
+  const deadHtml=p.isDead ? `
+    <div class="dead-badge">
+      🪦 فوت: ${p.deathDate || "-"}
+    </div>
+
+    <div class="grave-box">
+      📍 محل دفن: ${p.gravePlace || "-"}
+    </div>
+  ` : "";
+
+  const tools=`
+    <div class="profile-section">
+      <h3>💍 وضعیت خانوادگی</h3>
+
+      <div class="spouse-line">
+        ${spouses || "همسری ثبت نشده"}
+      </div>
+
+      <br>
+
+      ${
+        p.isDead
+        ? `<button class="btn gray-btn" onclick="unmarkDead(${p.id})">حذف وضعیت فوت</button>`
+        : `<button class="btn red-btn" onclick="markAsDead(${p.id})">ثبت فوت</button>`
+      }
+
+      ${deadHtml}
+
+      <div class="qr-box">
+        <h3>🧾 QR فرد</h3>
+        <div id="qr_${p.id}"></div>
+      </div>
+    </div>
+  `;
+
+  content.innerHTML += tools;
+
+  setTimeout(()=>{
+    renderQR(p.id,"qr_"+p.id);
+  },100);
+};
+
+/* نمایش همسر در نود */
+const oldNodeMarriage=node;
+
+node=function(p,q){
+  ensureFamilyFields(p);
+
+  let html=oldNodeMarriage(p,q);
+
+  let spouses=p.spouses.map(id=>{
+    const s=people.find(x=>x.id===id);
+    return s ? `❤️ ${s.name}` : "";
+  }).join(" | ");
+
+  if(spouses){
+    html=html.replace(
+      "</small><br>",
+      `</small><br><div class="spouse-badge">${spouses}</div>`
+    );
+  }
+
+  if(p.isDead){
+    html=html.replace(
+      "</small><br>",
+      `</small><br><span class="dead-badge">🪦 فوت شده</span><br>`
+    );
+  }
+
+  return html;
+};
+
+/* اتصال */
+const oldRenderMarriageAddon=render;
+
+render=function(){
+  oldRenderMarriageAddon();
+  installMarriagePanel();
+  refreshMarriageOptions();
+};
+
+render();
+</script>
+<style>
+.video-box video{
+  width:100%;
+  border-radius:14px;
+  margin-top:10px;
+}
+
+.family-tag{
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  color:#3730a3;
+  border-radius:999px;
+  padding:5px 10px;
+  font-size:12px;
+  display:inline-block;
+  margin:3px;
+}
+
+.filter-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+
+.slideshow{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  height:300px;
+  background:#000;
+}
+
+.slideshow img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.slide-controls{
+  position:absolute;
+  inset:auto 0 10px 0;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+}
+
+.slide-controls button{
+  border:0;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:white;
+  opacity:.5;
+  cursor:pointer;
+}
+
+.slide-controls button.active{
+  opacity:1;
+  transform:scale(1.2);
+}
+
+.calendar-event{
+  background:linear-gradient(135deg,#f0fdf4,#dcfce7);
+  border:1px solid #bbf7d0;
+  border-radius:12px;
+  padding:12px;
+  margin:8px 0;
+}
+
+@media(max-width:900px){
+  .filter-grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<script>
+/* چند خانواده */
+let activeFamily=localStorage.getItem("active_family_name") || "خانواده اصلی";
+
+function ensureAdvancedFields(p){
+  if(!p.familyName) p.familyName=activeFamily;
+  if(!p.videos) p.videos=[];
+  return p;
+}
+
+/* پنل خانواده */
+function installFamilyManager(){
+  if(document.getElementById("familyManager")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="familyManager";
+
+  panel.innerHTML=`
+    <h2>👨‍👩‍👧 مدیریت خانواده‌ها</h2>
+
+    <div class="form-row">
+      <input id="familyNameInput" placeholder="نام خانواده جدید">
+      <button class="btn blue-btn" onclick="createFamily()">ایجاد خانواده</button>
+    </div>
+
+    <div id="familyTags"></div>
+  `;
+
+  const tree=document.getElementById("treeSection");
+  tree.parentNode.insertBefore(panel,tree);
+
+  renderFamilies();
+}
+
+function createFamily(){
+  const name=document.getElementById("familyNameInput").value.trim();
+
+  if(!name){
+    alert("نام خانواده را وارد کنید");
+    return;
+  }
+
+  activeFamily=name;
+  localStorage.setItem("active_family_name",name);
+
+  renderFamilies();
+
+  alert("خانواده فعال شد");
+}
+
+function renderFamilies(){
+  const box=document.getElementById("familyTags");
+  if(!box) return;
+
+  const families=[...new Set(
+    people.map(p=>p.familyName || "خانواده اصلی")
+  )];
+
+  box.innerHTML=families.map(name=>`
+    <span class="family-tag"
+      onclick="switchFamily('${name}')">
+      👨‍👩‍👧 ${name}
+    </span>
+  `).join("");
+}
+
+function switchFamily(name){
+  activeFamily=name;
+  localStorage.setItem("active_family_name",name);
+  render();
+}
+
+/* ویدیو */
+function addVideos(id,files){
+  const p=people.find(x=>x.id==id);
+
+  ensureAdvancedFields(p);
+
+  Array.from(files).forEach(file=>{
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+      p.videos.push({
+        name:file.name,
+        data:e.target.result
+      });
+
+      save();
+      openFullProfile(id);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
+/* اسلایدشو */
+function installSlideshow(){
+  if(document.getElementById("slideshowPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel";
+  panel.id="slideshowPanel";
+
+  panel.innerHTML=`
+    <h2>🖼 اسلایدشو تصاویر خانواده</h2>
+
+    <div class="slideshow">
+      <img id="slideImage">
+
+      <div class="slide-controls" id="slideControls"></div>
+    </div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+
+  startSlideshow();
+}
+
+let slideIndex=0;
+
+function startSlideshow(){
+  const images=[];
+
+  people.forEach(p=>{
+    if(p.photo) images.push(p.photo);
+
+    if(p.gallery){
+      p.gallery.forEach(g=>{
+        images.push(g.data);
+      });
+    }
+  });
+
+  if(!images.length) return;
+
+  const img=document.getElementById("slideImage");
+  const controls=document.getElementById("slideControls");
+
+  function renderSlide(){
+    img.src=images[slideIndex];
+
+    controls.innerHTML=images.map((_,i)=>`
+      <button
+        class="${i===slideIndex?'active':''}"
+        onclick="goSlide(${i})">
+      </button>
+    `).join("");
+  }
+
+  window.goSlide=function(i){
+    slideIndex=i;
+    renderSlide();
+  };
+
+  renderSlide();
+
+  setInterval(()=>{
+    slideIndex=(slideIndex+1)%images.length;
+    renderSlide();
+  },4000);
+}
+
+/* PDF */
+function exportPersonPDF(id){
+  const p=people.find(x=>x.id==id);
+
+  const { jsPDF } = window.jspdf;
+
+  const doc=new jsPDF();
+
+  doc.setFont("helvetica");
+
+  doc.text("Family Profile",20,20);
+
+  doc.text("Name: "+(p.name||"-"),20,40);
+  doc.text("Birth: "+(p.birth||"-"),20,55);
+  doc.text("Job: "+(p.job||"-"),20,70);
+  doc.text("Phone: "+(p.phone||"-"),20,85);
+  doc.text("Family: "+(p.familyName||"-"),20,100);
+
+  doc.save((p.name || "profile")+".pdf");
+}
+
+/* تقویم */
+function installAdvancedCalendar(){
+  if(document.getElementById("advancedCalendar")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel";
+  panel.id="advancedCalendar";
+
+  panel.innerHTML=`
+    <h2>📆 تقویم کامل رویدادها</h2>
+
+    <div id="calendarEvents"></div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+
+  renderAdvancedCalendar();
+}
+
+function renderAdvancedCalendar(){
+  const box=document.getElementById("calendarEvents");
+  if(!box) return;
+
+  let rows=[];
+
+  people.forEach(p=>{
+    if(p.birth){
+      rows.push(`
+        <div class="calendar-event">
+          🎂 تولد ${p.name} — ${p.birth}
+        </div>
+      `);
+    }
+
+    if(p.events){
+      p.events.forEach(ev=>{
+        rows.push(`
+          <div class="calendar-event">
+            🕘 ${p.name} — ${ev.text} (${ev.date})
+          </div>
+        `);
+      });
+    }
+  });
+
+  box.innerHTML=rows.join("") || "<p>رویدادی نیست.</p>";
+}
+
+/* فیلتر */
+function installAdvancedFilter(){
+  if(document.getElementById("advancedFilter")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="advancedFilter";
+
+  panel.innerHTML=`
+    <h2>🔎 فیلتر حرفه‌ای</h2>
+
+    <div class="filter-grid">
+      <input id="filterName" placeholder="نام">
+      <input id="filterJob" placeholder="شغل">
+      <input id="filterBirth" placeholder="سال تولد">
+    </div>
+
+    <button class="btn blue-btn" onclick="applyAdvancedFilter()">
+      اعمال فیلتر
+    </button>
+
+    <button class="btn gray-btn" onclick="resetAdvancedFilter()">
+      حذف فیلتر
+    </button>
+  `;
+
+  const list=document.querySelector(".grid-2");
+  list.parentNode.insertBefore(panel,list);
+}
+
+function applyAdvancedFilter(){
+  const n=document.getElementById("filterName").value.toLowerCase();
+  const j=document.getElementById("filterJob").value.toLowerCase();
+  const b=document.getElementById("filterBirth").value.toLowerCase();
+
+  const filtered=people.filter(p=>
+    (p.name||"").toLowerCase().includes(n) &&
+    (p.job||"").toLowerCase().includes(j) &&
+    (p.birth||"").toLowerCase().includes(b)
+  );
+
+  document.getElementById("list").innerHTML=filtered.map(p=>`
+    <div class="person-row">
+      👤 ${p.name} — ${p.birth || "-"}
+    </div>
+  `).join("") || "<p>نتیجه‌ای پیدا نشد.</p>";
+}
+
+function resetAdvancedFilter(){
+  document.getElementById("filterName").value="";
+  document.getElementById("filterJob").value="";
+  document.getElementById("filterBirth").value="";
+  render();
+}
+
+/* پروفایل */
+const oldProfileAdvanced=openFullProfile;
+
+openFullProfile=function(id){
+  oldProfileAdvanced(id);
+
+  const p=people.find(x=>x.id==id);
+
+  ensureAdvancedFields(p);
+
+  const videos=p.videos.map(v=>`
+    <div class="video-box">
+      <p>🎥 ${v.name}</p>
+      <video controls src="${v.data}"></video>
+    </div>
+  `).join("") || "<p>ویدیویی ثبت نشده است.</p>";
+
+  const extra=`
+    <div class="profile-section">
+      <h3>🎥 ویدیوها</h3>
+
+      <input
+        type="file"
+        accept="video/*"
+        multiple
+        onchange="addVideos(${p.id},this.files)">
+
+      ${videos}
+
+      <br>
+
+      <button
+        class="btn blue-btn"
+        onclick="exportPersonPDF(${p.id})">
+        📄 دانلود شناسنامه PDF
+      </button>
+
+      <div style="margin-top:10px">
+        <span class="family-tag">
+          👨‍👩‍👧 ${p.familyName || "خانواده اصلی"}
+        </span>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("fullProfileContent").innerHTML += extra;
+};
+
+/* اتصال */
+const oldRenderPack2=render;
+
+render=function(){
+  oldRenderPack2();
+
+  installFamilyManager();
+  installSlideshow();
+  installAdvancedCalendar();
+  installAdvancedFilter();
+
+  renderFamilies();
+  renderAdvancedCalendar();
+};
+
+render();
+</script>
+<style>
+.pwa-box{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  border:1px solid #bfdbfe;
+  border-radius:16px;
+  padding:16px;
+  margin:10px 0;
+}
+
+.ai-answer{
+  background:linear-gradient(135deg,#f8fafc,#eef2ff);
+  border:1px solid #c7d2fe;
+  border-radius:14px;
+  padding:14px;
+  margin-top:12px;
+}
+
+.final-stat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+}
+
+.final-stat{
+  background:rgba(148,163,184,.10);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px;
+  text-align:center;
+}
+
+.final-stat b{
+  font-size:24px;
+  display:block;
+  margin-top:6px;
+}
+
+.cloud-log{
+  max-height:160px;
+  overflow:auto;
+  background:rgba(15,23,42,.05);
+  border-radius:12px;
+  padding:10px;
+  font-size:12px;
+}
+
+@media(max-width:900px){
+  .final-stat-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { getFirestore, doc, setDoc, getDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/* وقتی خواستی Firebase واقعی شود، این قسمت را با اطلاعات پروژه خودت جایگزین کن */
+const firebaseConfig = {
+  apiKey: "PASTE_API_KEY_HERE",
+  authDomain: "PASTE_AUTH_DOMAIN_HERE",
+  projectId: "PASTE_PROJECT_ID_HERE",
+  storageBucket: "PASTE_STORAGE_BUCKET_HERE",
+  messagingSenderId: "PASTE_MESSAGING_SENDER_ID_HERE",
+  appId: "PASTE_APP_ID_HERE"
+};
+
+let firebaseReady=false;
+let db=null;
+
+try{
+  if(firebaseConfig.apiKey !== "PASTE_API_KEY_HERE"){
+    const app=initializeApp(firebaseConfig);
+    db=getFirestore(app);
+    firebaseReady=true;
+  }
+}catch(e){
+  firebaseReady=false;
+}
+
+let cloudFamilyId=localStorage.getItem("cloud_family_id") || "my-family";
+let cloudRole=localStorage.getItem("cloud_role") || "admin";
+let cloudUnsubscribe=null;
+
+/* پنل Firebase */
+function installFinalCloudPanel(){
+  if(document.getElementById("finalCloudPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="finalCloudPanel";
+
+  panel.innerHTML=`
+    <h2>☁ سامانه آنلاین و چندکاربره</h2>
+
+    <div class="form-row">
+      <input id="cloudFamilyId" placeholder="شناسه خانواده" value="${cloudFamilyId}">
+      <select id="cloudRole">
+        <option value="admin">مدیر</option>
+        <option value="editor">ویرایشگر</option>
+        <option value="viewer">مشاهده‌گر</option>
+      </select>
+    </div>
+
+    <button class="btn" onclick="finalCloudSave()">ذخیره ابری</button>
+    <button class="btn blue-btn" onclick="finalCloudLoad()">دریافت ابری</button>
+    <button class="btn purple-btn" onclick="finalCloudLive()">همگام‌سازی زنده</button>
+    <button class="btn gray-btn" onclick="finalCloudStop()">قطع همگام‌سازی</button>
+
+    <hr>
+
+    <button class="btn pink-btn" onclick="makeViewerLink()">ساخت لینک مشاهده‌گر</button>
+    <input class="search" id="viewerLink" readonly placeholder="لینک اشتراک اینجا ساخته می‌شود">
+
+    <div class="cloud-log" id="cloudLog">وضعیت: آماده</div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+
+  document.getElementById("cloudRole").value=cloudRole;
+}
+
+/* ذخیره ابری */
+window.finalCloudSave=async function(){
+  updateCloudValues();
+
+  if(!firebaseReady){
+    cloudLog("Firebase هنوز تنظیم نشده است. مقادیر firebaseConfig را جایگزین کن.");
+    return;
+  }
+
+  if(cloudRole==="viewer"){
+    alert("مشاهده‌گر اجازه ذخیره ندارد");
+    return;
+  }
+
+  try{
+    await setDoc(doc(db,"families",cloudFamilyId),{
+      people:people,
+      updatedAt:new Date().toISOString()
+    });
+
+    cloudLog("✅ ذخیره ابری انجام شد");
+  }catch(e){
+    cloudLog("❌ خطا: "+e.message);
+  }
+};
+
+/* دریافت ابری */
+window.finalCloudLoad=async function(){
+  updateCloudValues();
+
+  if(!firebaseReady){
+    cloudLog("Firebase هنوز تنظیم نشده است.");
+    return;
+  }
+
+  try{
+    const snap=await getDoc(doc(db,"families",cloudFamilyId));
+
+    if(!snap.exists()){
+      cloudLog("اطلاعاتی برای این شناسه پیدا نشد");
+      return;
+    }
+
+    const data=snap.data();
+
+    if(Array.isArray(data.people)){
+      people=data.people;
+      save();
+      cloudLog("✅ اطلاعات دریافت شد");
+    }
+  }catch(e){
+    cloudLog("❌ خطا: "+e.message);
+  }
+};
+
+/* همگام‌سازی */
+window.finalCloudLive=function(){
+  updateCloudValues();
+
+  if(!firebaseReady){
+    cloudLog("Firebase هنوز تنظیم نشده است.");
+    return;
+  }
+
+  if(cloudUnsubscribe){
+    cloudUnsubscribe();
+  }
+
+  cloudUnsubscribe=onSnapshot(doc(db,"families",cloudFamilyId),function(snap){
+    if(snap.exists()){
+      const data=snap.data();
+
+      if(Array.isArray(data.people)){
+        people=data.people;
+        localStorage.setItem("family_people_v11",JSON.stringify(people));
+        render();
+        cloudLog("🔄 همگام‌سازی زنده فعال است");
+      }
+    }
+  },function(err){
+    cloudLog("❌ خطای همگام‌سازی: "+err.message);
+  });
+};
+
+window.finalCloudStop=function(){
+  if(cloudUnsubscribe){
+    cloudUnsubscribe();
+    cloudUnsubscribe=null;
+    cloudLog("همگام‌سازی قطع شد");
+  }
+};
+
+window.makeViewerLink=function(){
+  updateCloudValues();
+
+  const url=
+    location.origin+
+    location.pathname+
+    "?family="+encodeURIComponent(cloudFamilyId)+
+    "&role=viewer";
+
+  document.getElementById("viewerLink").value=url;
+  navigator.clipboard?.writeText(url);
+
+  cloudLog("🔗 لینک مشاهده‌گر ساخته شد");
+};
+
+function updateCloudValues(){
+  cloudFamilyId=document.getElementById("cloudFamilyId").value.trim() || "my-family";
+  cloudRole=document.getElementById("cloudRole").value;
+
+  localStorage.setItem("cloud_family_id",cloudFamilyId);
+  localStorage.setItem("cloud_role",cloudRole);
+
+  applyFinalRole();
+}
+
+function cloudLog(text){
+  const el=document.getElementById("cloudLog");
+  if(el){
+    el.innerHTML=
+      "<div>"+new Date().toLocaleTimeString("fa-IR")+" — "+text+"</div>"+
+      el.innerHTML;
+  }
+}
+
+/* نقش‌ها */
+function applyFinalRole(){
+  const role=localStorage.getItem("cloud_role") || "admin";
+
+  const readonly=role==="viewer";
+
+  document.querySelectorAll("button").forEach(btn=>{
+    const t=btn.innerText;
+
+    if(readonly && (
+      t.includes("ذخیره") ||
+      t.includes("ویرایش") ||
+      t.includes("حذف") ||
+      t.includes("افزودن") ||
+      t.includes("پاک")
+    )){
+      btn.style.display="none";
+    }else{
+      btn.style.display="";
+    }
+  });
+
+  if(role==="editor"){
+    document.querySelectorAll("button").forEach(btn=>{
+      const t=btn.innerText;
+      if(t.includes("تغییر رمز") || t.includes("حذف شاخه")){
+        btn.style.display="none";
+      }
+    });
+  }
+}
+
+/* لینک عمومی */
+function checkViewerLink(){
+  const params=new URLSearchParams(location.search);
+  const f=params.get("family");
+  const r=params.get("role");
+
+  if(f){
+    cloudFamilyId=f;
+    localStorage.setItem("cloud_family_id",f);
+  }
+
+  if(r){
+    cloudRole=r;
+    localStorage.setItem("cloud_role",r);
+  }
+}
+
+/* PWA */
+function installPWAPanel(){
+  if(document.getElementById("pwaPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="pwaPanel";
+
+  panel.innerHTML=`
+    <h2>📱 نصب مثل اپ موبایل</h2>
+
+    <div class="pwa-box">
+      این سایت آماده تبدیل به PWA است. برای نصب واقعی باید فایل‌های
+      <b>manifest.json</b> و <b>service-worker.js</b>
+      کنار index.html قرار بگیرند.
+    </div>
+
+    <button class="btn blue-btn" onclick="downloadManifest()">دانلود manifest.json</button>
+    <button class="btn blue-btn" onclick="downloadServiceWorker()">دانلود service-worker.js</button>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+}
+
+window.downloadManifest=function(){
+  const manifest={
+    name:"سامانه شجره‌نامه خانواده",
+    short_name:"شجره‌نامه",
+    start_url:"./index.html",
+    display:"standalone",
+    background_color:"#071b35",
+    theme_color:"#071b35",
+    icons:[]
+  };
+
+  downloadTextFile("manifest.json",JSON.stringify(manifest,null,2));
+};
+
+window.downloadServiceWorker=function(){
+  const sw=`
+self.addEventListener('install',event=>{
+  event.waitUntil(
+    caches.open('family-tree-cache').then(cache=>{
+      return cache.addAll(['./','./index.html']);
+    })
+  );
+});
+
+self.addEventListener('fetch',event=>{
+  event.respondWith(
+    caches.match(event.request).then(response=>{
+      return response || fetch(event.request);
+    })
+  );
+});
+`;
+
+  downloadTextFile("service-worker.js",sw);
+};
+
+function downloadTextFile(name,text){
+  const blob=new Blob([text],{type:"text/plain"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=name;
+  a.click();
+}
+
+/* AI نسبت‌ها */
+function installAIPanel(){
+  if(document.getElementById("aiPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="aiPanel";
+
+  panel.innerHTML=`
+    <h2>🤖 هوش مصنوعی خانوادگی</h2>
+
+    <div class="form-row">
+      <select id="aiA"></select>
+      <select id="aiB"></select>
+    </div>
+
+    <button class="btn purple-btn" onclick="aiRelation()">تحلیل نسبت</button>
+
+    <div id="aiAnswer" class="ai-answer">
+      نتیجه تحلیل اینجا نمایش داده می‌شود.
+    </div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+}
+
+function refreshAIOptions(){
+  const a=document.getElementById("aiA");
+  const b=document.getElementById("aiB");
+
+  if(!a||!b) return;
+
+  const html=people.map(p=>`
+    <option value="${p.id}">${p.name}</option>
+  `).join("");
+
+  a.innerHTML=html;
+  b.innerHTML=html;
+}
+
+window.aiRelation=function(){
+  const a=Number(document.getElementById("aiA").value);
+  const b=Number(document.getElementById("aiB").value);
+
+  const pa=people.find(p=>p.id===a);
+  const pb=people.find(p=>p.id===b);
+
+  if(!pa||!pb) return;
+
+  let result="";
+
+  if(a===b){
+    result="این دو گزینه یک نفر هستند.";
+  }else if(String(pb.parentId)===String(pa.id)){
+    result=pa.name+" والد "+pb.name+" است.";
+  }else if(String(pa.parentId)===String(pb.id)){
+    result=pb.name+" والد "+pa.name+" است.";
+  }else if(pa.parentId && String(pa.parentId)===String(pb.parentId)){
+    result=pa.name+" و "+pb.name+" خواهر/برادر هستند.";
+  }else{
+    const common=findCommonAncestor(a,b);
+
+    if(common){
+      result="جد مشترک این دو نفر: "+common.name+" است.";
+    }else{
+      result="نسبت مستقیم یا جد مشترک در اطلاعات فعلی پیدا نشد.";
+    }
+  }
+
+  document.getElementById("aiAnswer").innerText=result;
+};
+
+function findCommonAncestor(a,b){
+  const aa=getAncestorList(a);
+  const bb=getAncestorList(b);
+
+  for(const id of aa){
+    if(bb.includes(id)){
+      return people.find(p=>p.id==id);
+    }
+  }
+
+  return null;
+}
+
+function getAncestorList(id){
+  const out=[];
+  let current=people.find(p=>p.id==id);
+
+  while(current && current.parentId){
+    out.push(Number(current.parentId));
+    current=people.find(p=>String(p.id)===String(current.parentId));
+  }
+
+  return out;
+}
+
+/* آمار نهایی */
+function installFinalStats(){
+  if(document.getElementById("finalStatsPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel";
+  panel.id="finalStatsPanel";
+
+  panel.innerHTML=`
+    <h2>📊 داشبورد آماری نهایی</h2>
+    <div class="final-stat-grid" id="finalStats"></div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+}
+
+function renderFinalStats(){
+  const el=document.getElementById("finalStats");
+  if(!el) return;
+
+  const total=people.length;
+  const roots=people.filter(p=>!p.parentId).length;
+  const withPhoto=people.filter(p=>p.photo).length;
+  const jobs=people.filter(p=>p.job).length;
+  const phones=people.filter(p=>p.phone).length;
+  const dead=people.filter(p=>p.isDead).length;
+
+  el.innerHTML=`
+    <div class="final-stat">کل افراد<b>${total}</b></div>
+    <div class="final-stat">ریشه‌ها<b>${roots}</b></div>
+    <div class="final-stat">دارای عکس<b>${withPhoto}</b></div>
+    <div class="final-stat">دارای شغل<b>${jobs}</b></div>
+    <div class="final-stat">دارای تماس<b>${phones}</b></div>
+    <div class="final-stat">فوت‌شده<b>${dead}</b></div>
+  `;
+}
+
+/* اتصال به render */
+const oldRenderPack3=render;
+
+window.render=function(){
+  oldRenderPack3();
+
+  installFinalCloudPanel();
+  installPWAPanel();
+  installAIPanel();
+  installFinalStats();
+
+  refreshAIOptions();
+  renderFinalStats();
+  applyFinalRole();
+};
+
+/* شروع */
+checkViewerLink();
+render();
+
+</script>
+<style>
+.dash-group-title{
+  padding:14px 16px;
+  margin:8px 0;
+  border-radius:12px;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  user-select:none;
+}
+
+.dash-submenu{
+  display:none;
+  margin:0 8px 10px 0;
+  padding-right:8px;
+  border-right:2px solid rgba(255,255,255,.18);
+}
+
+.dash-submenu.open{
+  display:block;
+}
+
+.dash-subitem{
+  padding:11px 14px;
+  margin:6px 0;
+  border-radius:10px;
+  background:rgba(255,255,255,.07);
+  color:#e5e7eb;
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+}
+
+.dash-subitem:hover{
+  background:rgba(255,255,255,.16);
+}
+
+.dashboard-settings-panel{
+  position:fixed;
+  top:78px;
+  left:24px;
+  width:360px;
+  max-width:92vw;
+  max-height:82vh;
+  overflow:auto;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 25px 70px rgba(0,0,0,.25);
+  z-index:400;
+  display:none;
+  padding:18px;
+}
+
+.dashboard-settings-panel.open{
+  display:block;
+}
+
+.setting-row{
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin:10px 0;
+  background:rgba(148,163,184,.08);
+}
+
+.setting-row label{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.setting-row input[type="checkbox"]{
+  width:20px;
+  height:20px;
+}
+
+.panel-close{
+  float:left;
+  background:#ef4444;
+  color:white;
+  border:0;
+  border-radius:10px;
+  padding:8px 12px;
+  cursor:pointer;
+}
+
+.hidden-by-setting{
+  display:none!important;
+}
+</style>
+
+<div class="dashboard-settings-panel no-print" id="dashboardSettingsPanel">
+  <button class="panel-close" onclick="toggleSettingsPanel(false)">بستن</button>
+  <h2>⚙️ تنظیمات داشبورد</h2>
+
+  <div class="setting-row">
+    <label>فعال بودن راست‌کلیک روی افراد
+      <input type="checkbox" id="setContextMenu" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش پنل تولدها
+      <input type="checkbox" id="setBirthdays" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش Timeline
+      <input type="checkbox" id="setTimeline" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش ابزارهای Zoom و PNG
+      <input type="checkbox" id="setTreeToolbar" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش داشبورد آماری نهایی
+      <input type="checkbox" id="setFinalStats" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش Firebase / آنلاین
+      <input type="checkbox" id="setCloud" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش PWA / نصب اپ
+      <input type="checkbox" id="setPWA" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <div class="setting-row">
+    <label>نمایش AI نسبت‌ها
+      <input type="checkbox" id="setAI" onchange="saveDashboardSettings()">
+    </label>
+  </div>
+
+  <button class="btn blue-btn" onclick="resetDashboardSettings()">بازگشت تنظیمات پیش‌فرض</button>
+</div>
+
+<script>
+var dashboardSettings = JSON.parse(localStorage.getItem("dashboard_settings") || "null") || {
+  contextMenu:true,
+  birthdays:true,
+  timeline:true,
+  treeToolbar:true,
+  finalStats:true,
+  cloud:true,
+  pwa:true,
+  ai:true
+};
+
+function installAccordionDashboard(){
+  var side=document.querySelector(".sidebar");
+  if(!side || document.getElementById("dashAccordion")) return;
+
+  side.innerHTML=`
+    <div class="profile">
+      <div class="avatar">👤</div>
+      <h3>مدیر سیستم</h3>
+      <div class="online">● آنلاین</div>
+    </div>
+
+    <div class="dash-group-title" id="dashAccordion" onclick="toggleDashSubmenu('dashMainSub')">
+      داشبورد <span id="dashArrow">▾</span>
+    </div>
+
+    <div class="dash-submenu open" id="dashMainSub">
+      <div class="dash-subitem" onclick="window.scrollTo({top:0,behavior:'smooth'})">نمای کلی <span>🏠</span></div>
+      <div class="dash-subitem" onclick="focusAdd()">مدیریت افراد <span>👤</span></div>
+      <div class="dash-subitem" onclick="scrollTree()">چارت شجره <span>🌳</span></div>
+      <div class="dash-subitem" onclick="scrollTimeline()">Timeline <span>🕘</span></div>
+    </div>
+
+    <div class="dash-group-title" onclick="toggleDashSubmenu('dashToolsSub')">
+      ابزارها <span>▾</span>
+    </div>
+
+    <div class="dash-submenu" id="dashToolsSub">
+      <div class="dash-subitem" onclick="window.print()">چاپ PDF <span>🖨</span></div>
+      <div class="dash-subitem" onclick="exportPNG()">خروجی PNG <span>🖼</span></div>
+      <div class="dash-subitem" onclick="exportData()">پشتیبان‌گیری <span>💾</span></div>
+      <div class="dash-subitem" onclick="document.getElementById('importFile').click()">بازیابی <span>⬇️</span></div>
+      <div class="dash-subitem" onclick="toggleFullscreen()">تمام‌صفحه <span>⛶</span></div>
+    </div>
+
+    <div class="dash-group-title" onclick="toggleDashSubmenu('dashSettingsSub')">
+      تنظیمات <span>▾</span>
+    </div>
+
+    <div class="dash-submenu" id="dashSettingsSub">
+      <div class="dash-subitem" onclick="toggleDark()">حالت شب <span>🌙</span></div>
+      <div class="dash-subitem" onclick="changePassword()">تغییر رمز <span>🔒</span></div>
+      <div class="dash-subitem" onclick="toggleSettingsPanel(true)">تنظیمات داشبورد <span>⚙️</span></div>
+      <div class="dash-subitem" onclick="resetAllViewSettings()">ریست نمایش <span>♻️</span></div>
+    </div>
+
+    <div class="dash-group-title" onclick="toggleDashSubmenu('dashOnlineSub')">
+      آنلاین و اشتراک <span>▾</span>
+    </div>
+
+    <div class="dash-submenu" id="dashOnlineSub">
+      <div class="dash-subitem" onclick="scrollToCloudPanel()">Firebase <span>☁</span></div>
+      <div class="dash-subitem" onclick="scrollToAIPanel()">AI نسبت‌ها <span>🤖</span></div>
+      <div class="dash-subitem" onclick="scrollToPWAPanel()">نصب اپ <span>📱</span></div>
+    </div>
+  `;
+}
+
+function toggleDashSubmenu(id){
+  var el=document.getElementById(id);
+  if(el) el.classList.toggle("open");
+}
+
+function toggleSettingsPanel(force){
+  var panel=document.getElementById("dashboardSettingsPanel");
+  if(force===true) panel.classList.add("open");
+  else if(force===false) panel.classList.remove("open");
+  else panel.classList.toggle("open");
+
+  syncDashboardCheckboxes();
+}
+
+function syncDashboardCheckboxes(){
+  var map={
+    setContextMenu:"contextMenu",
+    setBirthdays:"birthdays",
+    setTimeline:"timeline",
+    setTreeToolbar:"treeToolbar",
+    setFinalStats:"finalStats",
+    setCloud:"cloud",
+    setPWA:"pwa",
+    setAI:"ai"
+  };
+
+  Object.keys(map).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.checked=dashboardSettings[map[id]];
+  });
+}
+
+function saveDashboardSettings(){
+  dashboardSettings={
+    contextMenu:document.getElementById("setContextMenu").checked,
+    birthdays:document.getElementById("setBirthdays").checked,
+    timeline:document.getElementById("setTimeline").checked,
+    treeToolbar:document.getElementById("setTreeToolbar").checked,
+    finalStats:document.getElementById("setFinalStats").checked,
+    cloud:document.getElementById("setCloud").checked,
+    pwa:document.getElementById("setPWA").checked,
+    ai:document.getElementById("setAI").checked
+  };
+
+  localStorage.setItem("dashboard_settings",JSON.stringify(dashboardSettings));
+  applyDashboardSettings();
+}
+
+function resetDashboardSettings(){
+  localStorage.removeItem("dashboard_settings");
+  dashboardSettings={
+    contextMenu:true,
+    birthdays:true,
+    timeline:true,
+    treeToolbar:true,
+    finalStats:true,
+    cloud:true,
+    pwa:true,
+    ai:true
+  };
+  syncDashboardCheckboxes();
+  applyDashboardSettings();
+}
+
+function applyDashboardSettings(){
+  toggleById("birthdays",dashboardSettings.birthdays);
+  toggleById("timelineSec",dashboardSettings.timeline);
+  toggleByClass("tree-toolbar",dashboardSettings.treeToolbar);
+  toggleById("finalStatsPanel",dashboardSettings.finalStats);
+  toggleById("finalCloudPanel",dashboardSettings.cloud);
+  toggleById("cloudPanel",dashboardSettings.cloud);
+  toggleById("pwaPanel",dashboardSettings.pwa);
+  toggleById("aiPanel",dashboardSettings.ai);
+  toggleById("relationPanel",dashboardSettings.ai);
+}
+
+function toggleById(id,show){
+  var el=document.getElementById(id);
+  if(!el) return;
+  el.classList.toggle("hidden-by-setting",!show);
+}
+
+function toggleByClass(cls,show){
+  document.querySelectorAll("."+cls).forEach(function(el){
+    el.classList.toggle("hidden-by-setting",!show);
+  });
+}
+
+var oldOpenContextDashboard=openContext;
+openContext=function(e,id){
+  if(!dashboardSettings.contextMenu){
+    return;
+  }
+  oldOpenContextDashboard(e,id);
+};
+
+function resetAllViewSettings(){
+  localStorage.removeItem("dashboard_settings");
+  localStorage.removeItem("collapsedBranches");
+  localStorage.removeItem("family_main_color");
+  alert("تنظیمات نمایش ریست شد");
+  location.reload();
+}
+
+function scrollToCloudPanel(){
+  var el=document.getElementById("finalCloudPanel") || document.getElementById("cloudPanel");
+  if(el) el.scrollIntoView({behavior:"smooth"});
+}
+
+function scrollToAIPanel(){
+  var el=document.getElementById("aiPanel") || document.getElementById("relationPanel");
+  if(el) el.scrollIntoView({behavior:"smooth"});
+}
+
+function scrollToPWAPanel(){
+  var el=document.getElementById("pwaPanel");
+  if(el) el.scrollIntoView({behavior:"smooth"});
+}
+
+var oldRenderAccordion=render;
+
+render=function(){
+  oldRenderAccordion();
+  installAccordionDashboard();
+  syncDashboardCheckboxes();
+  applyDashboardSettings();
+};
+
+render();
+</script>
+<style>
+.three-d-panel{
+  background:radial-gradient(circle at top,#1e3a8a,#020617);
+  color:white;
+  border-radius:22px;
+  padding:22px;
+  margin-bottom:18px;
+  overflow:hidden;
+  position:relative;
+}
+
+.three-d-toolbar{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.three-d-scene{
+  min-height:430px;
+  perspective:1200px;
+  overflow:auto;
+  border-radius:18px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(59,130,246,.25),transparent 30%),
+    radial-gradient(circle at 80% 40%,rgba(168,85,247,.22),transparent 30%),
+    rgba(15,23,42,.75);
+  padding:40px;
+}
+
+.three-d-tree{
+  transform-style:preserve-3d;
+  transition:transform .6s ease;
+  min-width:900px;
+  height:360px;
+  position:relative;
+}
+
+.three-d-node{
+  position:absolute;
+  width:180px;
+  min-height:78px;
+  border-radius:18px;
+  padding:12px;
+  text-align:center;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  color:#1e3a8a;
+  border:1px solid rgba(255,255,255,.75);
+  box-shadow:0 25px 55px rgba(0,0,0,.35);
+  transform-style:preserve-3d;
+  animation:floatNode 4s ease-in-out infinite;
+}
+
+.three-d-node.female{
+  background:linear-gradient(135deg,#fff1f2,#fce7f3);
+  color:#9d174d;
+}
+
+.three-d-node small{
+  display:block;
+  color:#64748b;
+  margin-top:4px;
+}
+
+.three-d-line{
+  position:absolute;
+  height:3px;
+  background:linear-gradient(90deg,#60a5fa,#a78bfa);
+  transform-origin:left center;
+  opacity:.75;
+  box-shadow:0 0 14px rgba(96,165,250,.8);
+}
+
+@keyframes floatNode{
+  0%,100%{translate:0 0}
+  50%{translate:0 -8px}
+}
+
+.generation-focus{
+  outline:4px solid #fbbf24!important;
+  box-shadow:0 0 35px rgba(251,191,36,.8)!important;
+}
+
+@media(max-width:900px){
+  .three-d-scene{padding:20px}
+  .three-d-tree{min-width:780px}
+}
+</style>
+
+<script>
+let rotateX=8;
+let rotateY=0;
+let currentGenFocus=0;
+
+function installThreeDTree(){
+  if(document.getElementById("threeDPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="three-d-panel";
+  panel.id="threeDPanel";
+
+  panel.innerHTML=`
+    <h2>🌌 شجره سه‌بعدی و انیمیشن نسل‌ها</h2>
+
+    <div class="three-d-toolbar no-print">
+      <button class="btn blue-btn" onclick="rotate3D(-15)">چرخش راست</button>
+      <button class="btn blue-btn" onclick="rotate3D(15)">چرخش چپ</button>
+      <button class="btn purple-btn" onclick="focusNextGeneration()">نمایش نسل بعدی</button>
+      <button class="btn gray-btn" onclick="reset3D()">بازگشت</button>
+    </div>
+
+    <div class="three-d-scene">
+      <div class="three-d-tree" id="threeDTree"></div>
+    </div>
+  `;
+
+  const treeSection=document.getElementById("treeSection");
+  treeSection.parentNode.insertBefore(panel,treeSection);
+}
+
+function build3DData(){
+  const roots=people.filter(p=>!p.parentId);
+  let nodes=[];
+
+  function walk(p,level,index,total){
+    nodes.push({
+      person:p,
+      level:level,
+      index:index,
+      total:total
+    });
+
+    const children=people.filter(x=>String(x.parentId)===String(p.id));
+    children.forEach((c,i)=>walk(c,level+1,i,children.length));
+  }
+
+  roots.forEach((r,i)=>walk(r,1,i,roots.length));
+  return nodes;
+}
+
+function renderThreeDTree(){
+  const box=document.getElementById("threeDTree");
+  if(!box) return;
+
+  const data=build3DData();
+  let html="";
+
+  data.forEach(item=>{
+    const p=item.person;
+    const level=item.level;
+    const x=120 + item.index*220 + (level-1)*70;
+    const y=40 + (level-1)*115;
+    const z=(level-1)*45;
+
+    html+=`
+      <div
+        class="three-d-node ${p.gender==="female"?"female":""}"
+        data-gen="${level}"
+        style="left:${x}px;top:${y}px;transform:translateZ(${z}px)"
+      >
+        <div style="font-size:28px">${p.photo?`<img src="${p.photo}" style="width:42px;height:42px;border-radius:50%;object-fit:cover">`:icon(p.gender)}</div>
+        <b>${p.name}</b>
+        <small>${p.birth||""}</small>
+      </div>
+    `;
+  });
+
+  people.forEach(p=>{
+    const parent=people.find(x=>String(x.id)===String(p.parentId));
+    if(!parent) return;
+
+    const childEl=data.find(d=>d.person.id===p.id);
+    const parentEl=data.find(d=>d.person.id===parent.id);
+    if(!childEl||!parentEl) return;
+
+    const x1=120 + parentEl.index*220 + (parentEl.level-1)*70 + 90;
+    const y1=40 + (parentEl.level-1)*115 + 80;
+    const x2=120 + childEl.index*220 + (childEl.level-1)*70 + 90;
+    const y2=40 + (childEl.level-1)*115;
+
+    const dx=x2-x1;
+    const dy=y2-y1;
+    const len=Math.sqrt(dx*dx+dy*dy);
+    const angle=Math.atan2(dy,dx)*180/Math.PI;
+
+    html+=`
+      <div class="three-d-line"
+        style="left:${x1}px;top:${y1}px;width:${len}px;transform:rotate(${angle}deg)">
+      </div>
+    `;
+  });
+
+  box.innerHTML=html;
+  apply3DRotation();
+}
+
+function apply3DRotation(){
+  const box=document.getElementById("threeDTree");
+  if(box){
+    box.style.transform=`rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  }
+}
+
+function rotate3D(amount){
+  rotateY+=amount;
+  apply3DRotation();
+}
+
+function reset3D(){
+  rotateX=8;
+  rotateY=0;
+  currentGenFocus=0;
+  apply3DRotation();
+
+  document.querySelectorAll(".three-d-node").forEach(n=>{
+    n.classList.remove("generation-focus");
+    n.style.opacity="1";
+  });
+}
+
+function focusNextGeneration(){
+  const gens=[...new Set([...document.querySelectorAll(".three-d-node")].map(n=>n.dataset.gen))];
+  if(!gens.length) return;
+
+  currentGenFocus++;
+  if(currentGenFocus>gens.length) currentGenFocus=1;
+
+  document.querySelectorAll(".three-d-node").forEach(n=>{
+    if(Number(n.dataset.gen)===currentGenFocus){
+      n.classList.add("generation-focus");
+      n.style.opacity="1";
+    }else{
+      n.classList.remove("generation-focus");
+      n.style.opacity=".25";
+    }
+  });
+}
+
+const oldRender3DAddon=render;
+
+render=function(){
+  oldRender3DAddon();
+  installThreeDTree();
+  renderThreeDTree();
+};
+
+render();
+</script>
+<style>
+.backup-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.backup-card{
+  background:rgba(148,163,184,.08);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+}
+
+.backup-status{
+  background:linear-gradient(135deg,#ecfeff,#cffafe);
+  border:1px solid #a5f3fc;
+  color:#164e63;
+  border-radius:12px;
+  padding:12px;
+  margin-top:12px;
+}
+
+.danger-zone{
+  background:linear-gradient(135deg,#fef2f2,#fee2e2);
+  border:1px solid #fecaca;
+  color:#991b1b;
+}
+
+.backup-log{
+  max-height:180px;
+  overflow:auto;
+  background:rgba(15,23,42,.05);
+  border-radius:12px;
+  padding:10px;
+  font-size:12px;
+  margin-top:10px;
+}
+</style>
+
+<script>
+let backupTimer=null;
+
+function installBackupSystem(){
+  if(document.getElementById("backupPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="backupPanel";
+
+  panel.innerHTML=`
+    <h2>🛰 سیستم بکاپ و امنیت اطلاعات</h2>
+
+    <div class="backup-grid">
+
+      <div class="backup-card">
+        <h3>💾 بکاپ هوشمند</h3>
+
+        <button class="btn blue-btn" onclick="createSmartBackup()">
+          ساخت بکاپ فوری
+        </button>
+
+        <button class="btn" onclick="restoreSmartBackup()">
+          بازیابی آخرین بکاپ
+        </button>
+
+        <button class="btn purple-btn" onclick="downloadEmergencyBackup()">
+          خروجی اضطراری
+        </button>
+
+        <div class="backup-status" id="backupStatus">
+          وضعیت: آماده
+        </div>
+
+        <div class="backup-log" id="backupLog"></div>
+      </div>
+
+      <div class="backup-card danger-zone">
+        <h3>🚨 منطقه خطر</h3>
+
+        <button class="btn red-btn" onclick="resetEverything()">
+          حذف کامل اطلاعات
+        </button>
+
+        <button class="btn gray-btn" onclick="clearOnlyMedia()">
+          حذف فقط رسانه‌ها
+        </button>
+
+        <hr>
+
+        <div id="storageInfo"></div>
+      </div>
+
+    </div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+
+  renderStorageInfo();
+}
+
+/* بکاپ */
+function createSmartBackup(auto=false){
+  try{
+    const data={
+      people:people,
+      createdAt:new Date().toISOString(),
+      version:"PRO_V1"
+    };
+
+    localStorage.setItem(
+      "family_smart_backup",
+      JSON.stringify(data)
+    );
+
+    localStorage.setItem(
+      "family_backup_time",
+      new Date().toLocaleString("fa-IR")
+    );
+
+    logBackup(
+      auto
+      ? "🛰 بکاپ خودکار ساخته شد"
+      : "✅ بکاپ دستی ساخته شد"
+    );
+
+    updateBackupStatus();
+
+  }catch(e){
+    logBackup("❌ خطا در بکاپ: "+e.message);
+  }
+}
+
+/* بازیابی */
+function restoreSmartBackup(){
+  const raw=localStorage.getItem("family_smart_backup");
+
+  if(!raw){
+    alert("بکاپی وجود ندارد");
+    return;
+  }
+
+  if(!confirm("آخرین بکاپ بازیابی شود؟")) return;
+
+  try{
+    const data=JSON.parse(raw);
+
+    if(Array.isArray(data.people)){
+      people=data.people;
+
+      localStorage.setItem(
+        "family_people_v11",
+        JSON.stringify(people)
+      );
+
+      render();
+
+      logBackup("♻️ بکاپ بازیابی شد");
+    }
+
+  }catch(e){
+    alert("بکاپ خراب است");
+  }
+}
+
+/* خروجی اضطراری */
+function downloadEmergencyBackup(){
+  const full={
+    people:people,
+    localStorage:{...localStorage},
+    exportedAt:new Date().toISOString()
+  };
+
+  const blob=new Blob(
+    [JSON.stringify(full,null,2)],
+    {type:"application/json"}
+  );
+
+  const a=document.createElement("a");
+
+  a.href=URL.createObjectURL(blob);
+
+  a.download=
+    "FAMILY-EMERGENCY-BACKUP-"+Date.now()+".json";
+
+  a.click();
+
+  logBackup("📦 خروجی اضطراری دانلود شد");
+}
+
+/* حذف کامل */
+function resetEverything(){
+  const code=prompt(
+    "برای حذف کامل عبارت DELETE را وارد کنید"
+  );
+
+  if(code!=="DELETE"){
+    alert("تأیید نشد");
+    return;
+  }
+
+  if(!confirm("تمام اطلاعات حذف شود؟")) return;
+
+  localStorage.clear();
+
+  alert("همه اطلاعات حذف شد");
+
+  location.reload();
+}
+
+/* حذف رسانه‌ها */
+function clearOnlyMedia(){
+  if(!confirm("همه عکس‌ها، ویس‌ها و ویدیوها حذف شوند؟")) return;
+
+  people.forEach(p=>{
+    p.photo="";
+
+    if(p.gallery) p.gallery=[];
+    if(p.voices) p.voices=[];
+    if(p.videos) p.videos=[];
+    if(p.docs) p.docs=[];
+  });
+
+  save();
+
+  logBackup("🧹 رسانه‌ها حذف شدند");
+}
+
+/* حجم */
+function renderStorageInfo(){
+  let total=0;
+
+  for(let key in localStorage){
+    const value=localStorage.getItem(key) || "";
+    total+=value.length;
+  }
+
+  const kb=(total/1024).toFixed(2);
+  const mb=(kb/1024).toFixed(2);
+
+  const el=document.getElementById("storageInfo");
+
+  if(el){
+    el.innerHTML=`
+      <p>📦 حجم ذخیره‌شده:</p>
+      <h2>${kb} KB</h2>
+      <small>${mb} MB</small>
+
+      <hr>
+
+      <p>🕘 آخرین بکاپ:</p>
+      <small>
+        ${localStorage.getItem("family_backup_time") || "هنوز ساخته نشده"}
+      </small>
+    `;
+  }
+}
+
+/* وضعیت */
+function updateBackupStatus(){
+  const el=document.getElementById("backupStatus");
+
+  if(!el) return;
+
+  el.innerHTML=`
+    آخرین بکاپ:
+    <br>
+    <b>
+      ${localStorage.getItem("family_backup_time") || "-"}
+    </b>
+  `;
+
+  renderStorageInfo();
+}
+
+/* لاگ */
+function logBackup(text){
+  const el=document.getElementById("backupLog");
+
+  if(el){
+    el.innerHTML=
+      "<div>"+
+      new Date().toLocaleTimeString("fa-IR")+
+      " — "+
+      text+
+      "</div>"+
+      el.innerHTML;
+  }
+}
+
+/* بکاپ خودکار */
+function startAutoBackup(){
+  if(backupTimer) clearInterval(backupTimer);
+
+  backupTimer=setInterval(()=>{
+    createSmartBackup(true);
+  },1000*60*5); /* هر ۵ دقیقه */
+}
+
+/* اتصال */
+const oldRenderBackup=render;
+
+render=function(){
+  oldRenderBackup();
+
+  installBackupSystem();
+
+  updateBackupStatus();
+
+  renderStorageInfo();
+};
+
+render();
+
+startAutoBackup();
+
+/* بکاپ اولیه */
+if(!localStorage.getItem("family_smart_backup")){
+  createSmartBackup(true);
+}
+</script>
+<style>
+.toast-wrap{
+  position:fixed;
+  top:80px;
+  left:20px;
+  z-index:9998;
+}
+.toast{
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px 16px;
+  margin:8px 0;
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
+}
+.advanced-search-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+.change-log{
+  max-height:250px;
+  overflow:auto;
+}
+.locked-person{
+  outline:3px solid #ef4444!important;
+}
+.theme-dot{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  display:inline-block;
+  margin:6px;
+  cursor:pointer;
+  border:3px solid white;
+  box-shadow:0 4px 12px rgba(0,0,0,.2);
+}
+.welcome-hero{
+  background:linear-gradient(135deg,#071b35,#2563eb);
+  color:white;
+  border-radius:22px;
+  padding:24px;
+  margin-bottom:18px;
+  box-shadow:0 20px 55px rgba(37,99,235,.25);
+}
+.quick-edit-modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:700;
+}
+.quick-edit-box{
+  background:var(--card);
+  color:var(--text);
+  width:92%;
+  max-width:480px;
+  border-radius:20px;
+  padding:22px;
+}
+.quick-edit-box input,.quick-edit-box select{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  margin:7px 0;
+}
+@media(max-width:950px){
+  .advanced-search-grid{grid-template-columns:1fr}
+}
+</style>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<div class="quick-edit-modal" id="quickEditModal">
+  <div class="quick-edit-box">
+    <h2>⚡ ویرایش سریع</h2>
+    <input type="hidden" id="quickEditId">
+    <input id="quickName" placeholder="نام">
+    <select id="quickGender">
+      <option value="male">مرد</option>
+      <option value="female">زن</option>
+    </select>
+    <input id="quickBirth" placeholder="سال تولد">
+    <input id="quickJob" placeholder="شغل">
+    <input id="quickPhone" placeholder="تماس">
+    <button class="btn" onclick="saveQuickEdit()">ذخیره</button>
+    <button class="btn red-btn" onclick="closeQuickEdit()">بستن</button>
+  </div>
+</div>
+
+<script>
+var changeHistory = JSON.parse(localStorage.getItem("change_history") || "[]");
+var undoStack = JSON.parse(localStorage.getItem("undo_stack") || "[]");
+var lockedPeople = JSON.parse(localStorage.getItem("locked_people") || "{}");
+var secondPassword = localStorage.getItem("second_password") || "0000";
+
+function toast(msg){
+  var wrap=document.getElementById("toastWrap");
+  var div=document.createElement("div");
+  div.className="toast";
+  div.innerText=msg;
+  wrap.appendChild(div);
+  setTimeout(()=>div.remove(),4000);
+}
+
+function snapshot(action){
+  undoStack.push({
+    action:action,
+    people:JSON.parse(JSON.stringify(people)),
+    time:new Date().toLocaleString("fa-IR")
+  });
+  undoStack=undoStack.slice(-20);
+  localStorage.setItem("undo_stack",JSON.stringify(undoStack));
+}
+
+function logChange(text){
+  changeHistory.unshift({
+    text:text,
+    time:new Date().toLocaleString("fa-IR")
+  });
+  changeHistory=changeHistory.slice(0,100);
+  localStorage.setItem("change_history",JSON.stringify(changeHistory));
+  toast(text);
+}
+
+function undoLast(){
+  if(!undoStack.length){
+    alert("چیزی برای برگشت وجود ندارد");
+    return;
+  }
+  var last=undoStack.pop();
+  people=last.people;
+  localStorage.setItem("undo_stack",JSON.stringify(undoStack));
+  localStorage.setItem("family_people_v11",JSON.stringify(people));
+  render();
+  toast("↩ برگشت انجام شد: "+last.action);
+}
+
+var oldSaveMega=save;
+save=function(){
+  oldSaveMega();
+  localStorage.setItem("family_people_v11",JSON.stringify(people));
+};
+
+var oldSavePersonMega=savePerson;
+savePerson=function(){
+  snapshot("قبل از ذخیره فرد");
+  oldSavePersonMega();
+  logChange("✅ فرد ذخیره/ویرایش شد");
+};
+
+var oldDeletePersonMega=deletePerson;
+deletePerson=function(id){
+  snapshot("قبل از حذف فرد");
+  oldDeletePersonMega(id);
+  logChange("🗑 فرد حذف شد");
+};
+
+var oldDropOnMega=dropOn;
+dropOn=function(targetId){
+  snapshot("قبل از جابه‌جایی شاخه");
+  oldDropOnMega(targetId);
+  logChange("🧲 شاخه جابه‌جا شد");
+};
+
+function installWelcomeHero(){
+  if(document.getElementById("welcomeHero")) return;
+  var hero=document.createElement("div");
+  hero.className="welcome-hero";
+  hero.id="welcomeHero";
+  hero.innerHTML=`
+    <h1>👋 خوش آمدی به سامانه حرفه‌ای خانواده</h1>
+    <p>امروز می‌توانی شجره، آرشیو، عکس‌ها، اسناد، بکاپ و امنیت خانواده را مدیریت کنی.</p>
+    <button class="btn" onclick="focusAdd()">افزودن فرد جدید</button>
+    <button class="btn blue-btn" onclick="scrollTree()">مشاهده شجره</button>
+  `;
+  var main=document.querySelector(".main");
+  var title=document.querySelector(".page-title");
+  main.insertBefore(hero,title.nextSibling);
+}
+
+function installAdvancedSearch(){
+  if(document.getElementById("advancedSearchPanel")) return;
+  var panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="advancedSearchPanel";
+  panel.innerHTML=`
+    <h2>🔎 جستجوی پیشرفته</h2>
+    <div class="advanced-search-grid">
+      <input id="advName" placeholder="نام">
+      <select id="advGender">
+        <option value="">همه جنسیت‌ها</option>
+        <option value="male">مرد</option>
+        <option value="female">زن</option>
+      </select>
+      <input id="advJob" placeholder="شغل">
+      <input id="advBirth" placeholder="سال تولد">
+      <select id="advPhoto">
+        <option value="">همه</option>
+        <option value="yes">دارای عکس</option>
+        <option value="no">بدون عکس</option>
+      </select>
+      <select id="advDead">
+        <option value="">همه</option>
+        <option value="yes">فوت‌شده</option>
+        <option value="no">در قید حیات</option>
+      </select>
+      <button class="btn blue-btn" onclick="runAdvancedSearch()">جستجو</button>
+      <button class="btn gray-btn" onclick="clearAdvancedSearch()">پاک کردن</button>
+    </div>
+    <div id="advancedSearchResult"></div>
+  `;
+  var firstGrid=document.querySelector(".grid-2");
+  firstGrid.parentNode.insertBefore(panel,firstGrid);
+}
+
+function runAdvancedSearch(){
+  var n=document.getElementById("advName").value.toLowerCase();
+  var g=document.getElementById("advGender").value;
+  var j=document.getElementById("advJob").value.toLowerCase();
+  var b=document.getElementById("advBirth").value.toLowerCase();
+  var ph=document.getElementById("advPhoto").value;
+  var dead=document.getElementById("advDead").value;
+
+  var result=people.filter(p=>{
+    if(n && !(p.name||"").toLowerCase().includes(n)) return false;
+    if(g && p.gender!==g) return false;
+    if(j && !(p.job||"").toLowerCase().includes(j)) return false;
+    if(b && !(p.birth||"").toLowerCase().includes(b)) return false;
+    if(ph==="yes" && !p.photo) return false;
+    if(ph==="no" && p.photo) return false;
+    if(dead==="yes" && !p.isDead) return false;
+    if(dead==="no" && p.isDead) return false;
+    return true;
+  });
+
+  document.getElementById("advancedSearchResult").innerHTML=result.map(p=>`
+    <div class="person-row">
+      ${icon(p.gender)} <b>${p.name}</b> ${p.birth||""}
+      <button class="btn blue-btn" onclick="openQuickEdit(${p.id})">ویرایش سریع</button>
+      <button class="btn purple-btn" onclick="openFullProfile(${p.id})">پروفایل</button>
+    </div>
+  `).join("") || "<p>نتیجه‌ای پیدا نشد.</p>";
+}
+
+function clearAdvancedSearch(){
+  ["advName","advJob","advBirth"].forEach(id=>document.getElementById(id).value="");
+  document.getElementById("advGender").value="";
+  document.getElementById("advPhoto").value="";
+  document.getElementById("advDead").value="";
+  document.getElementById("advancedSearchResult").innerHTML="";
+}
+
+function openQuickEdit(id){
+  if(lockedPeople[id]){
+    var pass=prompt("این فرد قفل است. رمز دوم را وارد کنید:");
+    if(pass!==secondPassword){
+      alert("رمز دوم اشتباه است");
+      return;
+    }
+  }
+
+  var p=people.find(x=>x.id==id);
+  document.getElementById("quickEditId").value=p.id;
+  document.getElementById("quickName").value=p.name||"";
+  document.getElementById("quickGender").value=p.gender||"male";
+  document.getElementById("quickBirth").value=p.birth||"";
+  document.getElementById("quickJob").value=p.job||"";
+  document.getElementById("quickPhone").value=p.phone||"";
+  document.getElementById("quickEditModal").style.display="flex";
+}
+
+function closeQuickEdit(){
+  document.getElementById("quickEditModal").style.display="none";
+}
+
+function saveQuickEdit(){
+  snapshot("قبل از ویرایش سریع");
+  var id=Number(document.getElementById("quickEditId").value);
+  var p=people.find(x=>x.id==id);
+  p.name=document.getElementById("quickName").value.trim();
+  p.gender=document.getElementById("quickGender").value;
+  p.birth=document.getElementById("quickBirth").value.trim();
+  p.job=document.getElementById("quickJob").value.trim();
+  p.phone=document.getElementById("quickPhone").value.trim();
+  localStorage.setItem("family_people_v11",JSON.stringify(people));
+  closeQuickEdit();
+  render();
+  logChange("⚡ ویرایش سریع انجام شد");
+}
+
+function installReportPanel(){
+  if(document.getElementById("reportPanel")) return;
+  var panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="reportPanel";
+  panel.innerHTML=`
+    <h2>🧾 گزارش‌ساز حرفه‌ای</h2>
+    <button class="btn" onclick="printFullReport()">چاپ گزارش کل خانواده</button>
+    <button class="btn blue-btn" onclick="printGenerationReport()">چاپ گزارش نسل‌ها</button>
+    <button class="btn purple-btn" onclick="downloadTextReport()">دانلود گزارش متنی</button>
+  `;
+  var footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+}
+
+function printFullReport(){
+  window.print();
+}
+
+function printGenerationReport(){
+  var map={};
+  function walk(p,l){
+    if(!map[l])map[l]=[];
+    map[l].push(p.name);
+    people.filter(x=>String(x.parentId)===String(p.id)).forEach(c=>walk(c,l+1));
+  }
+  people.filter(p=>!p.parentId).forEach(r=>walk(r,1));
+  var text=Object.keys(map).map(k=>"نسل "+k+": "+map[k].join("، ")).join("\\n");
+  alert(text);
+}
+
+function downloadTextReport(){
+  var text=people.map(p=>`${p.name} | تولد: ${p.birth||"-"} | شغل: ${p.job||"-"} | تماس: ${p.phone||"-"}`).join("\\n");
+  var blob=new Blob([text],{type:"text/plain"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="family-report.txt";
+  a.click();
+}
+
+function installChangeHistoryPanel(){
+  if(document.getElementById("historyPanel")) return;
+  var panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="historyPanel";
+  panel.innerHTML=`
+    <h2>🕘 تاریخچه تغییرات</h2>
+    <button class="btn orange-btn" onclick="undoLast()">↩ برگشت آخرین عملیات</button>
+    <button class="btn red-btn" onclick="clearHistory()">پاک کردن تاریخچه</button>
+    <div class="change-log" id="changeLog"></div>
+  `;
+  var footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+  renderChangeHistory();
+}
+
+function renderChangeHistory(){
+  var el=document.getElementById("changeLog");
+  if(!el)return;
+  el.innerHTML=changeHistory.map(h=>`
+    <div class="person-row">🕘 ${h.time}<br>${h.text}</div>
+  `).join("") || "<p>تاریخچه‌ای ثبت نشده است.</p>";
+}
+
+function clearHistory(){
+  changeHistory=[];
+  localStorage.removeItem("change_history");
+  renderChangeHistory();
+}
+
+function installThemePanel(){
+  if(document.getElementById("themePanel")) return;
+  var panel=document.createElement("div");
+  panel.className="panel no-print";
+  panel.id="themePanel";
+  panel.innerHTML=`
+    <h2>🎨 تم‌های آماده</h2>
+    <span class="theme-dot" style="background:#2563eb" onclick="setTheme('#2563eb','#071b35')"></span>
+    <span class="theme-dot" style="background:#16a34a" onclick="setTheme('#16a34a','#052e16')"></span>
+    <span class="theme-dot" style="background:#7c3aed" onclick="setTheme('#7c3aed','#2e1065')"></span>
+    <span class="theme-dot" style="background:#db2777" onclick="setTheme('#db2777','#500724')"></span>
+    <span class="theme-dot" style="background:#d97706" onclick="setTheme('#d97706','#451a03')"></span>
+  `;
+  var footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+}
+
+function setTheme(primary,navy){
+  document.documentElement.style.setProperty("--blue",primary);
+  document.documentElement.style.setProperty("--navy",navy);
+  localStorage.setItem("theme_primary",primary);
+  localStorage.setItem("theme_navy",navy);
+}
+
+function loadTheme(){
+  var p=localStorage.getItem("theme_primary");
+  var n=localStorage.getItem("theme_navy");
+  if(p)document.documentElement.style.setProperty("--blue",p);
+  if(n)document.documentElement.style.setProperty("--navy",n);
+}
+
+function togglePersonLock(id){
+  if(lockedPeople[id]){
+    delete lockedPeople[id];
+    toast("قفل فرد برداشته شد");
+  }else{
+    var pass=prompt("برای قفل افراد حساس، رمز دوم را وارد یا تعیین کنید:",secondPassword);
+    if(!pass)return;
+    secondPassword=pass;
+    localStorage.setItem("second_password",secondPassword);
+    lockedPeople[id]=true;
+    toast("فرد حساس قفل شد");
+  }
+  localStorage.setItem("locked_people",JSON.stringify(lockedPeople));
+  render();
+}
+
+var oldRenderListMega=renderList;
+renderList=function(){
+  let q=document.getElementById("search").value.trim().toLowerCase();
+  let list=people.filter(p=>(p.name+p.job+p.phone).toLowerCase().includes(q));
+  document.getElementById("list").innerHTML=list.map(p=>`
+    <div class="person-row ${lockedPeople[p.id]?'locked-person':''}">
+      <span class="thumb">${p.photo?`<img src="${p.photo}">`:icon(p.gender)}</span>
+      <b>${p.name}</b> <small>${p.birth||""}</small>
+      <button class="btn blue-btn" onclick="openQuickEdit(${p.id})">ویرایش سریع</button>
+      <button class="btn purple-btn" onclick="openFullProfile(${p.id})">پروفایل</button>
+      <button class="btn gray-btn" onclick="togglePersonLock(${p.id})">${lockedPeople[p.id]?'بازکردن قفل':'قفل حساس'}</button>
+      <button class="btn red-btn" onclick="deletePerson(${p.id})">حذف</button>
+    </div>
+  `).join("")||"<p>نتیجه‌ای نیست.</p>";
+};
+
+var oldRenderMegaFeatures=render;
+render=function(){
+  oldRenderMegaFeatures();
+  installWelcomeHero();
+  installAdvancedSearch();
+  installReportPanel();
+  installChangeHistoryPanel();
+  installThemePanel();
+  loadTheme();
+  renderChangeHistory();
+};
+
+render();
+toast("🚀 امکانات حرفه‌ای جدید فعال شد");
+</script>
+<style>
+.master-dashboard{
+  position:fixed;
+  inset:78px 24px 24px 24px;
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:0 30px 90px rgba(0,0,0,.30);
+  z-index:900;
+  display:none;
+  overflow:hidden;
+}
+
+.master-dashboard.open{
+  display:grid;
+  grid-template-columns:260px 1fr;
+}
+
+.master-tabs{
+  background:linear-gradient(180deg,#071b35,#0a2445);
+  padding:18px;
+  color:white;
+  overflow:auto;
+}
+
+.master-tab{
+  padding:13px 14px;
+  margin:7px 0;
+  border-radius:12px;
+  background:rgba(255,255,255,.08);
+  cursor:pointer;
+  display:flex;
+  justify-content:space-between;
+}
+
+.master-tab.active,
+.master-tab:hover{
+  background:#2563eb;
+}
+
+.master-content{
+  padding:22px;
+  overflow:auto;
+}
+
+.master-section{
+  display:none;
+}
+
+.master-section.active{
+  display:block;
+}
+
+.master-card{
+  background:rgba(148,163,184,.08);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+  margin:12px 0;
+}
+
+.master-close{
+  position:absolute;
+  top:14px;
+  left:14px;
+  border:0;
+  background:#ef4444;
+  color:white;
+  border-radius:10px;
+  padding:8px 14px;
+  cursor:pointer;
+}
+
+.master-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+
+.master-actions button{
+  margin:4px;
+}
+
+.master-input{
+  width:100%;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  margin:7px 0;
+}
+
+.master-switch{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  margin:8px 0;
+}
+
+.master-switch input{
+  width:20px;
+  height:20px;
+}
+
+@media(max-width:900px){
+  .master-dashboard.open{
+    grid-template-columns:1fr;
+  }
+  .master-tabs{
+    max-height:220px;
+  }
+}
+</style>
+
+<div class="master-dashboard no-print" id="masterDashboard">
+  <button class="master-close" onclick="toggleMasterDashboard(false)">بستن</button>
+
+  <div class="master-tabs">
+    <h3>⚙️ تنظیمات مرکزی</h3>
+
+    <div class="master-tab active" onclick="openMasterTab('general',this)">عمومی <span>🏠</span></div>
+    <div class="master-tab" onclick="openMasterTab('view',this)">نمایش <span>👁</span></div>
+    <div class="master-tab" onclick="openMasterTab('tree',this)">شجره <span>🌳</span></div>
+    <div class="master-tab" onclick="openMasterTab('security',this)">امنیت <span>🔐</span></div>
+    <div class="master-tab" onclick="openMasterTab('backup',this)">بکاپ <span>💾</span></div>
+    <div class="master-tab" onclick="openMasterTab('media',this)">رسانه <span>🖼</span></div>
+    <div class="master-tab" onclick="openMasterTab('reports',this)">گزارش‌ها <span>🧾</span></div>
+    <div class="master-tab" onclick="openMasterTab('online',this)">آنلاین <span>☁</span></div>
+    <div class="master-tab" onclick="openMasterTab('advanced',this)">پیشرفته <span>🧠</span></div>
+  </div>
+
+  <div class="master-content">
+
+    <section class="master-section active" id="master-general">
+      <h2>🏠 تنظیمات عمومی</h2>
+
+      <div class="master-card">
+        <h3>اطلاعات سریع</h3>
+        <p>کل افراد: <b id="masterTotal">0</b></p>
+        <p>نسل‌ها: <b id="masterGen">0</b></p>
+        <p>حجم ذخیره‌سازی: <b id="masterStorage">0 KB</b></p>
+      </div>
+
+      <div class="master-card master-actions">
+        <button class="btn" onclick="focusAdd();toggleMasterDashboard(false)">افزودن فرد</button>
+        <button class="btn blue-btn" onclick="scrollTree();toggleMasterDashboard(false)">مشاهده شجره</button>
+        <button class="btn purple-btn" onclick="scrollTimeline();toggleMasterDashboard(false)">Timeline</button>
+      </div>
+    </section>
+
+    <section class="master-section" id="master-view">
+      <h2>👁 تنظیمات نمایش</h2>
+
+      <div class="master-switch">حالت شب <input type="checkbox" id="masterDark" onchange="masterToggleDark()"></div>
+      <div class="master-switch">نمایش تولدها <input type="checkbox" id="masterBirthdays" onchange="masterSaveView()"></div>
+      <div class
+<style>
+.master-dashboard{
+  backdrop-filter: blur(18px);
+}
+
+.master-tabs{
+  border-left:1px solid rgba(255,255,255,.12);
+}
+
+.master-tabs h3{
+  background:rgba(255,255,255,.08);
+  padding:14px;
+  border-radius:14px;
+  margin-top:0;
+}
+
+.master-tab{
+  transition:.2s;
+}
+
+.master-tab:hover{
+  transform:translateX(-4px);
+}
+
+.master-content{
+  background:
+    radial-gradient(circle at top right,rgba(37,99,235,.08),transparent 35%),
+    var(--card);
+}
+
+.master-section h2{
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);
+  color:#1e3a8a;
+  padding:16px;
+  border-radius:16px;
+  margin-bottom:18px;
+  border:1px solid #bfdbfe;
+}
+
+body.dark .master-section h2{
+  background:#0f172a;
+  color:#bfdbfe;
+  border-color:#334155;
+}
+
+.master-card{
+  box-shadow:0 8px 24px rgba(15,23,42,.06);
+  transition:.2s;
+}
+
+.master-card:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 32px rgba(15,23,42,.10);
+}
+
+.master-actions{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:10px;
+}
+
+.master-actions button{
+  width:100%;
+  margin:0;
+}
+
+.master-switch{
+  background:rgba(148,163,184,.06);
+  transition:.2s;
+}
+
+.master-switch:hover{
+  background:rgba(37,99,235,.08);
+}
+
+.master-switch input{
+  accent-color:#2563eb;
+}
+
+.master-summary-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.master-summary-card{
+  background:linear-gradient(135deg,#f8fafc,#eef2ff);
+  border:1px solid #dbeafe;
+  border-radius:16px;
+  padding:14px;
+  text-align:center;
+}
+
+.master-summary-card b{
+  display:block;
+  font-size:24px;
+  margin-top:6px;
+  color:#2563eb;
+}
+
+body.dark .master-summary-card{
+  background:#0f172a;
+  border-color:#334155;
+}
+
+@media(max-width:900px){
+  .master-summary-grid{
+    grid-template-columns:1fr 1fr;
+  }
+}
+</style>
+
+<script>
+function upgradeMasterDashboardUI(){
+  var general=document.getElementById("master-general");
+  if(!general || document.getElementById("masterSummaryGrid")) return;
+
+  var summary=document.createElement("div");
+  summary.className="master-summary-grid";
+  summary.id="masterSummaryGrid";
+
+  summary.innerHTML=`
+    <div class="master-summary-card">
+      👥 کل افراد
+      <b id="sumPeople">0</b>
+    </div>
+
+    <div class="master-summary-card">
+      🌳 نسل‌ها
+      <b id="sumGen">0</b>
+    </div>
+
+    <div class="master-summary-card">
+      🖼 عکس‌دار
+      <b id="sumPhoto">0</b>
+    </div>
+
+    <div class="master-summary-card">
+      💾 حجم
+      <b id="sumStorage">0KB</b>
+    </div>
+  `;
+
+  general.insertBefore(summary,general.children[1] || null);
+}
+
+function refreshMasterSummary(){
+  var a=document.getElementById("sumPeople");
+  if(!a) return;
+
+  var total=0;
+  for(var k in localStorage){
+    total+=(localStorage.getItem(k)||"").length;
+  }
+
+  document.getElementById("sumPeople").innerText=people.length;
+  document.getElementById("sumGen").innerText=typeof maxDepth==="function"?maxDepth():"-";
+  document.getElementById("sumPhoto").innerText=people.filter(p=>p.photo).length;
+  document.getElementById("sumStorage").innerText=(total/1024).toFixed(1)+"KB";
+}
+
+var oldRenderDashboardStyle=render;
+
+render=function(){
+  oldRenderDashboardStyle();
+  upgradeMasterDashboardUI();
+  refreshMasterSummary();
+};
+
+upgradeMasterDashboardUI();
+refreshMasterSummary();
+</script>
+<style>
+.health-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.health-card{
+  background:rgba(148,163,184,.08);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:16px;
+}
+
+.health-item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:10px 0;
+  border-bottom:1px dashed var(--line);
+}
+
+.health-ok{
+  color:#16a34a;
+  font-weight:bold;
+}
+
+.health-warn{
+  color:#f59e0b;
+  font-weight:bold;
+}
+
+.health-bad{
+  color:#ef4444;
+  font-weight:bold;
+}
+
+.health-score{
+  width:180px;
+  height:180px;
+  margin:auto;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:42px;
+  font-weight:bold;
+  background:
+    radial-gradient(circle at center,white 35%,transparent 36%),
+    conic-gradient(#16a34a var(--scoreDeg),#e5e7eb 0);
+}
+
+body.dark .health-score{
+  background:
+    radial-gradient(circle at center,#0f172a 35%,transparent 36%),
+    conic-gradient(#16a34a var(--scoreDeg),#334155 0);
+}
+</style>
+
+<script>
+function installHealthPanel(){
+  if(document.getElementById("healthPanel")) return;
+
+  const panel=document.createElement("div");
+  panel.className="panel";
+  panel.id="healthPanel";
+
+  panel.innerHTML=`
+    <h2>🩺 سلامت سیستم</h2>
+
+    <div class="health-grid">
+
+      <div class="health-card">
+
+        <div class="health-item">
+          <span>وضعیت بکاپ</span>
+          <span id="healthBackup"></span>
+        </div>
+
+        <div class="health-item">
+          <span>رمز پیش‌فرض</span>
+          <span id="healthPassword"></span>
+        </div>
+
+        <div class="health-item">
+          <span>حجم ذخیره‌سازی</span>
+          <span id="healthStorage"></span>
+        </div>
+
+        <div class="health-item">
+          <span>Firebase</span>
+          <span id="healthFirebase"></span>
+        </div>
+
+        <div class="health-item">
+          <span>تعداد افراد</span>
+          <span id="healthPeople"></span>
+        </div>
+
+        <div class="health-item">
+          <span>تاریخچه تغییرات</span>
+          <span id="healthHistory"></span>
+        </div>
+
+      </div>
+
+      <div class="health-card" style="display:flex;align-items:center;justify-content:center">
+        <div>
+          <div class="health-score" id="healthScore">0%</div>
+          <p style="text-align:center;margin-top:16px">
+            امتیاز سلامت سیستم
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="master-actions" style="margin-top:16px">
+      <button class="btn blue-btn" onclick="runHealthCheck()">
+        بررسی مجدد
+      </button>
+
+      <button class="btn purple-btn" onclick="autoFixHealth()">
+        رفع مشکلات ساده
+      </button>
+    </div>
+  `;
+
+  const footer=document.querySelector(".footer");
+  footer.parentNode.insertBefore(panel,footer);
+}
+
+function runHealthCheck(){
+
+  let score=100;
+
+  /* بکاپ */
+  const backup=localStorage.getItem("family_smart_backup");
+
+  if(backup){
+    setHealth(
+      "healthBackup",
+      "✅ فعال",
+      "health-ok"
+    );
+  }else{
+    score-=20;
+
+    setHealth(
+      "healthBackup",
+      "❌ ندارد",
+      "health-bad"
+    );
+  }
+
+  /* رمز */
+  const pass=
+    localStorage.getItem("family_pass") || "1234";
+
+  if(pass==="1234"){
+    score-=25;
+
+    setHealth(
+      "healthPassword",
+      "⚠ ضعیف",
+      "health-warn"
+    );
+  }else{
+    setHealth(
+      "healthPassword",
+      "✅ امن",
+      "health-ok"
+    );
+  }
+
+  /* حجم */
+  let total=0;
+
+  for(let k in localStorage){
+    total+=(localStorage.getItem(k)||"").length;
+  }
+
+  const kb=(total/1024).toFixed(1);
+
+  if(kb>4500){
+    score-=20;
+
+    setHealth(
+      "healthStorage",
+      "⚠ سنگین",
+      "health-warn"
+    );
+  }else{
+    setHealth(
+      "healthStorage",
+      kb+" KB",
+      "health-ok"
+    );
+  }
+
+  /* Firebase */
+  const firebaseReady=
+    typeof firebaseConfig!=="undefined";
+
+  if(firebaseReady){
+    setHealth(
+      "healthFirebase",
+      "✅ آماده",
+      "health-ok"
+    );
+  }else{
+    score-=10;
+
+    setHealth(
+      "healthFirebase",
+      "⚠ تنظیم نشده",
+      "health-warn"
+    );
+  }
+
+  /* افراد */
+  setHealth(
+    "healthPeople",
+    people.length+" نفر",
+    "health-ok"
+  );
+
+  /* تاریخچه */
+  const history=
+    JSON.parse(localStorage.getItem("change_history") || "[]");
+
+  if(history.length){
+    setHealth(
+      "healthHistory",
+      "✅ فعال",
+      "health-ok"
+    );
+  }else{
+    score-=5;
+
+    setHealth(
+      "healthHistory",
+      "⚠ خالی",
+      "health-warn"
+    );
+  }
+
+  /* امتیاز */
+  score=Math.max(0,score);
+
+  const scoreEl=document.getElementById("healthScore");
+
+  scoreEl.innerText=score+"%";
+
+  scoreEl.style.setProperty(
+    "--scoreDeg",
+    (score*3.6)+"deg"
+  );
+
+  if(score>=85){
+    scoreEl.style.color="#16a34a";
+  }else if(score>=60){
+    scoreEl.style.color="#f59e0b";
+  }else{
+    scoreEl.style.color="#ef4444";
+  }
+}
+
+function setHealth(id,text,cls){
+  const el=document.getElementById(id);
+
+  if(!el) return;
+
+  el.className=cls;
+  el.innerText=text;
+}
+
+function autoFixHealth(){
+
+  /* بکاپ */
+  if(!localStorage.getItem("family_smart_backup")){
+    if(typeof createSmartBackup==="function"){
+      createSmartBackup();
+    }
+  }
+
+  /* تاریخچه */
+  if(!localStorage.getItem("change_history")){
+    localStorage.setItem(
+      "change_history",
+      "[]"
+    );
+  }
+
+  /* رمز */
+  const pass=
+    localStorage.getItem("family_pass") || "1234";
+
+  if(pass==="1234"){
+    alert(
+      "رمز هنوز ضعیف است.\nلطفاً از تنظیمات امنیت تغییرش بده."
+    );
+  }
+
+  runHealthCheck();
+
+  alert("بررسی و رفع ساده انجام شد");
+}
+
+const oldRenderHealth=render;
+
+render=function(){
+  oldRenderHealth();
+
+  installHealthPanel();
+
+  runHealthCheck();
+};
+
+render();
+</script>
+
+
+<script>
+window.addEventListener("error",function(e){
+  console.error("خطای سایت:", e.message);
+});
+window.addEventListener("unhandledrejection",function(e){
+  console.error("خطای Promise:", e.reason);
+});
+</script>
+
+<script>
+if("serviceWorker" in navigator){
+  window.addEventListener("load",function(){
+    navigator.serviceWorker.register("./service-worker.js")
+      .then(function(){console.log("Service Worker فعال شد");})
+      .catch(function(err){console.log("خطا در Service Worker",err);});
+  });
+}
+</script>
+
+</body>
+</html>
