@@ -1,1 +1,0 @@
-const CACHE_NAME='familytreepro-cache-v2';
