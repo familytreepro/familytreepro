@@ -1,0 +1,1344 @@
+<!DOCTYPE html>  <html lang="fa" dir="rtl">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">  
+<title>سامانه شجره‌نامه حرفه‌ای</title>  <style>  
+*{box-sizing:border-box}  
+:root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
+body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
+body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#cbd5e1;--line:#334155}  
+button,input,select{font-family:tahoma,Arial}  
+  
+#login{position:fixed;inset:0;background:#071b35;display:flex;align-items:center;justify-content:center;z-index:99}  
+.loginbox{background:white;color:#172033;width:92%;max-width:390px;padding:28px;border-radius:22px;text-align:center}  
+.loginbox input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:12px}  
+  
+.topbar{height:66px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:12px}  
+.top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}  
+.icon-btn{border:0;border-radius:12px;background:rgba(255,255,255,.12);color:white;padding:10px 13px;cursor:pointer}  
+.layout{display:block;min-height:calc(100vh - 66px)}  
+.main{padding:22px;overflow:auto;max-width:1200px;margin:auto}  
+.page-title{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap}  
+.home-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}  
+.drawer-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;z-index:300}  
+.drawer-backdrop.open{display:block}  
+.drawer{position:fixed;top:0;bottom:0;width:min(360px,92vw);background:var(--card);color:var(--text);z-index:350;box-shadow:0 25px 80px rgba(0,0,0,.28);transition:.25s ease;display:flex;flex-direction:column}  
+.drawer.right{right:0;transform:translateX(105%)}  
+.drawer.left{left:0;transform:translateX(-105%)}  
+.drawer.open{transform:translateX(0)}  
+.drawer-head{background:var(--navy);color:white;padding:18px;display:flex;align-items:center;justify-content:space-between}  
+.drawer-body{padding:16px;overflow:auto}  
+.drawer-close{border:0;background:rgba(255,255,255,.14);color:white;border-radius:10px;padding:8px 10px;cursor:pointer}  
+.profile{text-align:center;padding:10px 0 20px}  
+.avatar{width:86px;height:86px;border-radius:50%;background:#eef2ff;color:#94a3b8;margin:auto;display:flex;align-items:center;justify-content:center;font-size:45px}  
+.online{color:#22c55e;font-size:14px}  
+.menu{padding:14px 16px;margin:8px 0;border-radius:12px;background:rgba(37,99,235,.08);color:var(--text);cursor:pointer;display:flex;justify-content:space-between;border:1px solid var(--line)}  
+.menu.active,.menu:hover{background:var(--blue);color:white}  
+.view-section{display:none}  
+.view-section.active{display:block}  
+.home-hero{background:linear-gradient(135deg,#071b35,#2563eb);color:white;border-radius:24px;padding:26px;margin-bottom:18px;box-shadow:0 20px 50px rgba(7,27,53,.18)}  
+.home-hero h1{margin:0 0 10px;font-size:28px}  
+.home-hero p{margin:0;color:#dbeafe;line-height:1.9}  
+.chart-row{margin:12px 0}  
+.chart-label{display:flex;justify-content:space-between;margin-bottom:6px;color:var(--muted)}  
+.chart-bg{height:14px;border-radius:999px;background:rgba(148,163,184,.22);overflow:hidden}  
+.chart-fill{height:100%;border-radius:999px;background:var(--blue)}  
+.chat-log{height:45vh;overflow:auto;border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(148,163,184,.08);margin-bottom:10px}  
+.chat-msg{padding:10px 12px;border-radius:14px;margin:8px 0;max-width:88%;line-height:1.8}  
+.chat-msg.bot{background:rgba(37,99,235,.12);margin-left:auto}  
+.chat-msg.user{background:rgba(22,163,74,.13);margin-right:auto}  
+.chat-compose{display:flex;gap:8px}  
+.chat-compose input{flex:1;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text)}  
+  
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:20px}  
+.card,.panel,.tree-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:18px;box-shadow:0 10px 28px rgba(15,23,42,.07)}  
+.stat{display:flex;align-items:center;justify-content:space-between}  
+.num{font-size:32px;font-weight:bold;margin-top:8px}  
+.icon{font-size:40px}  
+.purple{background:#fbf7ff;color:#7c3aed}.blue{background:#f4f8ff;color:#2563eb}.pink{background:#fff5fa;color:#db2777}.green{background:#f4fff8;color:#16a34a}  
+body.dark .purple,body.dark .blue,body.dark .pink,body.dark .green{background:var(--card)}  
+  
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}  
+.form-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}  
+.form-row input,.form-row select,.search{flex:1;min-width:155px;padding:12px;border:1px solid #d7deea;border-radius:10px;background:white;color:#172033}  
+body.dark .form-row input,body.dark .form-row select,body.dark .search{background:#0f172a;color:white;border-color:#334155}  
+  
+.btn{border:0;border-radius:10px;padding:11px 16px;color:white;background:var(--green);cursor:pointer;margin:4px}  
+.blue-btn{background:var(--blue)}.red-btn{background:var(--red)}.pink-btn{background:var(--pink)}.gray-btn{background:#64748b}  
+  
+.person-row,.timeline-item,.birthday-item{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:12px;padding:13px;margin:9px 0}  
+.thumb{width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;background:#e2e8f0;margin-left:8px;vertical-align:middle}  
+.thumb img{width:100%;height:100%;object-fit:cover}  
+  
+.tree-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}  
+.tree-wrap{overflow:auto;direction:ltr;padding:20px;border-radius:14px;background:rgba(148,163,184,.06)}  
+.tree-stage{transform-origin:top center;transition:.2s}  
+.tree ul{padding-top:25px;position:relative;display:flex;justify-content:center}  
+.tree li{list-style:none;text-align:center;position:relative;padding:25px 10px 0}  
+.tree li::before,.tree li::after{content:'';position:absolute;top:0;width:50%;height:25px;border-top:2px solid #94a3b8}  
+.tree li::before{right:50%;border-right:2px solid #94a3b8}  
+.tree li::after{left:50%;border-left:2px solid #94a3b8}  
+.tree li:only-child::before,.tree li:only-child::after{display:none}  
+.tree li:only-child{padding-top:0}  
+.tree li:first-child::before,.tree li:last-child::after{border:0}  
+.tree ul ul::before{content:'';position:absolute;top:0;left:50%;height:25px;border-left:2px solid #94a3b8}  
+  
+.node{min-width:170px;display:inline-block;background:#f8fbff;border:1.5px solid #93c5fd;border-radius:14px;padding:12px;direction:rtl;box-shadow:0 8px 18px rgba(37,99,235,.08);cursor:grab}  
+.node.female{background:#fff5fa;border-color:#f9a8d4}  
+.node.match{outline:4px solid #f59e0b}  
+.node img{width:48px;height:48px;border-radius:50%;object-fit:cover;display:block;margin:auto}  
+.node small{color:var(--muted)}  
+  
+.context-menu{position:fixed;display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 15px 40px rgba(0,0,0,.2);z-index:200;overflow:hidden}  
+.context-menu button{display:block;width:190px;border:0;background:transparent;color:var(--text);padding:12px;text-align:right;cursor:pointer}  
+.context-menu button:hover{background:rgba(148,163,184,.15)}  
+  
+.footer{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--muted);display:flex;justify-content:space-between}  
+  
+
+.profile-detail{display:grid;grid-template-columns:90px 1fr;gap:14px;align-items:center}
+.profile-photo{width:86px;height:86px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:42px}
+.profile-photo img{width:100%;height:100%;object-fit:cover}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.info-box{background:rgba(148,163,184,.10);border:1px solid var(--line);border-radius:12px;padding:10px;line-height:1.8}
+.badge{display:inline-block;border-radius:999px;padding:4px 10px;margin:3px;background:rgba(37,99,235,.10);border:1px solid var(--line);font-size:12px}
+.dead-badge{background:#fef2f2;color:#991b1b;border-color:#fecaca}
+.node.dead-node{background:#fff7f7;border-color:#fecaca;box-shadow:0 8px 20px rgba(153,27,27,.08)}
+.death-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.death-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
+.death-card b{display:block;font-size:24px;margin-top:6px}
+.memorial-card{background:linear-gradient(135deg,rgba(254,242,242,.9),rgba(248,250,252,.9));border:1px solid #fecaca;border-radius:14px;padding:13px;margin:9px 0;line-height:1.9}
+body.dark .memorial-card{background:rgba(127,29,29,.18);border-color:#7f1d1d}
+.spouse-badge{background:#ecfeff;color:#155e75;border-color:#67e8f9}
+.relation-result{background:rgba(37,99,235,.08);border:1px solid var(--line);border-radius:14px;padding:14px;line-height:1.9;margin-top:12px}
+.dashboard-note{color:var(--muted);line-height:1.9;margin-top:-6px}
+
+@media(max-width:950px){.cards,.grid-2{grid-template-columns:1fr}.topbar{font-size:13px;padding:0 12px}.topbar b{display:none}}  
+
+.access-grid{display:grid;grid-template-columns:1fr;gap:12px}
+.access-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:14px;padding:14px}
+.access-link-box{width:100%;min-height:64px;border:1px solid #d7deea;border-radius:10px;padding:10px;background:white;color:#172033;direction:ltr;text-align:left;resize:vertical}
+body.dark .access-link-box{background:#0f172a;color:white;border-color:#334155}
+.role-badge{display:inline-block;border-radius:999px;padding:5px 10px;background:#e0f2fe;color:#075985;font-size:12px;margin:4px}
+.approval-row{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0}
+.lock-note{color:var(--muted);font-size:13px;line-height:1.8}
+
+@media print{#login,.topbar,.drawer,.drawer-backdrop,.no-print,.btn{display:none!important}.layout{display:block}.main{padding:0}body{background:white;color:black}.card,.panel,.tree-card{box-shadow:none;border:1px solid #ddd}}  
+
+.profile-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.profile-mini-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:14px;padding:12px;margin:10px 0}
+.profile-media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px;margin-top:10px}
+.profile-media-grid img{width:100%;height:92px;object-fit:cover;border-radius:12px;border:1px solid var(--line)}
+.profile-file-row{display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:12px;padding:10px;margin:8px 0;flex-wrap:wrap}
+.profile-file-row a{color:var(--blue);text-decoration:none}
+.memory-box{width:100%;min-height:90px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--card);color:var(--text)}
+.chat-quick{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+@media(max-width:800px){.profile-tabs{grid-template-columns:1fr 1fr}}
+</style>  <link rel="manifest" href="./manifest.json?v=v68-4-firebase-sync-no-cache">
+<meta name="theme-color" content="#2563eb">
+
+<!-- V67 FORCE NO CACHE -->
+<script>
+(function(){
+  window.FAMILYTREE_VERSION = "v68-4-firebase-sync-no-cache";
+  try {
+    localStorage.setItem("familytree_current_version", "v68-4-firebase-sync-no-cache");
+  } catch(e) {}
+
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations()
+      .then(function(regs) {
+        regs.forEach(function(reg) { reg.unregister(); });
+      })
+      .catch(function(){});
+  }
+
+  if (window.caches) {
+    caches.keys()
+      .then(function(keys) {
+        keys.forEach(function(k) { caches.delete(k); });
+      })
+      .catch(function(){});
+  }
+})();
+</script>
+<!-- END V67 FORCE NO CACHE -->
+
+</head>  <body>  <div id="login">  
+  <div class="loginbox">  
+    <h2>🔐 ورود به سامانه</h2>  
+    <input id="loginUser" value="admin" placeholder="نام کاربری">  
+    <input id="loginPass" type="password" placeholder="رمز ورود">  
+    <button class="btn" onclick="login()">ورود</button>  
+    <p id="loginError" style="color:red"></p>  
+    <small>نام کاربری: admin | رمز: 1234</small>  
+  </div>  
+</div>  <div id="app" style="display:none">  
+  <div class="topbar no-print">  
+    <div class="top-actions">
+      <button class="icon-btn" onclick="openDashboard()">☰ داشبورد</button>
+      <button class="icon-btn" onclick="openChat()">💬 چت</button>
+    </div>
+    <span id="clock">سامانه آنلاین</span>  
+    <b>🌳 سامانه شجره‌نامه خانواده</b>
+    <span onclick="logout()" style="cursor:pointer">🔒 خروج</span>  
+  </div>
+
+  <div id="drawerBackdrop" class="drawer-backdrop" onclick="closeDrawers()"></div>
+
+  <aside id="dashboardDrawer" class="drawer right no-print" aria-label="داشبورد کشویی">
+    <div class="drawer-head">
+      <b>داشبورد</b>
+      <button class="drawer-close" onclick="closeDrawers()">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div class="profile">  
+        <div class="avatar">👤</div>  
+        <h3>مدیر سیستم</h3>  
+        <div class="online">● آنلاین</div>  
+      </div>  
+      <div class="menu active" onclick="showView('home')">خانه <span>🏠</span></div>  
+      <div class="menu" onclick="showView('people')">افراد <span>👤</span></div>  
+      <div class="menu" onclick="showView('tree')">شجره <span>🌳</span></div>  
+      <div class="menu" onclick="showView('timeline')">Timeline <span>🕘</span></div>  
+      <div class="menu" onclick="showView('birthdays')">تولدها <span>🎂</span></div>  
+      <div class="menu" onclick="showView('charts')">نمودارها <span>📊</span></div>  
+      <div class="menu" onclick="showView('profiles')">پروفایل کامل <span>🪪</span></div>
+      <div class="menu" onclick="showView('marriage')">ازدواج و همسر <span>💍</span></div>
+      <div class="menu" onclick="showView('death')">فوت و محل دفن <span>🪦</span></div>
+      <div class="menu" onclick="showView('relations')">تشخیص نسبت <span>🧠</span></div>
+      <div class="menu" onclick="showView('access')">دسترسی و لینک‌ها <span>🔐</span></div>
+      <div class="menu" onclick="showView('firebase')">Firebase Sync <span>☁️</span></div>
+      <div class="menu" onclick="window.print()">چاپ PDF <span>🖨</span></div>  
+      <div class="menu" onclick="exportData()">پشتیبان‌گیری <span>💾</span></div>  
+      <div class="menu" onclick="document.getElementById('importFile').click()">بازیابی <span>⬇️</span></div>  
+      <input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)">  
+      <div class="menu" onclick="toggleDark()">حالت شب <span>🌙</span></div>  
+      <div class="menu" onclick="changePassword()">تغییر رمز <span>🔒</span></div>  
+    </div>
+  </aside>
+
+  <aside id="chatDrawer" class="drawer left no-print" aria-label="چت کشویی">
+    <div class="drawer-head">
+      <b>چت هوشمند خانوادگی</b>
+      <button class="drawer-close" onclick="closeDrawers()">✕</button>
+    </div>
+    <div class="drawer-body">
+      <div id="chatLog" class="chat-log"></div>
+      <div class="chat-quick">
+        <button class="btn gray-btn" onclick="quickChat('خلاصه خانواده')">خلاصه</button>
+        <button class="btn gray-btn" onclick="quickChat('مرحومین')">مرحومین</button>
+        <button class="btn gray-btn" onclick="quickChat('تولدها')">تولدها</button>
+        <button class="btn gray-btn" onclick="quickChat('راهنما')">راهنما</button>
+      </div>
+      <div class="chat-compose">
+        <input id="chatInput" placeholder="مثلاً: تعداد افراد، مرحومین، نسبت علی و سارا، جستجو زهرا" onkeydown="if(event.key==='Enter')sendChatMessage()">
+        <button class="btn blue-btn" onclick="sendChatMessage()">ارسال</button>
+      </div>
+      <small style="color:var(--muted)">چت هوشمند داخلی است و با داده‌های همین شجره پاسخ می‌دهد؛ بدون API خارجی و بدون کلید ناامن.</small>
+    </div>
+  </aside>
+
+  <div class="layout">  
+    <main class="main">  
+      <section id="view-home" class="view-section active">
+        <div class="home-hero">
+          <h1>سامانه شجره‌نامه خانواده</h1>
+          <p>صفحه اصلی تمیز و مینیمال است. بخش‌های Timeline، تولدها، نمودارها و شجره فقط از داشبورد کشویی سمت راست باز می‌شوند.</p>
+        </div>
+        <div class="home-actions no-print">
+          <button class="btn blue-btn" onclick="openDashboard()">باز کردن داشبورد</button>
+          <button class="btn pink-btn" onclick="openChat()">باز کردن چت</button>
+          <button class="btn" onclick="showView('people')">مدیریت افراد</button>
+        </div>
+        <div class="cards">  
+          <div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div></div><div class="icon">👥</div></div>  
+          <div class="card stat blue"><div>مردان<div class="num" id="male">0</div></div><div class="icon">👨</div></div>  
+          <div class="card stat pink"><div>زنان<div class="num" id="female">0</div></div><div class="icon">👩</div></div>  
+          <div class="card stat green"><div>نسل‌ها<div class="num" id="gens">0</div></div><div class="icon">🌳</div></div>  
+        </div>  
+      </section>
+
+      <section id="view-people" class="view-section">
+        <div class="page-title"><h1>افراد</h1><span>👤 مدیریت افراد</span></div>
+        <div class="grid-2 no-print">  
+          <div class="panel" id="addSec">  
+            <h2>➕ افزودن / ویرایش فرد</h2>  
+            <input type="hidden" id="editId">  
+            <div class="form-row">  
+              <input id="name" placeholder="نام فرد">  
+              <select id="gender"><option value="male">مرد</option><option value="female">زن</option></select>  
+              <input id="birth" placeholder="سال تولد">  
+            </div>  
+            <div class="form-row">  
+              <select id="parent"><option value="">بدون پدر/مادر</option></select>  
+              <input id="job" placeholder="شغل">  
+              <input id="phone" placeholder="شماره تماس">  
+            </div>  
+            <div class="form-row">  
+              <input id="photo" type="file" accept="image/*">  
+            </div>  
+            <button class="btn" onclick="savePerson()">ذخیره فرد</button>  
+            <button class="btn red-btn" onclick="clearForm()">پاک کردن فرم</button>  
+          </div>  
+
+          <div class="panel">  
+            <h2>🔍 جستجوی زنده</h2>  
+            <input class="search" id="search" placeholder="جستجو در نام، شغل یا تماس..." oninput="render()">  
+            <div id="list"></div>  
+          </div>  
+        </div>  
+      </section>
+
+      <section id="view-birthdays" class="view-section">
+        <div class="page-title"><h1>تولدها</h1><span>🎂 تقویم تولدها</span></div>
+        <div class="panel">  
+          <h2>🎂 تقویم تولدها</h2>  
+          <div id="birthdays"></div>  
+        </div>  
+      </section>
+
+      <section id="view-timeline" class="view-section">
+        <div class="page-title"><h1>Timeline</h1><span>🕘 رویدادهای خانوادگی</span></div>
+        <div class="panel" id="timelineSec">  
+          <h2>🕘 Timeline خانوادگی</h2>  
+          <div id="timeline"></div>  
+        </div>  
+      </section>
+
+      <section id="view-charts" class="view-section">
+        <div class="page-title"><h1>نمودارها</h1><span>📊 آمار خانواده</span></div>
+        <div class="panel">  
+          <h2>📊 نمودار نسل‌ها</h2>  
+          <div id="generationChart"></div>  
+        </div>  
+      </section>
+
+      <section id="view-profiles" class="view-section">
+        <div class="page-title"><h1>پروفایل کامل</h1><span>🪪 اطلاعات کامل فرد</span></div>
+        <div class="panel">
+          <h2>🪪 پروفایل کامل افراد</h2>
+          <p class="dashboard-note">از این بخش، جزئیات کامل هر فرد را بدون شلوغ شدن صفحه اصلی ببینید.</p>
+          <div class="form-row"><select id="profilePerson" onchange="renderFullProfile()"></select></div>
+          <div id="fullProfileBox"></div>
+        </div>
+      </section>
+
+      <section id="view-marriage" class="view-section">
+        <div class="page-title"><h1>ازدواج و همسر</h1><span>💍 مدیریت همسرها</span></div>
+        <div class="panel">
+          <h2>💍 ثبت ازدواج / همسر</h2>
+          <div class="form-row"><select id="spouseA"></select><select id="spouseB"></select></div>
+          <button class="btn pink-btn" onclick="addMarriage()">ثبت ازدواج</button>
+          <div id="marriageList"></div>
+        </div>
+      </section>
+
+      <section id="view-death" class="view-section">
+        <div class="page-title"><h1>مرحومین و محل دفن</h1><span>🪦 ثبت یادمان خانوادگی</span></div>
+        <div class="panel">
+          <h2>🪦 ثبت اطلاعات مرحوم</h2>
+          <p class="dashboard-note">این بخش فقط داخل داشبورد است. با ثبت فوت، وضعیت فرد در پروفایل و شجره هم با نشان مرحوم نمایش داده می‌شود.</p>
+          <div id="deathSummary" class="death-summary"></div>
+          <div class="form-row"><select id="deathPerson" onchange="loadDeathForm()"></select></div>
+          <div class="form-row"><input id="deathDate" placeholder="تاریخ فوت مثلا ۱۴۰۲/۰۵/۱۲"><input id="gravePlace" placeholder="محل دفن / قطعه / شهر"></div>
+          <div class="form-row"><input id="deathNote" placeholder="یادداشت کوتاه یادمان؛ مثال: پدر مهربان خانواده"></div>
+          <button class="btn" onclick="saveDeathInfo()">ذخیره اطلاعات مرحوم</button>
+          <button class="btn gray-btn" onclick="clearDeathInfo()">برگرداندن به حالت زنده / حذف وضعیت فوت</button>
+          <button class="btn blue-btn" onclick="openProfileView(Number(document.getElementById('deathPerson').value))">نمایش پروفایل همین فرد</button>
+        </div>
+        <div class="panel">
+          <h2>📍 فهرست مرحومین و محل دفن</h2>
+          <div id="deathList"></div>
+        </div>
+      </section>
+
+      <section id="view-relations" class="view-section">
+        <div class="page-title"><h1>تشخیص نسبت</h1><span>🧠 نسبت خانوادگی</span></div>
+        <div class="panel">
+          <h2>🧠 تشخیص نسبت خانوادگی</h2>
+          <div class="form-row"><select id="relationA"></select><select id="relationB"></select></div>
+          <button class="btn blue-btn" onclick="showRelation()">تشخیص نسبت</button>
+          <div id="relationResult" class="relation-result">دو نفر را انتخاب کنید.</div>
+        </div>
+      </section>
+
+
+      <section id="view-access" class="view-section">
+        <div class="page-title"><h1>دسترسی و لینک‌ها</h1><span>🔐 مدیر / ویرایشگر / نمایشگر</span></div>
+        <div class="panel">
+          <h2>🔐 مدیریت دسترسی</h2>
+          <p class="dashboard-note">لینک‌ها واقعی و قابل استفاده‌اند. در حالت بدون Firebase، تأیید مدیر روی همین مرورگر ذخیره می‌شود؛ برای تأیید بین دستگاه‌ها مرحله بعد باید Firebase فعال شود.</p>
+          <div id="currentRoleBox" class="access-card"></div>
+          <div class="access-grid">
+            <div class="access-card">
+              <h3>👁 لینک نمایشگر</h3>
+              <p class="lock-note">فقط مشاهده می‌کند و امکان ذخیره، حذف یا ویرایش ندارد.</p>
+              <textarea id="viewerLink" class="access-link-box" readonly></textarea>
+              <button class="btn blue-btn" onclick="copyAccessLink('viewerLink')">کپی لینک نمایشگر</button>
+            </div>
+            <div class="access-card">
+              <h3>✏️ لینک ویرایشگر تأییدشده</h3>
+              <p class="lock-note">ویرایشگر می‌تواند افراد و اطلاعات را ویرایش کند، ولی مدیریت دسترسی ندارد.</p>
+              <textarea id="editorLink" class="access-link-box" readonly></textarea>
+              <button class="btn blue-btn" onclick="copyAccessLink('editorLink')">کپی لینک ویرایشگر</button>
+              <button class="btn gray-btn" onclick="rotateEditorKey()">ساخت کلید جدید ویرایشگر</button>
+            </div>
+            <div class="access-card">
+              <h3>📝 لینک درخواست ویرایشگر</h3>
+              <p class="lock-note">کاربر با این لینک درخواست می‌دهد؛ مدیر باید از همین پنل تأیید کند.</p>
+              <textarea id="requestEditorLink" class="access-link-box" readonly></textarea>
+              <button class="btn blue-btn" onclick="copyAccessLink('requestEditorLink')">کپی لینک درخواست</button>
+            </div>
+            <div class="access-card">
+              <h3>✅ تأیید مدیر</h3>
+              <div id="approvalList"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-firebase" class="view-section">
+        <div class="page-title"><h1>Firebase Sync</h1><span>☁️ ذخیره ابری واقعی</span></div>
+        <div class="panel">
+          <h2>☁️ تنظیمات Firebase</h2>
+          <p class="dashboard-note">این بخش واقعی است؛ اطلاعات روی Firestore ذخیره/دریافت می‌شود. تنظیمات Firebase فقط در همین مرورگر ذخیره می‌شود و روی صفحه اصلی چیزی اضافه نمی‌کند.</p>
+          <div class="form-row"><input id="fbApiKey" placeholder="apiKey"><input id="fbAuthDomain" placeholder="authDomain"></div>
+          <div class="form-row"><input id="fbProjectId" placeholder="projectId"><input id="fbStorageBucket" placeholder="storageBucket"></div>
+          <div class="form-row"><input id="fbMessagingSenderId" placeholder="messagingSenderId"><input id="fbAppId" placeholder="appId"></div>
+          <div class="form-row"><input id="fbFamilyId" placeholder="Family ID / شناسه خانواده"><select id="fbMode"><option value="manual">دستی</option><option value="live">همگام‌سازی زنده</option></select></div>
+          <button class="btn" onclick="firebaseSaveConfig()">ذخیره تنظیمات</button>
+          <button class="btn blue-btn" onclick="firebaseConnect()">اتصال / تست</button>
+          <button class="btn" onclick="firebaseSaveCloud()">ذخیره روی ابر</button>
+          <button class="btn blue-btn" onclick="firebaseLoadCloud()">دریافت از ابر</button>
+          <button class="btn pink-btn" onclick="firebaseToggleLive()">روشن/خاموش همگام‌سازی زنده</button>
+          <div id="firebaseStatus" class="person-row">وضعیت: آماده تنظیم</div>
+        </div>
+        <div class="panel">
+          <h2>🔗 لینک‌های ابری</h2>
+          <p class="dashboard-note">این لینک‌ها Family ID را هم منتقل می‌کنند. برای کار روی دستگاه دیگر، همان تنظیمات Firebase باید یک‌بار در آن مرورگر ذخیره شود.</p>
+          <div class="access-grid">
+            <div class="access-card"><h3>👁 نمایشگر ابری</h3><textarea id="fbViewerLink" class="access-link-box" readonly></textarea><button class="btn blue-btn" onclick="copyAccessLink('fbViewerLink')">کپی</button></div>
+            <div class="access-card"><h3>✏️ ویرایشگر ابری</h3><textarea id="fbEditorLink" class="access-link-box" readonly></textarea><button class="btn blue-btn" onclick="copyAccessLink('fbEditorLink')">کپی</button></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="view-tree" class="view-section">
+        <div class="page-title"><h1>شجره</h1><span>🌳 چارت شجره‌نامه</span></div>
+        <section class="tree-card" id="treeSection">  
+          <h2>🌳 چارت شجره‌نامه</h2>  
+          <div class="tree-toolbar no-print">  
+            <button class="btn blue-btn" onclick="zoomIn()">＋ بزرگ‌نمایی</button>  
+            <button class="btn blue-btn" onclick="zoomOut()">－ کوچک‌نمایی</button>  
+            <button class="btn gray-btn" onclick="resetZoom()">100%</button>  
+            <button class="btn pink-btn" onclick="toggleFullscreen()">تمام‌صفحه</button>  
+            <button class="btn" onclick="exportPNG()">خروجی PNG</button>  
+          </div>  
+          <div class="tree-wrap" id="treeWrap">  
+            <div class="tree-stage" id="treeStage">  
+              <div class="tree" id="tree"></div>  
+            </div>  
+          </div>  
+        </section>  
+      </section>
+
+      <div class="footer">  
+        <span>ذخیره دائمی در مرورگر ✅</span>  
+        <span>V68.4 Firebase Sync ✅</span>  
+      </div>  
+    </main>
+  </div>  
+</div>  
+<div class="context-menu" id="contextMenu">  
+  <button onclick="ctxEdit()">✏️ ویرایش</button>  
+  <button onclick="ctxAddChild()">👶 افزودن فرزند</button>  
+  <button onclick="ctxDelete()">🗑 حذف شاخه</button>  
+</div>  <script>  
+let password=localStorage.getItem("family_pass")||"1234";  
+let zoom=1;  
+let dragId=null;  
+let ctxId=null;  
+  
+let people=JSON.parse(localStorage.getItem("family_people_v11")||"null")||[  
+{id:1,name:"حاج محمدرضا احمدی",gender:"male",birth:"1330",parentId:"",job:"",phone:"",photo:""},  
+{id:2,name:"بی‌بی فاطمه محمدی",gender:"female",birth:"1335",parentId:"",job:"",phone:"",photo:""},  
+{id:3,name:"علی احمدی",gender:"male",birth:"1355",parentId:1,job:"",phone:"",photo:""},  
+{id:4,name:"مریم احمدی",gender:"female",birth:"1357",parentId:1,job:"",phone:"",photo:""},  
+{id:5,name:"حسین احمدی",gender:"male",birth:"1360",parentId:1,job:"",phone:"",photo:""},  
+{id:6,name:"زهرا احمدی",gender:"female",birth:"1365",parentId:1,job:"",phone:"",photo:""},  
+{id:7,name:"پارسا احمدی",gender:"male",birth:"1385",parentId:3,job:"",phone:"",photo:""},  
+{id:8,name:"سارا احمدی",gender:"female",birth:"1388",parentId:3,job:"",phone:"",photo:""},  
+{id:9,name:"محمد احمدی",gender:"male",birth:"1390",parentId:5,job:"",phone:"",photo:""}  
+];  
+  
+if(localStorage.getItem("family_dark")==="yes")document.body.classList.add("dark");  
+
+let accessRole="admin";
+let approvedEditorKey=localStorage.getItem("family_editor_key")||("ed_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4));
+localStorage.setItem("family_editor_key",approvedEditorKey);
+let pendingAccessRequests=JSON.parse(localStorage.getItem("family_access_requests")||"[]");
+function getBaseUrl(){return location.origin+location.pathname;}
+function buildAccessLink(role){
+  if(role==="viewer")return getBaseUrl()+"?role=viewer&v=v68-4-firebase-sync-no-cache";
+  if(role==="editor")return getBaseUrl()+"?role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=v68-4-firebase-sync-no-cache";
+  if(role==="request")return getBaseUrl()+"?request=editor&v=v68-4-firebase-sync-no-cache";
+  return getBaseUrl()+"?v=v68-4-firebase-sync-no-cache";
+}
+function canEdit(){
+  if(accessRole==="viewer"){
+    alert("این لینک فقط برای مشاهده است و اجازه ویرایش ندارد.");
+    return false;
+  }
+  return true;
+}
+function canManageAccess(){return accessRole==="admin";}
+function roleTitle(){return accessRole==="admin"?"مدیر":accessRole==="editor"?"ویرایشگر":"نمایشگر";}
+function initAccessFromUrl(){
+  const params=new URLSearchParams(location.search);
+  const role=params.get("role");
+  const req=params.get("request");
+  if(req==="editor"){
+    const id="req_"+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+    pendingAccessRequests.push({id:id,title:"درخواست ویرایشگر",date:new Date().toLocaleString("fa-IR"),status:"pending"});
+    localStorage.setItem("family_access_requests",JSON.stringify(pendingAccessRequests));
+    accessRole="viewer";
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="block";
+    alert("درخواست ویرایشگر ثبت شد. تا تأیید مدیر، شما نمایشگر هستید.");
+    return true;
+  }
+  if(role==="viewer"){
+    accessRole="viewer";
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="block";
+    return true;
+  }
+  if(role==="editor"){
+    if(params.get("key")===approvedEditorKey){
+      accessRole="editor";
+      document.getElementById("login").style.display="none";
+      document.getElementById("app").style.display="block";
+      return true;
+    }
+    accessRole="viewer";
+    document.getElementById("login").style.display="none";
+    document.getElementById("app").style.display="block";
+    alert("کلید ویرایشگر معتبر نیست؛ با دسترسی نمایشگر وارد شدید.");
+    return true;
+  }
+  return false;
+}
+function renderAccessPanel(){
+  const roleBox=document.getElementById("currentRoleBox");
+  if(roleBox){roleBox.innerHTML=`نقش فعلی: <span class="role-badge">${roleTitle()}</span>${accessRole==="viewer"?"<div class='lock-note'>امکانات ویرایش قفل است.</div>":""}`;}
+  const v=document.getElementById("viewerLink"), e=document.getElementById("editorLink"), r=document.getElementById("requestEditorLink");
+  if(v)v.value=buildAccessLink("viewer");
+  if(e)e.value=buildAccessLink("editor");
+  if(r)r.value=buildAccessLink("request");
+  const list=document.getElementById("approvalList");
+  if(list){
+    if(!canManageAccess()){
+      list.innerHTML="<p class='lock-note'>فقط مدیر می‌تواند درخواست‌ها و کلید ویرایشگر را مدیریت کند.</p>";
+    }else{
+      const pending=pendingAccessRequests.filter(x=>x.status==="pending");
+      list.innerHTML=pending.length?pending.map(x=>`<div class="approval-row"><span>📝 ${x.title}<br><small>${x.date}</small></span><button class="btn" onclick="approveRequest('${x.id}')">تأیید</button><button class="btn red-btn" onclick="rejectRequest('${x.id}')">رد</button></div>`).join(""):"<p class='lock-note'>درخواست جدیدی وجود ندارد.</p>";
+    }
+  }
+}
+function copyAccessLink(id){
+  const el=document.getElementById(id); if(!el)return;
+  el.select(); document.execCommand("copy");
+  navigator.clipboard?.writeText(el.value).catch(()=>{});
+  alert("لینک کپی شد");
+}
+function rotateEditorKey(){
+  if(!canManageAccess()){alert("فقط مدیر اجازه دارد.");return;}
+  if(!confirm("کلید ویرایشگر قبلی باطل شود و لینک جدید ساخته شود؟"))return;
+  approvedEditorKey="ed_"+Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);
+  localStorage.setItem("family_editor_key",approvedEditorKey);
+  renderAccessPanel();
+}
+function approveRequest(id){
+  if(!canManageAccess())return;
+  pendingAccessRequests=pendingAccessRequests.map(x=>x.id===id?{...x,status:"approved",approvedAt:new Date().toLocaleString("fa-IR")}:x);
+  localStorage.setItem("family_access_requests",JSON.stringify(pendingAccessRequests));
+  renderAccessPanel();
+  alert("درخواست تأیید شد. لینک ویرایشگر تأییدشده را برای کاربر بفرستید.");
+}
+function rejectRequest(id){
+  if(!canManageAccess())return;
+  pendingAccessRequests=pendingAccessRequests.map(x=>x.id===id?{...x,status:"rejected"}:x);
+  localStorage.setItem("family_access_requests",JSON.stringify(pendingAccessRequests));
+  renderAccessPanel();
+}
+function applyAccessControl(){
+  document.querySelectorAll("button,input,select,textarea").forEach(el=>{el.disabled=false; el.style.opacity="";});
+  if(accessRole==="viewer"){
+    document.querySelectorAll("button").forEach(btn=>{
+      const t=btn.innerText||"";
+      const editWords=["ذخیره","حذف","ویرایش","افزودن","ثبت ازدواج","پاک کردن","بازیابی","تغییر رمز"];
+      if(editWords.some(w=>t.includes(w))){btn.disabled=true; btn.style.opacity=.45;}
+    });
+    document.querySelectorAll("input,select,textarea").forEach(el=>{
+      if(!["search","chatInput","viewerLink","editorLink","requestEditorLink","relationA","relationB","profilePerson","deathPerson"].includes(el.id))el.disabled=true;
+    });
+  }
+  if(accessRole!=="admin"){
+    const accessButtons=["rotateEditorKey"];
+  }
+}
+
+  
+function login(){  
+  let u=document.getElementById("loginUser").value.trim();  
+  let p=document.getElementById("loginPass").value;  
+  if(u==="admin" && p===password){  
+    accessRole="admin";
+    document.getElementById("login").style.display="none";  
+    document.getElementById("app").style.display="block";  
+    render();  
+  }else document.getElementById("loginError").innerText="نام کاربری یا رمز اشتباه است";  
+}  
+  
+function logout(){location.reload()}  
+function save(){localStorage.setItem("family_people_v11",JSON.stringify(people));render()}  
+function uid(){return Date.now()+Math.floor(Math.random()*999)}  
+function icon(g){return g==="female"?"👩":"👨"}  
+  
+function savePerson(){  
+  if(!canEdit())return;
+
+  let id=document.getElementById("editId").value;  
+  let name=document.getElementById("name").value.trim();  
+  if(!name){alert("نام را وارد کنید");return}  
+  
+  let file=document.getElementById("photo").files[0];  
+  
+  let finish=function(photo){  
+    let data={  
+      id:id?Number(id):uid(),  
+      name:name,  
+      gender:document.getElementById("gender").value,  
+      birth:document.getElementById("birth").value.trim(),  
+      parentId:document.getElementById("parent").value||"",  
+      job:document.getElementById("job").value.trim(),  
+      phone:document.getElementById("phone").value.trim(),  
+      photo:photo  
+    };  
+  
+    if(id){  
+      let old=people.find(p=>p.id==id);  
+      data.photo=photo||old.photo||"";  
+      data.spouses=old.spouses||[];
+      data.isDead=old.isDead||false;
+      data.deathDate=old.deathDate||"";
+      data.gravePlace=old.gravePlace||"";
+      data.deathNote=old.deathNote||"";
+      Object.assign(old,data);  
+    }else people.push(data);  
+  
+    clearForm();  
+    save();  
+  };  
+  
+  if(file){  
+    let r=new FileReader();  
+    r.onload=e=>finish(e.target.result);  
+    r.readAsDataURL(file);  
+  }else finish("");  
+}  
+  
+function editPerson(id){  
+  let p=people.find(x=>x.id==id);  
+  document.getElementById("editId").value=p.id;  
+  document.getElementById("name").value=p.name;  
+  document.getElementById("gender").value=p.gender;  
+  document.getElementById("birth").value=p.birth||"";  
+  document.getElementById("parent").value=p.parentId||"";  
+  document.getElementById("job").value=p.job||"";  
+  document.getElementById("phone").value=p.phone||"";  
+  focusAdd();  
+}  
+  
+function deletePerson(id){  
+  if(!canEdit())return;
+
+  if(!confirm("این فرد و زیرشاخه‌هایش حذف شوند؟"))return;  
+  let ids=[id,...descendants(id)];  
+  people=people.filter(p=>!ids.includes(p.id));  
+  save();  
+}  
+  
+function descendants(id){  
+  let out=[];  
+  people.filter(p=>p.parentId==id).forEach(c=>{  
+    out.push(c.id,...descendants(c.id));  
+  });  
+  return out;  
+}  
+  
+function clearForm(){  
+  ["editId","name","birth","job","phone"].forEach(id=>document.getElementById(id).value="");  
+  document.getElementById("parent").value="";  
+  document.getElementById("photo").value="";  
+}  
+  
+function render(){  
+  renderStats();  
+  renderParentOptions();  
+  renderList();  
+  renderTree();  
+  renderBirthdays();  
+  renderTimeline();  
+  renderGenerationChart();
+  renderDashboardTools();
+  renderChat();
+  renderAccessPanel();
+  renderFirebasePanel();
+  applyAccessControl();
+}  
+  
+function renderStats(){  
+  document.getElementById("total").innerText=people.length;  
+  document.getElementById("male").innerText=people.filter(p=>p.gender==="male").length;  
+  document.getElementById("female").innerText=people.filter(p=>p.gender==="female").length;  
+  document.getElementById("gens").innerText=maxDepth();  
+}  
+  
+function maxDepth(){  
+  function depth(p){  
+    let ch=people.filter(x=>x.parentId==p.id);  
+    return ch.length?1+Math.max(...ch.map(depth)):1;  
+  }  
+  let roots=people.filter(p=>!p.parentId);  
+  return roots.length?Math.max(...roots.map(depth)):0;  
+}  
+  
+function renderParentOptions(){  
+  let current=document.getElementById("parent").value;  
+  document.getElementById("parent").innerHTML='<option value="">بدون پدر/مادر</option>'+people.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");  
+  document.getElementById("parent").value=current;  
+}  
+  
+function renderList(){  
+  let q=document.getElementById("search").value.trim().toLowerCase();  
+  let list=people.filter(p=>(p.name+p.job+p.phone).toLowerCase().includes(q));  
+  document.getElementById("list").innerHTML=list.map(p=>`  
+    <div class="person-row">  
+      <span class="thumb">${p.photo?`<img src="${p.photo}">`:icon(p.gender)}</span>  
+      <b>${p.name}</b> <small>${p.birth||""}</small> ${personBadges(p)}  
+      <button class="btn gray-btn" onclick="openProfileView(${p.id})">پروفایل</button>
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>  
+      <button class="btn red-btn" onclick="deletePerson(${p.id})">حذف</button>  
+    </div>  
+  `).join("")||"<p>نتیجه‌ای نیست.</p>";  
+}  
+  
+function renderTree(){  
+  let q=document.getElementById("search").value.trim().toLowerCase();  
+  let roots=people.filter(p=>!p.parentId || !people.some(x=>x.id==p.parentId));  
+  document.getElementById("tree").innerHTML="<ul>"+roots.map(p=>node(p,q)).join("")+"</ul>";  
+}  
+  
+function node(p,q){  
+  let children=people.filter(x=>x.parentId==p.id);  
+  let match=q && (p.name+p.job+p.phone).toLowerCase().includes(q);  
+  return `  
+  <li>  
+    <div class="node ${p.gender==="female"?"female":""} ${p.isDead?"dead-node":""} ${match?"match":""}"  
+      draggable="true"  
+      ondragstart="dragStart(${p.id})"  
+      ondragover="event.preventDefault()"  
+      ondrop="dropOn(${p.id})"  
+      oncontextmenu="openContext(event,${p.id})">  
+      ${p.photo?`<img src="${p.photo}">`:`<div style="font-size:32px">${icon(p.gender)}</div>`}  
+      <b>${p.name}</b><br>  
+      <small>${p.birth||""}</small><br>
+      ${personBadges(p)}<br>  
+      <button class="btn blue-btn" onclick="editPerson(${p.id})">ویرایش</button>  
+    </div>  
+    ${children.length?`<ul>${children.map(c=>node(c,q)).join("")}</ul>`:""}  
+  </li>`;  
+}  
+  
+function dragStart(id){dragId=id}  
+  
+function dropOn(targetId){  
+  if(!canEdit())return;
+
+  if(!dragId || dragId===targetId)return;  
+  if(descendants(dragId).includes(targetId)){alert("نمی‌شود زیرمجموعه خودش شود");return}  
+  let p=people.find(x=>x.id==dragId);  
+  p.parentId=targetId;  
+  dragId=null;  
+  save();  
+}  
+  
+function renderBirthdays(){  
+  let arr=people.filter(p=>p.birth).sort((a,b)=>String(a.birth).localeCompare(String(b.birth)));  
+  document.getElementById("birthdays").innerHTML=arr.map(p=>`  
+    <div class="birthday-item">🎂 ${p.name} — ${p.birth}</div>  
+  `).join("")||"<p>تولدی ثبت نشده است.</p>";  
+}  
+  
+function renderTimeline(){  
+  let arr=people.filter(p=>p.birth).sort((a,b)=>Number(a.birth)-Number(b.birth));  
+  document.getElementById("timeline").innerHTML=arr.map(p=>`  
+    <div class="timeline-item">🕘 ${p.birth} — ${p.name} متولد شد</div>  
+  `).join("")||"<p>Timeline خالی است.</p>";  
+}  
+  
+function renderGenerationChart(){
+  let target=document.getElementById("generationChart");
+  if(!target)return;
+  let levels={};
+  function walk(p,level){
+    levels[level]=(levels[level]||0)+1;
+    people.filter(x=>x.parentId==p.id).forEach(c=>walk(c,level+1));
+  }
+  people.filter(p=>!p.parentId).forEach(root=>walk(root,1));
+  let max=Math.max(1,...Object.values(levels));
+  target.innerHTML=Object.keys(levels).sort((a,b)=>Number(a)-Number(b)).map(level=>{
+    let count=levels[level];
+    let pct=Math.round((count/max)*100);
+    return `<div class="chart-row"><div class="chart-label"><span>نسل ${level}</span><span>${count} نفر</span></div><div class="chart-bg"><div class="chart-fill" style="width:${pct}%"></div></div></div>`;
+  }).join("")||"<p>هنوز اطلاعاتی نیست.</p>";
+}
+
+function openDashboard(){
+  document.getElementById("dashboardDrawer").classList.add("open");
+  document.getElementById("drawerBackdrop").classList.add("open");
+}
+function openChat(){
+  document.getElementById("chatDrawer").classList.add("open");
+  document.getElementById("drawerBackdrop").classList.add("open");
+  renderChat();
+  renderAccessPanel();
+  renderFirebasePanel();
+  applyAccessControl();
+}
+function closeDrawers(){
+  document.getElementById("dashboardDrawer").classList.remove("open");
+  document.getElementById("chatDrawer").classList.remove("open");
+  document.getElementById("drawerBackdrop").classList.remove("open");
+}
+function showView(name){
+  document.querySelectorAll(".view-section").forEach(el=>el.classList.remove("active"));
+  let target=document.getElementById("view-"+name);
+  if(target)target.classList.add("active");
+  document.querySelectorAll("#dashboardDrawer .menu").forEach(el=>el.classList.remove("active"));
+  let labels={home:"خانه",people:"افراد",tree:"شجره",timeline:"Timeline",birthdays:"تولدها",charts:"نمودارها",profiles:"پروفایل",marriage:"ازدواج",death:"فوت",relations:"تشخیص",access:"دسترسی",firebase:"Firebase"};
+  document.querySelectorAll("#dashboardDrawer .menu").forEach(el=>{if(el.innerText.includes(labels[name]||""))el.classList.add("active")});
+  closeDrawers();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+let chatMessages=JSON.parse(localStorage.getItem("family_chat_messages")||"null")||[
+  {from:"bot",text:"سلام. من چت هوشمند داخلی FamilyTreePro هستم. می‌توانی بپرسی: تعداد افراد، مرحومین، نسبت علی و سارا، جستجو نام، خلاصه خانواده."}
+];
+function renderChat(){
+  let log=document.getElementById("chatLog");
+  if(!log)return;
+  log.innerHTML=chatMessages.map(m=>`<div class="chat-msg ${m.from}">${escapeHtml(m.text)}</div>`).join("");
+  log.scrollTop=log.scrollHeight;
+}
+function escapeHtml(str){return String(str).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c];});}
+function quickChat(text){
+  let input=document.getElementById("chatInput");
+  if(input){input.value=text;sendChatMessage();}
+}
+function sendChatMessage(){
+  let input=document.getElementById("chatInput");
+  let text=input.value.trim();
+  if(!text)return;
+  chatMessages.push({from:"user",text:text});
+  chatMessages.push({from:"bot",text:smartFamilyAnswer(text)});
+  localStorage.setItem("family_chat_messages",JSON.stringify(chatMessages));
+  input.value="";
+  renderChat();
+  renderAccessPanel();
+  renderFirebasePanel();
+  applyAccessControl();
+}
+function smartFamilyAnswer(text){
+  const q=text.trim().toLowerCase();
+  const names=people.map(p=>p.name).join("، ");
+  if(q.includes("راهنما") || q.includes("help")){
+    return "دستورهای قابل استفاده: خلاصه خانواده، تعداد افراد، مردان، زنان، مرحومین، تولدها، جستجو + نام، پروفایل + نام، نسبت نام۱ و نام۲.";
+  }
+  if(q.includes("خلاصه") || q.includes("آمار")){
+    const total=people.length, male=people.filter(p=>p.gender==="male").length, female=people.filter(p=>p.gender==="female").length;
+    const dead=people.filter(p=>ensureFamilyFields(p).isDead).length;
+    return `خلاصه خانواده: ${total} نفر ثبت شده‌اند؛ ${male} مرد، ${female} زن، ${dead} مرحوم. تعداد نسل‌ها: ${maxDepth()}.`;
+  }
+  if(q.includes("تعداد") || q.includes("چند نفر")) return `در حال حاضر ${people.length} نفر در شجره ثبت شده‌اند.`;
+  if(q.includes("مرد")) return `تعداد مردان ثبت‌شده: ${people.filter(p=>p.gender==="male").length}`;
+  if(q.includes("زن") || q.includes("زنان")) return `تعداد زنان ثبت‌شده: ${people.filter(p=>p.gender==="female").length}`;
+  if(q.includes("مرحوم") || q.includes("فوت")){
+    const arr=people.filter(p=>ensureFamilyFields(p).isDead);
+    return arr.length ? "مرحومین ثبت‌شده: "+arr.map(p=>`${p.name}${p.deathDate?" - "+p.deathDate:""}${p.gravePlace?" - "+p.gravePlace:""}`).join(" | ") : "فعلاً مورد فوتی ثبت نشده است.";
+  }
+  if(q.includes("تولد")){
+    const arr=people.filter(p=>p.birth).slice().sort((a,b)=>String(a.birth).localeCompare(String(b.birth)));
+    return arr.length ? "تولدهای ثبت‌شده: "+arr.map(p=>`${p.name}: ${p.birth}`).join(" | ") : "تولدی ثبت نشده است.";
+  }
+  if(q.startsWith("جستجو") || q.includes("پیدا کن")){
+    const term=q.replace("جستجو","").replace("پیدا کن","").trim();
+    const arr=people.filter(p=>(p.name+p.job+p.phone).toLowerCase().includes(term));
+    return arr.length ? "نتیجه جستجو: "+arr.map(p=>p.name).join("، ") : "موردی پیدا نشد. نام‌های موجود: "+names;
+  }
+  if(q.includes("پروفایل")){
+    const term=q.replace("پروفایل","").trim();
+    const p=people.find(x=>x.name.toLowerCase().includes(term));
+    if(p){ensureFamilyFields(p);return `${p.name}: تولد ${p.birth||"-"}، شغل ${p.job||"-"}، تماس ${p.phone||"-"}، ${p.isDead?"مرحوم - محل دفن: "+(p.gravePlace||"ثبت نشده"):"وضعیت فوت ثبت نشده"}.`}
+  }
+  if(q.includes("نسبت")){
+    const found=people.filter(p=>q.includes(p.name.toLowerCase()));
+    if(found.length>=2) return relationshipBetween(found[0].id,found[1].id);
+    return "برای نسبت این‌طور بنویس: نسبت علی و سارا. نام‌ها باید در شجره ثبت شده باشند.";
+  }
+  const found=people.filter(p=>q && p.name.toLowerCase().includes(q));
+  if(found.length) return "این افراد پیدا شدند: "+found.map(p=>p.name).join("، ");
+  return "متوجه شدم. برای پاسخ دقیق‌تر از دستورهای راهنما استفاده کن؛ مثل: خلاصه خانواده، مرحومین، جستجو زهرا، نسبت علی و سارا.";
+}
+
+function ensureFamilyFields(p){
+  if(!p)return p;
+  if(!p.spouses)p.spouses=[];
+  if(typeof p.isDead!=="boolean")p.isDead=false;
+  if(!p.deathDate)p.deathDate="";
+  if(!p.gravePlace)p.gravePlace="";
+  if(!p.deathNote)p.deathNote="";
+  if(!p.gallery)p.gallery=[];
+  if(!p.docs)p.docs=[];
+  if(!p.voices)p.voices=[];
+  if(!p.events)p.events=[];
+  if(!p.memory)p.memory="";
+  return p;
+}
+function personBadges(p){
+  ensureFamilyFields(p);
+  let items=[];
+  if(p.spouses.length)items.push(`<span class="badge spouse-badge">💍 ${p.spouses.length}</span>`);
+  if(p.isDead)items.push(`<span class="badge dead-badge">🪦 فوت</span>`);
+  return items.join(" ");
+}
+function personOptions(selected){
+  return people.map(p=>`<option value="${p.id}" ${String(p.id)===String(selected)?"selected":""}>${p.name}</option>`).join("");
+}
+function renderDashboardTools(){
+  people.forEach(ensureFamilyFields);
+  renderProfileOptions();
+  renderFullProfile();
+  renderMarriageOptions();
+  renderDeathOptions();
+  renderDeathList();
+  renderRelationOptions();
+}
+function renderProfileOptions(){
+  let el=document.getElementById("profilePerson");
+  if(!el)return;
+  let current=el.value || (people[0]?.id||"");
+  el.innerHTML=personOptions(current);
+}
+function openProfileView(id){
+  showView("profiles");
+  let el=document.getElementById("profilePerson");
+  if(el){el.value=id; renderFullProfile();}
+}
+function renderFullProfile(){
+  let box=document.getElementById("fullProfileBox");
+  let sel=document.getElementById("profilePerson");
+  if(!box||!sel)return;
+  let p=people.find(x=>String(x.id)===String(sel.value))||people[0];
+  if(!p){box.innerHTML="<p>فردی ثبت نشده است.</p>";return;}
+  ensureFamilyFields(p);
+  let parent=people.find(x=>String(x.id)===String(p.parentId));
+  let children=people.filter(x=>String(x.parentId)===String(p.id));
+  let spouses=p.spouses.map(id=>people.find(x=>String(x.id)===String(id))).filter(Boolean);
+  const gallery=p.gallery.map((g,i)=>`<div><img src="${g.data}" title="${g.name||''}"><button class="btn red-btn" onclick="removeProfileItem(${p.id},'gallery',${i})">حذف</button></div>`).join("")||"<p>عکسی ثبت نشده است.</p>";
+  const docs=p.docs.map((d,i)=>`<div class="profile-file-row">📂 <span>${d.name}</span><a download="${d.name}" href="${d.data}">دانلود</a><button class="btn red-btn" onclick="removeProfileItem(${p.id},'docs',${i})">حذف</button></div>`).join("")||"<p>فایلی ثبت نشده است.</p>";
+  const voices=p.voices.map((v,i)=>`<div class="profile-file-row">🎤 <span>${v.name}</span><audio controls src="${v.data}"></audio><button class="btn red-btn" onclick="removeProfileItem(${p.id},'voices',${i})">حذف</button></div>`).join("")||"<p>ویسی ثبت نشده است.</p>";
+  const events=p.events.map((ev,i)=>`<div class="profile-file-row">🕘 <span>${ev.date||''} — ${ev.text}</span><button class="btn red-btn" onclick="removeProfileItem(${p.id},'events',${i})">حذف</button></div>`).join("")||"<p>رویدادی ثبت نشده است.</p>";
+  box.innerHTML=`
+    <div class="profile-detail">
+      <div class="profile-photo">${p.photo?`<img src="${p.photo}">`:icon(p.gender)}</div>
+      <div><h2>${p.name}</h2><div>${personBadges(p)}</div><p class="dashboard-note">${p.job||"بدون شغل ثبت‌شده"} ${p.phone?" — "+p.phone:""}</p></div>
+    </div>
+    <div class="info-grid">
+      <div class="info-box">جنسیت: ${p.gender==="female"?"زن":"مرد"}</div>
+      <div class="info-box">تولد: ${p.birth||"-"}</div>
+      <div class="info-box">والد: ${parent?parent.name:"-"}</div>
+      <div class="info-box">فرزندان: ${children.length}</div>
+      <div class="info-box">همسرها: ${spouses.length?spouses.map(s=>`<span class="badge spouse-badge">${s.name}</span>`).join(" "):"-"}</div>
+      <div class="info-box">وضعیت: ${p.isDead?`مرحوم/مرحومه ${p.deathDate||""} — ${p.gravePlace||"محل دفن ثبت نشده"}${p.deathNote?" — "+p.deathNote:""}`:"در قید حیات / ثبت نشده"}</div>
+    </div>
+    <div class="profile-tabs">
+      <button class="btn blue-btn" onclick="document.getElementById('galleryInput_${p.id}').click()">افزودن عکس</button>
+      <button class="btn blue-btn" onclick="document.getElementById('docsInput_${p.id}').click()">افزودن فایل</button>
+      <button class="btn blue-btn" onclick="document.getElementById('voicesInput_${p.id}').click()">افزودن ویس</button>
+      <button class="btn pink-btn" onclick="addProfileEvent(${p.id})">افزودن رویداد</button>
+    </div>
+    <input id="galleryInput_${p.id}" type="file" accept="image/*" multiple style="display:none" onchange="addProfileFiles(${p.id},'gallery',this.files)">
+    <input id="docsInput_${p.id}" type="file" multiple style="display:none" onchange="addProfileFiles(${p.id},'docs',this.files)">
+    <input id="voicesInput_${p.id}" type="file" accept="audio/*" multiple style="display:none" onchange="addProfileFiles(${p.id},'voices',this.files)">
+    <div class="profile-mini-card"><h3>📝 خاطره متنی</h3><textarea id="memory_${p.id}" class="memory-box">${p.memory||""}</textarea><br><button class="btn" onclick="saveProfileMemory(${p.id})">ذخیره خاطره</button></div>
+    <div class="profile-mini-card"><h3>🖼 گالری عکس</h3><div class="profile-media-grid">${gallery}</div></div>
+    <div class="profile-mini-card"><h3>📂 مدارک و فایل‌ها</h3>${docs}</div>
+    <div class="profile-mini-card"><h3>🎤 ویس و خاطرات صوتی</h3>${voices}</div>
+    <div class="profile-mini-card"><h3>🎞 Timeline شخصی</h3>${events}</div>
+  `;
+}
+function fileToBase64(file,callback){
+  const reader=new FileReader();
+  reader.onload=e=>callback({name:file.name,type:file.type,data:e.target.result,date:new Date().toLocaleDateString("fa-IR")});
+  reader.readAsDataURL(file);
+}
+function addProfileFiles(id,type,files){
+  if(!canEdit())return;
+  const p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  const list=Array.from(files||[]);
+  if(!list.length)return;
+  let done=0;
+  list.forEach(file=>fileToBase64(file,data=>{p[type].push(data);done++;if(done===list.length){save();openProfileView(id);}}));
+}
+function saveProfileMemory(id){
+  if(!canEdit())return;
+  const p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  p.memory=document.getElementById("memory_"+id).value;
+  save(); alert("خاطره ذخیره شد");
+}
+function addProfileEvent(id){
+  if(!canEdit())return;
+  const p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  const text=prompt("متن رویداد شخصی:"); if(!text)return;
+  const date=prompt("تاریخ رویداد:") || new Date().toLocaleDateString("fa-IR");
+  p.events.push({text,date}); save(); openProfileView(id);
+}
+function removeProfileItem(id,type,index){
+  if(!canEdit())return;
+  const p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  if(confirm("حذف شود؟")){p[type].splice(index,1);save();openProfileView(id);}
+}
+function renderMarriageOptions(){
+  let a=document.getElementById("spouseA"), b=document.getElementById("spouseB");
+  if(!a||!b)return;
+  let av=a.value || people[0]?.id || "";
+  let bv=b.value || people[1]?.id || people[0]?.id || "";
+  a.innerHTML=personOptions(av); b.innerHTML=personOptions(bv);
+  renderMarriageList();
+}
+function addMarriage(){
+  if(!canEdit())return;
+  let a=Number(document.getElementById("spouseA").value);
+  let b=Number(document.getElementById("spouseB").value);
+  if(!a||!b||a===b){alert("دو فرد متفاوت انتخاب کنید");return;}
+  let pa=people.find(x=>x.id===a), pb=people.find(x=>x.id===b);
+  ensureFamilyFields(pa); ensureFamilyFields(pb);
+  if(!pa.spouses.includes(b))pa.spouses.push(b);
+  if(!pb.spouses.includes(a))pb.spouses.push(a);
+  save(); alert("ازدواج ثبت شد");
+}
+function removeMarriage(a,b){
+  if(!canEdit())return;
+  let pa=people.find(x=>x.id===a), pb=people.find(x=>x.id===b);
+  if(pa){ensureFamilyFields(pa); pa.spouses=pa.spouses.filter(id=>id!==b);}
+  if(pb){ensureFamilyFields(pb); pb.spouses=pb.spouses.filter(id=>id!==a);}
+  save();
+}
+function renderMarriageList(){
+  let box=document.getElementById("marriageList"); if(!box)return;
+  let rows=[];
+  people.forEach(p=>{ensureFamilyFields(p); p.spouses.forEach(id=>{let s=people.find(x=>x.id===id); if(s && p.id<id)rows.push(`<div class="person-row">💍 ${p.name} ❤️ ${s.name}<button class="btn red-btn" onclick="removeMarriage(${p.id},${s.id})">حذف</button></div>`);});});
+  box.innerHTML=rows.join("")||"<p>هنوز ازدواجی ثبت نشده است.</p>";
+}
+function renderDeathOptions(){
+  let el=document.getElementById("deathPerson"); if(!el)return;
+  let current=el.value || people[0]?.id || "";
+  el.innerHTML=personOptions(current);
+  loadDeathForm();
+}
+function loadDeathForm(){
+  let id=document.getElementById("deathPerson")?.value;
+  let p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  document.getElementById("deathDate").value=p.deathDate||"";
+  document.getElementById("gravePlace").value=p.gravePlace||"";
+  const note=document.getElementById("deathNote"); if(note)note.value=p.deathNote||"";
+}
+function saveDeathInfo(){
+  if(!canEdit())return;
+  let id=document.getElementById("deathPerson").value;
+  let p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  p.isDead=true;
+  p.deathDate=document.getElementById("deathDate").value.trim();
+  p.gravePlace=document.getElementById("gravePlace").value.trim();
+  p.deathNote=(document.getElementById("deathNote")?.value||"").trim();
+  save(); alert("اطلاعات مرحوم ذخیره شد");
+}
+function clearDeathInfo(){
+  if(!canEdit())return;
+  let id=document.getElementById("deathPerson").value;
+  let p=people.find(x=>String(x.id)===String(id)); if(!p)return;
+  ensureFamilyFields(p);
+  p.isDead=false; p.deathDate=""; p.gravePlace=""; p.deathNote="";
+  save();
+}
+function renderDeathList(){
+  let box=document.getElementById("deathList"); if(!box)return;
+  const deceased=people.filter(p=>{ensureFamilyFields(p); return p.isDead;});
+  let rows=deceased.map(p=>`<div class="memorial-card"><b>🪦 ${p.name}</b><br>تاریخ فوت: ${p.deathDate||"ثبت نشده"}<br>📍 محل دفن: ${p.gravePlace||"ثبت نشده"}${p.deathNote?`<br>📝 ${p.deathNote}`:""}<br><button class="btn gray-btn" onclick="openProfileView(${p.id})">پروفایل</button><button class="btn blue-btn" onclick="document.getElementById('deathPerson').value='${p.id}';loadDeathForm();window.scrollTo({top:0,behavior:'smooth'})">ویرایش</button></div>`);
+  box.innerHTML=rows.join("")||"<p>مورد فوتی ثبت نشده است.</p>";
+  renderDeathSummary();
+}
+function renderDeathSummary(){
+  const el=document.getElementById("deathSummary"); if(!el)return;
+  const deceased=people.filter(p=>{ensureFamilyFields(p); return p.isDead;});
+  const graves=deceased.filter(p=>p.gravePlace).length;
+  el.innerHTML=`<div class="death-card">مرحومین<b>${deceased.length}</b></div><div class="death-card">دارای محل دفن<b>${graves}</b></div><div class="death-card">افراد زنده/ثبت‌نشده<b>${Math.max(people.length-deceased.length,0)}</b></div>`;
+}
+function renderRelationOptions(){
+  let a=document.getElementById("relationA"), b=document.getElementById("relationB"); if(!a||!b)return;
+  let av=a.value||people[0]?.id||"", bv=b.value||people[1]?.id||people[0]?.id||"";
+  a.innerHTML=personOptions(av); b.innerHTML=personOptions(bv);
+}
+function ancestors(id){
+  let out=[]; let current=people.find(x=>String(x.id)===String(id));
+  while(current && current.parentId){out.push(Number(current.parentId)); current=people.find(x=>String(x.id)===String(current.parentId));}
+  return out;
+}
+function relationBetween(a,b){
+  if(a===b)return "خود فرد";
+  let pa=people.find(x=>x.id===a), pb=people.find(x=>x.id===b);
+  if(!pa||!pb)return "نامشخص";
+  ensureFamilyFields(pa); ensureFamilyFields(pb);
+  if(pa.spouses.includes(b))return `${pa.name} و ${pb.name} همسر هستند`;
+  if(String(pb.parentId)===String(pa.id))return `${pa.name} والد ${pb.name} است`;
+  if(String(pa.parentId)===String(pb.id))return `${pb.name} والد ${pa.name} است`;
+  if(pa.parentId && String(pa.parentId)===String(pb.parentId))return "خواهر / برادر";
+  let aa=ancestors(a), ab=ancestors(b);
+  for(let id of aa){if(ab.includes(id)){let c=people.find(x=>x.id===id); return `جد مشترک: ${c?c.name:"نامشخص"}`;}}
+  return "نسبت مستقیم پیدا نشد";
+}
+function showRelation(){
+  let a=Number(document.getElementById("relationA").value), b=Number(document.getElementById("relationB").value);
+  document.getElementById("relationResult").innerText=relationBetween(a,b);
+}
+
+function zoomIn(){zoom+=0.1;applyZoom()}  
+function zoomOut(){zoom=Math.max(0.4,zoom-0.1);applyZoom()}  
+function resetZoom(){zoom=1;applyZoom()}  
+function applyZoom(){document.getElementById("treeStage").style.transform=`scale(${zoom})`}  
+  
+function toggleFullscreen(){  
+  let el=document.getElementById("treeSection");  
+  if(!document.fullscreenElement)el.requestFullscreen();  
+  else document.exitFullscreen();  
+}  
+  
+function exportPNG(){  
+  let node=document.getElementById("treeWrap");  
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${node.scrollWidth}" height="${node.scrollHeight}">  
+  <foreignObject width="100%" height="100%">  
+  <div xmlns="http://www.w3.org/1999/xhtml">${node.innerHTML}</div>  
+  </foreignObject></svg>`;  
+  let img=new Image();  
+  let url="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);  
+  img.onload=function(){  
+    let canvas=document.createElement("canvas");  
+    canvas.width=node.scrollWidth;  
+    canvas.height=node.scrollHeight;  
+    let ctx=canvas.getContext("2d");  
+    ctx.fillStyle="#ffffff";  
+    ctx.fillRect(0,0,canvas.width,canvas.height);  
+    ctx.drawImage(img,0,0);  
+    let a=document.createElement("a");  
+    a.download="family-tree.png";  
+    a.href=canvas.toDataURL("image/png");  
+    a.click();  
+  };  
+  img.src=url;  
+}  
+  
+function openContext(e,id){  
+  e.preventDefault();  
+  ctxId=id;  
+  let menu=document.getElementById("contextMenu");  
+  menu.style.display="block";  
+  menu.style.left=e.clientX+"px";  
+  menu.style.top=e.clientY+"px";  
+}  
+  
+document.addEventListener("click",()=>document.getElementById("contextMenu").style.display="none");  
+  
+function ctxEdit(){editPerson(ctxId)}  
+function ctxDelete(){deletePerson(ctxId)}  
+function ctxAddChild(){  
+  let name=prompt("نام فرزند:");  
+  if(!name)return;  
+  people.push({id:uid(),name:name,gender:"male",birth:"",parentId:ctxId,job:"",phone:"",photo:""});  
+  save();  
+}  
+  
+function exportData(){  
+  let b=new Blob([JSON.stringify(people,null,2)],{type:"application/json"});  
+  let a=document.createElement("a");  
+  a.href=URL.createObjectURL(b);  
+  a.download="family-backup.json";  
+  a.click();  
+}  
+  
+function importData(e){  
+  if(!canEdit())return;
+  let file=e.target.files[0]; if(!file)return;  
+  let r=new FileReader();  
+  r.onload=function(ev){  
+    try{people=JSON.parse(ev.target.result);save();alert("بازیابی شد")}  
+    catch(err){alert("فایل معتبر نیست")}  
+  };  
+  r.readAsText(file);  
+}  
+  
+function toggleDark(){  
+  document.body.classList.toggle("dark");  
+  localStorage.setItem("family_dark",document.body.classList.contains("dark")?"yes":"no");  
+}  
+  
+function changePassword(){  
+  if(!canManageAccess()){alert("فقط مدیر اجازه تغییر رمز دارد");return;}
+  let old=prompt("رمز فعلی:");  
+  if(old!==password){alert("رمز اشتباه است");return}  
+  let np=prompt("رمز جدید:");  
+  if(!np || np.length<4){alert("رمز کوتاه است");return}  
+  password=np;  
+  localStorage.setItem("family_pass",password);  
+  alert("رمز تغییر کرد");  
+}  
+  
+function focusAdd(){showView("people");document.getElementById("addSec").scrollIntoView({behavior:"smooth"})}  
+function scrollTree(){showView("tree")}  
+function scrollTimeline(){showView("timeline")}  
+  
+
+let firebaseRuntime={app:null,db:null,doc:null,setDoc:null,getDoc:null,onSnapshot:null,unsubscribe:null,connecting:false};
+function getFirebaseConfig(){
+  try{return JSON.parse(localStorage.getItem("family_firebase_config")||"{}");}catch(e){return {};}
+}
+function setFirebaseStatus(msg){
+  const el=document.getElementById("firebaseStatus");
+  if(el)el.innerText="وضعیت: "+msg;
+}
+function firebaseFillForm(){
+  const cfg=getFirebaseConfig();
+  const ids=["fbApiKey","fbAuthDomain","fbProjectId","fbStorageBucket","fbMessagingSenderId","fbAppId","fbFamilyId","fbMode"];
+  ids.forEach(id=>{const el=document.getElementById(id); if(el && cfg[id])el.value=cfg[id];});
+  const fam=new URLSearchParams(location.search).get("family");
+  if(fam && document.getElementById("fbFamilyId"))document.getElementById("fbFamilyId").value=fam;
+}
+function firebaseReadForm(){
+  return {
+    fbApiKey:document.getElementById("fbApiKey")?.value.trim()||"",
+    fbAuthDomain:document.getElementById("fbAuthDomain")?.value.trim()||"",
+    fbProjectId:document.getElementById("fbProjectId")?.value.trim()||"",
+    fbStorageBucket:document.getElementById("fbStorageBucket")?.value.trim()||"",
+    fbMessagingSenderId:document.getElementById("fbMessagingSenderId")?.value.trim()||"",
+    fbAppId:document.getElementById("fbAppId")?.value.trim()||"",
+    fbFamilyId:document.getElementById("fbFamilyId")?.value.trim()||"my-family",
+    fbMode:document.getElementById("fbMode")?.value||"manual"
+  };
+}
+function firebaseSaveConfig(){
+  const cfg=firebaseReadForm();
+  localStorage.setItem("family_firebase_config",JSON.stringify(cfg));
+  renderFirebasePanel();
+  setFirebaseStatus("تنظیمات ذخیره شد");
+}
+async function firebaseConnect(){
+  firebaseSaveConfig();
+  const cfg=getFirebaseConfig();
+  if(!cfg.fbApiKey||!cfg.fbAuthDomain||!cfg.fbProjectId||!cfg.fbAppId){setFirebaseStatus("تنظیمات Firebase کامل نیست");return null;}
+  if(firebaseRuntime.db)return firebaseRuntime;
+  if(firebaseRuntime.connecting)return firebaseRuntime;
+  firebaseRuntime.connecting=true;
+  try{
+    const appMod=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
+    const fsMod=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
+    const app=appMod.initializeApp({apiKey:cfg.fbApiKey,authDomain:cfg.fbAuthDomain,projectId:cfg.fbProjectId,storageBucket:cfg.fbStorageBucket,messagingSenderId:cfg.fbMessagingSenderId,appId:cfg.fbAppId});
+    firebaseRuntime.app=app;
+    firebaseRuntime.db=fsMod.getFirestore(app);
+    firebaseRuntime.doc=fsMod.doc;
+    firebaseRuntime.setDoc=fsMod.setDoc;
+    firebaseRuntime.getDoc=fsMod.getDoc;
+    firebaseRuntime.onSnapshot=fsMod.onSnapshot;
+    setFirebaseStatus("اتصال برقرار شد");
+    return firebaseRuntime;
+  }catch(e){setFirebaseStatus("خطا در اتصال: "+e.message);return null;}
+  finally{firebaseRuntime.connecting=false;}
+}
+function firebaseFamilyRef(rt){
+  const cfg=getFirebaseConfig();
+  const familyId=(cfg.fbFamilyId||"my-family").replace(/[^a-zA-Z0-9_-]/g,"_");
+  return rt.doc(rt.db,"families",familyId);
+}
+function firebasePayload(){
+  return {people:people,access:{editorKey:approvedEditorKey,requests:pendingAccessRequests},meta:{version:"v68-4-firebase-sync-no-cache",updatedAt:new Date().toISOString()}};
+}
+async function firebaseSaveCloud(){
+  if(!canEdit())return;
+  const rt=await firebaseConnect(); if(!rt||!rt.db)return;
+  try{await rt.setDoc(firebaseFamilyRef(rt),firebasePayload(),{merge:true});setFirebaseStatus("اطلاعات روی ابر ذخیره شد");}
+  catch(e){setFirebaseStatus("خطا در ذخیره: "+e.message);}
+}
+async function firebaseLoadCloud(){
+  const rt=await firebaseConnect(); if(!rt||!rt.db)return;
+  try{
+    const snap=await rt.getDoc(firebaseFamilyRef(rt));
+    if(!snap.exists()){setFirebaseStatus("برای این Family ID داده‌ای پیدا نشد");return;}
+    const data=snap.data();
+    if(Array.isArray(data.people)){people=data.people;localStorage.setItem("family_people_v11",JSON.stringify(people));}
+    if(data.access){
+      if(data.access.editorKey){approvedEditorKey=data.access.editorKey;localStorage.setItem("family_editor_key",approvedEditorKey);}
+      if(Array.isArray(data.access.requests)){pendingAccessRequests=data.access.requests;localStorage.setItem("family_access_requests",JSON.stringify(pendingAccessRequests));}
+    }
+    render();
+    setFirebaseStatus("اطلاعات از ابر دریافت شد");
+  }catch(e){setFirebaseStatus("خطا در دریافت: "+e.message);}
+}
+async function firebaseToggleLive(){
+  const rt=await firebaseConnect(); if(!rt||!rt.db)return;
+  if(firebaseRuntime.unsubscribe){firebaseRuntime.unsubscribe();firebaseRuntime.unsubscribe=null;setFirebaseStatus("همگام‌سازی زنده خاموش شد");return;}
+  firebaseRuntime.unsubscribe=rt.onSnapshot(firebaseFamilyRef(rt),snap=>{
+    if(!snap.exists())return;
+    const data=snap.data();
+    if(Array.isArray(data.people)){people=data.people;localStorage.setItem("family_people_v11",JSON.stringify(people));render();setFirebaseStatus("همگام‌سازی زنده فعال است");}
+  },err=>setFirebaseStatus("خطای همگام‌سازی: "+err.message));
+  setFirebaseStatus("همگام‌سازی زنده روشن شد");
+}
+function renderFirebasePanel(){
+  firebaseFillForm();
+  const cfg=getFirebaseConfig();
+  const familyId=encodeURIComponent((document.getElementById("fbFamilyId")?.value||cfg.fbFamilyId||"my-family").trim());
+  const v=document.getElementById("fbViewerLink"), e=document.getElementById("fbEditorLink");
+  if(v)v.value=getBaseUrl()+"?family="+familyId+"&role=viewer&v=v68-4-firebase-sync-no-cache";
+  if(e)e.value=getBaseUrl()+"?family="+familyId+"&role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=v68-4-firebase-sync-no-cache";
+}
+
+setInterval(()=>document.getElementById("clock").innerText=new Date().toLocaleString("fa-IR"),1000);  
+if(initAccessFromUrl()){render();}else{render();}  
+</script>
+
+<!-- V67 CLEAN BASE MARKER -->
+<div id="v67VersionMarker" style="position:fixed;left:8px;bottom:8px;z-index:999999;background:#071b35;color:white;border-radius:8px;padding:5px 8px;font:11px tahoma;opacity:.75" class="no-print">V68.4 Firebase Sync</div>
+<!-- END V67 CLEAN BASE MARKER -->
+
+</body>
+</html>
