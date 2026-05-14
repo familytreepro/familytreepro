@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سامانه شجره‌نامه خانواده</title>
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#2563eb">
+<style>
+*{box-sizing:border-box} :root{--bg:#f4f7fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2;--shadow:0 12px 30px rgba(15,23,42,.08)}
+body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)} body.dark{--bg:#0f172a;--card:#1e293b;--text:#f8fafc;--muted:#cbd5e1;--line:#334155}
+button,input,select,textarea{font-family:tahoma,Arial} button{cursor:pointer}
+#login{position:fixed;inset:0;background:linear-gradient(135deg,#071b35,#123a6b);display:flex;align-items:center;justify-content:center;z-index:999}
+.loginbox{width:92%;max-width:400px;background:white;color:#172033;border-radius:24px;padding:28px;text-align:center;box-shadow:0 25px 70px rgba(0,0,0,.3)} .loginbox input{width:100%;padding:14px;margin:8px 0;border:1px solid #dbe3ee;border-radius:14px}
+.topbar{height:64px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 22px;position:sticky;top:0;z-index:20}.topbar b{font-size:18px}.topbar span{cursor:pointer}
+.layout{display:grid;grid-template-columns:270px 1fr;min-height:calc(100vh - 64px)} .sidebar{background:linear-gradient(180deg,#071b35,#0a2445);color:white;padding:18px 12px}.profile{text-align:center;padding:10px 0 18px}.avatar{width:80px;height:80px;border-radius:50%;background:white;color:#94a3b8;margin:auto;display:flex;align-items:center;justify-content:center;font-size:42px}.online{color:#22c55e;font-size:13px}
+.menu{padding:14px 16px;margin:8px 0;border-radius:14px;background:rgba(255,255,255,.08);color:#e5e7eb;display:flex;justify-content:space-between;align-items:center}.menu:hover,.menu.active{background:var(--blue)}
+.main{padding:22px;overflow:auto}.page-title{display:flex;align-items:center;gap:10px;margin-bottom:18px}.page-title h1{margin:0}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}.card,.panel,.tree-card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:18px;box-shadow:var(--shadow)}.stat{display:flex;align-items:center;justify-content:space-between}.num{font-size:30px;font-weight:900;margin-top:8px}.icon{font-size:38px}.purple{background:#fbf7ff;color:#7c3aed}.blue{background:#f4f8ff;color:#2563eb}.pink{background:#fff5fa;color:#db2777}.green{background:#f4fff8;color:#16a34a} body.dark .purple,body.dark .blue,body.dark .pink,body.dark .green{background:var(--card)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.form-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}.form-row input,.form-row select,.search,textarea{flex:1;min-width:155px;padding:12px;border:1px solid #d7deea;border-radius:12px;background:white;color:#172033} body.dark .form-row input,body.dark .form-row select,body.dark .search,body.dark textarea{background:#0f172a;color:white;border-color:#334155}
+.btn{border:0;border-radius:12px;padding:11px 16px;color:white;background:var(--green);margin:4px}.blue-btn{background:var(--blue)}.red-btn{background:var(--red)}.pink-btn{background:var(--pink)}.gray-btn{background:#64748b}.orange-btn{background:#ea580c}.purple-btn{background:#7c3aed}
+.person-row,.timeline-item,.birthday-item{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:14px;padding:13px;margin:9px 0}.thumb{width:42px;height:42px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;overflow:hidden;background:#e2e8f0;margin-left:8px;vertical-align:middle}.thumb img{width:100%;height:100%;object-fit:cover}
+.tree-toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}.tree-wrap{overflow:auto;direction:ltr;padding:22px;border-radius:16px;background:rgba(148,163,184,.06);min-height:260px}.tree-stage{transform-origin:top center;transition:.2s}.tree ul{padding-top:25px;position:relative;display:flex;justify-content:center}.tree li{list-style:none;text-align:center;position:relative;padding:25px 10px 0}.tree li::before,.tree li::after{content:'';position:absolute;top:0;width:50%;height:25px;border-top:2px solid #94a3b8}.tree li::before{right:50%;border-right:2px solid #94a3b8}.tree li::after{left:50%;border-left:2px solid #94a3b8}.tree li:only-child::before,.tree li:only-child::after{display:none}.tree li:only-child{padding-top:0}.tree li:first-child::before,.tree li:last-child::after{border:0}.tree ul ul::before{content:'';position:absolute;top:0;left:50%;height:25px;border-left:2px solid #94a3b8}.node{min-width:175px;display:inline-block;background:#f8fbff;border:1.5px solid #93c5fd;border-radius:16px;padding:12px;direction:rtl;box-shadow:0 8px 18px rgba(37,99,235,.08);transition:.25s}.node:hover{transform:translateY(-3px)}.node.female{background:#fff5fa;border-color:#f9a8d4}.node.match{outline:4px solid #f59e0b}.node img{width:50px;height:50px;border-radius:50%;object-fit:cover;display:block;margin:auto}.node small{color:var(--muted)}.mini-collapse{border:0;background:#f59e0b;color:white;border-radius:9px;padding:4px 8px;margin-top:6px;font-size:12px}
+.context-menu{position:fixed;display:none;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 15px 40px rgba(0,0,0,.2);z-index:200;overflow:hidden}.context-menu button{display:block;width:190px;border:0;background:transparent;color:var(--text);padding:12px;text-align:right}.context-menu button:hover{background:rgba(148,163,184,.15)}
+.profile-modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:500}.profile-box{width:94%;max-width:850px;max-height:92vh;overflow:auto;background:var(--card);color:var(--text);border-radius:22px;padding:22px;box-shadow:0 30px 80px rgba(0,0,0,.35)}.profile-head{display:flex;gap:18px;align-items:center;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:16px}.profile-photo{width:110px;height:110px;border-radius:50%;background:#e2e8f0;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:58px}.profile-photo img{width:100%;height:100%;object-fit:cover}.profile-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.profile-section{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:16px;padding:14px}.spouse-badge,.dead-badge{border-radius:999px;padding:5px 10px;font-size:12px;margin:4px;display:inline-block}.spouse-badge{background:#ecfeff;border:1px solid #67e8f9;color:#155e75}.dead-badge{background:#fef2f2;border:1px solid #fecaca;color:#991b1b}.bar-bg{height:12px;background:#e2e8f0;border-radius:999px;overflow:hidden}.bar-fill{height:100%;background:var(--blue);border-radius:999px}.footer{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;color:var(--muted);display:flex;justify-content:space-between}
+@media(max-width:950px){.layout{grid-template-columns:1fr}.sidebar{order:2}.main{order:1}.cards,.grid-2,.profile-grid{grid-template-columns:1fr}.topbar{font-size:13px;padding:0 12px}}@media print{#login,.topbar,.sidebar,.no-print,.btn{display:none!important}.layout{display:block}.main{padding:0}body{background:white;color:black}.card,.panel,.tree-card{box-shadow:none;border:1px solid #ddd}}
+</style>
+</head>
+<body>
+<div id="login"><div class="loginbox"><h2>🔐 ورود به سامانه</h2><input id="loginUser" value="admin" placeholder="نام کاربری"><input id="loginPass" type="password" placeholder="رمز ورود"><button class="btn" onclick="app.login()">ورود</button><p id="loginError" style="color:red"></p><small>نام کاربری: admin | رمز: 1234</small></div></div>
+<div id="app" style="display:none"><div class="topbar"><span onclick="app.logout()">🔒 خروج</span><span id="clock">سامانه آنلاین</span><b>🌳 سامانه شجره‌نامه خانواده</b></div><div class="layout"><aside class="sidebar no-print"><div class="profile"><div class="avatar">👤</div><h3>مدیر سیستم</h3><div class="online">● آنلاین</div></div><div class="menu active" onclick="app.scrollTo('top')">داشبورد <span>🏠</span></div><div class="menu" onclick="app.focusAdd()">افراد <span>👤</span></div><div class="menu" onclick="app.scrollTo('treeSection')">شجره <span>🌳</span></div><div class="menu" onclick="app.scrollTo('timelineSec')">Timeline <span>🕘</span></div><div class="menu" onclick="window.print()">چاپ PDF <span>🖨</span></div><div class="menu" onclick="app.exportData()">پشتیبان‌گیری <span>💾</span></div><div class="menu" onclick="document.getElementById('importFile').click()">بازیابی <span>⬇️</span></div><input id="importFile" type="file" accept=".json" style="display:none" onchange="app.importData(event)"><div class="menu" onclick="app.toggleDark()">حالت شب <span>🌙</span></div><div class="menu" onclick="app.changePassword()">تغییر رمز <span>🔒</span></div></aside><main class="main" id="top"><div class="page-title"><h1>داشبورد</h1><span>🏠 خانه</span></div><div class="cards"><div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div></div><div class="icon">👥</div></div><div class="card stat blue"><div>مردان<div class="num" id="male">0</div></div><div class="icon">👨</div></div><div class="card stat pink"><div>زنان<div class="num" id="female">0</div></div><div class="icon">👩</div></div><div class="card stat green"><div>نسل‌ها<div class="num" id="gens">0</div></div><div class="icon">🌳</div></div></div><div class="grid-2 no-print"><div class="panel" id="addSec"><h2>➕ افزودن / ویرایش فرد</h2><input type="hidden" id="editId"><div class="form-row"><input id="name" placeholder="نام فرد"><select id="gender"><option value="male">مرد</option><option value="female">زن</option></select><input id="birth" placeholder="سال تولد"></div><div class="form-row"><select id="parent"><option value="">بدون پدر/مادر</option></select><input id="job" placeholder="شغل"><input id="phone" placeholder="شماره تماس"></div><div class="form-row"><input id="photo" type="file" accept="image/*"></div><button class="btn" onclick="app.savePerson()">ذخیره فرد</button><button class="btn red-btn" onclick="app.clearForm()">پاک کردن فرم</button></div><div class="panel"><h2>🔍 جستجوی زنده</h2><input class="search" id="search" placeholder="جستجو در نام، شغل یا تماس..." oninput="app.render()"><div id="list"></div></div></div><div class="grid-2"><div class="panel"><h2>🎂 تقویم تولدها</h2><div id="birthdays"></div></div><div class="panel" id="timelineSec"><h2>🕘 Timeline خانوادگی</h2><div id="timeline"></div></div></div><div class="grid-2 no-print"><div class="panel"><h2>📊 نمودار نسل‌ها</h2><div id="generationChart"></div></div><div class="panel"><h2>💍 مدیریت ازدواج و همسر</h2><div class="form-row"><select id="spouseA"></select><select id="spouseB"></select></div><button class="btn pink-btn" onclick="app.addMarriage()">ثبت ازدواج</button><div id="marriageList"></div></div></div><section class="tree-card" id="treeSection"><h2>🌳 چارت شجره‌نامه</h2><div class="tree-toolbar no-print"><button class="btn blue-btn" onclick="app.zoomIn()">＋ بزرگ‌نمایی</button><button class="btn blue-btn" onclick="app.zoomOut()">－ کوچک‌نمایی</button><button class="btn gray-btn" onclick="app.resetZoom()">100%</button><button class="btn pink-btn" onclick="app.toggleFullscreen()">تمام‌صفحه</button><button class="btn" onclick="app.exportPNG()">خروجی PNG</button></div><div class="tree-wrap" id="treeWrap"><div class="tree-stage" id="treeStage"><div class="tree" id="tree"></div></div></div></section><div class="footer"><span>نسخه تمیز بدون کد تکراری ✅</span><span>LocalStorage، چاپ، بکاپ، پروفایل، همسر ✅</span></div></main></div></div>
+<div class="context-menu" id="contextMenu"><button onclick="app.ctxEdit()">✏️ ویرایش</button><button onclick="app.ctxAddChild()">👶 افزودن فرزند</button><button onclick="app.ctxDelete()">🗑 حذف شاخه</button></div>
+<div class="profile-modal" id="fullProfileModal"><div class="profile-box"><div id="fullProfileContent"></div><button class="btn red-btn" onclick="app.closeFullProfile()">بستن</button></div></div>
+<script>
+const app={password:localStorage.getItem('family_pass')||'1234',zoom:1,dragId:null,ctxId:null,collapsed:JSON.parse(localStorage.getItem('collapsedBranches')||'{}'),people:JSON.parse(localStorage.getItem('family_people_v62')||localStorage.getItem('family_people_v11')||'null')||[{id:1,name:'حاج محمدرضا احمدی',gender:'male',birth:'1330',parentId:'',job:'',phone:'',photo:'',spouses:[2]},{id:2,name:'بی‌بی فاطمه محمدی',gender:'female',birth:'1335',parentId:'',job:'',phone:'',photo:'',spouses:[1]},{id:3,name:'علی احمدی',gender:'male',birth:'1355',parentId:1,job:'',phone:'',photo:'',spouses:[]},{id:4,name:'مریم احمدی',gender:'female',birth:'1357',parentId:1,job:'',phone:'',photo:'',spouses:[]},{id:5,name:'حسین احمدی',gender:'male',birth:'1360',parentId:1,job:'',phone:'',photo:'',spouses:[]},{id:6,name:'زهرا احمدی',gender:'female',birth:'1365',parentId:1,job:'',phone:'',photo:'',spouses:[]},{id:7,name:'پارسا احمدی',gender:'male',birth:'1385',parentId:3,job:'',phone:'',photo:'',spouses:[]},{id:8,name:'سارا احمدی',gender:'female',birth:'1388',parentId:3,job:'',phone:'',photo:'',spouses:[]}],
+login(){const u=document.getElementById('loginUser').value.trim(),p=document.getElementById('loginPass').value;if(u==='admin'&&p===this.password){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';this.render()}else document.getElementById('loginError').innerText='نام کاربری یا رمز اشتباه است'},logout(){location.reload()},uid(){return Date.now()+Math.floor(Math.random()*999)},icon(g){return g==='female'?'👩':'👨'},ensure(p){p.spouses=p.spouses||[];p.gallery=p.gallery||[];p.docs=p.docs||[];p.voices=p.voices||[];p.events=p.events||[];p.memory=p.memory||'';p.isDead=!!p.isDead;p.deathDate=p.deathDate||'';p.gravePlace=p.gravePlace||'';return p},save(){this.people.forEach(p=>this.ensure(p));localStorage.setItem('family_people_v62',JSON.stringify(this.people));localStorage.setItem('family_people_v11',JSON.stringify(this.people));this.render()},render(){this.renderStats();this.renderParentOptions();this.renderList();this.renderTree();this.renderBirthdays();this.renderTimeline();this.renderGenerationChart();this.refreshMarriageOptions()},renderStats(){this.setText('total',this.people.length);this.setText('male',this.people.filter(p=>p.gender==='male').length);this.setText('female',this.people.filter(p=>p.gender==='female').length);this.setText('gens',this.maxDepth())},setText(id,v){const e=document.getElementById(id);if(e)e.innerText=v},maxDepth(){const depth=p=>{const ch=this.people.filter(x=>String(x.parentId)===String(p.id));return ch.length?1+Math.max(...ch.map(depth)):1};const roots=this.people.filter(p=>!p.parentId);return roots.length?Math.max(...roots.map(depth)):0},renderParentOptions(){const el=document.getElementById('parent');if(!el)return;const current=el.value;el.innerHTML='<option value="">بدون پدر/مادر</option>'+this.people.map(p=>`<option value="${p.id}">${this.esc(p.name)}</option>`).join('');el.value=current},renderList(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const list=this.people.filter(p=>(p.name+p.job+p.phone).toLowerCase().includes(q));document.getElementById('list').innerHTML=list.map(p=>`<div class="person-row"><span class="thumb">${p.photo?`<img src="${p.photo}">`:this.icon(p.gender)}</span><b>${this.esc(p.name)}</b> <small>${this.esc(p.birth||'')}</small><button class="btn purple-btn" onclick="app.openFullProfile(${p.id})">پروفایل کامل</button><button class="btn blue-btn" onclick="app.editPerson(${p.id})">ویرایش</button><button class="btn red-btn" onclick="app.deletePerson(${p.id})">حذف</button></div>`).join('')||'<p>نتیجه‌ای نیست.</p>'},renderTree(){const q=(document.getElementById('search')?.value||'').trim().toLowerCase();const roots=this.people.filter(p=>!p.parentId||!this.people.some(x=>String(x.id)===String(p.parentId)));document.getElementById('tree').innerHTML='<ul>'+roots.map(p=>this.node(p,q)).join('')+'</ul>'},node(p,q){this.ensure(p);const children=this.people.filter(x=>String(x.parentId)===String(p.id));const match=q&&(p.name+p.job+p.phone).toLowerCase().includes(q);const closed=this.collapsed[p.id];const spouses=p.spouses.map(id=>this.people.find(x=>String(x.id)===String(id))).filter(Boolean).map(s=>`<span class="spouse-badge">❤️ ${this.esc(s.name)}</span>`).join('');return `<li><div class="node ${p.gender==='female'?'female':''} ${match?'match':''}" draggable="true" ondragstart="app.dragStart(${p.id})" ondragover="event.preventDefault()" ondrop="app.dropOn(${p.id})" oncontextmenu="app.openContext(event,${p.id})">${p.photo?`<img src="${p.photo}">`:`<div style="font-size:32px">${this.icon(p.gender)}</div>`}<b>${this.esc(p.name)}</b><br><small>${this.esc(p.birth||'')}</small><br>${spouses}${p.isDead?`<br><span class="dead-badge">🪦 ${this.esc(p.deathDate||'فوت شده')}</span>`:''}${children.length?`<br><button class="mini-collapse no-print" onclick="app.toggleBranch(${p.id});event.stopPropagation()">${closed?'باز کردن شاخه +':'بستن شاخه −'}</button>`:''}<br><button class="btn purple-btn" onclick="app.openFullProfile(${p.id})">پروفایل</button><button class="btn blue-btn" onclick="app.editPerson(${p.id})">ویرایش</button></div>${children.length&&!closed?`<ul>${children.map(c=>this.node(c,q)).join('')}</ul>`:''}</li>`},savePerson(){const id=document.getElementById('editId').value,name=document.getElementById('name').value.trim();if(!name){alert('نام را وارد کنید');return}const file=document.getElementById('photo').files[0];const finish=photo=>{const old=id?this.people.find(p=>String(p.id)===String(id)):null;const data=this.ensure({id:id?Number(id):this.uid(),name,gender:document.getElementById('gender').value,birth:document.getElementById('birth').value.trim(),parentId:document.getElementById('parent').value||'',job:document.getElementById('job').value.trim(),phone:document.getElementById('phone').value.trim(),photo:photo||(old?.photo||''),spouses:old?.spouses||[],gallery:old?.gallery||[],docs:old?.docs||[],voices:old?.voices||[],events:old?.events||[],memory:old?.memory||'',isDead:old?.isDead||false,deathDate:old?.deathDate||'',gravePlace:old?.gravePlace||''});if(old)Object.assign(old,data);else this.people.push(data);this.clearForm();this.save()};if(file){const r=new FileReader();r.onload=e=>finish(e.target.result);r.readAsDataURL(file)}else finish('')},editPerson(id){const p=this.people.find(x=>String(x.id)===String(id));if(!p)return;['editId','name','birth','job','phone'].forEach(k=>document.getElementById(k).value=p[k==='editId'?'id':k]||'');document.getElementById('gender').value=p.gender;document.getElementById('parent').value=p.parentId||'';this.focusAdd()},deletePerson(id){if(!confirm('این فرد و زیرشاخه‌هایش حذف شوند؟'))return;const ids=[id,...this.descendants(id)];this.people=this.people.filter(p=>!ids.includes(p.id));this.people.forEach(p=>{this.ensure(p);p.spouses=p.spouses.filter(s=>!ids.includes(s))});this.save()},descendants(id){let out=[];this.people.filter(p=>String(p.parentId)===String(id)).forEach(c=>out.push(c.id,...this.descendants(c.id)));return out},clearForm(){['editId','name','birth','job','phone'].forEach(id=>document.getElementById(id).value='');document.getElementById('parent').value='';document.getElementById('photo').value=''},renderBirthdays(){const arr=this.people.filter(p=>p.birth).sort((a,b)=>String(a.birth).localeCompare(String(b.birth)));document.getElementById('birthdays').innerHTML=arr.map(p=>`<div class="birthday-item">🎂 ${this.esc(p.name)} — ${this.esc(p.birth)}</div>`).join('')||'<p>تولدی ثبت نشده است.</p>'},renderTimeline(){const arr=this.people.filter(p=>p.birth).sort((a,b)=>Number(a.birth)-Number(b.birth));document.getElementById('timeline').innerHTML=arr.map(p=>`<div class="timeline-item">🕘 ${this.esc(p.birth)} — ${this.esc(p.name)} متولد شد</div>`).join('')||'<p>Timeline خالی است.</p>'},renderGenerationChart(){const el=document.getElementById('generationChart');if(!el)return;const map={};const walk=(p,l)=>{map[l]=(map[l]||0)+1;this.people.filter(c=>String(c.parentId)===String(p.id)).forEach(c=>walk(c,l+1))};this.people.filter(p=>!p.parentId).forEach(r=>walk(r,1));const max=Math.max(...Object.values(map),1);el.innerHTML=Object.keys(map).map(l=>`<div style="margin:10px 0"><div style="display:flex;justify-content:space-between;margin-bottom:5px"><span>نسل ${l}</span><span>${map[l]} نفر</span></div><div class="bar-bg"><div class="bar-fill" style="width:${map[l]/max*100}%"></div></div></div>`).join('')||'<p>هنوز اطلاعاتی نیست.</p>'},refreshMarriageOptions(){['spouseA','spouseB'].forEach(id=>{const el=document.getElementById(id);if(el)el.innerHTML=this.people.map(p=>`<option value="${p.id}">${this.esc(p.name)}</option>`).join('')});this.renderMarriageList()},addMarriage(){const a=Number(document.getElementById('spouseA').value),b=Number(document.getElementById('spouseB').value);if(a===b){alert('یک فرد نمی‌تواند همسر خودش باشد');return}const pa=this.people.find(x=>x.id===a),pb=this.people.find(x=>x.id===b);if(!pa||!pb)return;this.ensure(pa);this.ensure(pb);if(!pa.spouses.includes(b))pa.spouses.push(b);if(!pb.spouses.includes(a))pb.spouses.push(a);this.save();alert('ازدواج ثبت شد')},renderMarriageList(){const box=document.getElementById('marriageList');if(!box)return;const rows=[];this.people.forEach(p=>{this.ensure(p);p.spouses.forEach(id=>{const s=this.people.find(x=>String(x.id)===String(id));if(s&&p.id<Number(id))rows.push(`<div class="person-row">💍 ${this.esc(p.name)} ❤️ ${this.esc(s.name)}</div>`)})});box.innerHTML=rows.join('')||'<p>هنوز ازدواجی ثبت نشده است.</p>'},openFullProfile(id){const p=this.ensure(this.people.find(x=>String(x.id)===String(id)));if(!p)return;const parent=this.people.find(x=>String(x.id)===String(p.parentId));const children=this.people.filter(x=>String(x.parentId)===String(p.id));const spouses=p.spouses.map(id=>this.people.find(x=>String(x.id)===String(id))).filter(Boolean).map(s=>`<span class="spouse-badge">❤️ ${this.esc(s.name)}</span>`).join('')||'همسری ثبت نشده';document.getElementById('fullProfileContent').innerHTML=`<div class="profile-head"><div class="profile-photo">${p.photo?`<img src="${p.photo}">`:this.icon(p.gender)}</div><div><h2>${this.esc(p.name)}</h2><p>جنسیت: ${p.gender==='female'?'زن':'مرد'}</p><p>تولد: ${this.esc(p.birth||'-')}</p><p>شغل: ${this.esc(p.job||'-')}</p><p>تماس: ${this.esc(p.phone||'-')}</p><p>والد: ${parent?this.esc(parent.name):'-'}</p><p>تعداد فرزندان: ${children.length}</p>${p.isDead?`<span class="dead-badge">🪦 فوت: ${this.esc(p.deathDate||'-')}</span><p>محل دفن: ${this.esc(p.gravePlace||'-')}</p>`:''}</div></div><div class="profile-grid"><div class="profile-section"><h3>💍 وضعیت خانوادگی</h3>${spouses}<br><button class="btn gray-btn" onclick="app.markAsDead(${p.id})">ثبت فوت</button><button class="btn red-btn" onclick="app.unmarkDead(${p.id})">حذف فوت</button></div><div class="profile-section"><h3>📝 خاطره متنی</h3><textarea id="memory_${p.id}">${this.esc(p.memory||'')}</textarea><button class="btn" onclick="app.saveMemory(${p.id})">ذخیره خاطره</button></div></div>`;document.getElementById('fullProfileModal').style.display='flex'},closeFullProfile(){document.getElementById('fullProfileModal').style.display='none'},saveMemory(id){const p=this.people.find(x=>String(x.id)===String(id));if(!p)return;this.ensure(p).memory=document.getElementById('memory_'+id).value;this.save();alert('خاطره ذخیره شد')},markAsDead(id){const p=this.ensure(this.people.find(x=>String(x.id)===String(id)));const date=prompt('تاریخ فوت:',p.deathDate||'');if(date===null)return;const grave=prompt('محل دفن:',p.gravePlace||'');if(grave===null)return;p.isDead=true;p.deathDate=date;p.gravePlace=grave;this.save();this.openFullProfile(id)},unmarkDead(id){const p=this.people.find(x=>String(x.id)===String(id));if(!p)return;p.isDead=false;p.deathDate='';p.gravePlace='';this.save();this.openFullProfile(id)},dragStart(id){this.dragId=id},dropOn(targetId){if(!this.dragId||this.dragId===targetId)return;if(this.descendants(this.dragId).includes(targetId)){alert('نمی‌شود زیرمجموعه خودش شود');return}this.people.find(x=>x.id===this.dragId).parentId=targetId;this.dragId=null;this.save()},toggleBranch(id){this.collapsed[id]=!this.collapsed[id];localStorage.setItem('collapsedBranches',JSON.stringify(this.collapsed));this.render()},openContext(e,id){e.preventDefault();this.ctxId=id;const m=document.getElementById('contextMenu');m.style.display='block';m.style.left=e.clientX+'px';m.style.top=e.clientY+'px'},ctxEdit(){this.editPerson(this.ctxId)},ctxDelete(){this.deletePerson(this.ctxId)},ctxAddChild(){const name=prompt('نام فرزند:');if(!name)return;this.people.push(this.ensure({id:this.uid(),name,gender:'male',birth:'',parentId:this.ctxId,job:'',phone:'',photo:'',spouses:[]}));this.save()},zoomIn(){this.zoom+=.1;this.applyZoom()},zoomOut(){this.zoom=Math.max(.4,this.zoom-.1);this.applyZoom()},resetZoom(){this.zoom=1;this.applyZoom()},applyZoom(){document.getElementById('treeStage').style.transform=`scale(${this.zoom})`},toggleFullscreen(){const el=document.getElementById('treeSection');if(!document.fullscreenElement)el.requestFullscreen();else document.exitFullscreen()},exportPNG(){alert('برای خروجی دقیق PNG از گزینه چاپ PDF استفاده کن. نسخه بعدی خروجی PNG کامل اضافه می‌شود.')},exportData(){const b=new Blob([JSON.stringify(this.people,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='family-backup.json';a.click()},importData(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=ev=>{try{const data=JSON.parse(ev.target.result);if(!Array.isArray(data))throw Error();this.people=data;this.save();alert('بازیابی شد')}catch(err){alert('فایل معتبر نیست')}};r.readAsText(file)},toggleDark(){document.body.classList.toggle('dark');localStorage.setItem('family_dark',document.body.classList.contains('dark')?'yes':'no')},changePassword(){const old=prompt('رمز فعلی:');if(old!==this.password){alert('رمز اشتباه است');return}const np=prompt('رمز جدید:');if(!np||np.length<4){alert('رمز کوتاه است');return}this.password=np;localStorage.setItem('family_pass',np);alert('رمز تغییر کرد')},focusAdd(){this.scrollTo('addSec')},scrollTo(id){const el=document.getElementById(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'})},esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}}
+if(localStorage.getItem('family_dark')==='yes')document.body.classList.add('dark');document.addEventListener('click',()=>document.getElementById('contextMenu').style.display='none');setInterval(()=>app.setText('clock',new Date().toLocaleString('fa-IR')),1000);if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}))}app.render();
+</script>
+
+<!-- V66 MINIMAL DRAWER UI -->
+<style>
+body.v66-clean .page-title,
+body.v66-clean .cards{
+  display:none!important;
+}
+
+/* حالت پیش‌فرض: ابزارهای سنگین صفحه اصلی مخفی */
+body.v66-clean .main > .grid-2,
+body.v66-clean #treeSection{
+  display:none!important;
+}
+
+/* باز شدن بخش‌ها با داشبورد */
+body.v66-clean.v66-show-people .main > .grid-2.no-print{
+  display:grid!important;
+}
+body.v66-clean.v66-show-events .main > .grid-2:not(.no-print){
+  display:grid!important;
+}
+body.v66-clean.v66-show-extra .main > .grid-2.no-print:nth-of-type(3){
+  display:grid!important;
+}
+body.v66-clean.v66-show-tree #treeSection{
+  display:block!important;
+}
+
+/* اگر نمودار نسل و ازدواج داخل grid-2 دوم no-print بود، در حالت people مخفی بماند */
+body.v66-clean.v66-show-people .main > .grid-2.no-print + .grid-2 + .grid-2.no-print{
+  display:none!important;
+}
+
+.v66-home{
+  direction:rtl;
+  margin-bottom:18px;
+}
+.v66-top{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:16px;
+}
+.v66-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  direction:ltr;
+  font-weight:900;
+  font-size:21px;
+  color:#0f172a;
+}
+body.dark .v66-brand{color:#f8fafc}
+.v66-logo{
+  width:48px;height:48px;border-radius:50%;
+  background:#eaf8ef;
+  display:flex;align-items:center;justify-content:center;
+  font-size:26px;
+}
+.v66-search{
+  flex:1;
+  max-width:520px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--text);
+  border-radius:16px;
+  padding:13px 16px;
+  outline:0;
+  box-shadow:0 8px 24px rgba(15,23,42,.04);
+}
+.v66-icon{
+  width:44px;height:44px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:var(--card);
+  color:var(--text);
+  box-shadow:0 8px 20px rgba(15,23,42,.04);
+  font-size:18px;
+}
+.v66-hero{
+  display:grid;
+  grid-template-columns:105px 1fr;
+  gap:18px;
+  align-items:center;
+  background:linear-gradient(135deg,#fff,#f0f8ff);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  padding:20px;
+  margin-bottom:16px;
+}
+body.dark .v66-hero{background:var(--card)}
+.v66-tree{
+  width:92px;height:92px;border-radius:50%;
+  background:radial-gradient(circle,#c8f4d2,#eefaf2 61%,transparent 62%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:52px;
+}
+.v66-hero h1{margin:0 0 6px;font-size:23px;color:#0b3b68}
+body.dark .v66-hero h1{color:#f8fafc}
+.v66-hero p{margin:0 0 12px;color:#475569;line-height:1.75}
+body.dark .v66-hero p{color:#cbd5e1}
+.v66-actions{display:flex;gap:10px;flex-wrap:wrap}
+.v66-actions button,.v66-row button{
+  border:0;border-radius:13px;padding:10px 15px;font-weight:900;
+}
+.v66-green{background:#22a447;color:white}
+.v66-white{background:var(--card);color:var(--text);border:1px solid var(--line)!important}
+.v66-blue{background:#eff6ff;color:#1d4ed8}
+.v66-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-bottom:16px;
+}
+.v66-stat{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:13px 10px;
+  text-align:center;
+  box-shadow:0 8px 24px rgba(15,23,42,.05);
+}
+.v66-stat .ico{font-size:25px}
+.v66-stat .lab{font-size:12px;color:var(--muted)}
+.v66-stat .num{font-size:23px;font-weight:900;color:var(--text)}
+.v66-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+.v66-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+  min-height:120px;
+  cursor:pointer;
+  transition:.18s;
+}
+.v66-card:hover{transform:translateY(-3px)}
+.v66-card .big{font-size:30px}
+.v66-card h3{margin:4px 0 6px;font-size:16px}
+.v66-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.7}
+.v66-bottom{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:18px;
+}
+.v66-widget{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  box-shadow:var(--shadow);
+}
+.v66-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:9px 0;
+  border-bottom:1px solid var(--line);
+}
+.v66-row:last-child{border-bottom:0}
+.v66-chip{border-radius:999px;padding:4px 9px;background:#eaf8ef;color:#16803b;font-size:12px}
+
+/* کشوها */
+.v66-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:69990;
+  display:none;
+}
+body.v66-chat-open .v66-overlay,
+body.v66-menu-open .v66-overlay{
+  display:block;
+}
+.v66-drawer{
+  position:fixed;
+  top:0;bottom:0;
+  width:min(390px,94vw);
+  background:var(--card);
+  color:var(--text);
+  z-index:70000;
+  box-shadow:0 0 60px rgba(0,0,0,.22);
+  transition:.25s;
+  display:flex;
+  flex-direction:column;
+}
+.v66-drawer.chat{left:0;transform:translateX(-105%)}
+.v66-drawer.menu{right:0;transform:translateX(105%)}
+body.v66-chat-open .v66-drawer.chat,
+body.v66-menu-open .v66-drawer.menu{
+  transform:translateX(0);
+}
+.v66-head{
+  padding:18px;
+  background:#071b35;
+  color:white;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.v66-head button{
+  border:0;background:#64748b;color:white;border-radius:10px;padding:8px 11px;
+}
+.v66-menu-list{
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  overflow:auto;
+}
+.v66-menu-list button{
+  border:0;
+  border-radius:14px;
+  padding:13px 14px;
+  background:transparent;
+  color:var(--text);
+  text-align:right;
+  font-weight:900;
+}
+.v66-menu-list button:hover{background:#eaf8ef;color:#16803b}
+.v66-chat-list{
+  flex:1;
+  overflow:auto;
+  padding:14px;
+  background:rgba(148,163,184,.08);
+}
+.v66-msg{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:11px;
+  margin:8px 0;
+}
+.v66-compose{
+  border-top:1px solid var(--line);
+  padding:12px;
+}
+.v66-compose-row{
+  display:flex;
+  gap:8px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:7px;
+}
+.v66-compose-row input{
+  flex:1;
+  border:0;
+  outline:0;
+  background:transparent;
+  color:var(--text);
+  padding:8px;
+}
+.v66-compose-row button{
+  width:38px;height:38px;
+  border:0;
+  border-radius:50%;
+  background:#22a447;
+  color:white;
+}
+@media(max-width:950px){
+  .v66-stats{grid-template-columns:repeat(2,1fr)}
+  .v66-grid,.v66-bottom{grid-template-columns:1fr}
+  .v66-top{flex-direction:column;align-items:stretch}
+  .v66-search{max-width:none}
+  .v66-hero{grid-template-columns:1fr;text-align:center}
+}
+</style>
+
+<div class="v66-overlay no-print" onclick="v66Close()"></div>
+
+<aside class="v66-drawer chat no-print">
+  <div class="v66-head"><b>💬 چت خانواده</b><button onclick="v66Close()">بستن</button></div>
+  <div id="v66ChatList" class="v66-chat-list"></div>
+  <div class="v66-compose">
+    <div class="v66-compose-row">
+      <button onclick="v66Send()">➤</button>
+      <input id="v66ChatInput" placeholder="پیام خود را بنویسید..." onkeydown="if(event.key==='Enter'){v66Send()}">
+      <span style="padding:8px">😊</span>
+    </div>
+  </div>
+</aside>
+
+<aside class="v66-drawer menu no-print">
+  <div class="v66-head"><b>⚙️ داشبورد مدیریت</b><button onclick="v66Close()">بستن</button></div>
+  <div class="v66-menu-list">
+    <button onclick="v66Show('home')">🏠 صفحه اصلی</button>
+    <button onclick="v66Show('people')">➕ افزودن / ویرایش / جستجو</button>
+    <button onclick="v66Show('events')">🎂 تولدها و Timeline</button>
+    <button onclick="v66Show('extra')">📊 نمودار نسل و ازدواج</button>
+    <button onclick="v66Show('tree')">🌳 چارت شجره‌نامه</button>
+    <button onclick="window.print()">🖨 چاپ PDF</button>
+    <button onclick="app.exportData()">💾 پشتیبان‌گیری</button>
+    <button onclick="document.getElementById('importFile').click()">⬇️ بازیابی</button>
+    <button onclick="app.toggleDark()">🌙 حالت شب</button>
+    <button onclick="app.changePassword()">🔒 تغییر رمز</button>
+  </div>
+</aside>
+
+<script>
+(function(){
+  if(window.__v66MinimalDrawer) return;
+  window.__v66MinimalDrawer = true;
+  var CHAT_KEY="v66_chat";
+
+  function esc(s){
+    return String(s||"").replace(/[&<>"']/g,function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[c]||c;
+    });
+  }
+
+  function loadChat(){
+    try{return JSON.parse(localStorage.getItem(CHAT_KEY)||"[]")}catch(e){return[]}
+  }
+  function saveChat(a){
+    localStorage.setItem(CHAT_KEY,JSON.stringify(a.slice(-300)));
+  }
+
+  window.v66OpenChat=function(){
+    document.body.classList.add("v66-chat-open");
+    document.body.classList.remove("v66-menu-open");
+    v66RenderChat();
+  };
+  window.v66OpenMenu=function(){
+    document.body.classList.add("v66-menu-open");
+    document.body.classList.remove("v66-chat-open");
+  };
+  window.v66Close=function(){
+    document.body.classList.remove("v66-chat-open","v66-menu-open");
+  };
+
+  window.v66Send=function(){
+    var input=document.getElementById("v66ChatInput");
+    var txt=input?input.value.trim():"";
+    if(!txt){alert("پیام بنویس");return}
+    var a=loadChat();
+    a.push({author:"مدیر",text:txt,time:new Date().toLocaleTimeString("fa-IR",{hour:"2-digit",minute:"2-digit"})});
+    saveChat(a);
+    input.value="";
+    v66RenderChat();
+  };
+
+  window.v66RenderChat=function(){
+    var box=document.getElementById("v66ChatList");
+    if(!box)return;
+    var a=loadChat().slice().reverse();
+    if(!a.length)a=[{author:"چت خانواده",text:"سلام، اینجا پیام‌های خانوادگی نمایش داده می‌شود.",time:"اکنون"}];
+    box.innerHTML=a.map(function(m){
+      return '<div class="v66-msg"><div style="font-size:12px;color:var(--muted)">'+esc(m.author)+' | '+esc(m.time||"")+'</div><div style="line-height:1.8">'+esc(m.text)+'</div></div>';
+    }).join("");
+  };
+
+  function clearModes(){
+    document.body.classList.remove("v66-show-people","v66-show-events","v66-show-extra","v66-show-tree");
+  }
+
+  window.v66Show=function(mode){
+    clearModes();
+    if(mode==="people")document.body.classList.add("v66-show-people");
+    if(mode==="events")document.body.classList.add("v66-show-events");
+    if(mode==="extra")document.body.classList.add("v66-show-extra");
+    if(mode==="tree")document.body.classList.add("v66-show-tree");
+    v66Close();
+    setTimeout(function(){
+      var id=mode==="people"?"addSec":mode==="events"?"timelineSec":mode==="tree"?"treeSection":"v66Home";
+      var el=document.getElementById(id);
+      if(el)el.scrollIntoView({behavior:"smooth",block:"start"});
+    },80);
+  };
+
+  window.v66Search=function(v){
+    var s=document.getElementById("search");
+    if(s){
+      s.value=v;
+      if(window.app && typeof app.render==="function") app.render();
+    }
+  };
+
+  function installHome(){
+    var main=document.querySelector(".main");
+    if(!main || document.getElementById("v66Home"))return;
+    document.body.classList.add("v66-clean");
+    clearModes();
+
+    var d=document.createElement("div");
+    d.id="v66Home";
+    d.className="v66-home no-print";
+    d.innerHTML=
+      '<div class="v66-top">'+
+        '<div class="v66-brand"><div class="v66-logo">🌳</div><span>FamilyTreePro</span></div>'+
+        '<input class="v66-search" placeholder="جستجوی سریع افراد، خانواده‌ها، رویدادها..." oninput="v66Search(this.value)">'+
+        '<button class="v66-icon" onclick="v66OpenMenu()">☰</button>'+
+        '<button class="v66-icon" onclick="v66OpenChat()">💬</button>'+
+      '</div>'+
+      '<div class="v66-hero">'+
+        '<div class="v66-tree">🌳</div>'+
+        '<div><h1>👋 خوش آمدی به سامانه حرفه‌ای خانواده</h1>'+
+        '<p>صفحه اصلی خلوت شده؛ افزودن، رویدادها، نمودارها و چارت فقط از داشبورد مدیریت باز می‌شوند.</p>'+
+        '<div class="v66-actions">'+
+          '<button class="v66-green" onclick="v66Show(\\'people\\')">ورود سریع فرد</button>'+
+          '<button class="v66-white" onclick="v66Show(\\'tree\\')">مشاهده شجره</button>'+
+          '<button class="v66-blue" onclick="v66OpenChat()">چت خانواده</button>'+
+        '</div></div>'+
+      '</div>'+
+      '<div class="v66-stats">'+
+        '<div class="v66-stat"><div class="ico">👥</div><div class="lab">کل افراد</div><div class="num" id="v66Total">0</div></div>'+
+        '<div class="v66-stat"><div class="ico">👨</div><div class="lab">مردان</div><div class="num" id="v66Male">0</div></div>'+
+        '<div class="v66-stat"><div class="ico">👩</div><div class="lab">زنان</div><div class="num" id="v66Female">0</div></div>'+
+        '<div class="v66-stat"><div class="ico">🌳</div><div class="lab">نسل‌ها</div><div class="num" id="v66Gens">0</div></div>'+
+      '</div>'+
+      '<div class="v66-grid">'+
+        '<div class="v66-card" onclick="v66Show(\\'people\\')"><div class="big">➕</div><h3>افراد</h3><p>افزودن، ویرایش و جستجو</p></div>'+
+        '<div class="v66-card" onclick="v66Show(\\'events\\')"><div class="big">🎂</div><h3>رویدادها</h3><p>تولدها و Timeline خانوادگی</p></div>'+
+        '<div class="v66-card" onclick="v66Show(\\'tree\\')"><div class="big">🌳</div><h3>شجره</h3><p>چارت خانوادگی و خروجی</p></div>'+
+        '<div class="v66-card" onclick="v66Show(\\'extra\\')"><div class="big">📊</div><h3>ابزارها</h3><p>نمودار نسل و ازدواج</p></div>'+
+      '</div>'+
+      '<div class="v66-bottom">'+
+        '<div class="v66-widget"><h3>📌 دسترسی سریع</h3>'+
+          '<div class="v66-row"><b>داشبورد مدیریت</b><button class="v66-blue" onclick="v66OpenMenu()">باز کن</button></div>'+
+          '<div class="v66-row"><b>چت خانواده</b><button class="v66-blue" onclick="v66OpenChat()">باز کن</button></div>'+
+        '</div>'+
+        '<div class="v66-widget"><h3>🔔 وضعیت</h3>'+
+          '<div class="v66-row"><span>ذخیره مرورگر</span><span class="v66-chip">فعال</span></div>'+
+          '<div class="v66-row"><span>نسخه</span><span class="v66-chip">V66</span></div>'+
+        '</div>'+
+      '</div>';
+    main.insertBefore(d, main.firstChild);
+    updateStats();
+  }
+
+  function updateStats(){
+    if(!window.app || !app.people)return;
+    var p=app.people;
+    var total=document.getElementById("v66Total");
+    var male=document.getElementById("v66Male");
+    var female=document.getElementById("v66Female");
+    var gens=document.getElementById("v66Gens");
+    if(total)total.innerText=p.length;
+    if(male)male.innerText=p.filter(function(x){return x.gender==="male"}).length;
+    if(female)female.innerText=p.filter(function(x){return x.gender==="female"}).length;
+    if(gens)gens.innerText=typeof app.maxDepth==="function"?app.maxDepth():0;
+  }
+
+  if(window.app && typeof app.render==="function" && !app.render.__v66Wrapped){
+    var old=app.render.bind(app);
+    var wrapped=function(){
+      old();
+      installHome();
+      updateStats();
+      v66RenderChat();
+    };
+    wrapped.__v66Wrapped=true;
+    app.render=wrapped;
+  }
+
+  document.addEventListener("DOMContentLoaded",function(){
+    installHome();
+    updateStats();
+    v66RenderChat();
+  });
+  window.addEventListener("load",function(){
+    installHome();
+    updateStats();
+    v66RenderChat();
+  });
+  setTimeout(function(){
+    installHome();
+    updateStats();
+    v66RenderChat();
+  },600);
+})();
+</script>
+<!-- END V66 MINIMAL DRAWER UI -->
+
+</body>
+</html>
