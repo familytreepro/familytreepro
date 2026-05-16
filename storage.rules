@@ -1,0 +1,21 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function signedIn() { return request.auth != null; }
+    function isAdminEmail() { return signedIn() && request.auth.token.email == "alibahripor33@gmail.com"; }
+    function role() {
+      return isAdminEmail() ? "admin" :
+        (signedIn() && firestore.exists(/databases/(default)/documents/roles/$(request.auth.uid))
+          ? firestore.get(/databases/(default)/documents/roles/$(request.auth.uid)).data.role
+          : "viewer");
+    }
+    match /families/{familyId}/{allPaths=**} {
+      allow read: if signedIn();
+      allow write: if role() in ["admin", "editor"]
+        && request.resource.size < 15 * 1024 * 1024;
+    }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
