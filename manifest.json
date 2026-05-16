@@ -1,0 +1,12 @@
+{
+  "name": "FamilyTreePro V85",
+  "short_name": "FamilyTreePro",
+  "description": "FamilyTreePro V85 Fresh Clean Core",
+  "start_url": "./index.html?v=v85-fresh-clean-core",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f7fb",
+  "theme_color": "#0f172a",
+  "dir": "rtl",
+  "lang": "fa"
+}
