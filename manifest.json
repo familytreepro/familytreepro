@@ -1,0 +1,25 @@
+{
+  "name": "FamilyTreePro V88 Auth Final",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=v88-auth-final",
+  "display": "standalone",
+  "background_color": "#071b35",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V88 Auth Final - Real login, register, remember and password reset",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "scope": "./"
+}

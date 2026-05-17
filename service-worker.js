@@ -1,5 +1,5 @@
 /* FamilyTreePro V87.3.2 Auth UI Clean*/
-const CACHE_VERSION = "v87-3-register-only-clean";
+const CACHE_VERSION = "v88-auth-final";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
