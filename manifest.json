@@ -1,0 +1,25 @@
+{
+  "name": "FamilyTreePro V98 Final Production Safe",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=v97-final-product-branding-safe",
+  "display": "standalone",
+  "background_color": "#071b35",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V98 Final Production Safe Final Product Branding Safe",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "scope": "./"
+}
