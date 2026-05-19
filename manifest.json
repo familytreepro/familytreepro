@@ -1,0 +1,25 @@
+{
+  "name": "FamilyTreePro V99 Restore From V98.2 Backup",
+  "short_name": "FamilyTreePro",
+  "start_url": "./?v=99-restore-from-backup",
+  "display": "standalone",
+  "background_color": "#071b35",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V99 restored from user V98.2 stable backup",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "scope": "./"
+}
