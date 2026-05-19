@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FamilyTreePro V99 Login Safe</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{
+font-family:sans-serif;
+background:#111827;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+.box{
+background:#1f2937;
+padding:30px;
+border-radius:16px;
+width:320px;
+}
+input,button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:10px;
+border:none;
+}
+button{
+background:#2563eb;
+color:white;
+font-weight:bold;
+}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>FamilyTreePro V99</h2>
+<p>Login Safe Build</p>
+<input type="email" placeholder="Email">
+<input type="password" placeholder="Password">
+<button>ورود</button>
+</div>
+<script>
+if ('serviceWorker' in navigator) {
+navigator.serviceWorker.register('./service-worker.js');
+}
+</script>
+</body>
+</html>
