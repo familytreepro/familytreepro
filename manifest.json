@@ -1,5 +1,5 @@
 {
-  "name": "FamilyTreePro V98.3 Tree Print Scroll Fix",
+  "name": "FamilyTreePro V98.2 Child Icons Verified",
   "short_name": "FamilyTreePro",
   "start_url": "./index.html?v=v97-final-product-branding-safe",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V98.3 Tree Print Scroll Fix Final Product Branding Safe",
+  "description": "FamilyTreePro V98.2 Child Icons Verified Final Product Branding Safe",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

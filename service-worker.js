@@ -1,5 +1,5 @@
-/* FamilyTreePro V98.3 Tree Print Scroll Fix Safe */
-const CACHE_VERSION = "v98-3-tree-print-scroll-fix";
+/* FamilyTreePro V98 Final Production Safe Safe */
+const CACHE_VERSION = "v98-final-production-safe";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -25,6 +25,6 @@ self.addEventListener("fetch", (event) => {
   );
 });
 
-const CACHE_VERSION_V98 = "v98-3-tree-print-scroll-fix";
+const CACHE_VERSION_V98 = "v98-2-child-icons-verified";
 
-/* V98.3 Tree Print Scroll Fix */
+/* V98.2 Child Icons Verified */
