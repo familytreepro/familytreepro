@@ -1,26 +1,4 @@
-/* FamilyTreePro V99 Restore From V98.2 Backup - Safe No Cache */
-const CACHE_VERSION = "v99-restore-from-v98-2-backup";
-
-self.addEventListener("install", (event) => {
-  self.skipWaiting();
-});
-
-self.addEventListener("activate", (event) => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.map((key) => caches.delete(key)));
-    await self.clients.claim();
-  })());
-});
-
-self.addEventListener("fetch", (event) => {
-  if (event.request.method !== "GET") return;
-  if (!event.request.url.startsWith(self.location.origin)) return;
-  event.respondWith(
-    fetch(event.request, { cache: "no-store" }).catch(async () => {
-      const cached = await caches.match(event.request);
-      if (cached) return cached;
-      return new Response("FamilyTreePro Offline", { status: 503, statusText: "Offline" });
-    })
-  );
-});
+// FamilyTreePro V99.1 Offline Login Fallback - safe no-cache service worker
+self.addEventListener('install', event => { self.skipWaiting(); });
+self.addEventListener('activate', event => { event.waitUntil((async()=>{ try{ const keys=await caches.keys(); await Promise.all(keys.map(k=>caches.delete(k))); }catch(e){} await self.clients.claim(); })()); });
+self.addEventListener('fetch', event => { event.respondWith(fetch(event.request).catch(()=>caches.match(event.request))); });
