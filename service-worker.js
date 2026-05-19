@@ -1,5 +1,5 @@
-/* FamilyTreePro V98 Final Production Safe Safe */
-const CACHE_VERSION = "v98-final-production-safe";
+/* FamilyTreePro V99 Restore From V98.2 Backup - Safe No Cache */
+const CACHE_VERSION = "v99-restore-from-v98-2-backup";
 
 self.addEventListener("install", (event) => {
   self.skipWaiting();
@@ -24,7 +24,3 @@ self.addEventListener("fetch", (event) => {
     })
   );
 });
-
-const CACHE_VERSION_V98 = "v98-2-child-icons-verified";
-
-/* V98.2 Child Icons Verified */
