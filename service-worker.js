@@ -1,7 +1,7 @@
-// FamilyTreePro V99.6 Users Collection Role Fix - safe no-cache service worker
+// FamilyTreePro V99.7 Auth Panel Label Sync - safe no-cache service worker
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => { event.waitUntil((async()=>{ try{ const keys=await caches.keys(); await Promise.all(keys.map(k=>caches.delete(k))); }catch(e){} await self.clients.claim(); })()); });
 self.addEventListener('fetch', event => { event.respondWith(fetch(event.request).catch(()=>caches.match(event.request))); });
 
 
-/* cache: v99-6-users-collection-role-fix */
+/* cache: v99-7-auth-panel-label-sync */
