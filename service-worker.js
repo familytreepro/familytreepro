@@ -1,7 +1,7 @@
-// FamilyTreePro V100.4 Clean Stable No Auth Notice - safe no-cache service worker
+// FamilyTreePro V100.5 Bulk Children Add - safe no-cache service worker
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => { event.waitUntil((async()=>{ try{ const keys=await caches.keys(); await Promise.all(keys.map(k=>caches.delete(k))); }catch(e){} await self.clients.claim(); })()); });
 self.addEventListener('fetch', event => { event.respondWith(fetch(event.request).catch(()=>caches.match(event.request))); });
 
 
-/* cache: v100-4-clean-stable-no-auth-notice */
+/* cache: v100-5-bulk-children-add */
