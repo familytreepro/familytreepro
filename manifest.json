@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V124",
+  "name": "FamilyTreePro V125",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=v124-admin-email-approve",
+  "start_url": "./index.html?v=v125-secure-admin-approval",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V124",
+  "description": "FamilyTreePro V125 Secure Admin Approval",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
