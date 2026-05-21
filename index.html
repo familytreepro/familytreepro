@@ -809,6 +809,10 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <style id="v115-auth-clean-css">
 #v107ProductionStatus,#v1051VersionMark,#v999AuthRepairBox,#v998AuthRepairBox,#v101AuthFixBox,#v105VersionMark,#v96AuthMini,.viewer-note,.lock-note,.debug-note,[data-debug="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
 </style>
+
+<style id="v116-firebase-restore-clean-css">
+#v107ProductionStatus,#v1051VersionMark,#v105VersionMark,#v999AuthRepairBox,#v998AuthRepairBox,#v101AuthFixBox,#v96AuthMini,.viewer-note,.lock-note,.debug-note,[data-debug="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+</style>
 </head>  <body>  <div id="login">  
   <div class="loginbox">  
     <h2>🔐 FamilyTreePro V107.2 Blocking Layer Fix</h2>
@@ -2846,7 +2850,8 @@ async function firebaseConnect(){
   try{
     const appMod=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js");
     const fsMod=await import("https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js");
-    const app=appMod.initializeApp({apiKey:cfg.fbApiKey,authDomain:cfg.fbAuthDomain,projectId:cfg.fbProjectId,storageBucket:cfg.fbStorageBucket,messagingSenderId:cfg.fbMessagingSenderId,appId:cfg.fbAppId});
+    const appConfig={apiKey:cfg.fbApiKey,authDomain:cfg.fbAuthDomain,projectId:cfg.fbProjectId,storageBucket:cfg.fbStorageBucket,messagingSenderId:cfg.fbMessagingSenderId,appId:cfg.fbAppId};
+    const app=(appMod.getApps && appMod.getApps().length) ? appMod.getApp() : appMod.initializeApp(appConfig);
     firebaseRuntime.app=app;
     firebaseRuntime.db=fsMod.getFirestore(app);
     firebaseRuntime.doc=fsMod.doc;
