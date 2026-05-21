@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V123",
+  "name": "FamilyTreePro V124",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=123-clean-auth-email-verify-safe",
+  "start_url": "./index.html?v=v124-admin-email-approve",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V123 Clean Auth Stats",
+  "description": "FamilyTreePro V124",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
