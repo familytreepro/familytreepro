@@ -1,5 +1,4 @@
-// FamilyTreePro V109 Auth Final Clean - hard no-cache service worker
-const VERSION='V109_AUTH_FINAL_CLEAN';
+// FamilyTreePro V110 Auth Repair Safe - network first, clear old cache
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => {
   event.waitUntil((async()=>{
@@ -7,6 +6,5 @@ self.addEventListener('activate', event => {
     await self.clients.claim();
   })());
 });
-self.addEventListener('fetch', event => {
-  event.respondWith(fetch(event.request,{cache:'no-store'}));
-});
+self.addEventListener('fetch', event => { event.respondWith(fetch(event.request)); });
+/* cache: v110-auth-repair-safe */
