@@ -1,7 +1,7 @@
 {
   "name": "FamilyTreePro",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=v97-final-product-branding-safe",
+  "start_url": "./index.html?clean=1",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
@@ -21,6 +21,5 @@
       "type": "image/png"
     }
   ],
-  "scope": "./",
-  "version": "111-auth-clean-final"
+  "scope": "./"
 }
