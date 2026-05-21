@@ -1,11 +1,12 @@
-<!DOCTYPE html>  <html lang="fa" dir="rtl">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">  
-<title>FamilyTreePro FamilyTreePro V118 Stable</title>  <style>  
+<!DOCTYPE html>
+ <html dir="rtl" lang="fa">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
+<meta content="no-cache" http-equiv="Pragma"/>
+<meta content="0" http-equiv="Expires"/>
+<title>FamilyTreePro</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -295,7 +296,7 @@ body.dark .release-badge{color:#bbf7d0}
 body.dark .release-install-box{background:rgba(255,255,255,.05)}
 @media(max-width:850px){.release-grid,.release-checklist{grid-template-columns:1fr}}
 
-</style>  
+</style>
 <style id="iranNetworkStabilityStyles">
 /* FamilyTreePro V118 Stable - upgrades existing system, no duplicate dashboard */
 .network-status-card{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
@@ -310,9 +311,8 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-
-<link rel="manifest" href="./manifest.json?v=118">
-<meta name="theme-color" content="#2563eb">
+<link href="./manifest.json?v=118" rel="manifest"/>
+<meta content="#2563eb" name="theme-color"/>
 <style id="FamilyTreePro V118 Stable-auth-style">
 .captcha-row{display:flex;gap:8px;align-items:center;margin:8px 0}
 .captcha-question{background:#eef2ff;color:#1e3a8a;border:1px solid #bfdbfe;border-radius:12px;padding:12px;min-width:95px;font-weight:bold;text-align:center}
@@ -348,7 +348,6 @@ body.dark .net-log{background:rgba(255,255,255,.04)}
 <style id="FamilyTreePro V118 Stable-style">
 #v811StableMarker{position:fixed;left:10px;bottom:10px;z-index:999999;background:rgba(15,23,42,.84);color:white;border-radius:999px;padding:7px 11px;font:12px tahoma,arial;pointer-events:none}
 </style>
-
 <style id="FamilyTreePro V118 Stable-stability">
 /* FamilyTreePro V118 Stable: stability only, no duplicate UI */
 html,body{max-width:100%;overflow-x:hidden}
@@ -357,7 +356,6 @@ html,body{max-width:100%;overflow-x:hidden}
 button{touch-action:manipulation}
 @media(max-width:700px){.home-hero{padding:20px;border-radius:18px}.card,.panel,.tree-card{padding:14px}.btn{min-height:42px}.form-row input,.form-row select,.search{min-height:46px}}
 </style>
-
 <style id="FamilyTreePro V118 Stable-css">
 /* FamilyTreePro V118 Stable: registration buttons and panel are never blocked by old layers */
 #login .v80-auth-switch,
@@ -379,7 +377,6 @@ button{touch-action:manipulation}
 .v88-auth-ready{font-size:12px;color:#16a34a;margin-top:6px;line-height:1.8}
 .v88-auth-warn{font-size:12px;color:#ef4444;margin-top:6px;line-height:1.8}
 </style>
-
 <style id="FamilyTreePro V118 Stable-css">
 /* FamilyTreePro V118 Stable: login/register light, real, and unblocked */
 #login .loginbox{max-height:96vh;overflow:auto;-webkit-overflow-scrolling:touch}
@@ -390,7 +387,6 @@ button{touch-action:manipulation}
 .auth-stats-grid{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))!important}
 .auth-badge.ok{background:#dcfce7;color:#166534}.auth-badge.warn{background:#fef3c7;color:#92400e}.auth-badge.bad{background:#fee2e2;color:#991b1b}
 </style>
-
 <style id="v88-1-register-page-css">
 /* V88.1: dedicated registration page inside auth screen, no overlay over buttons */
 #login.register-mode .loginbox{max-width:460px}
@@ -412,8 +408,6 @@ button{touch-action:manipulation}
 .auth-back-row .btn{flex:1}
 @media(max-width:520px){.register-grid{grid-template-columns:1fr}#login.register-mode .loginbox{width:94%;padding:22px}}
 </style>
-
-
 <style id="FamilyTreePro V118 Stable-layer-clean">
 /* V118: register page only, no blocking layer */
 #login.register-mode{display:flex!important;align-items:flex-start!important;justify-content:center!important;overflow:auto!important;padding:18px 0!important}
@@ -427,7 +421,6 @@ button{touch-action:manipulation}
 .auth-back-row{display:flex!important;gap:8px!important;flex-wrap:wrap!important}
 .auth-back-row .btn{flex:1 1 150px!important;min-height:48px!important}
 </style>
-
 <style id="v96-smart-auth-style">
 /* FamilyTreePro V118 Stable - no duplicate UI, only auth polish */
 .v96-auth-mini{margin-top:10px;padding:10px;border:1px solid #dbeafe;background:#f8fbff;border-radius:14px;text-align:right;line-height:1.8;color:#334155;font-size:12px}
@@ -444,7 +437,6 @@ body.dark .v96-auth-mini{background:rgba(37,99,235,.08);border-color:#334155;col
 .v96-health-card{background:rgba(37,99,235,.07);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
 .v96-health-card b{display:block;font-size:18px;margin-top:4px}
 </style>
-
 <style id="v96-language-system-css">
 /* FamilyTreePro V118 Stable: no duplicate UI, lightweight offline translation */
 .language-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
@@ -461,7 +453,6 @@ body.lang-ltr .chat-msg.bot{margin-right:auto;margin-left:0}
 body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 @media(max-width:700px){.language-grid{grid-template-columns:1fr}}
 </style>
-
 <style id="V118-safe-branding-css">
 /* V118 Safe Branding: cosmetic only; never overlays login or app controls */
 .brand-badge-V118{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:7px 11px;background:rgba(37,99,235,.08);color:var(--text);font-size:12px}
@@ -500,7 +491,6 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <style id="v1004-clean-stable-css">
 .v1004-auth-hidden{display:none!important;visibility:hidden!important;pointer-events:none!important}
 </style>
-
 <style id="v1008-bulk-children-rows-css">
 #v1008BulkRowsBox{
   margin:12px 0 16px 0;
@@ -569,8 +559,6 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
   }
 }
 </style>
-
-
 <style id="v1009-auth-user-profile-css">
 #v1009AuthUsersBox{
   margin:12px 0;
@@ -599,8 +587,6 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 .v102-auth-admin-hidden{display:none!important;visibility:hidden!important;pointer-events:none!important}
 #v102SecureStatus{margin:10px 0;padding:10px 12px;border-radius:12px;background:#f8fafc;border:1px solid #e2e8f0;color:#334155;direction:rtl;font-weight:700;line-height:1.8}
 </style>
-
-
 <style id="v103-user-profiles-css">
 #v103UserProfilePanel{
   margin:12px 0;
@@ -649,8 +635,6 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
   line-height:1.8;
 }
 </style>
-
-
 <style id="v1041-safe-security-css">
 #v1041SecurityPanel{
   margin:12px 0;
@@ -681,8 +665,6 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
   font-weight:800;
 }
 </style>
-
-
 <style id="v1051-safe-rollback-css">
 #v1051VersionMark{
   position:fixed;
@@ -804,651 +786,616 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
   border:1px solid #e5e7eb;
 }
 </style>
-
-
 <style id="v115-auth-clean-css">
 #v107ProductionStatus,#v1051VersionMark,#v999AuthRepairBox,#v998AuthRepairBox,#v101AuthFixBox,#v105VersionMark,#v96AuthMini,.viewer-note,.lock-note,.debug-note,[data-debug="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
 </style>
-
 <style id="v116-firebase-restore-clean-css">
 #v107ProductionStatus,#v1051VersionMark,#v105VersionMark,#v999AuthRepairBox,#v998AuthRepairBox,#v101AuthFixBox,#v96AuthMini,.viewer-note,.lock-note,.debug-note,[data-debug="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
 </style>
-
 <style id="v117-firebase-restore-clean-css">
 .debug-note,.viewer-note,.version-badge,.production-guard-note,.patch-note,[data-debug-note="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
 </style>
-
 <style id="v118-clean-visible-version-no-notes">
 #buildMarker,#v811StableMarker,#v861StableMarker,.production-guard,.debug-note,.viewer-note,.lock-note,.version-marker,.build-marker{display:none!important;visibility:hidden!important;pointer-events:none!important}
 .release-badge{display:none!important}
 [data-debug], [data-version-note]{display:none!important}
 </style>
-</head>  <body>  <div id="login">  
-  <div class="loginbox">  
-    <h2>🔐 FamilyTreePro V118 Stable</h2>
-    <p class="v81-subtitle">ورود امن، ثبت‌نام، بازیابی رمز و قفل خودکار</p>
-    <div class="login-main-fields">
-      <input id="loginUser" value="" placeholder="ایمیل" type="email" inputmode="email" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" tabindex="1">  
-      <input id="loginPass" type="password" placeholder="رمز عبور" autocomplete="current-password" tabindex="2">  
-      <div class="captcha-row"><div id="captchaQuestion" class="captcha-question">...</div><input id="captchaAnswer" type="tel" inputmode="numeric" placeholder="پاسخ عددی" autocomplete="off" tabindex="3"></div>
-      <div class="v86-auth-tools"><button type="button" id="refreshCaptchaBtn" class="v86-mini-btn" onclick="refreshLoginCaptcha()">🔄 رفرش عدد</button><span id="loginWaitTimer" class="v86-timer">آماده ورود</span></div>
-      <label class="v81-remember"><input id="rememberMe" type="checkbox"> مرا در این دستگاه به خاطر بسپار</label>
-      <button type="button" id="loginBtn" class="btn" onclick="login()" tabindex="4">ورود امن</button>
-      <div class="v80-auth-switch"><button type="button" id="showRegisterBtn" onclick="showRegister()">ثبت‌نام</button><button type="button" id="forgotPasswordBtn" onclick="forgotPassword()">فراموشی رمز</button></div>
-    
-    <div class="v96-mode-row"><button type="button" id="v96EmailModeBtn" class="active" onclick="v96SetAuthMode('email')">ورود ایمیلی</button><button type="button" id="v96PhoneModeBtn" onclick="v96SetAuthMode('phone')">آماده‌سازی SMS</button></div>
-    <div id="v96PhonePrep" class="v96-phone-prep"><input id="v96PhoneNumber" type="tel" inputmode="tel" placeholder="شماره موبایل؛ مثال 09123456789"><button type="button" class="btn blue-btn" onclick="v96PhonePrepMessage()">بررسی آماده‌سازی پیامک</button><p class="v80-auth-note">SMS واقعی هنوز فعال نشده تا Login سالم خراب نشود. مرحله بعد با Firebase Phone Auth و reCAPTCHA فعال می‌شود.</p></div>
-    </div>
-    <div id="registerBox" class="v80-register-panel">
-      <div class="register-title">📝 ثبت‌نام کاربر جدید</div>
-      <p class="register-subtitle">برای احراز هویت، اطلاعات واقعی کاربر ثبت می‌شود.</p>
-      <div class="register-grid">
-        <input id="regFirstName" placeholder="نام" autocomplete="given-name">
-        <input id="regLastName" placeholder="نام خانوادگی" autocomplete="family-name">
-      </div>
-      <input id="regPhone" placeholder="شماره تلفن" type="tel" inputmode="tel" autocomplete="tel">
-      <input id="regEmail" placeholder="ایمیل" type="email" autocomplete="email">
-      <input id="regPass" type="password" placeholder="رمز عبور حداقل ۸ کاراکتر" autocomplete="new-password" oninput="v86PasswordReview()"><div class="v86-pass-meter"><div id="v86PassFill" class="v86-pass-fill"></div></div><div id="v86PassHint" class="v86-field-hint">رمز بهتر است شامل عدد و حرف باشد.</div><input id="regPass2" type="password" placeholder="تکرار رمز عبور" autocomplete="new-password" oninput="v86PasswordReview()"><div id="v86RegStatus" class="v86-status"></div>
-      <label class="v81-remember"><input id="regRememberMe" type="checkbox"> بعد از ثبت‌نام، مرا در این دستگاه به خاطر بسپار</label>
-      <div class="auth-back-row">
-        <button type="button" id="createAccountBtn" class="btn green-btn" onclick="registerUser()">ایجاد حساب جدید</button>
-        <button type="button" id="backToLoginBtn" class="btn gray-btn" onclick="showLoginOnly()">بازگشت به ورود</button>
-      </div>
-      <p class="v80-auth-note">ثبت‌نام با Firebase Auth انجام می‌شود و نام، نام خانوادگی، شماره تلفن و ایمیل در Firestore ذخیره می‌شود.</p>
-    </div>
-    <p id="loginError" style="color:red"></p>
-</div>  
-</div>  <div id="v81LockScreen" class="v81-lock-screen" style="display:none"><div class="v81-lock-box"><h2>🔒 برنامه قفل شد</h2><p>برای ادامه، رمز عبور حساب خود را دوباره وارد کنید.</p><input id="unlockPass" type="password" placeholder="رمز عبور" autocomplete="current-password"><button class="btn" onclick="unlockApp()">باز کردن قفل</button><button class="btn gray-btn" onclick="logout()">خروج کامل</button><p id="unlockError" style="color:red"></p></div></div>
-<div id="app" style="display:none">  
-  <div class="topbar no-print">  
-    <div class="top-actions">
-      <button class="icon-btn" onclick="openDashboard()">☰ داشبورد</button>
-      <button class="icon-btn" onclick="openChat()">💬 چت</button>
-    </div>
-    <span id="clock">سامانه آنلاین</span>  
-    <b>🌳 سامانه شجره‌نامه خانواده</b>
-    <span onclick="logout()" style="cursor:pointer">🔒 خروج</span>  
-  </div>
-
-  <div id="drawerBackdrop" class="drawer-backdrop" onclick="closeDrawers()"></div>
-
-  <aside id="dashboardDrawer" class="drawer right no-print" aria-label="داشبورد کشویی">
-    <div class="drawer-head">
-      <b>داشبورد</b>
-      <button class="drawer-close" onclick="closeDrawers()">✕</button>
-    </div>
-    <div class="drawer-body">
-      <div class="profile dashboard-profile">  
-        <div class="avatar">👤</div>  
-        <h3>مدیر سیستم</h3>  
-        <div class="online">● آنلاین</div>  
-      </div>
-
-      <div class="dash-search-wrap">
-        <input id="dashboardSearch" class="dash-search" placeholder="جستجوی ابزار داشبورد..." oninput="filterDashboardTools()">
-      </div>
-      <div class="dash-group" data-group="core">
-        <button class="dash-group-title" onclick="toggleDashGroup('core')">اصلی <span>⌄</span></button>
-        <div class="dash-group-body">
-          <div class="menu dash-tool active" data-keywords="خانه home" onclick="showView('home')">خانه <span>🏠</span></div>
-          <div class="menu dash-tool" data-keywords="افراد مدیریت نفر person people add edit" onclick="showView('people')">افراد <span>👤</span></div>
-          <div class="menu dash-tool" data-keywords="شجره درخت family tree zoom engine حرفه ای" onclick="showView('tree')">شجره <span>🌳</span></div>
-        </div>
-      </div>
-
-      <div class="dash-group" data-group="family">
-        <button class="dash-group-title" onclick="toggleDashGroup('family')">خانواده و اطلاعات <span>⌄</span></button>
-        <div class="dash-group-body">
-          <div class="menu dash-tool" data-keywords="timeline تایملاین زمان رویداد" onclick="showView('timeline')">Timeline <span>🕘</span></div>
-          <div class="menu dash-tool" data-keywords="memory map خاطرات نقشه تصویری رویداد مهاجرت شهر میراث داستان تجربه heritage story مراسم تلویزیون" onclick="showView('memory')">میراث و خاطرات خانواده <span>🎬</span></div>
-          <div class="menu dash-tool" data-keywords="مخفی سازی خانم ها privacy women" onclick="toggleHideWomen()">مخفی‌سازی خانم‌ها <span id="hideWomenDashIcon">👁️</span></div>
-          <div class="menu dash-tool" data-keywords="تولد birthday birthdays" onclick="showView('birthdays')">تولدها <span>🎂</span></div>
-          <div class="menu dash-tool" data-keywords="نمودار آمار نسل charts stats" onclick="showView('charts')">نمودارها <span>📊</span></div>
-          <div class="menu dash-tool" data-keywords="👤 پروفایل کامل گالری فایل ویس خاطره profile gallery voice" onclick="showView('profiles')">👤 پروفایل کامل <span>🪪</span></div>
-          <div class="menu dash-tool" data-keywords="فرزندان بچه کودک parent child children والد" onclick="showView('children')">👨‍👩‍👧‍👦 مدیریت فرزندان <span>👶</span></div>
-          <div class="menu dash-tool" data-keywords="ازدواج همسر marriage spouse" onclick="showView('marriage')">ازدواج و همسر <span>💍</span></div>
-          <div class="menu dash-tool" data-keywords="فوت مرحوم دفن قبر death deceased grave" onclick="showView('death')">فوت و محل دفن <span>🪦</span></div>
-          <div class="menu dash-tool" data-keywords="نسبت خانوادگی رابطه relation" onclick="showView('relations')">تشخیص نسبت <span>🧠</span></div>
-        </div>
-      </div>
-
-      <div class="dash-group" data-group="system">
-        <button class="dash-group-title" onclick="toggleDashGroup('system')">سیستم و خروجی <span>⌄</span></button>
-        <div class="dash-group-body">
-          <div class="menu dash-tool" data-keywords="دسترسی لینک مدیر ✏️ ویرایشگر نمایشگر access link role" onclick="showView('access')">دسترسی و لینک‌ها <span>🔐</span></div>
-          <div class="menu dash-tool" data-keywords="firebase cloud sync ابری همگام سازی" onclick="showView('firebase')">Firebase Sync <span>☁️</span></div>
-          <div class="menu dash-tool" data-keywords="ایران اینترنت ضعیف پایدار offline low network stability" onclick="showView('network')">پایداری اینترنت ایران <span>📶</span></div>
-          <div class="menu dash-tool" data-keywords="امنیت قفل بکاپ لاگ security lock backup log" onclick="showView('security')">امنیت نرم <span>🛡️</span></div>
-          <div class="menu dash-tool" data-keywords="احراز هویت ثبت نام کاربران login auth users password remember" onclick="showView('auth')">سیستم احراز <span>🔑</span></div>
-          <div class="menu dash-tool" data-keywords="انتشار فروش نصب اندروید ویندوز نسخه release commercial install about version" onclick="showView('release')">انتشار محصول <span>🚀</span></div>
-          <div class="menu dash-tool" data-keywords="زبان مترجم فارسی انگلیسی عربی language translator english arabic" onclick="showView('language')">زبان و مترجم <span>🌐</span></div>
-          <div class="menu dash-tool" data-keywords="export pdf png backup csv خروجی بکاپ" onclick="showView('export')">Export Center <span>📦</span></div>
-        </div>
-      </div>
-
-      <input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)">  
-      <div class="dash-settings">
-        <div class="menu dash-tool" data-keywords="شب تاریک dark" onclick="toggleDark()">حالت شب <span>🌙</span></div>  
-        <div class="menu dash-tool" data-keywords="رمز password" onclick="changePassword()">تغییر رمز <span>🔒</span></div>
-      </div>
-      <div id="dashNoResult" class="dash-no-result" style="display:none">ابزاری پیدا نشد.</div>
-    </div>
-  </aside>
-
-  <aside id="chatDrawer" class="drawer left no-print" aria-label="چت کشویی">
-    <div class="drawer-head">
-      <b>دستیار هوشمند خانواده</b>
-      <button class="drawer-close" onclick="closeDrawers()">✕</button>
-    </div>
-    <div class="drawer-body">
-      <div id="chatLog" class="chat-log"></div>
-      <div class="chat-quick">
-        <button class="btn gray-btn" onclick="quickChat('خلاصه خانواده')">خلاصه</button>
-        <button class="btn gray-btn" onclick="quickChat('بررسی داده‌ها')">بررسی داده‌ها</button>
-        <button class="btn gray-btn" onclick="quickChat('پیشنهاد تکمیل')">پیشنهاد</button>
-        <button class="btn gray-btn" onclick="quickChat('نسل‌ها')">نسل‌ها</button>
-        <button class="btn gray-btn" onclick="quickChat('Timeline بساز')">Timeline</button>
-        <button class="btn gray-btn" onclick="quickChat('راهنما')">راهنما</button>
-        <button class="btn red-btn" onclick="resetChat()">پاک‌کردن چت</button>
-      </div>
-      <div class="chat-compose">
-        <input id="chatInput" placeholder="مثلاً: فرزندان علی، بررسی داده‌ها، Timeline بساز، نسبت علی و سارا" onkeydown="if(event.key==='Enter')sendChatMessage()">
-        <button class="btn blue-btn" onclick="sendChatMessage()">ارسال</button>
-      </div>
-      <small style="color:var(--muted)">چت هوشمند داخلی است و با داده‌های همین شجره پاسخ می‌دهد؛ بدون API خارجی و بدون کلید ناامن.</small>
-    </div>
-  </aside>
-
-  <div class="layout">  
-    <main class="main">  
-      <section id="view-home" class="view-section active">
-        <div class="home-hero">
-          <h1>سامانه شجره‌نامه خانواده</h1>
-          <div class="product-brand-line"><span class="brand-badge-V118">🌳 FamilyTreePro V118 Stable</span><span></span></div>
-          <p></p>
-        </div>
-        <div class="home-actions no-print">
-          <button class="btn blue-btn" onclick="openDashboard()">باز کردن داشبورد</button>
-          <button class="btn pink-btn" onclick="openChat()">باز کردن چت</button>
-          <button class="btn" onclick="showView('people')">مدیریت افراد</button>
-        </div>
-        <div class="cards">  
-          <div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div></div><div class="icon">👥</div></div>  
-          <div class="card stat blue"><div>مردان<div class="num" id="male">0</div></div><div class="icon">👨</div></div>  
-          <div class="card stat pink"><div>زنان<div class="num" id="female">0</div></div><div class="icon">👩</div></div>  
-          <div class="card stat green"><div>نسل‌ها<div class="num" id="gens">0</div></div><div class="icon">🌳</div></div>  
-        </div>  
-      </section>
-
-      <section id="view-people" class="view-section">
-        <div class="page-title"><h1>افراد</h1><span>👤 مدیریت افراد</span></div>
-        <div class="grid-2 no-print">  
-          <div class="panel" id="addSec">  
-            <h2>➕ افزودن / ✏️ ویرایش فرد</h2>  
-            <input type="hidden" id="editId">  
-            <div class="form-row">  
-              <input id="name" placeholder="نام فرد">  
-              <select id="gender"><option value="male">مرد</option><option value="female">زن</option></select>  
-              <input id="birth" placeholder="سال تولد">  
-            </div>  
-            <div class="form-row">  
-              <select id="parent"><option value="">بدون پدر/مادر</option></select>  
-              <input id="job" placeholder="شغل">  
-              <input id="phone" placeholder="شماره تماس">  
-            </div>  
-            <div class="form-row">  
-              <input id="photo" type="file" accept="image/*">  
-            </div>  
-            <button class="btn" onclick="savePerson()">ذخیره فرد</button>  
-            <button class="btn red-btn" onclick="clearForm()">پاک کردن فرم</button>  
-          </div>  
-
-          <div class="panel">  
-            <h2>🔍 جستجوی زنده</h2>  
-            <input class="search" id="search" placeholder="جستجو در نام، شغل یا تماس..." oninput="render()">  
-            <div id="list"></div>  
-          </div>  
-        </div>  
-      </section>
-
-      <section id="view-birthdays" class="view-section">
-        <div class="page-title"><h1>تولدها</h1><span>🎂 تقویم تولدها</span></div>
-        <div class="panel">  
-          <h2>🎂 تقویم تولدها</h2>  
-          <div id="birthdays"></div>  
-        </div>  
-      </section>
-
-      <section id="view-timeline" class="view-section">
-        <div class="page-title"><h1>Timeline</h1><span>🕘 رویدادهای خانوادگی</span></div>
-        <div class="panel" id="timelineSec">  
-          <h2>🕘 Timeline خانوادگی</h2>  
-          <div id="timeline"></div>  
-        </div>  
-      </section>
-
-      <section id="view-memory" class="view-section">
-        <div class="page-title"><h1>Timeline تصویری و Memory Map</h1><span>🗺️ خاطرات و شهرهای خانواده</span></div>
-        <div class="panel">
-          <div class="privacy-bar">
-            <div><b>حریم خصوصی نمایش عمومی</b><br><small>با روشن کردن این گزینه، خانم‌ها از لیست افراد، شجره، Timeline و خروجی‌ها مخفی می‌شوند.</small></div>
-            <button id="hideWomenToggleBtn" class="btn red-btn" onclick="toggleHideWomen()">مخفی‌سازی خانم‌ها</button>
-          </div>
-          <h2>🎞 Timeline تصویری حرفه‌ای</h2>
-          <div class="memory-toolbar no-print">
-            <input id="memorySearch" placeholder="جستجو در خاطرات، نام، شهر..." oninput="renderMemorySuite()">
-            <select id="memoryYearFilter" onchange="renderMemorySuite()"><option value="">همه سال‌ها</option></select>
-            <button class="btn blue-btn" onclick="showView('profiles')">افزودن رویداد از 👤 پروفایل فرد</button>
-          </div>
-          <div class="memory-grid">
-            <div id="visualTimeline"></div>
-            <div>
-              <h2>🗺️ Memory Map</h2>
-              <p class="dashboard-note">نقشه فعلاً به‌صورت کارت شهر/محل است تا بدون API خارجی واقعی و پایدار بماند. محل دفن، شهرهای داخل رویدادها و توضیحات اینجا جمع می‌شوند.</p>
-              <div id="memoryMap" class="memory-map"></div>
-            </div>
-          </div>
-
-          <div class="heritage-stage" id="heritageStage">
-            <div class="heritage-head">
-              <div><h2>🎬 تجربه میراث خانواده</h2><small>همان Timeline و خاطرات فعلی، به شکل داستانی و مناسب مراسم/تلویزیون</small></div>
-              <div class="heritage-actions no-print">
-                <button class="btn" onclick="heritagePrev()">قبلی</button>
-                <button class="btn" onclick="heritageNext()">بعدی</button>
-                <button class="btn" id="heritagePlayBtn" onclick="toggleHeritagePlay()">پخش خودکار</button>
-                <button class="btn" onclick="toggleHeritageCeremony()">حالت مراسم</button>
-              </div>
-            </div>
-            <div id="heritageSlide" class="heritage-slide"></div>
-            <div id="heritageStrip" class="heritage-strip no-print"></div>
-          </div>
-
-          <div class="heritage-story">
-            <div class="story-card">
-              <h3>📜 خلاصه تاریخ خانواده</h3>
-              <div id="familyStorySummary"></div>
-            </div>
-            <div class="story-card memorial-card">
-              <h3>🕯️ یادبود مرحومین</h3>
-              <div id="heritageMemorial"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="view-charts" class="view-section">
-        <div class="page-title"><h1>نمودارها</h1><span>📊 آمار خانواده</span></div>
-        <div class="panel">  
-          <h2>📊 نمودار نسل‌ها</h2>  
-          <div id="generationChart"></div>  
-        </div>  
-      </section>
-
-      <section id="view-profiles" class="view-section">
-        <div class="page-title"><h1>👤 پروفایل کامل</h1><span>🪪 اطلاعات کامل فرد</span></div>
-        <div class="panel">
-          <h2>👤 پروفایل کامل افراد</h2>
-          <p class="dashboard-note">از این بخش، جزئیات کامل هر فرد را بدون شلوغ شدن صفحه اصلی ببینید.</p>
-          <div class="form-row"><select id="profilePerson" onchange="renderFullProfile()"></select></div>
-          <div id="fullProfileBox"></div>
-        </div>
-      </section>
-
-
-      <section id="view-children" class="view-section">
-        <div class="page-title"><h1>👨‍👩‍👧‍👦 مدیریت فرزندان</h1><span>👶 افزودن و انتقال فرزند</span></div>
-        <div class="panel">
-          <h2>👶 افزودن سریع فرزند</h2>
-          <p class="dashboard-note">این بخش همان داده‌های اصلی افراد را استفاده می‌کند؛ فرد یا شجره تکراری ساخته نمی‌شود.</p>
-          <div class="form-row"><select id="childParentSelect"></select><input id="quickChildName" placeholder="نام فرزند"><select id="quickChildGender"><option value="male">پسر</option><option value="female">دختر</option></select><input id="quickChildBirth" placeholder="سال تولد"></div>
-          <button class="btn" onclick="addQuickChild()">➕ افزودن فرزند</button>
-        </div>
-        <div class="children-grid">
-          <div class="panel">
-            <h2>👨‍👩‍👧‍👦 فرزندان هر فرد</h2>
-            <div class="form-row"><select id="childrenPersonSelect" onchange="renderChildrenManager()"></select></div>
-            <div id="childrenListBox"></div>
-          </div>
-          <div class="panel">
-            <h2>🔄 انتقال رابطه فرزند</h2>
-            <p class="dashboard-note">این کار فقط والد فرزند را عوض می‌کند؛ خود فرد حذف نمی‌شود.</p>
-            <div class="form-row"><select id="moveChildSelect"></select><select id="moveParentSelect"></select></div>
-            <button class="btn blue-btn" onclick="moveChildToParent()">🔄 انتقال فرزند به والد جدید</button>
-            <button class="btn gray-btn" onclick="detachChildFromParent()">🧹 حذف رابطه والد، بدون حذف فرد</button>
-          </div>
-        </div>
-      </section>
-
-      <section id="view-marriage" class="view-section">
-        <div class="page-title"><h1>ازدواج و همسر</h1><span>💍 مدیریت همسرها</span></div>
-        <div class="panel">
-          <h2>💍 ثبت ازدواج / همسر</h2>
-          <div class="form-row"><select id="spouseA"></select><select id="spouseB"></select></div>
-          <button class="btn pink-btn" onclick="addMarriage()">ثبت ازدواج</button>
-          <div id="marriageList"></div>
-        </div>
-      </section>
-
-      <section id="view-death" class="view-section">
-        <div class="page-title"><h1>مرحومین و محل دفن</h1><span>🪦 ثبت یادمان خانوادگی</span></div>
-        <div class="panel">
-          <h2>🪦 ثبت اطلاعات مرحوم</h2>
-          <p class="dashboard-note">این بخش فقط داخل داشبورد است. با ثبت فوت، وضعیت فرد در 👤 پروفایل و شجره هم با نشان مرحوم نمایش داده می‌شود.</p>
-          <div id="deathSummary" class="death-summary"></div>
-          <div class="form-row"><select id="deathPerson" onchange="loadDeathForm()"></select></div>
-          <div class="form-row"><input id="deathDate" placeholder="تاریخ فوت مثلا ۱۴۰۲/۰۵/۱۲"><input id="gravePlace" placeholder="محل دفن / قطعه / شهر"></div>
-          <div class="form-row"><input id="deathNote" placeholder="یادداشت کوتاه یادمان؛ مثال: پدر مهربان خانواده"></div>
-          <button class="btn" onclick="saveDeathInfo()">ذخیره اطلاعات مرحوم</button>
-          <button class="btn gray-btn" onclick="clearDeathInfo()">برگرداندن به حالت زنده / حذف وضعیت فوت</button>
-          <button class="btn blue-btn" onclick="openProfileView(Number(document.getElementById('deathPerson').value))">نمایش 👤 پروفایل همین فرد</button>
-        </div>
-        <div class="panel">
-          <h2>📍 فهرست مرحومین و محل دفن</h2>
-          <div id="deathList"></div>
-        </div>
-      </section>
-
-      <section id="view-relations" class="view-section">
-        <div class="page-title"><h1>تشخیص نسبت</h1><span>🧠 نسبت خانوادگی</span></div>
-        <div class="panel">
-          <h2>🧠 تشخیص نسبت خانوادگی</h2>
-          <div class="form-row"><select id="relationA"></select><select id="relationB"></select></div>
-          <button class="btn blue-btn" onclick="showRelation()">تشخیص نسبت</button>
-          <div id="relationResult" class="relation-result">دو نفر را انتخاب کنید.</div>
-        </div>
-      </section>
-
-
-      <section id="view-access" class="view-section">
-        <div class="page-title"><h1>دسترسی و لینک‌ها</h1><span>🔐 مدیر / ✏️ ویرایشگر / نمایشگر</span></div>
-        <div class="panel">
-          <h2>🔐 مدیریت دسترسی</h2>
-          <p class="dashboard-note">لینک‌ها واقعی و قابل استفاده‌اند. در حالت بدون Firebase، تأیید مدیر روی همین مرورگر ذخیره می‌شود؛ برای تأیید بین دستگاه‌ها مرحله بعد باید Firebase فعال شود.</p>
-          <div id="currentRoleBox" class="access-card"></div>
-          <div class="access-grid">
-            <div class="access-card">
-              <h3>👁 لینک نمایشگر</h3>
-              <p class="lock-note">فقط مشاهده می‌کند و امکان ذخیره، حذف یا ✏️ ویرایش ندارد.</p>
-              <textarea id="viewerLink" class="access-link-box" readonly></textarea>
-              <button class="btn blue-btn" onclick="copyAccessLink('viewerLink')">کپی لینک نمایشگر</button>
-            </div>
-            <div class="access-card">
-              <h3>✏️ لینک ✏️ ویرایشگر تأییدشده</h3>
-              <p class="lock-note">✏️ ویرایشگر می‌تواند افراد و اطلاعات را ✏️ ویرایش کند، ولی مدیریت دسترسی ندارد.</p>
-              <textarea id="editorLink" class="access-link-box" readonly></textarea>
-              <button class="btn blue-btn" onclick="copyAccessLink('editorLink')">کپی لینک ✏️ ویرایشگر</button>
-              <button class="btn gray-btn" onclick="rotateEditorKey()">ساخت کلید جدید ✏️ ویرایشگر</button>
-            </div>
-            <div class="access-card">
-              <h3>📝 لینک درخواست ✏️ ویرایشگر</h3>
-              <p class="lock-note">کاربر با این لینک درخواست می‌دهد؛ مدیر باید از همین پنل تأیید کند.</p>
-              <textarea id="requestEditorLink" class="access-link-box" readonly></textarea>
-              <button class="btn blue-btn" onclick="copyAccessLink('requestEditorLink')">کپی لینک درخواست</button>
-            </div>
-            <div class="access-card">
-              <h3>✅ تأیید مدیر</h3>
-              <div id="approvalList"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="view-firebase" class="view-section">
-        <div class="page-title"><h1>Firebase Sync</h1><span>☁️ ذخیره ابری واقعی</span></div>
-        <div class="panel">
-          <h2>☁️ تنظیمات Firebase</h2>
-          <p class="dashboard-note">این بخش واقعی است؛ اطلاعات روی Firestore ذخیره/دریافت می‌شود. تنظیمات Firebase فقط در همین مرورگر ذخیره می‌شود و روی صفحه اصلی چیزی اضافه نمی‌کند.</p>
-          <div class="form-row"><input id="fbApiKey" placeholder="apiKey"><input id="fbAuthDomain" placeholder="authDomain"></div>
-          <div class="form-row"><input id="fbProjectId" placeholder="projectId"><input id="fbStorageBucket" placeholder="storageBucket"></div>
-          <div class="form-row"><input id="fbMessagingSenderId" placeholder="messagingSenderId"><input id="fbAppId" placeholder="appId"></div>
-          <div class="form-row"><input id="fbFamilyId" placeholder="Family ID / شناسه خانواده"><select id="fbMode"><option value="manual">دستی</option><option value="live">همگام‌سازی زنده</option></select></div>
-          <button class="btn" onclick="firebaseSaveConfig()">ذخیره تنظیمات</button>
-          <button class="btn blue-btn" onclick="firebaseConnect()">اتصال / تست</button>
-          <button class="btn" onclick="firebaseSaveCloud()">ذخیره روی ابر</button>
-          <button class="btn blue-btn" onclick="firebaseLoadCloud()">دریافت از ابر</button>
-          <button class="btn pink-btn" onclick="firebaseToggleLive()">روشن/خاموش همگام‌سازی زنده</button>
-          <div id="firebaseStatus" class="person-row">وضعیت: آماده تنظیم</div>
-        </div>
-        <div class="panel">
-          <h2>🔗 لینک‌های ابری</h2>
-          <p class="dashboard-note">این لینک‌ها Family ID را هم منتقل می‌کنند. برای کار روی دستگاه دیگر، همان تنظیمات Firebase باید یک‌بار در آن مرورگر ذخیره شود.</p>
-          <div class="access-grid">
-            <div class="access-card"><h3>👁 نمایشگر ابری</h3><textarea id="fbViewerLink" class="access-link-box" readonly></textarea><button class="btn blue-btn" onclick="copyAccessLink('fbViewerLink')">کپی</button></div>
-            <div class="access-card"><h3>✏️ ویرایشگر ابری</h3><textarea id="fbEditorLink" class="access-link-box" readonly></textarea><button class="btn blue-btn" onclick="copyAccessLink('fbEditorLink')">کپی</button></div>
-          </div>
-        </div>
-      </section>
-
-
-      <section id="view-network" class="view-section">
-        <div class="page-title"><h1>پایداری اینترنت ایران</h1><span>📶 حالت اینترنت ضعیف و آفلاین</span></div>
-        <div class="panel">
-          <h2>📶 Iran Network Stability</h2>
-          <p class="dashboard-note">این بخش همان سیستم فعلی را سبک‌تر و پایدارتر می‌کند؛ داشبورد یا ماژول جدید تکراری ساخته نشده است.</p>
-          <div class="low-net-banner">حالت اینترنت ضعیف روشن است: انیمیشن‌ها کمتر می‌شوند، اتصال ابری با احتیاط انجام می‌شود و سایت تا حد ممکن از نسخه محلی استفاده می‌کند.</div>
-          <div class="network-status-card">
-            <div class="network-chip"><b id="netOnlineState">—</b><small>وضعیت اتصال</small></div>
-            <div class="network-chip"><b id="netModeState">—</b><small>حالت شبکه</small></div>
-            <div class="network-chip"><b id="netCacheState">—</b><small>وضعیت آفلاین</small></div>
-          </div>
-          <button class="btn blue-btn" onclick="toggleLowInternetMode()">روشن/خاموش حالت اینترنت ضعیف</button>
-          <button class="btn" onclick="saveOfflineSnapshot()">ذخیره نسخه آفلاین اطلاعات</button>
-          <button class="btn gray-btn" onclick="restoreOfflineSnapshot()">بازیابی آخرین نسخه آفلاین</button>
-          <button class="btn pink-btn" onclick="testNetworkStability()">تست اتصال</button>
-          <div id="networkLog" class="net-log" style="margin-top:12px"></div>
-        </div>
-      </section>
-
-      
-
-<section id="view-release" class="view-section">
-  <div class="page-title"><h1>انتشار محصول</h1><span>☁️ </span></div>
-  <div class="panel">
-    <h2>🚀 FamilyTreePro FamilyTreePro V118 Stable</h2>
-    <p class="dashboard-note">این بخش برای بررسی نهایی انتشار است؛ بدون ساخت پنل تکراری، سلامت Login، Backup، Offline و نسخه را کنترل می‌کند.</p>
-    <div class="release-grid">
-      <div class="release-card"><h3>📱 نصب Android</h3><small>از Chrome یا Samsung Internet سایت را باز کن و گزینه Add to Home screen / Install app را بزن.</small><br><button class="btn blue-btn" onclick="v94InstallPWA()">نصب اگر مرورگر اجازه داد</button></div>
-      <div class="release-card"><h3>🪟 نصب Windows</h3><small>در Chrome/Edge روی آیکون Install کنار آدرس یا منوی سه‌نقطه کلیک کن و App را نصب کن.</small><br><button class="btn gray-btn" onclick="v94CopySiteLink()">کپی لینک سایت</button></div>
-      <div class="release-card"><h3>ℹ️ </h3><span class="release-badge">V118</span><span class="release-badge"></span><span class="release-badge"></span><br><small id="v94ReleaseStatus">آماده بررسی</small><br><button class="btn" onclick="v94RunQuickQA()">تست سریع انتشار</button></div>
-    </div>
-    <div class="release-checklist">
-      <div class="release-check">✅ Login/Register/Admin از نسخه‌های قبل حفظ شده</div>
-      <div class="release-check">✅ Backup & Data Safety حفظ شده</div>
-      <div class="release-check">✅ Tree و Dashboard اصلی دست‌نخورده</div>
-      <div class="release-check">✅ بدون UI تکراری و بدون صفحه اضافه سنگین</div>
-      <div class="release-check">✅ Error Guard فعال برای ثبت خطای سفید شدن صفحه</div>
-      <div class="release-check">✅ Quick QA برای تست Login / Register / Backup / Offline / Cloud Ready</div>
-      <div class="release-check">✅  با V118 و آماده Cloud Safe</div>
-      <div class="release-check">✅ : جلوگیری از ذخیره ناقص هنگام قطع اینترنت</div>
-      <div class="release-check">✅ Release Lock: ثبت زمان آخرین تست انتشار در حافظه امن مرورگر</div>
-      <div class="release-check">✅ Version Marker یکپارچه</div>
-    </div>
-    <h3>🔗 لینک تست/انتشار</h3>
-    <div id="v94SiteLink" class="release-install-box">در حال آماده‌سازی...</div>
-  </div>
+<style id="v119-blocker-clear-css">
+/* V119: blocker clear only - no visible version notes */
+#buildMarker,#v811StableMarker,#v861StableMarker,.viewer-note,.debug-note,.production-guard-note,.patch-note,.version-marker,.build-marker,[data-debug-note="true"],[data-version-note="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+/* old giant helper layers must not sit above the real app */
+.v1072-safe-hide,.v1004-auth-hidden,.v102-auth-admin-hidden{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+#app[style*="block"] ~ #buildMarker{display:none!important;}
+</style></head> <body> <div id="login">
+<div class="loginbox">
+<h2>🔐 ورود به FamilyTreePro</h2>
+<p class="v81-subtitle">ورود امن، ثبت‌نام، بازیابی رمز و قفل خودکار</p>
+<div class="login-main-fields">
+<input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
+<input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
+<div class="captcha-row"><div class="captcha-question" id="captchaQuestion">...</div><input autocomplete="off" id="captchaAnswer" inputmode="numeric" placeholder="پاسخ عددی" tabindex="3" type="tel"/></div>
+<div class="v86-auth-tools"><button class="v86-mini-btn" id="refreshCaptchaBtn" onclick="refreshLoginCaptcha()" type="button">🔄 رفرش عدد</button><span class="v86-timer" id="loginWaitTimer">آماده ورود</span></div>
+<label class="v81-remember"><input id="rememberMe" type="checkbox"/> مرا در این دستگاه به خاطر بسپار</label>
+<button class="btn" id="loginBtn" onclick="login()" tabindex="4" type="button">ورود امن</button>
+<div class="v80-auth-switch"><button id="showRegisterBtn" onclick="showRegister()" type="button">ثبت‌نام</button><button id="forgotPasswordBtn" onclick="forgotPassword()" type="button">فراموشی رمز</button></div>
+<div class="v96-mode-row"><button class="active" id="v96EmailModeBtn" onclick="v96SetAuthMode('email')" type="button">ورود ایمیلی</button><button id="v96PhoneModeBtn" onclick="v96SetAuthMode('phone')" type="button">آماده‌سازی SMS</button></div>
+<div class="v96-phone-prep" id="v96PhonePrep"><input id="v96PhoneNumber" inputmode="tel" placeholder="شماره موبایل؛ مثال 09123456789" type="tel"/><button class="btn blue-btn" onclick="v96PhonePrepMessage()" type="button">بررسی آماده‌سازی پیامک</button><p class="v80-auth-note">SMS واقعی هنوز فعال نشده تا Login سالم خراب نشود. مرحله بعد با Firebase Phone Auth و reCAPTCHA فعال می‌شود.</p></div>
+</div>
+<div class="v80-register-panel" id="registerBox">
+<div class="register-title">📝 ثبت‌نام کاربر جدید</div>
+<p class="register-subtitle">برای احراز هویت، اطلاعات واقعی کاربر ثبت می‌شود.</p>
+<div class="register-grid">
+<input autocomplete="given-name" id="regFirstName" placeholder="نام"/>
+<input autocomplete="family-name" id="regLastName" placeholder="نام خانوادگی"/>
+</div>
+<input autocomplete="tel" id="regPhone" inputmode="tel" placeholder="شماره تلفن" type="tel"/>
+<input autocomplete="email" id="regEmail" placeholder="ایمیل" type="email"/>
+<input autocomplete="new-password" id="regPass" oninput="v86PasswordReview()" placeholder="رمز عبور حداقل ۸ کاراکتر" type="password"/><div class="v86-pass-meter"><div class="v86-pass-fill" id="v86PassFill"></div></div><div class="v86-field-hint" id="v86PassHint">رمز بهتر است شامل عدد و حرف باشد.</div><input autocomplete="new-password" id="regPass2" oninput="v86PasswordReview()" placeholder="تکرار رمز عبور" type="password"/><div class="v86-status" id="v86RegStatus"></div>
+<label class="v81-remember"><input id="regRememberMe" type="checkbox"/> بعد از ثبت‌نام، مرا در این دستگاه به خاطر بسپار</label>
+<div class="auth-back-row">
+<button class="btn green-btn" id="createAccountBtn" onclick="registerUser()" type="button">ایجاد حساب جدید</button>
+<button class="btn gray-btn" id="backToLoginBtn" onclick="showLoginOnly()" type="button">بازگشت به ورود</button>
+</div>
+<p class="v80-auth-note">ثبت‌نام با Firebase Auth انجام می‌شود و نام، نام خانوادگی، شماره تلفن و ایمیل در Firestore ذخیره می‌شود.</p>
+</div>
+<p id="loginError" style="color:red"></p>
+</div>
+</div> <div class="v81-lock-screen" id="v81LockScreen" style="display:none"><div class="v81-lock-box"><h2>🔒 برنامه قفل شد</h2><p>برای ادامه، رمز عبور حساب خود را دوباره وارد کنید.</p><input autocomplete="current-password" id="unlockPass" placeholder="رمز عبور" type="password"/><button class="btn" onclick="unlockApp()">باز کردن قفل</button><button class="btn gray-btn" onclick="logout()">خروج کامل</button><p id="unlockError" style="color:red"></p></div></div>
+<div id="app" style="display:none">
+<div class="topbar no-print">
+<div class="top-actions">
+<button class="icon-btn" onclick="openDashboard()">☰ داشبورد</button>
+<button class="icon-btn" onclick="openChat()">💬 چت</button>
+</div>
+<span id="clock">سامانه آنلاین</span>
+<b>🌳 سامانه شجره‌نامه خانواده</b>
+<span onclick="logout()" style="cursor:pointer">🔒 خروج</span>
+</div>
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawers()"></div>
+<aside aria-label="داشبورد کشویی" class="drawer right no-print" id="dashboardDrawer">
+<div class="drawer-head">
+<b>داشبورد</b>
+<button class="drawer-close" onclick="closeDrawers()">✕</button>
+</div>
+<div class="drawer-body">
+<div class="profile dashboard-profile">
+<div class="avatar">👤</div>
+<h3>مدیر سیستم</h3>
+<div class="online">● آنلاین</div>
+</div>
+<div class="dash-search-wrap">
+<input class="dash-search" id="dashboardSearch" oninput="filterDashboardTools()" placeholder="جستجوی ابزار داشبورد..."/>
+</div>
+<div class="dash-group" data-group="core">
+<button class="dash-group-title" onclick="toggleDashGroup('core')">اصلی <span>⌄</span></button>
+<div class="dash-group-body">
+<div class="menu dash-tool active" data-keywords="خانه home" onclick="showView('home')">خانه <span>🏠</span></div>
+<div class="menu dash-tool" data-keywords="افراد مدیریت نفر person people add edit" onclick="showView('people')">افراد <span>👤</span></div>
+<div class="menu dash-tool" data-keywords="شجره درخت family tree zoom engine حرفه ای" onclick="showView('tree')">شجره <span>🌳</span></div>
+</div>
+</div>
+<div class="dash-group" data-group="family">
+<button class="dash-group-title" onclick="toggleDashGroup('family')">خانواده و اطلاعات <span>⌄</span></button>
+<div class="dash-group-body">
+<div class="menu dash-tool" data-keywords="timeline تایملاین زمان رویداد" onclick="showView('timeline')">Timeline <span>🕘</span></div>
+<div class="menu dash-tool" data-keywords="memory map خاطرات نقشه تصویری رویداد مهاجرت شهر میراث داستان تجربه heritage story مراسم تلویزیون" onclick="showView('memory')">میراث و خاطرات خانواده <span>🎬</span></div>
+<div class="menu dash-tool" data-keywords="مخفی سازی خانم ها privacy women" onclick="toggleHideWomen()">مخفی‌سازی خانم‌ها <span id="hideWomenDashIcon">👁️</span></div>
+<div class="menu dash-tool" data-keywords="تولد birthday birthdays" onclick="showView('birthdays')">تولدها <span>🎂</span></div>
+<div class="menu dash-tool" data-keywords="نمودار آمار نسل charts stats" onclick="showView('charts')">نمودارها <span>📊</span></div>
+<div class="menu dash-tool" data-keywords="👤 پروفایل کامل گالری فایل ویس خاطره profile gallery voice" onclick="showView('profiles')">👤 پروفایل کامل <span>🪪</span></div>
+<div class="menu dash-tool" data-keywords="فرزندان بچه کودک parent child children والد" onclick="showView('children')">👨‍👩‍👧‍👦 مدیریت فرزندان <span>👶</span></div>
+<div class="menu dash-tool" data-keywords="ازدواج همسر marriage spouse" onclick="showView('marriage')">ازدواج و همسر <span>💍</span></div>
+<div class="menu dash-tool" data-keywords="فوت مرحوم دفن قبر death deceased grave" onclick="showView('death')">فوت و محل دفن <span>🪦</span></div>
+<div class="menu dash-tool" data-keywords="نسبت خانوادگی رابطه relation" onclick="showView('relations')">تشخیص نسبت <span>🧠</span></div>
+</div>
+</div>
+<div class="dash-group" data-group="system">
+<button class="dash-group-title" onclick="toggleDashGroup('system')">سیستم و خروجی <span>⌄</span></button>
+<div class="dash-group-body">
+<div class="menu dash-tool" data-keywords="دسترسی لینک مدیر ✏️ ویرایشگر نمایشگر access link role" onclick="showView('access')">دسترسی و لینک‌ها <span>🔐</span></div>
+<div class="menu dash-tool" data-keywords="firebase cloud sync ابری همگام سازی" onclick="showView('firebase')">Firebase Sync <span>☁️</span></div>
+<div class="menu dash-tool" data-keywords="ایران اینترنت ضعیف پایدار offline low network stability" onclick="showView('network')">پایداری اینترنت ایران <span>📶</span></div>
+<div class="menu dash-tool" data-keywords="امنیت قفل بکاپ لاگ security lock backup log" onclick="showView('security')">امنیت نرم <span>🛡️</span></div>
+<div class="menu dash-tool" data-keywords="احراز هویت ثبت نام کاربران login auth users password remember" onclick="showView('auth')">سیستم احراز <span>🔑</span></div>
+<div class="menu dash-tool" data-keywords="انتشار فروش نصب اندروید ویندوز نسخه release commercial install about version" onclick="showView('release')">انتشار محصول <span>🚀</span></div>
+<div class="menu dash-tool" data-keywords="زبان مترجم فارسی انگلیسی عربی language translator english arabic" onclick="showView('language')">زبان و مترجم <span>🌐</span></div>
+<div class="menu dash-tool" data-keywords="export pdf png backup csv خروجی بکاپ" onclick="showView('export')">Export Center <span>📦</span></div>
+</div>
+</div>
+<input accept=".json" id="importFile" onchange="importData(event)" style="display:none" type="file"/>
+<div class="dash-settings">
+<div class="menu dash-tool" data-keywords="شب تاریک dark" onclick="toggleDark()">حالت شب <span>🌙</span></div>
+<div class="menu dash-tool" data-keywords="رمز password" onclick="changePassword()">تغییر رمز <span>🔒</span></div>
+</div>
+<div class="dash-no-result" id="dashNoResult" style="display:none">ابزاری پیدا نشد.</div>
+</div>
+</aside>
+<aside aria-label="چت کشویی" class="drawer left no-print" id="chatDrawer">
+<div class="drawer-head">
+<b>دستیار هوشمند خانواده</b>
+<button class="drawer-close" onclick="closeDrawers()">✕</button>
+</div>
+<div class="drawer-body">
+<div class="chat-log" id="chatLog"></div>
+<div class="chat-quick">
+<button class="btn gray-btn" onclick="quickChat('خلاصه خانواده')">خلاصه</button>
+<button class="btn gray-btn" onclick="quickChat('بررسی داده‌ها')">بررسی داده‌ها</button>
+<button class="btn gray-btn" onclick="quickChat('پیشنهاد تکمیل')">پیشنهاد</button>
+<button class="btn gray-btn" onclick="quickChat('نسل‌ها')">نسل‌ها</button>
+<button class="btn gray-btn" onclick="quickChat('Timeline بساز')">Timeline</button>
+<button class="btn gray-btn" onclick="quickChat('راهنما')">راهنما</button>
+<button class="btn red-btn" onclick="resetChat()">پاک‌کردن چت</button>
+</div>
+<div class="chat-compose">
+<input id="chatInput" onkeydown="if(event.key==='Enter')sendChatMessage()" placeholder="مثلاً: فرزندان علی، بررسی داده‌ها، Timeline بساز، نسبت علی و سارا"/>
+<button class="btn blue-btn" onclick="sendChatMessage()">ارسال</button>
+</div>
+<small style="color:var(--muted)">چت هوشمند داخلی است و با داده‌های همین شجره پاسخ می‌دهد؛ بدون API خارجی و بدون کلید ناامن.</small>
+</div>
+</aside>
+<div class="layout">
+<main class="main">
+<section class="view-section active" id="view-home">
+<div class="home-hero">
+<h1>سامانه شجره‌نامه خانواده</h1>
+<div class="product-brand-line"><span class="brand-badge-V118">🌳 FamilyTreePro V118 Stable</span><span></span></div>
+<p></p>
+</div>
+<div class="home-actions no-print">
+<button class="btn blue-btn" onclick="openDashboard()">باز کردن داشبورد</button>
+<button class="btn pink-btn" onclick="openChat()">باز کردن چت</button>
+<button class="btn" onclick="showView('people')">مدیریت افراد</button>
+</div>
+<div class="cards">
+<div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div></div><div class="icon">👥</div></div>
+<div class="card stat blue"><div>مردان<div class="num" id="male">0</div></div><div class="icon">👨</div></div>
+<div class="card stat pink"><div>زنان<div class="num" id="female">0</div></div><div class="icon">👩</div></div>
+<div class="card stat green"><div>نسل‌ها<div class="num" id="gens">0</div></div><div class="icon">🌳</div></div>
+</div>
 </section>
-
-<section id="view-language" class="view-section">
-  <div class="page-title"><h1>زبان و مترجم</h1><span>🌐 فارسی / انگلیسی / عربی</span></div>
-  <div class="panel language-panel">
-    <h2>🌐 سیستم زبان هوشمند</h2>
-    <p class="dashboard-note">این بخش فقط متن‌های رابط کاربری را تغییر می‌دهد و به اطلاعات خانواده، شجره، بکاپ و ورود دست نمی‌زند.</p>
-    <div class="language-grid">
-      <button class="btn blue-btn lang-choice" id="langFaBtn" onclick="setAppLanguage('fa')">فارسی 🇮🇷</button>
-      <button class="btn gray-btn lang-choice" id="langEnBtn" onclick="setAppLanguage('en')">English 🇬🇧</button>
-      <button class="btn gray-btn lang-choice" id="langArBtn" onclick="setAppLanguage('ar')">العربية 🇸🇦</button>
-    </div>
-    <div class="person-row"><b>زبان فعلی:</b> <span id="currentLanguageLabel">فارسی</span></div>
-    <div class="person-row"><b>جهت صفحه:</b> <span id="currentDirectionLabel">RTL</span></div>
-    <div class="person-row"><b>وضعیت مترجم:</b> <span id="translationModeLabel">آفلاین و سبک</span></div>
-    <p class="lock-note">برای پایداری ، ترجمه آنلاین سنگین اضافه نشده است. نسخه V118 متن‌های اصلی Login، Dashboard، Release، Auth و دکمه‌های مهم را به‌صورت داخلی ترجمه می‌کند.</p>
-  </div>
+<section class="view-section" id="view-people">
+<div class="page-title"><h1>افراد</h1><span>👤 مدیریت افراد</span></div>
+<div class="grid-2 no-print">
+<div class="panel" id="addSec">
+<h2>➕ افزودن / ✏️ ویرایش فرد</h2>
+<input id="editId" type="hidden"/>
+<div class="form-row">
+<input id="name" placeholder="نام فرد"/>
+<select id="gender"><option value="male">مرد</option><option value="female">زن</option></select>
+<input id="birth" placeholder="سال تولد"/>
+</div>
+<div class="form-row">
+<select id="parent"><option value="">بدون پدر/مادر</option></select>
+<input id="job" placeholder="شغل"/>
+<input id="phone" placeholder="شماره تماس"/>
+</div>
+<div class="form-row">
+<input accept="image/*" id="photo" type="file"/>
+</div>
+<button class="btn" onclick="savePerson()">ذخیره فرد</button>
+<button class="btn red-btn" onclick="clearForm()">پاک کردن فرم</button>
+</div>
+<div class="panel">
+<h2>🔍 جستجوی زنده</h2>
+<input class="search" id="search" oninput="render()" placeholder="جستجو در نام، شغل یا تماس..."/>
+<div id="list"></div>
+</div>
+</div>
 </section>
-
-<section id="view-auth" class="view-section">
-  <div class="page-title"><h1>سیستم احراز هویت</h1><span>🔑 مدیریت کاربران و نقش‌ها</span></div>
-  <div class="panel">
-    <h2>🔑 داشبورد احراز V118</h2>
-    <p class="dashboard-note">این بخش فقط سیستم احراز را مدیریت می‌کند: کاربران ثبت‌نام‌شده، نقش‌ها، وضعیت ایمیل، Remember و آمار. Tree و Dashboard اصلی دست‌نخورده هستند.</p>
-    <div class="auth-stats-grid">
-      <div class="auth-stat-card"><small>کاربران ثبت‌شده</small><b id="authTotalUsers">—</b></div>
-      <div class="auth-stat-card"><small>تأیید ایمیل</small><b id="authVerifiedUsers">—</b></div>
-      <div class="auth-stat-card"><small>وضعیت ورود</small><b id="authSignedState">—</b></div>
-      <div class="auth-stat-card"><small>نقش فعلی</small><b id="authRoleState">—</b></div>
-      <div class="auth-stat-card"><small>Remember</small><b id="authRememberState">—</b></div>
-      <div class="auth-stat-card"><small>Firebase Auth</small><b id="authFirebaseState">—</b></div>
-    </div>
-    <div class="v96-auth-health">
-      <div class="v96-health-card"><small>آخرین ورود</small><b id="v96LastLoginState">—</b></div>
-      <div class="v96-health-card"><small>وضعیت شبکه Auth</small><b id="v96AuthOnlineState">—</b></div>
-      <div class="v96-health-card"><small>آمادگی SMS</small><b id="v96SmsPrepState">UI آماده</b></div>
-      <div class="v96-health-card"><small>قفل تلاش ناموفق</small><b id="v96FailLockState">—</b></div>
-    </div>
-    <div class="auth-toolbar no-print">
-      <input id="authUserSearch" placeholder="جستجو: نام، تلفن، ایمیل..." oninput="renderAuthUsersTable()">
-      <select id="authRoleFilter" onchange="renderAuthUsersTable()"><option value="">همه نقش‌ها</option><option value="admin">مدیر</option><option value="editor">✏️ ویرایشگر</option><option value="viewer">نمایشگر</option></select>
-      <select id="authVerifyFilter" onchange="renderAuthUsersTable()"><option value="">همه وضعیت ایمیل</option><option value="verified">تأییدشده</option><option value="unverified">تأییدنشده</option></select>
-      <button class="btn blue-btn" onclick="refreshAuthDashboard()">بروزرسانی آمار</button>
-      <button class="btn" onclick="sendResetForCurrentUser()">ارسال بازیابی رمز برای ایمیل فعلی</button>
-    </div>
-    <div id="authDashboardStatus" class="person-row">آماده بررسی</div>
-    <div id="authAdminHint" class="auth-lock-note" style="display:none">برای تغییر نقش کاربران باید با ایمیل مدیر وارد شوید. نمایش لیست در صورت اجازه Firestore Rules انجام می‌شود.</div>
-    <div id="authUsersList"></div>
-  </div>
+<section class="view-section" id="view-birthdays">
+<div class="page-title"><h1>تولدها</h1><span>🎂 تقویم تولدها</span></div>
+<div class="panel">
+<h2>🎂 تقویم تولدها</h2>
+<div id="birthdays"></div>
+</div>
 </section>
-<section id="view-security" class="view-section">
-  <div class="panel">
-    <div class="section-head"><button class="btn gray-btn home-back" onclick="showView('home')">🏠 خانه</button><h2>🛡️ امنیت نرم و پایدار</h2></div>
-    <p class="muted">این بخش بدون تغییر لاگین اصلی کار می‌کند و اگر مشکلی ایجاد شد، قابل خاموش‌کردن است.</p>
-    <div class="grid-2">
-      <div class="person-row"><b>وضعیت ورود Firebase:</b> <span id="firebaseAuthStatus">بررسی نشده</span></div>
-      <div class="person-row"><b>نقش امنیتی:</b> <span id="firebaseRoleStatus">-</span></div>
-      <div class="person-row"><b>وضعیت قفل اضطراری:</b> <span id="securityLockStatus">-</span></div>
-      <div class="person-row"><b>آخرین بکاپ امنیتی:</b> <span id="securityBackupStatus">-</span></div>
-    </div>
-    <button class="btn red-btn" onclick="toggleSecurityEditLock()">قفل/بازکردن ✏️ ویرایش</button>
-    <button class="btn blue-btn" onclick="makeSecurityBackup()">ساخت بکاپ امنیتی</button>
-    <button class="btn" onclick="downloadSecurityBackup()">دانلود آخرین بکاپ</button>
-    <button class="btn gray-btn" onclick="clearSecurityLogs()">پاک‌کردن لاگ امنیتی</button>
-    <div class="panel" style="margin-top:12px">
-      <h3>📋 لاگ امنیتی</h3>
-      <div id="securityLogBox" class="person-row">-</div>
-    </div>
-  </div>
+<section class="view-section" id="view-timeline">
+<div class="page-title"><h1>Timeline</h1><span>🕘 رویدادهای خانوادگی</span></div>
+<div class="panel" id="timelineSec">
+<h2>🕘 Timeline خانوادگی</h2>
+<div id="timeline"></div>
+</div>
 </section>
-<section id="view-export" class="view-section">
-        <div class="page-title"><h1>Export Center</h1><span>📦 خروجی و بکاپ</span></div>
-        <div class="panel">
-          <h2>📦 مرکز خروجی حرفه‌ای</h2>
-          <p class="dashboard-note">همه خروجی‌ها از همین داشبورد انجام می‌شود؛ پنل جداگانه یا UI تکراری ساخته نشده است.</p>
-          <div class="export-grid">
-            <div class="export-card">
-              <h3>🖨 خروجی PDF / چاپ</h3>
-              <p class="export-note">چاپ صفحه فعلی یا بخش شجره با حالت تمیز چاپ.</p>
-              <select id="printTarget" class="export-select">
-                <option value="current">همین بخش باز</option>
-                <option value="tree">فقط شجره</option>
-                <option value="profiles">👤 پروفایل انتخاب‌شده</option>
-              </select>
-              <button class="btn blue-btn" onclick="exportPrintCenter()">چاپ / ذخیره PDF</button>
-            </div>
-            <div class="export-card">
-              <h3>🖼 خروجی PNG شجره</h3>
-              <p class="export-note">همان خروجی PNG قبلی، اما از داخل داشبورد و بدون دکمه‌های اضافه در صفحه اصلی.</p>
-              <button class="btn" onclick="exportPNG()">دانلود PNG شجره</button>
-            </div>
-            <div class="export-card">
-              <h3>💾 بکاپ کامل JSON</h3>
-              <p class="export-note">تمام افراد، 👤 پروفایل‌ها، فوت، ازدواج، دسترسی و تنظیمات مهم پروژه.</p>
-              <button class="btn" onclick="exportFullBackup()">دانلود بکاپ کامل</button>
-            </div>
-            <div class="export-card">
-              <h3>⬇️ بازیابی بکاپ</h3>
-              <p class="export-note">فایل JSON را انتخاب کن. قبل از جایگزینی، تأیید گرفته می‌شود.</p>
-              <button class="btn gray-btn" onclick="document.getElementById('importFile').click()">انتخاب فایل بکاپ</button>
-            </div>
-            <div class="export-card">
-              <h3>👥 خروجی افراد CSV</h3>
-              <p class="export-note">برای اکسل: نام، جنسیت، تولد، والد، شغل، تماس، وضعیت فوت.</p>
-              <button class="btn pink-btn" onclick="exportPeopleCSV()">دانلود CSV افراد</button>
-            </div>
-            <div class="export-card">
-              <h3>📋 گزارش خلاصه</h3>
-              <p class="export-note">گزارش متنی سریع از آمار، نسل‌ها، تولدها و مرحومین.</p>
-              <button class="btn blue-btn" onclick="exportSummaryReport()">دانلود گزارش TXT</button>
-            </div>
-            <div class="export-card">
-              <h3>🛡️ Backup & Data Safety V118</h3>
-              <p class="export-note">بکاپ زمان‌دار، پیش‌نمایش Restore و محافظ حذف اشتباهی؛ داخل همین Export Center و بدون پنل تکراری.</p>
-              <div class="backup-status-grid">
-                <div class="backup-chip"><b id="v90BackupCount">0</b><small>بکاپ محلی</small></div>
-                <div class="backup-chip"><b id="v90LastBackup">—</b><small>آخرین بکاپ</small></div>
-                <div class="backup-chip"><b id="v90TrashCount">0</b><small>سطل حذف</small></div>
-              </div>
-              <button class="btn" onclick="v90MakeManualBackup()">ساخت بکاپ امن</button>
-              <button class="btn blue-btn" onclick="v90DownloadLatestBackup()">دانلود آخرین بکاپ</button>
-              <button class="btn gray-btn" onclick="v90ShowRestorePreview()">پیش‌نمایش فایل Restore</button>
-              <input id="v90RestoreFile" type="file" accept=".json,application/json" style="display:none" onchange="v90PreviewRestoreFile(event)">
-              <div id="v90RestorePreview" class="restore-preview" style="display:none"></div>
-            </div>
-            <div class="export-card">
-              <h3>♻️ سطل بازیافت افراد</h3>
-              <p class="export-note">حذف افراد دیگر مستقیم و خطرناک نیست؛ اول وارد سطل بازیافت می‌شود.</p>
-              <button class="btn blue-btn" onclick="v90RenderRecycleBin()">به‌روزرسانی لیست</button>
-              <button class="btn red-btn" onclick="v90EmptyRecycleBin()">خالی‌کردن سطل</button>
-              <div id="v90RecycleBin" class="recycle-list">هنوز چیزی حذف نشده است.</div>
-            </div>
-          </div>
-        </div>
-      </section>
+<section class="view-section" id="view-memory">
+<div class="page-title"><h1>Timeline تصویری و Memory Map</h1><span>🗺️ خاطرات و شهرهای خانواده</span></div>
+<div class="panel">
+<div class="privacy-bar">
+<div><b>حریم خصوصی نمایش عمومی</b><br/><small>با روشن کردن این گزینه، خانم‌ها از لیست افراد، شجره، Timeline و خروجی‌ها مخفی می‌شوند.</small></div>
+<button class="btn red-btn" id="hideWomenToggleBtn" onclick="toggleHideWomen()">مخفی‌سازی خانم‌ها</button>
+</div>
+<h2>🎞 Timeline تصویری حرفه‌ای</h2>
+<div class="memory-toolbar no-print">
+<input id="memorySearch" oninput="renderMemorySuite()" placeholder="جستجو در خاطرات، نام، شهر..."/>
+<select id="memoryYearFilter" onchange="renderMemorySuite()"><option value="">همه سال‌ها</option></select>
+<button class="btn blue-btn" onclick="showView('profiles')">افزودن رویداد از 👤 پروفایل فرد</button>
+</div>
+<div class="memory-grid">
+<div id="visualTimeline"></div>
+<div>
+<h2>🗺️ Memory Map</h2>
+<p class="dashboard-note">نقشه فعلاً به‌صورت کارت شهر/محل است تا بدون API خارجی واقعی و پایدار بماند. محل دفن، شهرهای داخل رویدادها و توضیحات اینجا جمع می‌شوند.</p>
+<div class="memory-map" id="memoryMap"></div>
+</div>
+</div>
+<div class="heritage-stage" id="heritageStage">
+<div class="heritage-head">
+<div><h2>🎬 تجربه میراث خانواده</h2><small>همان Timeline و خاطرات فعلی، به شکل داستانی و مناسب مراسم/تلویزیون</small></div>
+<div class="heritage-actions no-print">
+<button class="btn" onclick="heritagePrev()">قبلی</button>
+<button class="btn" onclick="heritageNext()">بعدی</button>
+<button class="btn" id="heritagePlayBtn" onclick="toggleHeritagePlay()">پخش خودکار</button>
+<button class="btn" onclick="toggleHeritageCeremony()">حالت مراسم</button>
+</div>
+</div>
+<div class="heritage-slide" id="heritageSlide"></div>
+<div class="heritage-strip no-print" id="heritageStrip"></div>
+</div>
+<div class="heritage-story">
+<div class="story-card">
+<h3>📜 خلاصه تاریخ خانواده</h3>
+<div id="familyStorySummary"></div>
+</div>
+<div class="story-card memorial-card">
+<h3>🕯️ یادبود مرحومین</h3>
+<div id="heritageMemorial"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="view-section" id="view-charts">
+<div class="page-title"><h1>نمودارها</h1><span>📊 آمار خانواده</span></div>
+<div class="panel">
+<h2>📊 نمودار نسل‌ها</h2>
+<div id="generationChart"></div>
+</div>
+</section>
+<section class="view-section" id="view-profiles">
+<div class="page-title"><h1>👤 پروفایل کامل</h1><span>🪪 اطلاعات کامل فرد</span></div>
+<div class="panel">
+<h2>👤 پروفایل کامل افراد</h2>
+<p class="dashboard-note">از این بخش، جزئیات کامل هر فرد را بدون شلوغ شدن صفحه اصلی ببینید.</p>
+<div class="form-row"><select id="profilePerson" onchange="renderFullProfile()"></select></div>
+<div id="fullProfileBox"></div>
+</div>
+</section>
+<section class="view-section" id="view-children">
+<div class="page-title"><h1>👨‍👩‍👧‍👦 مدیریت فرزندان</h1><span>👶 افزودن و انتقال فرزند</span></div>
+<div class="panel">
+<h2>👶 افزودن سریع فرزند</h2>
+<p class="dashboard-note">این بخش همان داده‌های اصلی افراد را استفاده می‌کند؛ فرد یا شجره تکراری ساخته نمی‌شود.</p>
+<div class="form-row"><select id="childParentSelect"></select><input id="quickChildName" placeholder="نام فرزند"/><select id="quickChildGender"><option value="male">پسر</option><option value="female">دختر</option></select><input id="quickChildBirth" placeholder="سال تولد"/></div>
+<button class="btn" onclick="addQuickChild()">➕ افزودن فرزند</button>
+</div>
+<div class="children-grid">
+<div class="panel">
+<h2>👨‍👩‍👧‍👦 فرزندان هر فرد</h2>
+<div class="form-row"><select id="childrenPersonSelect" onchange="renderChildrenManager()"></select></div>
+<div id="childrenListBox"></div>
+</div>
+<div class="panel">
+<h2>🔄 انتقال رابطه فرزند</h2>
+<p class="dashboard-note">این کار فقط والد فرزند را عوض می‌کند؛ خود فرد حذف نمی‌شود.</p>
+<div class="form-row"><select id="moveChildSelect"></select><select id="moveParentSelect"></select></div>
+<button class="btn blue-btn" onclick="moveChildToParent()">🔄 انتقال فرزند به والد جدید</button>
+<button class="btn gray-btn" onclick="detachChildFromParent()">🧹 حذف رابطه والد، بدون حذف فرد</button>
+</div>
+</div>
+</section>
+<section class="view-section" id="view-marriage">
+<div class="page-title"><h1>ازدواج و همسر</h1><span>💍 مدیریت همسرها</span></div>
+<div class="panel">
+<h2>💍 ثبت ازدواج / همسر</h2>
+<div class="form-row"><select id="spouseA"></select><select id="spouseB"></select></div>
+<button class="btn pink-btn" onclick="addMarriage()">ثبت ازدواج</button>
+<div id="marriageList"></div>
+</div>
+</section>
+<section class="view-section" id="view-death">
+<div class="page-title"><h1>مرحومین و محل دفن</h1><span>🪦 ثبت یادمان خانوادگی</span></div>
+<div class="panel">
+<h2>🪦 ثبت اطلاعات مرحوم</h2>
+<p class="dashboard-note">این بخش فقط داخل داشبورد است. با ثبت فوت، وضعیت فرد در 👤 پروفایل و شجره هم با نشان مرحوم نمایش داده می‌شود.</p>
+<div class="death-summary" id="deathSummary"></div>
+<div class="form-row"><select id="deathPerson" onchange="loadDeathForm()"></select></div>
+<div class="form-row"><input id="deathDate" placeholder="تاریخ فوت مثلا ۱۴۰۲/۰۵/۱۲"/><input id="gravePlace" placeholder="محل دفن / قطعه / شهر"/></div>
+<div class="form-row"><input id="deathNote" placeholder="یادداشت کوتاه یادمان؛ مثال: پدر مهربان خانواده"/></div>
+<button class="btn" onclick="saveDeathInfo()">ذخیره اطلاعات مرحوم</button>
+<button class="btn gray-btn" onclick="clearDeathInfo()">برگرداندن به حالت زنده / حذف وضعیت فوت</button>
+<button class="btn blue-btn" onclick="openProfileView(Number(document.getElementById('deathPerson').value))">نمایش 👤 پروفایل همین فرد</button>
+</div>
+<div class="panel">
+<h2>📍 فهرست مرحومین و محل دفن</h2>
+<div id="deathList"></div>
+</div>
+</section>
+<section class="view-section" id="view-relations">
+<div class="page-title"><h1>تشخیص نسبت</h1><span>🧠 نسبت خانوادگی</span></div>
+<div class="panel">
+<h2>🧠 تشخیص نسبت خانوادگی</h2>
+<div class="form-row"><select id="relationA"></select><select id="relationB"></select></div>
+<button class="btn blue-btn" onclick="showRelation()">تشخیص نسبت</button>
+<div class="relation-result" id="relationResult">دو نفر را انتخاب کنید.</div>
+</div>
+</section>
+<section class="view-section" id="view-access">
+<div class="page-title"><h1>دسترسی و لینک‌ها</h1><span>🔐 مدیر / ✏️ ویرایشگر / نمایشگر</span></div>
+<div class="panel">
+<h2>🔐 مدیریت دسترسی</h2>
+<p class="dashboard-note">لینک‌ها واقعی و قابل استفاده‌اند. در حالت بدون Firebase، تأیید مدیر روی همین مرورگر ذخیره می‌شود؛ برای تأیید بین دستگاه‌ها مرحله بعد باید Firebase فعال شود.</p>
+<div class="access-card" id="currentRoleBox"></div>
+<div class="access-grid">
+<div class="access-card">
+<h3>👁 لینک نمایشگر</h3>
+<p class="lock-note">فقط مشاهده می‌کند و امکان ذخیره، حذف یا ✏️ ویرایش ندارد.</p>
+<textarea class="access-link-box" id="viewerLink" readonly=""></textarea>
+<button class="btn blue-btn" onclick="copyAccessLink('viewerLink')">کپی لینک نمایشگر</button>
+</div>
+<div class="access-card">
+<h3>✏️ لینک ✏️ ویرایشگر تأییدشده</h3>
+<p class="lock-note">✏️ ویرایشگر می‌تواند افراد و اطلاعات را ✏️ ویرایش کند، ولی مدیریت دسترسی ندارد.</p>
+<textarea class="access-link-box" id="editorLink" readonly=""></textarea>
+<button class="btn blue-btn" onclick="copyAccessLink('editorLink')">کپی لینک ✏️ ویرایشگر</button>
+<button class="btn gray-btn" onclick="rotateEditorKey()">ساخت کلید جدید ✏️ ویرایشگر</button>
+</div>
+<div class="access-card">
+<h3>📝 لینک درخواست ✏️ ویرایشگر</h3>
+<p class="lock-note">کاربر با این لینک درخواست می‌دهد؛ مدیر باید از همین پنل تأیید کند.</p>
+<textarea class="access-link-box" id="requestEditorLink" readonly=""></textarea>
+<button class="btn blue-btn" onclick="copyAccessLink('requestEditorLink')">کپی لینک درخواست</button>
+</div>
+<div class="access-card">
+<h3>✅ تأیید مدیر</h3>
+<div id="approvalList"></div>
+</div>
+</div>
+</div>
+</section>
+<section class="view-section" id="view-firebase">
+<div class="page-title"><h1>Firebase Sync</h1><span>☁️ ذخیره ابری واقعی</span></div>
+<div class="panel">
+<h2>☁️ تنظیمات Firebase</h2>
+<p class="dashboard-note">این بخش واقعی است؛ اطلاعات روی Firestore ذخیره/دریافت می‌شود. تنظیمات Firebase فقط در همین مرورگر ذخیره می‌شود و روی صفحه اصلی چیزی اضافه نمی‌کند.</p>
+<div class="form-row"><input id="fbApiKey" placeholder="apiKey"/><input id="fbAuthDomain" placeholder="authDomain"/></div>
+<div class="form-row"><input id="fbProjectId" placeholder="projectId"/><input id="fbStorageBucket" placeholder="storageBucket"/></div>
+<div class="form-row"><input id="fbMessagingSenderId" placeholder="messagingSenderId"/><input id="fbAppId" placeholder="appId"/></div>
+<div class="form-row"><input id="fbFamilyId" placeholder="Family ID / شناسه خانواده"/><select id="fbMode"><option value="manual">دستی</option><option value="live">همگام‌سازی زنده</option></select></div>
+<button class="btn" onclick="firebaseSaveConfig()">ذخیره تنظیمات</button>
+<button class="btn blue-btn" onclick="firebaseConnect()">اتصال / تست</button>
+<button class="btn" onclick="firebaseSaveCloud()">ذخیره روی ابر</button>
+<button class="btn blue-btn" onclick="firebaseLoadCloud()">دریافت از ابر</button>
+<button class="btn pink-btn" onclick="firebaseToggleLive()">روشن/خاموش همگام‌سازی زنده</button>
+<div class="person-row" id="firebaseStatus">وضعیت: آماده تنظیم</div>
+</div>
+<div class="panel">
+<h2>🔗 لینک‌های ابری</h2>
+<p class="dashboard-note">این لینک‌ها Family ID را هم منتقل می‌کنند. برای کار روی دستگاه دیگر، همان تنظیمات Firebase باید یک‌بار در آن مرورگر ذخیره شود.</p>
+<div class="access-grid">
+<div class="access-card"><h3>👁 نمایشگر ابری</h3><textarea class="access-link-box" id="fbViewerLink" readonly=""></textarea><button class="btn blue-btn" onclick="copyAccessLink('fbViewerLink')">کپی</button></div>
+<div class="access-card"><h3>✏️ ویرایشگر ابری</h3><textarea class="access-link-box" id="fbEditorLink" readonly=""></textarea><button class="btn blue-btn" onclick="copyAccessLink('fbEditorLink')">کپی</button></div>
+</div>
+</div>
+</section>
+<section class="view-section" id="view-network">
+<div class="page-title"><h1>پایداری اینترنت ایران</h1><span>📶 حالت اینترنت ضعیف و آفلاین</span></div>
+<div class="panel">
+<h2>📶 Iran Network Stability</h2>
+<p class="dashboard-note">این بخش همان سیستم فعلی را سبک‌تر و پایدارتر می‌کند؛ داشبورد یا ماژول جدید تکراری ساخته نشده است.</p>
+<div class="low-net-banner">حالت اینترنت ضعیف روشن است: انیمیشن‌ها کمتر می‌شوند، اتصال ابری با احتیاط انجام می‌شود و سایت تا حد ممکن از نسخه محلی استفاده می‌کند.</div>
+<div class="network-status-card">
+<div class="network-chip"><b id="netOnlineState">—</b><small>وضعیت اتصال</small></div>
+<div class="network-chip"><b id="netModeState">—</b><small>حالت شبکه</small></div>
+<div class="network-chip"><b id="netCacheState">—</b><small>وضعیت آفلاین</small></div>
+</div>
+<button class="btn blue-btn" onclick="toggleLowInternetMode()">روشن/خاموش حالت اینترنت ضعیف</button>
+<button class="btn" onclick="saveOfflineSnapshot()">ذخیره نسخه آفلاین اطلاعات</button>
+<button class="btn gray-btn" onclick="restoreOfflineSnapshot()">بازیابی آخرین نسخه آفلاین</button>
+<button class="btn pink-btn" onclick="testNetworkStability()">تست اتصال</button>
+<div class="net-log" id="networkLog" style="margin-top:12px"></div>
+</div>
+</section>
+<section class="view-section" id="view-release">
+<div class="page-title"><h1>انتشار محصول</h1><span>☁️ </span></div>
+<div class="panel">
+<h2>🚀 FamilyTreePro FamilyTreePro V118 Stable</h2>
+<p class="dashboard-note">این بخش برای بررسی نهایی انتشار است؛ بدون ساخت پنل تکراری، سلامت Login، Backup، Offline و نسخه را کنترل می‌کند.</p>
+<div class="release-grid">
+<div class="release-card"><h3>📱 نصب Android</h3><small>از Chrome یا Samsung Internet سایت را باز کن و گزینه Add to Home screen / Install app را بزن.</small><br/><button class="btn blue-btn" onclick="v94InstallPWA()">نصب اگر مرورگر اجازه داد</button></div>
+<div class="release-card"><h3>🪟 نصب Windows</h3><small>در Chrome/Edge روی آیکون Install کنار آدرس یا منوی سه‌نقطه کلیک کن و App را نصب کن.</small><br/><button class="btn gray-btn" onclick="v94CopySiteLink()">کپی لینک سایت</button></div>
+<div class="release-card"><h3>ℹ️ </h3><span class="release-badge">V118</span><span class="release-badge"></span><span class="release-badge"></span><br/><small id="v94ReleaseStatus">آماده بررسی</small><br/><button class="btn" onclick="v94RunQuickQA()">تست سریع انتشار</button></div>
+</div>
+<div class="release-checklist">
+<div class="release-check">✅ Login/Register/Admin از نسخه‌های قبل حفظ شده</div>
+<div class="release-check">✅ Backup &amp; Data Safety حفظ شده</div>
+<div class="release-check">✅ Tree و Dashboard اصلی دست‌نخورده</div>
+<div class="release-check">✅ بدون UI تکراری و بدون صفحه اضافه سنگین</div>
+<div class="release-check">✅ Error Guard فعال برای ثبت خطای سفید شدن صفحه</div>
+<div class="release-check">✅ Quick QA برای تست Login / Register / Backup / Offline / Cloud Ready</div>
+<div class="release-check">✅  با V118 و آماده Cloud Safe</div>
+<div class="release-check">✅ : جلوگیری از ذخیره ناقص هنگام قطع اینترنت</div>
+<div class="release-check">✅ Release Lock: ثبت زمان آخرین تست انتشار در حافظه امن مرورگر</div>
+<div class="release-check">✅ Version Marker یکپارچه</div>
+</div>
+<h3>🔗 لینک تست/انتشار</h3>
+<div class="release-install-box" id="v94SiteLink">در حال آماده‌سازی...</div>
+</div>
+</section>
+<section class="view-section" id="view-language">
+<div class="page-title"><h1>زبان و مترجم</h1><span>🌐 فارسی / انگلیسی / عربی</span></div>
+<div class="panel language-panel">
+<h2>🌐 سیستم زبان هوشمند</h2>
+<p class="dashboard-note">این بخش فقط متن‌های رابط کاربری را تغییر می‌دهد و به اطلاعات خانواده، شجره، بکاپ و ورود دست نمی‌زند.</p>
+<div class="language-grid">
+<button class="btn blue-btn lang-choice" id="langFaBtn" onclick="setAppLanguage('fa')">فارسی 🇮🇷</button>
+<button class="btn gray-btn lang-choice" id="langEnBtn" onclick="setAppLanguage('en')">English 🇬🇧</button>
+<button class="btn gray-btn lang-choice" id="langArBtn" onclick="setAppLanguage('ar')">العربية 🇸🇦</button>
+</div>
+<div class="person-row"><b>زبان فعلی:</b> <span id="currentLanguageLabel">فارسی</span></div>
+<div class="person-row"><b>جهت صفحه:</b> <span id="currentDirectionLabel">RTL</span></div>
+<div class="person-row"><b>وضعیت مترجم:</b> <span id="translationModeLabel">آفلاین و سبک</span></div>
+<p class="lock-note">برای پایداری ، ترجمه آنلاین سنگین اضافه نشده است. نسخه V118 متن‌های اصلی Login، Dashboard، Release، Auth و دکمه‌های مهم را به‌صورت داخلی ترجمه می‌کند.</p>
+</div>
+</section>
+<section class="view-section" id="view-auth">
+<div class="page-title"><h1>سیستم احراز هویت</h1><span>🔑 مدیریت کاربران و نقش‌ها</span></div>
+<div class="panel">
+<h2>🔑 داشبورد احراز V118</h2>
+<p class="dashboard-note">این بخش فقط سیستم احراز را مدیریت می‌کند: کاربران ثبت‌نام‌شده، نقش‌ها، وضعیت ایمیل، Remember و آمار. Tree و Dashboard اصلی دست‌نخورده هستند.</p>
+<div class="auth-stats-grid">
+<div class="auth-stat-card"><small>کاربران ثبت‌شده</small><b id="authTotalUsers">—</b></div>
+<div class="auth-stat-card"><small>تأیید ایمیل</small><b id="authVerifiedUsers">—</b></div>
+<div class="auth-stat-card"><small>وضعیت ورود</small><b id="authSignedState">—</b></div>
+<div class="auth-stat-card"><small>نقش فعلی</small><b id="authRoleState">—</b></div>
+<div class="auth-stat-card"><small>Remember</small><b id="authRememberState">—</b></div>
+<div class="auth-stat-card"><small>Firebase Auth</small><b id="authFirebaseState">—</b></div>
+</div>
+<div class="v96-auth-health">
+<div class="v96-health-card"><small>آخرین ورود</small><b id="v96LastLoginState">—</b></div>
+<div class="v96-health-card"><small>وضعیت شبکه Auth</small><b id="v96AuthOnlineState">—</b></div>
+<div class="v96-health-card"><small>آمادگی SMS</small><b id="v96SmsPrepState">UI آماده</b></div>
+<div class="v96-health-card"><small>قفل تلاش ناموفق</small><b id="v96FailLockState">—</b></div>
+</div>
+<div class="auth-toolbar no-print">
+<input id="authUserSearch" oninput="renderAuthUsersTable()" placeholder="جستجو: نام، تلفن، ایمیل..."/>
+<select id="authRoleFilter" onchange="renderAuthUsersTable()"><option value="">همه نقش‌ها</option><option value="admin">مدیر</option><option value="editor">✏️ ویرایشگر</option><option value="viewer">نمایشگر</option></select>
+<select id="authVerifyFilter" onchange="renderAuthUsersTable()"><option value="">همه وضعیت ایمیل</option><option value="verified">تأییدشده</option><option value="unverified">تأییدنشده</option></select>
+<button class="btn blue-btn" onclick="refreshAuthDashboard()">بروزرسانی آمار</button>
+<button class="btn" onclick="sendResetForCurrentUser()">ارسال بازیابی رمز برای ایمیل فعلی</button>
+</div>
+<div class="person-row" id="authDashboardStatus">آماده بررسی</div>
+<div class="auth-lock-note" id="authAdminHint" style="display:none">برای تغییر نقش کاربران باید با ایمیل مدیر وارد شوید. نمایش لیست در صورت اجازه Firestore Rules انجام می‌شود.</div>
+<div id="authUsersList"></div>
+</div>
+</section>
+<section class="view-section" id="view-security">
+<div class="panel">
+<div class="section-head"><button class="btn gray-btn home-back" onclick="showView('home')">🏠 خانه</button><h2>🛡️ امنیت نرم و پایدار</h2></div>
+<p class="muted">این بخش بدون تغییر لاگین اصلی کار می‌کند و اگر مشکلی ایجاد شد، قابل خاموش‌کردن است.</p>
+<div class="grid-2">
+<div class="person-row"><b>وضعیت ورود Firebase:</b> <span id="firebaseAuthStatus">بررسی نشده</span></div>
+<div class="person-row"><b>نقش امنیتی:</b> <span id="firebaseRoleStatus">-</span></div>
+<div class="person-row"><b>وضعیت قفل اضطراری:</b> <span id="securityLockStatus">-</span></div>
+<div class="person-row"><b>آخرین بکاپ امنیتی:</b> <span id="securityBackupStatus">-</span></div>
+</div>
+<button class="btn red-btn" onclick="toggleSecurityEditLock()">قفل/بازکردن ✏️ ویرایش</button>
+<button class="btn blue-btn" onclick="makeSecurityBackup()">ساخت بکاپ امنیتی</button>
+<button class="btn" onclick="downloadSecurityBackup()">دانلود آخرین بکاپ</button>
+<button class="btn gray-btn" onclick="clearSecurityLogs()">پاک‌کردن لاگ امنیتی</button>
+<div class="panel" style="margin-top:12px">
+<h3>📋 لاگ امنیتی</h3>
+<div class="person-row" id="securityLogBox">-</div>
+</div>
+</div>
+</section>
+<section class="view-section" id="view-export">
+<div class="page-title"><h1>Export Center</h1><span>📦 خروجی و بکاپ</span></div>
+<div class="panel">
+<h2>📦 مرکز خروجی حرفه‌ای</h2>
+<p class="dashboard-note">همه خروجی‌ها از همین داشبورد انجام می‌شود؛ پنل جداگانه یا UI تکراری ساخته نشده است.</p>
+<div class="export-grid">
+<div class="export-card">
+<h3>🖨 خروجی PDF / چاپ</h3>
+<p class="export-note">چاپ صفحه فعلی یا بخش شجره با حالت تمیز چاپ.</p>
+<select class="export-select" id="printTarget">
+<option value="current">همین بخش باز</option>
+<option value="tree">فقط شجره</option>
+<option value="profiles">👤 پروفایل انتخاب‌شده</option>
+</select>
+<button class="btn blue-btn" onclick="exportPrintCenter()">چاپ / ذخیره PDF</button>
+</div>
+<div class="export-card">
+<h3>🖼 خروجی PNG شجره</h3>
+<p class="export-note">همان خروجی PNG قبلی، اما از داخل داشبورد و بدون دکمه‌های اضافه در صفحه اصلی.</p>
+<button class="btn" onclick="exportPNG()">دانلود PNG شجره</button>
+</div>
+<div class="export-card">
+<h3>💾 بکاپ کامل JSON</h3>
+<p class="export-note">تمام افراد، 👤 پروفایل‌ها، فوت، ازدواج، دسترسی و تنظیمات مهم پروژه.</p>
+<button class="btn" onclick="exportFullBackup()">دانلود بکاپ کامل</button>
+</div>
+<div class="export-card">
+<h3>⬇️ بازیابی بکاپ</h3>
+<p class="export-note">فایل JSON را انتخاب کن. قبل از جایگزینی، تأیید گرفته می‌شود.</p>
+<button class="btn gray-btn" onclick="document.getElementById('importFile').click()">انتخاب فایل بکاپ</button>
+</div>
+<div class="export-card">
+<h3>👥 خروجی افراد CSV</h3>
+<p class="export-note">برای اکسل: نام، جنسیت، تولد، والد، شغل، تماس، وضعیت فوت.</p>
+<button class="btn pink-btn" onclick="exportPeopleCSV()">دانلود CSV افراد</button>
+</div>
+<div class="export-card">
+<h3>📋 گزارش خلاصه</h3>
+<p class="export-note">گزارش متنی سریع از آمار، نسل‌ها، تولدها و مرحومین.</p>
+<button class="btn blue-btn" onclick="exportSummaryReport()">دانلود گزارش TXT</button>
+</div>
+<div class="export-card">
+<h3>🛡️ Backup &amp; Data Safety V118</h3>
+<p class="export-note">بکاپ زمان‌دار، پیش‌نمایش Restore و محافظ حذف اشتباهی؛ داخل همین Export Center و بدون پنل تکراری.</p>
+<div class="backup-status-grid">
+<div class="backup-chip"><b id="v90BackupCount">0</b><small>بکاپ محلی</small></div>
+<div class="backup-chip"><b id="v90LastBackup">—</b><small>آخرین بکاپ</small></div>
+<div class="backup-chip"><b id="v90TrashCount">0</b><small>سطل حذف</small></div>
+</div>
+<button class="btn" onclick="v90MakeManualBackup()">ساخت بکاپ امن</button>
+<button class="btn blue-btn" onclick="v90DownloadLatestBackup()">دانلود آخرین بکاپ</button>
+<button class="btn gray-btn" onclick="v90ShowRestorePreview()">پیش‌نمایش فایل Restore</button>
+<input accept=".json,application/json" id="v90RestoreFile" onchange="v90PreviewRestoreFile(event)" style="display:none" type="file"/>
+<div class="restore-preview" id="v90RestorePreview" style="display:none"></div>
+</div>
+<div class="export-card">
+<h3>♻️ سطل بازیافت افراد</h3>
+<p class="export-note">حذف افراد دیگر مستقیم و خطرناک نیست؛ اول وارد سطل بازیافت می‌شود.</p>
+<button class="btn blue-btn" onclick="v90RenderRecycleBin()">به‌روزرسانی لیست</button>
+<button class="btn red-btn" onclick="v90EmptyRecycleBin()">خالی‌کردن سطل</button>
+<div class="recycle-list" id="v90RecycleBin">هنوز چیزی حذف نشده است.</div>
+</div>
+</div>
+</div>
+</section>
+<section class="view-section" id="view-tree">
+<div class="page-title"><h1>شجره</h1><span>🌳 ابزار حرفه‌ای شجره</span></div>
+<section class="tree-card" id="treeSection">
+<h2>🌳 نمایش شجره</h2>
+<div class="tree-probar no-print">
+<input id="treeSmartSearch" oninput="renderTree()" placeholder="جستجوی سریع در شجره..."/>
+<select id="treeRootFilter" onchange="renderTree()"><option value="">نمایش همه ریشه‌ها</option></select>
+<select id="treeDepthFilter" onchange="renderTree()">
+<option value="0">همه نسل‌ها</option>
+<option value="1">فقط نسل ۱</option>
+<option value="2">تا نسل ۲</option>
+<option value="3">تا نسل ۳</option>
+<option value="4">تا نسل ۴</option>
+</select>
+</div>
+<div class="tree-toolbar no-print">
+<button class="btn blue-btn" onclick="zoomIn()">＋ بزرگ‌نمایی</button>
+<button class="btn blue-btn" onclick="zoomOut()">－ کوچک‌نمایی</button>
+<button class="btn gray-btn" id="zoomLabel" onclick="resetZoom()">100%</button>
+<button class="btn pink-btn" onclick="toggleFullscreen()">تمام‌صفحه</button>
+<button class="btn" onclick="exportPNG()">خروجی PNG</button>
+<button class="btn gray-btn" onclick="collapseAllTree()">بستن شاخه‌ها</button>
+<button class="btn gray-btn" onclick="expandAllTree()">باز کردن همه</button>
+</div>
+<div class="tree-wrap" id="treeWrap">
+<div class="tree-stage" id="treeStage">
+<div class="tree" id="tree"></div>
+</div>
+</div>
+<div class="tree-mini-map no-print" id="treeMiniMap">آماده نمایش شجره</div>
+</section>
+</section>
+<div class="footer">
+<span>ذخیره دائمی در مرورگر ✅</span>
+<span>  ✅</span>
+</div>
+</main>
+</div>
+</div>
 
-      <section id="view-tree" class="view-section">
-        <div class="page-title"><h1>شجره</h1><span>🌳 ابزار حرفه‌ای شجره</span></div>
-        <section class="tree-card" id="treeSection">  
-          <h2>🌳 نمایش شجره</h2>  
-          <div class="tree-probar no-print">
-            <input id="treeSmartSearch" placeholder="جستجوی سریع در شجره..." oninput="renderTree()">
-            <select id="treeRootFilter" onchange="renderTree()"><option value="">نمایش همه ریشه‌ها</option></select>
-            <select id="treeDepthFilter" onchange="renderTree()">
-              <option value="0">همه نسل‌ها</option>
-              <option value="1">فقط نسل ۱</option>
-              <option value="2">تا نسل ۲</option>
-              <option value="3">تا نسل ۳</option>
-              <option value="4">تا نسل ۴</option>
-            </select>
-          </div>
-          <div class="tree-toolbar no-print">  
-            <button class="btn blue-btn" onclick="zoomIn()">＋ بزرگ‌نمایی</button>  
-            <button class="btn blue-btn" onclick="zoomOut()">－ کوچک‌نمایی</button>  
-            <button class="btn gray-btn" id="zoomLabel" onclick="resetZoom()">100%</button>  
-            <button class="btn pink-btn" onclick="toggleFullscreen()">تمام‌صفحه</button>  
-            <button class="btn" onclick="exportPNG()">خروجی PNG</button>
-            <button class="btn gray-btn" onclick="collapseAllTree()">بستن شاخه‌ها</button>
-            <button class="btn gray-btn" onclick="expandAllTree()">باز کردن همه</button>  
-          </div>  
-          <div class="tree-wrap" id="treeWrap">  
-            <div class="tree-stage" id="treeStage">  
-              <div class="tree" id="tree"></div>  
-            </div>  
-          </div>  
-          <div class="tree-mini-map no-print" id="treeMiniMap">آماده نمایش شجره</div>
-        </section>  
-      </section>
-
-      <div class="footer">  
-        <span>ذخیره دائمی در مرورگر ✅</span>  
-        <span>  ✅</span>  
-      </div>  
-    </main>
-  </div>  
-</div>  
-<div id="buildMarker" class="no-print" style="position:fixed;left:8px;bottom:8px;z-index:999999;background:#071b35;color:white;border-radius:999px;padding:6px 10px;font:11px tahoma;opacity:.78;pointer-events:none">FamilyTreePro V118 Stable</div>
-
-<div class="context-menu" id="contextMenu">  
-  <button onclick="ctxEdit()">✏️ ویرایش</button>  
-  <button onclick="ctxAddChild()">➕ افزودن فرزند</button>  
-  <button onclick="ctxDelete()">🗑 حذف شاخه</button>  
-</div>  <script>  
+<div class="context-menu" id="contextMenu">
+<button onclick="ctxEdit()">✏️ ویرایش</button>
+<button onclick="ctxAddChild()">➕ افزودن فرزند</button>
+<button onclick="ctxDelete()">🗑 حذف شاخه</button>
+</div> <script>  
 let password=localStorage.getItem("family_pass")||"1234";  
 let zoom=1;  
 let dragId=null;  
@@ -2982,9 +2929,7 @@ render=function(){
 setInterval(()=>document.getElementById("clock").innerText=new Date().toLocaleString("fa-IR"),1000);  
 if(initAccessFromUrl()){render();}else{render();}  
 </script>
-
 <!--  CLEAN BASE MARKER -->
-
 <script id="iranNetworkStabilityScript">
 /* FamilyTreePro V118 Stable - single upgrade layer */
 (function(){
@@ -3056,8 +3001,6 @@ if(initAccessFromUrl()){render();}else{render();}
   document.addEventListener("DOMContentLoaded",()=>{applyLowInternetMode();renderNetworkPanel();});
 })();
 </script>
-
-
 <script>
 (function(){
   const LOCK_KEY="family_security_edit_lock_";
@@ -3146,10 +3089,7 @@ if(initAccessFromUrl()){render();}else{render();}
   document.addEventListener("DOMContentLoaded",function(){applyProtection();renderSecurityPanel();setLog("FamilyTreePro V118 Stable loaded");});
 })();
 </script>
-
-
 <!--  REAL FIREBASE SECURITY: Auth + role guard, no UI duplication -->
-
 <script>
 /* FamilyTreePro V118 Stable */
 (function(){
@@ -3170,7 +3110,6 @@ if(initAccessFromUrl()){render();}else{render();}
   });
 })();
 </script>
-
 <script>
 /* FamilyTreePro V118 Stable: inputs must never be disabled on mobile */
 (function(){
@@ -3211,8 +3150,6 @@ if(initAccessFromUrl()){render();}else{render();}
   try{mo.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['disabled','readonly','style','class']});}catch(e){}
 })();
 </script>
-
-
 <script id="FamilyTreePro V118 Stable-children-script">
 function optionPeopleHtml(selected){
   return '<option value="">انتخاب کنید</option>'+visiblePeople().map(p=>`<option value="${p.id}" ${String(selected||'')===String(p.id)?'selected':''}>${p.name}</option>`).join('');
@@ -3268,7 +3205,6 @@ function detachChildFromParent(){
   detachChild(childId);
 }
 </script>
-
 <script id="v88-auth-only-bootstrap">
 /* FamilyTreePro V118 Stable: early UI bootstrap before Firebase module loads */
 (function(){
@@ -3320,7 +3256,6 @@ function detachChildFromParent(){
   var v88RegTicks=0; var v88RegGuard=setInterval(function(){unlockRegistrationOnly(); if(++v88RegTicks>10) clearInterval(v88RegGuard);},1200);
 })();
 </script>
-
 <script type="module">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, setPersistence, inMemoryPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
@@ -3789,60 +3724,6 @@ onAuthStateChanged(auth, async user=>{
 </script>
 
 
-<script id="FamilyTreePro V118 Stable-final-guard">
-(function(){
-  function cleanVersionLabels(){
-    try{
-      document.title = 'FamilyTreePro FamilyTreePro V118 Stable';
-      var h2 = document.querySelector('#login .loginbox h2');
-      if(h2) h2.textContent = '🔐 FamilyTreePro V118 Stable';
-      document.querySelectorAll('#v811StableMarker,#v861StableMarker').forEach(function(el){ el.remove(); });
-      var cap = document.getElementById('captchaQuestion');
-      if(cap && cap.textContent.trim()==='...' && typeof window.refreshLoginCaptcha==='function'){
-        try{ window.refreshLoginCaptcha(true); }catch(e){}
-      }
-    }catch(e){}
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',cleanVersionLabels);
-  else cleanVersionLabels();
-  try{ if(typeof v88RestoreRememberUI==='function') v88RestoreRememberUI(); }catch(e){}
-  window.addEventListener('load', function(){cleanVersionLabels(); try{ if(typeof v88RestoreRememberUI==='function') v88RestoreRememberUI(); }catch(e){} });
-})();
-</script>
-
-
-<script id="FamilyTreePro V118 Stable-guard">
-(function(){
-  var V118='FamilyTreePro V118 Stable';
-  function byId(id){return document.getElementById(id);}
-  function updateLabels(){
-    try{
-      document.title='FamilyTreePro '+V118;
-      var h2=document.querySelector('#login .loginbox h2');
-      if(h2) h2.textContent='🔐 FamilyTreePro V118 Stable';
-      var marker=byId('buildMarker');
-      if(marker) marker.textContent=V118;
-      document.querySelectorAll('#v811StableMarker,#v861StableMarker').forEach(function(el){el.remove();});
-    }catch(e){}
-  }
-  function keepAuthClickable(){
-    ['loginBtn','showRegisterBtn','forgotPasswordBtn','createAccountBtn','backToLoginBtn','rememberMe','loginUser','loginPass','captchaAnswer'].forEach(function(id){
-      var el=byId(id); if(!el) return;
-      el.disabled=false; el.removeAttribute('disabled'); el.style.pointerEvents='auto'; el.style.visibility='visible';
-    });
-  }
-  function safeBoot(){
-    updateLabels(); keepAuthClickable();
-    try{ if(typeof renderAuthDashboard==='function') renderAuthDashboard(); }catch(e){}
-    try{ if(typeof v90UpdateBackupUI==='function') v90UpdateBackupUI(); }catch(e){}
-  }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',safeBoot,{once:true}); else safeBoot();
-  window.addEventListener('load',safeBoot,{once:true});
-  setTimeout(safeBoot,600);
-})();
-</script>
-
-
 <script id="v94-cloud-sync-light-guard">
 (function(){
   var KEY='family_v94_release_health';
@@ -3859,86 +3740,6 @@ onAuthStateChanged(auth, async user=>{
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',function(){setHealth('loaded');},{once:true}); else setHealth('loaded');
 })();
 </script>
-
-<script id="FamilyTreePro V118 Stable-script">
-(function(){
-  var V118='FamilyTreePro V118 Stable';
-  var QUERY='FamilyTreePro V118 Stable';
-  function byId(id){return document.getElementById(id);}
-  function safeLS(k,v){try{if(arguments.length===1)return localStorage.getItem(k); localStorage.setItem(k,v);}catch(e){} return null;}
-  window.v96SetAuthMode=function(mode){
-    var login=byId('login');
-    var emailBtn=byId('v96EmailModeBtn');
-    var phoneBtn=byId('v96PhoneModeBtn');
-    if(mode==='phone'){
-      if(login) login.classList.add('v96-phone-mode');
-      if(emailBtn) emailBtn.classList.remove('active');
-      if(phoneBtn) phoneBtn.classList.add('active');
-      var inp=byId('v96PhoneNumber'); if(inp) setTimeout(function(){try{inp.focus();}catch(e){}},60);
-    }else{
-      if(login) login.classList.remove('v96-phone-mode');
-      if(phoneBtn) phoneBtn.classList.remove('active');
-      if(emailBtn) emailBtn.classList.add('active');
-    }
-    safeLS('family_v96_auth_mode',mode||'email');
-  };
-  window.v96PhonePrepMessage=function(){
-    var p=(byId('v96PhoneNumber')?.value||'').trim();
-    var msg=byId('loginError');
-    if(!/^\+?[0-9۰-۹\s\-]{8,15}$/.test(p)){
-      if(msg){msg.style.color='red';msg.innerText='شماره موبایل معتبر وارد کنید.';}
-      return;
-    }
-    safeLS('family_v96_last_phone',p);
-    if(msg){msg.style.color='green';msg.innerText='شماره ذخیره شد. SMS واقعی در مرحله بعد با Firebase Phone Auth و reCAPTCHA فعال می‌شود.';}
-  };
-  function updateV118Labels(){
-    try{
-      document.title='FamilyTreePro '+V118;
-      var h2=document.querySelector('#login .loginbox h2'); if(h2) h2.textContent='🔐 FamilyTreePro V118 Stable';
-      var marker=byId('buildMarker'); if(marker) marker.textContent=V118;
-      var rel=document.querySelector('#view-release h2'); if(rel) rel.textContent='🚀 FamilyTreePro FamilyTreePro V118 Stable';
-      var badges=document.querySelectorAll('.release-badge'); badges.forEach(function(b){ if((b.textContent||'').trim()==='V94') b.textContent='V118'; });
-      var link=byId('v94SiteLink'); if(link) link.textContent=(location.origin+location.pathname).replace(/index\.html$/,'')+'index.html?v='+QUERY;
-    }catch(e){}
-  }
-  function updateAuthHealth(){
-    try{
-      var last=byId('v96LastLoginState');
-      var online=byId('v96AuthOnlineState');
-      var sms=byId('v96SmsPrepState');
-      var lock=byId('v96FailLockState');
-      var email=safeLS('family_v81_last_email')||'';
-      if(last) last.textContent=email ? email : 'ثبت نشده';
-      if(online) online.textContent=navigator.onLine ? 'آنلاین' : 'آفلاین';
-      if(sms) sms.textContent='UI آماده';
-      var until=Number(safeLS('family_login_lock_until')||'0');
-      if(lock) lock.textContent=until>Date.now() ? Math.ceil((until-Date.now())/1000)+' ثانیه' : 'آزاد';
-    }catch(e){}
-  }
-  function protectAuthButtons(){
-    ['loginBtn','showRegisterBtn','forgotPasswordBtn','createAccountBtn','backToLoginBtn','forgotPasswordBtn','refreshCaptchaBtn','v96EmailModeBtn','v96PhoneModeBtn'].forEach(function(id){
-      var el=byId(id); if(!el) return;
-      el.disabled=false; el.removeAttribute('disabled'); el.style.pointerEvents='auto'; el.style.visibility='visible'; el.style.opacity='1';
-    });
-    var login=byId('login'); if(login){login.style.pointerEvents='auto';}
-    var box=byId('registerBox'); if(box){box.style.pointerEvents='auto';}
-  }
-  function boot(){
-    updateV118Labels(); updateAuthHealth(); protectAuthButtons();
-    var mode=safeLS('family_v96_auth_mode')||'email'; if(mode==='phone') window.v96SetAuthMode('phone');
-    var p=safeLS('family_v96_last_phone'); if(p && byId('v96PhoneNumber')) byId('v96PhoneNumber').value=p;
-    safeLS('family_v96_health', JSON.stringify({version:"V118", online:navigator.onLine, time:new Date().toISOString()}));
-  }
-  window.addEventListener('online',updateAuthHealth);
-  window.addEventListener('offline',updateAuthHealth);
-  window.addEventListener('error',function(e){safeLS('family_v96_last_error',(e.message||'error')+' @ '+new Date().toISOString());});
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot,{once:true}); else boot();
-  window.addEventListener('load',function(){boot(); setTimeout(boot,700);},{once:true});
-  setInterval(function(){updateAuthHealth(); protectAuthButtons();},10000);
-})();
-</script>
-
 
 <script id="v96-language-system-js">
 (function(){
@@ -4281,7 +4082,6 @@ onAuthStateChanged(auth, async user=>{
 </script>
 <!-- V118 Stable -->
 <!-- V118 Stable -->
-
 <script id="v100-stable-hybrid-auth-js">
 (function(){
   'use strict';
@@ -4494,9 +4294,7 @@ onAuthStateChanged(auth, async user=>{
   setInterval(function(){ patchButtons(); backgroundReconnect(); }, 2500);
 })();
 </script>
-
 <!-- V118 Stable -->
-
 <script id="v1001-admin-role-lock-js">
 (function(){
   'use strict';
@@ -4623,7 +4421,6 @@ onAuthStateChanged(auth, async user=>{
   }, 1800);
 })();
 </script>
-
 <!-- V118 Stable -->
 <!-- V118 Stable -->
 <script id="v1004-clean-stable-js">
@@ -4649,12 +4446,10 @@ setInterval(protect,2500);
 window.v1004ProtectAuth=protect;window.v1004SyncRole=syncRole;
 })();
 </script>
-
 <!-- V118 Stable -->
 <!-- V118 Stable -->
 <!-- V118 Stable -->
 <!-- V118 Stable -->
-
 <script id="v1008-bulk-children-rows-js">
 (function(){
 'use strict';
@@ -4805,9 +4600,7 @@ window.addEventListener('load',function(){setTimeout(build,300);setTimeout(build
 setInterval(build,3000);
 })();
 </script>
-
 <!-- V118 Stable -->
-
 <script id="v1009-auth-user-profile-js">
 (function(){
 'use strict';
@@ -4998,7 +4791,6 @@ window.v1009SyncCurrentProfile=syncCurrentProfile;
 window.v1009ReadUsers=readUsers;
 })();
 </script>
-
 <!-- V118 Stable -->
 <!-- V118 Stable -->
 <script id="v102-secure-core-clean-js">
@@ -5026,9 +4818,7 @@ document.addEventListener('DOMContentLoaded',install);window.addEventListener('l
 window.v102ReadUsers=readUsers;window.v102SyncUser=syncUser;
 })();
 </script>
-
 <!-- V118 Stable -->
-
 <script id="v103-user-profiles-js">
 (function(){
 'use strict';
@@ -5222,9 +5012,7 @@ window.v103ReadUsers=readUsers;
 window.v103SyncCurrentUser=syncCurrentUser;
 })();
 </script>
-
 <!-- V118 Stable -->
-
 <script id="v1041-safe-security-js">
 (function(){
 'use strict';
@@ -5342,9 +5130,7 @@ setInterval(function(){
 window.v1041RenderSecurityPanel=renderSecurityPanel;
 })();
 </script>
-
 <!-- V118 Stable -->
-
 <script id="v1051-safe-rollback-js">
 (function(){
 'use strict';
@@ -5369,10 +5155,8 @@ window.addEventListener('load', function(){
 });
 })();
 </script>
-
 <!-- V118 Stable -->
 <!-- V118 Stable -->
-
 <script id="v106-enterprise-user-js">
 (function(){
 'use strict';
@@ -5616,9 +5400,7 @@ window.v106ReadUsers=readUsers;
 window.v106SyncCurrentUser=syncCurrentUser;
 })();
 </script>
-
 <!-- V118 Stable -->
-
 <script id="v107-access-production-js">
 (function(){
 'use strict';
@@ -5754,10 +5536,8 @@ setInterval(heartbeat,60000);
 window.v107ProductionGuard=install;
 })();
 </script>
-
 <!-- V118 Stable -->
 <!-- V118 Stable -->
-
 <script id="v1072-blocking-layer-fix-js">
 (function(){
 'use strict';
@@ -5881,26 +5661,50 @@ setInterval(function(){clearBlockingLayers();protectViewer()},4000);
 window.v1072ClearBlockingLayers=clearBlockingLayers;
 })();
 </script>
-
 <!-- V118 Stable -->
 
-<script id="v118-final-dom-cleanup">
+<script id="v119-blocker-clear-js">
 (function(){
-  function clean(){
-    var bad=/V10[047]|V11[0-7]|Production[_ -]?Guard|تعمیر\s*احراز|viewer|Viewer|Blocking Layer Fix/;
-    document.querySelectorAll('#buildMarker,#v811StableMarker,#v861StableMarker,.debug-note,.viewer-note,.lock-note,.production-guard,.build-marker,.version-marker').forEach(function(el){el.remove();});
-    document.querySelectorAll('span,small,p,div,h1,h2,h3').forEach(function(el){
-      var t=(el.textContent||'').trim();
-      if(!t) return;
-      if(bad.test(t) && t.length<220){ el.style.display='none'; el.setAttribute('data-version-note','hidden'); }
-    });
-    try{ document.title='FamilyTreePro'; }catch(e){}
+  'use strict';
+  if(window.__v119BlockerClear) return; window.__v119BlockerClear=true;
+  function rm(sel){ try{ document.querySelectorAll(sel).forEach(function(e){ e.remove(); }); }catch(e){} }
+  function deleteBrowserCaches(){
+    try{ if('serviceWorker' in navigator){ navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ try{r.unregister();}catch(e){} }); }); } }catch(e){}
+    try{ if(window.caches){ caches.keys().then(function(keys){ keys.forEach(function(k){ caches.delete(k); }); }); } }catch(e){}
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',clean); else clean();
-  setTimeout(clean,600); setTimeout(clean,1800);
+  function isShown(el){ var cs=getComputedStyle(el); return cs.display!=='none' && cs.visibility!=='hidden' && Number(cs.opacity||1)!==0; }
+  function clearBlockers(){
+    rm('#buildMarker,#v811StableMarker,#v861StableMarker,.viewer-note,.debug-note,.production-guard-note,.patch-note,.version-marker,.build-marker,[data-debug-note="true"],[data-version-note="true"]');
+    try{ document.title='FamilyTreePro'; }catch(e){}
+    try{ var h2=document.querySelector('#login .loginbox h2'); if(h2) h2.textContent='🔐 ورود به FamilyTreePro'; }catch(e){}
+    try{
+      var app=document.getElementById('app'), login=document.getElementById('login');
+      if(app && isShown(app) && login){ login.style.display='none'; login.style.pointerEvents='none'; }
+    }catch(e){}
+    try{
+      document.querySelectorAll('body > div, body > section, body > aside').forEach(function(el){
+        if(!el || !el.id && !el.className) return;
+        var id=el.id||'', cls=String(el.className||'');
+        var keep = id==='login' || id==='app' || id==='v81LockScreen' || cls.indexOf('drawer')>=0 || id==='contextMenu';
+        if(keep) return;
+        var cs=getComputedStyle(el);
+        var zi=parseInt(cs.zIndex||'0',10)||0;
+        var rect=el.getBoundingClientRect();
+        var huge=(rect.width>window.innerWidth*0.75 && rect.height>window.innerHeight*0.35);
+        var txt=(el.textContent||'').trim();
+        if((cs.position==='fixed'||cs.position==='absolute') && zi>=999 && huge){
+          if(/V\d+|Stable|Guard|Patch|تعمیر احراز|Production|viewer|debug/i.test(txt+id+cls)){
+            el.style.display='none'; el.style.pointerEvents='none'; el.setAttribute('aria-hidden','true');
+          }else{
+            el.style.pointerEvents='none';
+          }
+        }
+      });
+    }catch(e){}
+  }
+  deleteBrowserCaches();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', clearBlockers); else clearBlockers();
+  window.addEventListener('load', function(){ clearBlockers(); setTimeout(clearBlockers,300); setTimeout(clearBlockers,1200); });
 })();
-</script>
-</body>
-
+</script></body>
 </html>
-

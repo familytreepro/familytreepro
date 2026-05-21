@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v118-no-cache';
+const CACHE_NAME = 'familytreepro-v119-no-cache';
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
@@ -8,5 +8,5 @@ self.addEventListener('activate', event => {
   })());
 });
 self.addEventListener('fetch', event => {
-  event.respondWith(fetch(event.request, { cache: 'no-store' }).catch(() => fetch(event.request)));
+  event.respondWith(fetch(event.request, { cache: 'reload' }).catch(() => fetch(event.request)));
 });
