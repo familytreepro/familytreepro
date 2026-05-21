@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v121-no-cache';
+const CACHE_NAME = 'familytreepro-v123-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
