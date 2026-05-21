@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro",
+  "name": "FamilyTreePro V107.2 Blocking Layer Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?clean=1",
+  "start_url": "./index.html?v=v97-final-product-branding-safe",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
