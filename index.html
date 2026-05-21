@@ -813,6 +813,10 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <style id="v116-firebase-restore-clean-css">
 #v107ProductionStatus,#v1051VersionMark,#v105VersionMark,#v999AuthRepairBox,#v998AuthRepairBox,#v101AuthFixBox,#v96AuthMini,.viewer-note,.lock-note,.debug-note,[data-debug="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
 </style>
+
+<style id="v117-firebase-restore-clean-css">
+.debug-note,.viewer-note,.version-badge,.production-guard-note,.patch-note,[data-debug-note="true"]{display:none!important;visibility:hidden!important;pointer-events:none!important;}
+</style>
 </head>  <body>  <div id="login">  
   <div class="loginbox">  
     <h2>🔐 FamilyTreePro V107.2 Blocking Layer Fix</h2>
@@ -2803,8 +2807,18 @@ function scrollTimeline(){showView("timeline")}
   
 
 let firebaseRuntime={app:null,db:null,doc:null,setDoc:null,getDoc:null,onSnapshot:null,unsubscribe:null,connecting:false};
+const FIREBASE_DEFAULT_CONFIG = {
+  fbApiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
+  fbAuthDomain: "family-tree-pro-a661d.firebaseapp.com",
+  fbProjectId: "family-tree-pro-a661d",
+  fbStorageBucket: "family-tree-pro-a661d.firebasestorage.app",
+  fbMessagingSenderId: "634237399841",
+  fbAppId: "1:634237399841:web:7ad2813dbbc3697ab6c460",
+  fbFamilyId: "my-family",
+  fbMode: "auto"
+};
 function getFirebaseConfig(){
-  try{return JSON.parse(localStorage.getItem("family_firebase_config")||"{}");}catch(e){return {};}
+  try{return Object.assign({}, FIREBASE_DEFAULT_CONFIG, JSON.parse(localStorage.getItem("family_firebase_config")||"{}"));}catch(e){return Object.assign({}, FIREBASE_DEFAULT_CONFIG);}
 }
 function setFirebaseStatus(msg){
   const el=document.getElementById("firebaseStatus");
@@ -2819,12 +2833,12 @@ function firebaseFillForm(){
 }
 function firebaseReadForm(){
   return {
-    fbApiKey:document.getElementById("fbApiKey")?.value.trim()||"",
-    fbAuthDomain:document.getElementById("fbAuthDomain")?.value.trim()||"",
-    fbProjectId:document.getElementById("fbProjectId")?.value.trim()||"",
-    fbStorageBucket:document.getElementById("fbStorageBucket")?.value.trim()||"",
-    fbMessagingSenderId:document.getElementById("fbMessagingSenderId")?.value.trim()||"",
-    fbAppId:document.getElementById("fbAppId")?.value.trim()||"",
+    fbApiKey:document.getElementById("fbApiKey")?.value.trim()||FIREBASE_DEFAULT_CONFIG.fbApiKey,
+    fbAuthDomain:document.getElementById("fbAuthDomain")?.value.trim()||FIREBASE_DEFAULT_CONFIG.fbAuthDomain,
+    fbProjectId:document.getElementById("fbProjectId")?.value.trim()||FIREBASE_DEFAULT_CONFIG.fbProjectId,
+    fbStorageBucket:document.getElementById("fbStorageBucket")?.value.trim()||FIREBASE_DEFAULT_CONFIG.fbStorageBucket,
+    fbMessagingSenderId:document.getElementById("fbMessagingSenderId")?.value.trim()||FIREBASE_DEFAULT_CONFIG.fbMessagingSenderId,
+    fbAppId:document.getElementById("fbAppId")?.value.trim()||FIREBASE_DEFAULT_CONFIG.fbAppId,
     fbFamilyId:document.getElementById("fbFamilyId")?.value.trim()||"my-family",
     fbMode:document.getElementById("fbMode")?.value||"manual"
   };
@@ -3302,7 +3316,7 @@ function detachChildFromParent(){
 </script>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, setPersistence, inMemoryPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
@@ -3317,12 +3331,16 @@ const firebaseConfig = {
 };
 
 const ADMIN_EMAILS = ["alibahripor33@gmail.com"];
-const app = initializeApp(firebaseConfig);
+const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 try{ await setPersistence(auth, localStorage.getItem('family_v88_remember')==='yes' ? browserLocalPersistence : browserSessionPersistence); }catch(e){ console.warn('auth persistence setup failed', e); }
 
-window.familyFirebase = { app, auth, db };
+window.familyFirebase = { app, auth, db, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, updateDoc };
+window.auth = auth;
+window.db = db;
+window.firebaseAuth = auth;
+window.firebaseDb = db;
 window.v88FirebaseReady = true;
 window.firebaseAuthUser = null;
 window.firebaseRole = "guest";
