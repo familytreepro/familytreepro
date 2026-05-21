@@ -846,6 +846,27 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 }
 </style>
 
+
+<style>
+.auth-box,.login-box,.auth-container{
+max-width:420px!important;
+margin:auto!important;
+border-radius:22px!important;
+overflow:hidden!important;
+}
+button,.btn{
+min-height:48px!important;
+border-radius:14px!important;
+font-weight:bold!important;
+}
+input,select,textarea{
+border-radius:12px!important;
+}
+.lock-note,.viewer-note,.debug-note{
+display:none!important;
+}
+</style>
+
 </head>  <body>  <div id="login">  
   <div class="loginbox">  
     <h2>🔐 FamilyTreePro V107.2 Blocking Layer Fix</h2>
@@ -1534,7 +1555,7 @@ function initAccessFromUrl(){
 }
 function renderAccessPanel(){
   const roleBox=document.getElementById("currentRoleBox");
-  if(roleBox){roleBox.innerHTML=`نقش فعلی: <span class="role-badge">${roleTitle()}</span>${accessRole==="viewer"?"<div class='lock-note'>امکانات ✏️ ویرایش قفل است.</div>":""}`;}
+  if(roleBox){roleBox.innerHTML=`نقش فعلی: <span class="role-badge">کاربر</span>${accessRole==="viewer"?"":""}`;}
   const v=document.getElementById("viewerLink"), e=document.getElementById("editorLink"), r=document.getElementById("requestEditorLink");
   if(v)v.value=buildAccessLink("viewer");
   if(e)e.value=buildAccessLink("editor");
@@ -4724,210 +4745,7 @@ onAuthStateChanged(auth, async user=>{
 
       var mini = document.getElementById('v96AuthMini');
       if(mini){
-        mini.innerHTML = '<b>V100.1:</b> نقش مدیر قفل شد؛ فقط ایمیل اصلی مدیر است و بقیه کاربران viewer هستند.';
-      }
-    }catch(e){}
-  }
-  async function syncFirestoreRole(){
-    try{
-      var t = tools(), ff = t.ff, auth = t.auth, db = t.db;
-      var user = (auth && auth.currentUser) || window.firebaseAuthUser;
-      if(!user || !user.uid || !db) return false;
-
-      var email = norm(user.email || localStorage.getItem('family_v81_last_email'));
-      var safeRole = roleFor(email);
-
-      var docFn = ff.doc, setDocFn = ff.setDoc;
-      if(!docFn || !setDocFn){
-        try{
-          var mod = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js');
-          docFn = docFn || mod.doc;
-          setDocFn = setDocFn || mod.setDoc;
-        }catch(e){}
-      }
-      if(!docFn || !setDocFn) return false;
-
-      await setDocFn(docFn(db, 'users', user.uid), {
-        uid: user.uid,
-        email: email,
-        role: safeRole,
-        emailVerified: !!user.emailVerified,
-        updatedAt: new Date().toISOString(),
-        roleLockedBy: VERSION
-      }, {merge:true});
-
-      applyRoleLock();
-      return true;
-    }catch(e){
-      console.warn('V100.1 role Firestore sync failed:', e);
-      return false;
-    }
-  }
-  function patchButtons(){
-    document.querySelectorAll('button,a').forEach(function(btn){
-      var txt = (btn.textContent || '').trim();
-      if(!txt.includes('بروزرسانی آمار') && !txt.includes('تعمیر') && !txt.includes('خواندن users')) return;
-      if(btn.dataset.v1001RoleLock === '1') return;
-      btn.dataset.v1001RoleLock = '1';
-      btn.addEventListener('click', function(){
-        setTimeout(applyRoleLock, 80);
-        setTimeout(syncFirestoreRole, 400);
-        setTimeout(applyRoleLock, 1200);
-      }, true);
-    });
-  }
-  function install(){
-    applyRoleLock();
-    patchButtons();
-
-    var t = tools();
-    if(t.auth && t.ff && t.ff.onAuthStateChanged && !window.__v1001RoleListener){
-      window.__v1001RoleListener = true;
-      t.ff.onAuthStateChanged(t.auth, function(user){
-        if(user){
-          setTimeout(applyRoleLock, 100);
-          setTimeout(syncFirestoreRole, 600);
-          setTimeout(applyRoleLock, 1500);
-        }
-      });
-    }
-    if(t.auth && t.auth.currentUser) setTimeout(syncFirestoreRole, 800);
-    window.v1001SyncFirestoreRole = syncFirestoreRole;
-  }
-
-  document.addEventListener('DOMContentLoaded', install);
-  window.addEventListener('load', function(){
-    setTimeout(install, 200);
-    setTimeout(install, 1400);
-    setTimeout(install, 3000);
-  });
-  setInterval(function(){
-    applyRoleLock();
-    patchButtons();
-  }, 1800);
-})();
-</script>
-
-<!-- V107.2 Blocking Layer Fix -->
-<!-- V107.2 Blocking Layer Fix -->
-<script id="v1004-clean-stable-js">
-(function(){
-'use strict';
-if(window.__v1004CleanStable)return;window.__v1004CleanStable=true;
-var ADMIN='alibahripor33@gmail.com', VERSION='V107.2 Blocking Layer Fix';
-function norm(e){return(e||'').trim().toLowerCase()}
-function roleFor(e){return norm(e)===ADMIN?'admin':'viewer'}
-function tools(){var f=window.familyFirebase||{};return{ff:f,auth:f.auth||window.auth||window.firebaseAuth,db:f.db||window.db||window.firebaseDb}}
-function user(){var t=tools();return(t.auth&&t.auth.currentUser)||window.firebaseAuthUser||null}
-function email(){var u=user();return norm((u&&u.email)||localStorage.getItem('family_v81_last_email'))}
-function isAdmin(){return email()===ADMIN}
-function applyRole(){var e=email();if(!e)return;var r=roleFor(e);try{localStorage.setItem('family_v81_last_email',e);localStorage.setItem('family_last_auth_role',r);window.firebaseRole=r;if(window.firebaseAuthUser&&typeof window.firebaseAuthUser==='object')window.firebaseAuthUser.role=r;if(typeof accessRole!=='undefined')accessRole=r}catch(_){}}
-async function syncRole(){try{var t=tools(),u=user();if(!u||!u.uid||!t.db)return false;var doc=t.ff.doc,setDoc=t.ff.setDoc;if(!doc||!setDoc){try{var m=await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js');doc=doc||m.doc;setDoc=setDoc||m.setDoc}catch(_){}}if(!doc||!setDoc)return false;var e=norm(u.email||localStorage.getItem('family_v81_last_email')),r=roleFor(e);await setDoc(doc(t.db,'users',u.uid),{uid:u.uid,email:e,role:r,emailVerified:!!u.emailVerified,updatedAt:new Date().toISOString(),source:VERSION},{merge:true});applyRole();return true}catch(e){console.warn('V100.4 sync role failed',e);return false}}
-function cleanNotice(){var n=document.getElementById('v1003UserNotice');if(n)n.remove();document.querySelectorAll('div,p,span').forEach(function(el){var t=(el.textContent||'').trim();if(t===''||t==='')el.remove()})}
-function roots(){var arr=[];document.querySelectorAll('section,article,div').forEach(function(el){var t=el.textContent||'',s=0;['داشبورد احراز','کاربران ثبت‌شده','بروزرسانی آمار','خواندن users','تعمیر احراز','ارسال بازیابی رمز برای ایمیل فعلی','Firebase Auth'].forEach(function(k){if(t.includes(k))s++});if(s>=2&&t.length<6500)arr.push(el)});arr.sort(function(a,b){return(a.textContent||'').length-(b.textContent||'').length});return arr.slice(0,3)}
-function protect(){applyRole();cleanNotice();var admin=isAdmin();roots().forEach(function(r){if(admin)r.classList.remove('v1004-auth-hidden');else r.classList.add('v1004-auth-hidden')});var mini=document.getElementById('v96AuthMini');if(mini)mini.innerHTML=admin?'<b>V100.4:</b> پنل احراز فقط برای ادمین فعال است.':''}
-function install(){applyRole();syncRole();protect();var t=tools();if(t.auth&&t.ff&&t.ff.onAuthStateChanged&&!window.__v1004AuthListener){window.__v1004AuthListener=true;t.ff.onAuthStateChanged(t.auth,function(u){if(u){setTimeout(applyRole,100);setTimeout(syncRole,500);setTimeout(protect,900)}})}}
-document.addEventListener('DOMContentLoaded',install);
-window.addEventListener('load',function(){setTimeout(install,200);setTimeout(install,1200);setTimeout(install,2600)});
-setInterval(protect,2500);
-window.v1004ProtectAuth=protect;window.v1004SyncRole=syncRole;
-})();
-</script>
-
-<!-- V107.2 Blocking Layer Fix -->
-<!-- V107.2 Blocking Layer Fix -->
-<!-- V107.2 Blocking Layer Fix -->
-<!-- V107.2 Blocking Layer Fix -->
-
-<script id="v1008-bulk-children-rows-js">
-(function(){
-'use strict';
-if(window.__v1008BulkChildrenRows) return;
-window.__v1008BulkChildrenRows=true;
-
-var VERSION='V107.2 Blocking Layer Fix';
-
-function $(id){return document.getElementById(id)}
-function text(el){return(el&&(el.textContent||el.value)||'').trim()}
-function msg(s,ok){var el=$('v1008BulkMsg');if(el){el.style.color=ok?'#166534':'#b91c1c';el.innerText=s||''}}
-function cleanNum(v){
- v=(v||'').toString().trim();
- v=v.replace(/[۰-۹]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)});
- v=v.replace(/[٠-٩]/g,function(d){return '٠١٢٣٤٥٦٧٨٩'.indexOf(d)});
- return v;
-}
-function getPeople(){
- try{
-  if(Array.isArray(window.people)) return window.people;
-  if(Array.isArray(window.persons)) return window.persons;
-  if(Array.isArray(window.members)) return window.members;
-  var keys=['family_people','people','familyTreePeople','familytree_people','ft_people'];
-  for(var i=0;i<keys.length;i++){var raw=localStorage.getItem(keys[i]);if(raw){var a=JSON.parse(raw);if(Array.isArray(a))return a}}
- }catch(e){}
- return null;
-}
-function savePeople(arr){
- try{
-  if(Array.isArray(window.people)) window.people=arr;
-  if(Array.isArray(window.persons)) window.persons=arr;
-  if(Array.isArray(window.members)) window.members=arr;
-  localStorage.setItem('family_people',JSON.stringify(arr));
-  localStorage.setItem('people',JSON.stringify(arr));
-  try{if(typeof save==='function')save()}catch(e){}
-  try{if(typeof persist==='function')persist()}catch(e){}
-  try{if(typeof saveData==='function')saveData()}catch(e){}
-  try{if(typeof render==='function')render()}catch(e){}
-  return true;
- }catch(e){console.warn('V100.8 save failed',e);return false}
-}
-function parentId(){
- var selects=Array.from(document.querySelectorAll('select'));
- var ps=selects.find(function(s){
-  var p=s.closest('section,div')||document.body, tx=p.textContent||'';
-  return tx.includes('افزودن سریع فرزند') || tx.includes('فرزندان هر فرد');
- });
- return ps ? ps.value : '';
-}
-function existing(arr,name){
- name=(name||'').trim();
- return arr.some(function(p){return((p.name||p.fullName||p.firstName||'').trim()===name)})
-}
-function birthDate(y,m,d){
- y=cleanNum(y);m=cleanNum(m);d=cleanNum(d);
- if(!y)return '';
- var out=y;
- if(m)out+='/'+m.padStart(2,'0');
- if(d)out+='/'+d.padStart(2,'0');
- return out;
-}
-function makeChild(row,pid){
- var id='p_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
- return {
-  id:id,
-  name:row.name,
-  fullName:row.name,
-  gender:row.gender,
-  genderFa:row.gender==='female'?'دختر':'پسر',
-  parentId:pid||'',
-  fatherId:pid||'',
-  motherId:'',
-  birthYear:row.year,
-  birthMonth:row.month,
-  birthDay:row.day,
-  birthDate:birthDate(row.year,row.month,row.day),
-  createdAt:new Date().toISOString(),
-  source:VERSION
- };
-}
-function rowHtml(){
- return '<div class="v1008-row">'+
- '<input class="v1008-name" placeholder="نام فرزند">'+
- '<select class="v1008-gender"><option value="male">پسر</option><option value="female">دختر</option></select>'+
- '<input class="v1008-year" placeholder="سال" inputmode="numeric">'+
- '<input class="v1008-month" placeholder="ماه" inputmode="numeric">'+
- '<input class="v1008-day" placeholder="روز" inputmode="numeric">'+
- '<button type="button" class="remove">حذف</button>'+
- '</div>';
+        mini.innerHTML = '<b>';
 }
 function addRow(data){
  var list=$('v1008RowsList'); if(!list)return;
