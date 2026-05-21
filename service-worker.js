@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v121-no-cache';
+const CACHE_NAME = 'familytreepro-v122-clean-auth-email-verify-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
