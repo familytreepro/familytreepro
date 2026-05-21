@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V122 Clean Auth Email Verify",
+  "name": "FamilyTreePro V121",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=v122-clean-auth-email-verify",
+  "start_url": "./index.html?v=121-clean-auth-stats",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V122 Clean Auth Email Verify",
+  "description": "FamilyTreePro V121 Clean Auth Stats",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
