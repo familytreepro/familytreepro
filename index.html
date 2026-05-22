@@ -790,7 +790,8 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <div class="page-title"><h1>ازدواج و همسر</h1><span>💍 مدیریت همسرها</span></div>
 <div class="panel">
 <h2>💍 ثبت ازدواج / همسر</h2>
-<div class="form-row"><select id="spouseA"></select><select id="spouseB"></select></div>
+<div class="form-row"><input id="spouseA" list="marriagePeopleList" placeholder="جستجوی نام نفر اول" autocomplete="off"/><input id="spouseB" list="marriagePeopleList" placeholder="جستجوی نام نفر دوم" autocomplete="off"/></div>
+<datalist id="marriagePeopleList"></datalist>
 <button class="btn pink-btn" onclick="addMarriage()">ثبت ازدواج</button>
 <div id="marriageList"></div>
 </div>
@@ -2102,23 +2103,28 @@ function removeProfileItem(id,type,index){
   if(confirm("حذف شود؟")){p[type].splice(index,1);save();openProfileView(id);}
 }
 function renderMarriageOptions(){
-  let a=document.getElementById("spouseA"), b=document.getElementById("spouseB");
-  if(!a||!b)return;
-  let av=a.value || people[0]?.id || "";
-  let bv=b.value || people[1]?.id || people[0]?.id || "";
-  a.innerHTML=personOptions(av); b.innerHTML=personOptions(bv);
+  let list=document.getElementById("marriagePeopleList");
+  if(!list)return;
+  list.innerHTML=visiblePeople().map(p=>`<option value="${escapeHtml(p.name)}"></option>`).join("");
   renderMarriageList();
+}
+function findMarriagePersonByName(value){
+  value=(value||"").trim();
+  if(!value)return null;
+  return visiblePeople().find(p=>String(p.name||"").trim()===value) || visiblePeople().find(p=>String(p.name||"").includes(value));
 }
 function addMarriage(){
   if(!canEdit())return;
-  let a=Number(document.getElementById("spouseA").value);
-  let b=Number(document.getElementById("spouseB").value);
-  if(!a||!b||a===b){alert("دو فرد متفاوت انتخاب کنید");return;}
-  let pa=people.find(x=>x.id===a), pb=people.find(x=>x.id===b);
+  let pa=findMarriagePersonByName(document.getElementById("spouseA").value);
+  let pb=findMarriagePersonByName(document.getElementById("spouseB").value);
+  if(!pa||!pb||pa.id===pb.id){alert("دو نام متفاوت و موجود انتخاب کنید");return;}
   ensureFamilyFields(pa); ensureFamilyFields(pb);
-  if(!pa.spouses.includes(b))pa.spouses.push(b);
-  if(!pb.spouses.includes(a))pb.spouses.push(a);
-  save(); alert("ازدواج ثبت شد");
+  if(!pa.spouses.includes(pb.id))pa.spouses.push(pb.id);
+  if(!pb.spouses.includes(pa.id))pb.spouses.push(pa.id);
+  save();
+  document.getElementById("spouseA").value="";
+  document.getElementById("spouseB").value="";
+  alert("ازدواج ثبت شد");
 }
 function removeMarriage(a,b){
   if(!canEdit())return;
