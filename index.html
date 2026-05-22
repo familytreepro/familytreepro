@@ -1214,7 +1214,7 @@ function applyAccessControl(){
       if(editWords.some(w=>t.includes(w))){btn.disabled=true; btn.style.opacity=.45;}
     });
     document.querySelectorAll("input,select,textarea").forEach(el=>{
-      if(!["loginUser","loginPass","captchaAnswer","search","chatInput","viewerLink","editorLink","requestEditorLink","relationA","relationB","profilePerson","deathPerson"].includes(el.id))el.disabled=true;
+      if(!["loginUser","loginPass","captchaAnswer","search","chatInput","viewerLink","editorLink","requestEditorLink","relationA","relationB","profilePerson","deathPerson","spouseA","spouseB"].includes(el.id))el.disabled=true;
     });
   }
   if(accessRole!=="admin"){
