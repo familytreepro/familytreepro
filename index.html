@@ -480,6 +480,15 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 .v130-mail-btn:hover{background:rgba(255,255,255,.18)!important}
 @media(max-width:700px){.v130-mail-btn{min-width:44px!important;min-height:40px!important;padding:9px 12px!important}.v130-mail-badge{top:-6px;right:-6px}}
 </style>
+
+<style id="v1301-button-click-fix-css">
+/* V130.1: click fix only - no layout change */
+.topbar,.topbar *,.top-actions,.top-actions *{pointer-events:auto!important}
+.topbar{position:relative;z-index:120!important}
+#drawerBackdrop:not(.open){display:none!important;pointer-events:none!important}
+#drawerBackdrop.open{display:block!important;pointer-events:auto!important}
+.v130-mail-btn,.icon-btn{pointer-events:auto!important;opacity:1!important;visibility:visible!important}
+</style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
@@ -3446,6 +3455,9 @@ function openNotifications(){
     }catch(e){}
   },80);
 }
+/* V130.1: expose module functions for inline buttons; fixes inactive mail/button click */
+window.openNotifications = openNotifications;
+window.updateNotificationBadge = updateNotificationBadge;
 setTimeout(function(){ updateNotificationBadge(); },600);
 
 window.sendResetForCurrentUser = async function(){
@@ -3619,6 +3631,20 @@ setInterval(async function(){
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bootLang,{once:true}); else bootLang();
   window.addEventListener('load',function(){setTimeout(bootLang,150);},{once:true});
+})();
+</script>
+
+<script id="v1301-button-click-fix-js">
+(function(){
+  function fix(){
+    var lock=document.getElementById('v81LockScreen');
+    var app=document.getElementById('app');
+    if(app && (!lock || lock.style.display==='none')) app.classList.remove('v81-blurred');
+    var bd=document.getElementById('drawerBackdrop');
+    if(bd && !bd.classList.contains('open')) bd.style.pointerEvents='none';
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fix,{once:true}); else fix();
+  window.addEventListener('load',function(){setTimeout(fix,150);},{once:true});
 })();
 </script>
 </body>
