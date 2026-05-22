@@ -451,6 +451,35 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 .v127-admin-only-hidden{display:none!important;visibility:hidden!important;pointer-events:none!important}
 .v127-admin-denied{margin:14px 0;padding:16px;border-radius:16px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;line-height:1.9;font-weight:700}
 </style>
+
+<style id="v128-auth-table-clean-css">
+/* V128: فقط جدول‌بندی احراز؛ بدون تغییر Login/Firebase */
+#view-auth .panel{overflow:hidden}
+#view-auth h2{display:none!important}
+#view-auth .dashboard-note{display:none!important}
+#view-auth .v96-auth-health{display:none!important}
+#view-auth .auth-toolbar{display:grid!important;grid-template-columns:1.6fr .9fr .9fr;gap:10px;align-items:center;margin:10px 0 14px}
+#view-auth .auth-toolbar input,#view-auth .auth-toolbar select{width:100%;min-height:46px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);padding:10px 12px;font-size:14px}
+#view-auth .auth-toolbar button{min-height:46px;margin:0;border-radius:14px}
+#view-auth #authDashboardStatus{background:#f8fbff;border:1px solid #dbeafe;border-radius:16px;text-align:center;line-height:2;margin:14px 0;padding:14px;color:#172033}
+body.dark #view-auth #authDashboardStatus{background:rgba(37,99,235,.08);color:var(--text)}
+.auth-user-table{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:0 8px 22px rgba(15,23,42,.05);-webkit-overflow-scrolling:touch}
+.auth-user-table table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:760px;direction:rtl}
+.auth-user-table th,.auth-user-table td{border-bottom:1px solid var(--line);border-left:1px solid var(--line);padding:13px 10px;text-align:center;vertical-align:middle;line-height:1.8;word-break:break-word;overflow-wrap:anywhere}
+.auth-user-table th:last-child,.auth-user-table td:last-child{border-left:0}
+.auth-user-table tbody tr:last-child td{border-bottom:0}
+.auth-user-table th{background:rgba(148,163,184,.10);font-weight:800;color:var(--text);white-space:nowrap}
+.auth-user-table .col-row{width:58px}.auth-user-table .col-email{width:230px}.auth-user-table .col-phone{width:150px}.auth-user-table .col-status{width:130px}.auth-user-table .col-role{width:160px}.auth-user-table .col-action{width:150px}
+.auth-email{direction:ltr;text-align:left;display:inline-block;max-width:100%}
+.auth-phone{direction:ltr;display:inline-block}
+.auth-role-select{width:100%;min-height:42px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:8px 10px;text-align:center}
+.auth-badge{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800;white-space:nowrap}
+.auth-badge.verified{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}.auth-badge.unverified{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
+.auth-badge.viewer{background:#eef2ff;color:#3730a3}.auth-badge.editor{background:#ecfeff;color:#155e75}.auth-badge.admin{background:#fef3c7;color:#92400e}
+.auth-approve-btn{width:100%;min-height:42px;border:0;border-radius:12px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer}.auth-approve-btn:active{transform:scale(.98)}
+.auth-lock-note{margin-top:12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.9}
+@media(max-width:760px){#view-auth .auth-toolbar{grid-template-columns:1fr}.auth-user-table{border-radius:14px}.auth-user-table table{min-width:720px}.auth-user-table th,.auth-user-table td{padding:10px 8px;font-size:13px}.auth-badge{font-size:12px;padding:5px 9px}.auth-approve-btn{font-size:12px}}
+</style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
@@ -3301,20 +3330,22 @@ window.renderAuthUsersTable=function(){
   const q=(document.getElementById('authUserSearch')?.value||'').trim().toLowerCase();
   const rf=document.getElementById('authRoleFilter')?.value||'';
   const vf=document.getElementById('authVerifyFilter')?.value||'';
-  if(q){users=users.filter(u=>[u.name,u.firstName,u.lastName,u.phone,u.email,u.uid,u.id].join(' ').toLowerCase().includes(q));}
+  if(q){users=users.filter(u=>[u.name,u.firstName,u.lastName,u.phone,u.email].join(' ').toLowerCase().includes(q));}
   if(rf){users=users.filter(u=>(u.role||'viewer')===rf);}
   if(vf){users=users.filter(u=> vf==='verified' ? !!u.emailVerified : !u.emailVerified);}
-  if(!users.length){list.innerHTML='<div class="person-row">کاربری مطابق فیلتر پیدا نشد. اگر کسی قبلاً فقط در Firebase Auth ثبت شده ولی در Firestore users ذخیره نشده، باید یک‌بار وارد شود تا خودش به لیست اضافه شود.</div>';return;}
+  if(!users.length){list.innerHTML='<div class="person-row">کاربری مطابق فیلتر پیدا نشد.</div>';return;}
   const canAdmin=(window.firebaseRole==='admin');
-  const rows=users.map(u=>{
+  const rows=users.map((u,i)=>{
     const role=(u.role||'viewer');
     const uid=authSafe(u.id||u.uid);
     const approved=!!u.adminApproved || role==='admin';
+    const email=authSafe(u.email||'-');
+    const phone=authSafe(u.phone||'-');
     const roleControl=canAdmin ? '<select class="auth-role-select" onchange="changeAuthUserRole(this.dataset.uid,this.value)" data-uid="'+uid+'"><option value="viewer" '+(role==='viewer'?'selected':'')+'>نمایشگر</option><option value="editor" '+(role==='editor'?'selected':'')+'>✏️ ویرایشگر</option><option value="admin" '+(role==='admin'?'selected':'')+'>مدیر</option></select>' : '<span class="auth-badge '+authSafe(role)+'">'+authRoleLabel(role)+'</span>';
-    const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">✓ تأیید مدیر</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
-    return '<tr><td>'+authSafe(u.phone||'-')+'<br><small>'+authSafe(u.uid||u.id||'-')+'</small></td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td>'+approveBtn+'</td></tr>';
+    const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">✓ تأیید مدیر</span>':'<button class="auth-approve-btn" onclick="approveAuthUser(''+uid+'')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
+    return '<tr><td>'+(i+1)+'</td><td><span class="auth-email">'+email+'</span></td><td><span class="auth-phone">'+phone+'</span></td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td>'+approveBtn+'</td></tr>';
   }).join('');
-  list.innerHTML='<div class="auth-user-table"><table><thead><tr><th>شماره تلفن</th><th>ایمیل</th><th>وضعیت ایمیل</th><th>نقش</th><th>عملیات</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">امنیت V125: کاربر جدید تا وقتی مدیر تأیید نکند وارد برنامه نمی‌شود.</div>';
+  list.innerHTML='<div class="auth-user-table"><table><thead><tr><th class="col-row">ردیف</th><th class="col-email">ایمیل</th><th class="col-phone">شماره تلفن</th><th class="col-status">وضعیت ایمیل</th><th class="col-role">نقش</th><th class="col-action">عملیات</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">🛡️ کاربر جدید تا تأیید مدیر وارد برنامه نمی‌شود.</div>';
 };
 window.approveAuthUser=async function(uid){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند کاربر را تأیید کند.');return;}

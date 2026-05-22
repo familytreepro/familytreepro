@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v127-strict-auth-gate-no-cache';
+const CACHE_NAME = 'familytreepro-v128-no-cache';
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
