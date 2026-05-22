@@ -2102,16 +2102,25 @@ function removeProfileItem(id,type,index){
   ensureFamilyFields(p);
   if(confirm("حذف شود؟")){p[type].splice(index,1);save();openProfileView(id);}
 }
+function marriageSearchLabel(p){
+  if(!p)return "";
+  let parent=visiblePeople().find(x=>String(x.id)===String(p.parent));
+  return parent ? `${p.name} — نام پدر: ${parent.name}` : `${p.name} — نام پدر: ثبت نشده`;
+}
 function renderMarriageOptions(){
   let list=document.getElementById("marriagePeopleList");
   if(!list)return;
-  list.innerHTML=visiblePeople().map(p=>`<option value="${escapeHtml(p.name)}"></option>`).join("");
+  list.innerHTML=visiblePeople().map(p=>`<option value="${escapeHtml(marriageSearchLabel(p))}"></option>`).join("");
   renderMarriageList();
 }
 function findMarriagePersonByName(value){
   value=(value||"").trim();
   if(!value)return null;
-  return visiblePeople().find(p=>String(p.name||"").trim()===value) || visiblePeople().find(p=>String(p.name||"").includes(value));
+  let peopleList=visiblePeople();
+  let exact=peopleList.find(p=>marriageSearchLabel(p)===value);
+  if(exact)return exact;
+  let clean=value.split("—")[0].trim();
+  return peopleList.find(p=>String(p.name||"").trim()===clean) || peopleList.find(p=>String(p.name||"").includes(clean));
 }
 function addMarriage(){
   if(!canEdit())return;
