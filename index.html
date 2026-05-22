@@ -2104,7 +2104,8 @@ function removeProfileItem(id,type,index){
 }
 function marriageSearchLabel(p){
   if(!p)return "";
-  let parent=visiblePeople().find(x=>String(x.id)===String(p.parent));
+  let fatherId = p.parentId || p.parent || "";
+  let parent=visiblePeople().find(x=>String(x.id)===String(fatherId));
   return parent ? `${p.name} — نام پدر: ${parent.name}` : `${p.name} — نام پدر: ثبت نشده`;
 }
 function renderMarriageOptions(){
