@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro V130",
+  "name": "FamilyTreePro V130 Notification Safe",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=130-notification-safe",
+  "start_url": "./index.html?v=v130-notification-safe",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",

@@ -50,6 +50,43 @@ button,input,select{font-family:tahoma,Arial}
 .topbar{height:66px;background:var(--navy);color:white;display:flex;align-items:center;justify-content:space-between;padding:0 22px;gap:12px}  
 .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}  
 .icon-btn{border:0;border-radius:12px;background:rgba(255,255,255,.12);color:white;padding:10px 13px;cursor:pointer}  
+/* V130 Safe Notification Mail: visual only, no overlay, no button handlers */
+.notification-mail{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:44px;
+  min-height:40px;
+  padding:9px 12px;
+  line-height:1;
+  text-decoration:none;
+  user-select:none;
+  -webkit-user-select:none;
+  pointer-events:none;
+}
+.notification-mail .mail-icon{font-size:20px;line-height:1}
+.notification-mail .mail-badge{
+  position:absolute;
+  top:-7px;
+  right:-7px;
+  min-width:20px;
+  height:20px;
+  padding:0 6px;
+  border-radius:999px;
+  background:#e11d48;
+  color:#fff;
+  border:2px solid var(--navy);
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-size:11px;
+  font-weight:bold;
+}
+.notification-mail .mail-badge.empty{display:none}
+@media(max-width:700px){.notification-mail{min-width:42px;min-height:38px;padding:8px 10px}.notification-mail .mail-badge{top:-6px;right:-6px}}
+
+
 .layout{display:block;min-height:calc(100vh - 66px)}  
 .main{padding:22px;overflow:auto;max-width:1200px;margin:auto}  
 .page-title{display:flex;gap:10px;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap}  
@@ -445,50 +482,6 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 .v81-remember,.v96-mode-row,.v96-phone-prep,.v80-auth-note,.v81-subtitle,.login-security-note,.viewer-note,.debug-note,.patch-note,.version-marker,.build-marker,[data-debug],[data-version-note]{display:none!important;visibility:hidden!important;pointer-events:none!important}
 @media(max-width:520px){.register-grid,.captcha-row,.v80-auth-switch{grid-template-columns:1fr}.clean-auth-box{padding:22px}}
 </style>
-
-<style id="v129-auth-table-safe-css">
-/* V129: فقط جدول‌بندی احراز، بدون لایه، بدون تغییر Login/Firebase */
-#view-auth .panel{overflow:visible!important}
-#view-auth h2,#view-auth .dashboard-note,#view-auth .v96-auth-health{display:none!important}
-#view-auth .auth-stats-grid{display:none!important}
-#view-auth .auth-toolbar{display:grid!important;grid-template-columns:1fr 1fr;gap:10px;align-items:center;margin:8px 0 14px}
-#view-auth .auth-toolbar input,#view-auth .auth-toolbar select{width:100%!important;min-height:46px;border:1px solid var(--line);border-radius:14px;background:var(--card);color:var(--text);padding:10px 12px;font-size:14px}
-#view-auth .auth-toolbar button{min-height:46px;margin:0;border-radius:14px}
-#view-auth #authDashboardStatus{background:#f8fbff;border:1px solid #dbeafe;border-radius:16px;text-align:center;line-height:2;margin:14px 0;padding:14px;color:var(--text)}
-.auth-user-table{width:100%;overflow-x:auto;border:1px solid var(--line);border-radius:18px;background:var(--card);box-shadow:0 8px 22px rgba(15,23,42,.05);-webkit-overflow-scrolling:touch;position:relative;z-index:1}
-.auth-user-table table{width:100%;border-collapse:collapse;table-layout:fixed;min-width:760px;direction:rtl}
-.auth-user-table th,.auth-user-table td{border-bottom:1px solid var(--line);border-left:1px solid var(--line);padding:12px 9px;text-align:center;vertical-align:middle;line-height:1.8;word-break:break-word;overflow-wrap:anywhere}
-.auth-user-table th:last-child,.auth-user-table td:last-child{border-left:0}.auth-user-table tbody tr:last-child td{border-bottom:0}
-.auth-user-table th{background:rgba(148,163,184,.10);font-weight:800;color:var(--text);white-space:nowrap}
-.auth-user-table .col-row{width:58px}.auth-user-table .col-email{width:230px}.auth-user-table .col-phone{width:145px}.auth-user-table .col-status{width:125px}.auth-user-table .col-role{width:150px}.auth-user-table .col-action{width:150px}
-.auth-email,.auth-phone,.auth-uid{direction:ltr;display:inline-block;max-width:100%}.auth-uid{font-size:12px;color:var(--muted);margin-top:5px}
-.auth-role-select{width:100%;min-height:42px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--text);padding:8px 10px;text-align:center}
-.auth-badge{display:inline-flex;align-items:center;justify-content:center;min-height:34px;border-radius:999px;padding:6px 12px;font-size:13px;font-weight:800;white-space:nowrap}
-.auth-badge.verified{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}.auth-badge.unverified{background:#fff7ed;color:#9a3412;border:1px solid #fed7aa}
-.auth-badge.viewer{background:#eef2ff;color:#3730a3}.auth-badge.editor{background:#ecfeff;color:#155e75}.auth-badge.admin{background:#fef3c7;color:#92400e}
-.auth-approve-btn{width:100%;min-height:42px;border:0;border-radius:12px;background:#16a34a;color:#fff;font-weight:800;cursor:pointer}.auth-approve-btn:active{transform:scale(.98)}
-.auth-lock-note{margin-top:12px;text-align:center;color:var(--muted);font-size:13px;line-height:1.9}
-@media(max-width:760px){#view-auth .auth-toolbar{grid-template-columns:1fr}.auth-user-table table{min-width:720px}.auth-user-table th,.auth-user-table td{padding:10px 8px;font-size:13px}.auth-badge{font-size:12px;padding:5px 9px}.auth-approve-btn{font-size:12px}}
-</style>
-
-<style id="v130-notification-mail-css">
-/* V130: small mail notification only; no overlay, no layer */
-.v130-mail-btn{position:relative!important;display:inline-flex!important;align-items:center!important;justify-content:center!important;min-width:46px!important;min-height:42px!important;padding:10px 13px!important;border:0!important;border-radius:12px!important;background:rgba(255,255,255,.12)!important;color:#fff!important;cursor:pointer!important;touch-action:manipulation!important;z-index:auto!important}
-.v130-mail-btn .v130-mail-icon{font-size:20px;line-height:1}
-.v130-mail-badge{position:absolute;top:-7px;right:-7px;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#e11d48;color:#fff;border:2px solid var(--navy);font-size:12px;font-weight:800;display:none;align-items:center;justify-content:center;line-height:18px;box-shadow:0 4px 10px rgba(225,29,72,.28);direction:ltr}
-.v130-mail-btn.has-alert .v130-mail-badge{display:flex}
-.v130-mail-btn:hover{background:rgba(255,255,255,.18)!important}
-@media(max-width:700px){.v130-mail-btn{min-width:44px!important;min-height:40px!important;padding:9px 12px!important}.v130-mail-badge{top:-6px;right:-6px}}
-</style>
-
-<style id="v1301-button-click-fix-css">
-/* V130.1: click fix only - no layout change */
-.topbar,.topbar *,.top-actions,.top-actions *{pointer-events:auto!important}
-.topbar{position:relative;z-index:120!important}
-#drawerBackdrop:not(.open){display:none!important;pointer-events:none!important}
-#drawerBackdrop.open{display:block!important;pointer-events:auto!important}
-.v130-mail-btn,.icon-btn{pointer-events:auto!important;opacity:1!important;visibility:visible!important}
-</style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
@@ -523,7 +516,7 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <div class="topbar no-print">
 <div class="top-actions">
 <button class="icon-btn" onclick="openDashboard()">☰ داشبورد</button>
-<button class="v130-mail-btn" id="v130MailBtn" onclick="openNotifications()" type="button" aria-label="اعلان‌ها"><span class="v130-mail-icon">✉️</span><span class="v130-mail-badge" id="v130MailBadge">0</span></button>
+<span class="icon-btn notification-mail" id="v130NotifyMail" title="اعلان‌ها" aria-label="اعلان‌ها"><span class="mail-icon">✉️</span><span class="mail-badge empty" id="v130NotifyBadge">0</span></span>
 <button class="icon-btn" onclick="openChat()">💬 چت</button>
 </div>
 <span id="clock">سامانه آنلاین</span>
@@ -3340,23 +3333,20 @@ window.renderAuthUsersTable=function(){
   const q=(document.getElementById('authUserSearch')?.value||'').trim().toLowerCase();
   const rf=document.getElementById('authRoleFilter')?.value||'';
   const vf=document.getElementById('authVerifyFilter')?.value||'';
-  if(q){users=users.filter(u=>[u.name,u.firstName,u.lastName,u.phone,u.email].join(' ').toLowerCase().includes(q));}
+  if(q){users=users.filter(u=>[u.name,u.firstName,u.lastName,u.phone,u.email,u.uid,u.id].join(' ').toLowerCase().includes(q));}
   if(rf){users=users.filter(u=>(u.role||'viewer')===rf);}
   if(vf){users=users.filter(u=> vf==='verified' ? !!u.emailVerified : !u.emailVerified);}
-  if(!users.length){list.innerHTML='<div class="person-row">کاربری مطابق فیلتر پیدا نشد.</div>'; updateNotificationBadge(); return;}
+  if(!users.length){list.innerHTML='<div class="person-row">کاربری مطابق فیلتر پیدا نشد. اگر کسی قبلاً فقط در Firebase Auth ثبت شده ولی در Firestore users ذخیره نشده، باید یک‌بار وارد شود تا خودش به لیست اضافه شود.</div>';return;}
   const canAdmin=(window.firebaseRole==='admin');
-  const rows=users.map((u,i)=>{
+  const rows=users.map(u=>{
     const role=(u.role||'viewer');
-    const uid=authSafe(u.id||u.uid||'');
+    const uid=authSafe(u.id||u.uid);
     const approved=!!u.adminApproved || role==='admin';
-    const email=authSafe(u.email||'-');
-    const phone=authSafe(u.phone||'-');
-    const uidText=authSafe(u.uid||u.id||'-');
     const roleControl=canAdmin ? '<select class="auth-role-select" onchange="changeAuthUserRole(this.dataset.uid,this.value)" data-uid="'+uid+'"><option value="viewer" '+(role==='viewer'?'selected':'')+'>نمایشگر</option><option value="editor" '+(role==='editor'?'selected':'')+'>✏️ ویرایشگر</option><option value="admin" '+(role==='admin'?'selected':'')+'>مدیر</option></select>' : '<span class="auth-badge '+authSafe(role)+'">'+authRoleLabel(role)+'</span>';
-    const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">✓ تأیید مدیر</span>':'<button class="auth-approve-btn" data-uid="'+uid+'" onclick="approveAuthUser(this.dataset.uid)" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
-    return '<tr><td>'+(i+1)+'</td><td><span class="auth-email">'+email+'</span></td><td><span class="auth-phone">'+phone+'</span><br><span class="auth-uid">'+uidText+'</span></td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td>'+approveBtn+'</td></tr>';
+    const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">✓ تأیید مدیر</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
+    return '<tr><td>'+authSafe(u.phone||'-')+'<br><small>'+authSafe(u.uid||u.id||'-')+'</small></td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td>'+approveBtn+'</td></tr>';
   }).join('');
-  list.innerHTML='<div class="auth-user-table"><table><thead><tr><th class="col-row">ردیف</th><th class="col-email">ایمیل</th><th class="col-phone">شماره تلفن</th><th class="col-status">وضعیت ایمیل</th><th class="col-role">نقش</th><th class="col-action">عملیات</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">🛡️ کاربر جدید تا تأیید مدیر وارد برنامه نمی‌شود.</div>'; updateNotificationBadge();
+  list.innerHTML='<div class="auth-user-table"><table><thead><tr><th>شماره تلفن</th><th>ایمیل</th><th>وضعیت ایمیل</th><th>نقش</th><th>عملیات</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">امنیت V125: کاربر جدید تا وقتی مدیر تأیید نکند وارد برنامه نمی‌شود.</div>';
 };
 window.approveAuthUser=async function(uid){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند کاربر را تأیید کند.');return;}
@@ -3364,7 +3354,7 @@ window.approveAuthUser=async function(uid){
   try{
     await setDoc(doc(db,'users',uid),{adminApproved:true,status:'approved',approvedAt:serverTimestamp(),approvedBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
     const u=window.authUsersCache.find(x=>String(x.id||x.uid)===String(uid)); if(u){u.adminApproved=true;u.status='approved';}
-    renderAuthUsersTable(); updateNotificationBadge();
+    renderAuthUsersTable();
     const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='کاربر توسط مدیر تأیید شد.';
   }catch(e){alert('تأیید کاربر ناموفق: '+v86FirebaseError(e.code||e.message));}
 };
@@ -3420,46 +3410,6 @@ window.refreshAuthDashboard = async function(){
     if(status) status.innerText='خواندن users از Firestore انجام نشد. احتمالاً Rules اجازه نمی‌دهد. ثبت‌نام Auth ممکن است درست باشد. جزئیات: '+(e.code||e.message||e);
   }
 };
-
-
-/* V130: notification mail counter - reads pending admin approvals only */
-function v130PendingNotificationCount(){
-  try{
-    var users = Array.isArray(window.authUsersCache) ? window.authUsersCache : [];
-    return users.filter(function(u){
-      var role = String(u.role || 'viewer');
-      return role !== 'admin' && !u.adminApproved;
-    }).length;
-  }catch(e){return 0;}
-}
-function updateNotificationBadge(count){
-  var btn=document.getElementById('v130MailBtn');
-  var badge=document.getElementById('v130MailBadge');
-  if(!btn || !badge) return;
-  count = Number.isFinite(Number(count)) ? Number(count) : v130PendingNotificationCount();
-  if(count>0){
-    badge.textContent = count>99 ? '99+' : String(count);
-    btn.classList.add('has-alert');
-  }else{
-    badge.textContent='0';
-    btn.classList.remove('has-alert');
-  }
-}
-function openNotifications(){
-  try{ showView('auth'); }catch(e){}
-  setTimeout(function(){
-    try{
-      if(typeof refreshAuthDashboard === 'function') refreshAuthDashboard();
-      var el=document.getElementById('authUsersList') || document.getElementById('view-auth');
-      if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-    }catch(e){}
-  },80);
-}
-/* V130.1: expose module functions for inline buttons; fixes inactive mail/button click */
-window.openNotifications = openNotifications;
-window.updateNotificationBadge = updateNotificationBadge;
-setTimeout(function(){ updateNotificationBadge(); },600);
-
 window.sendResetForCurrentUser = async function(){
   const email=(auth.currentUser?.email || localStorage.getItem('family_v81_last_email') || document.getElementById('loginUser')?.value || '').trim().toLowerCase();
   if(!email){alert('ایمیل فعلی پیدا نشد. ابتدا وارد شوید یا ایمیل را در صفحه ورود بنویسید.');return;}
@@ -3634,18 +3584,41 @@ setInterval(async function(){
 })();
 </script>
 
-<script id="v1301-button-click-fix-js">
+<script id="v130-safe-notification-only">
 (function(){
-  function fix(){
-    var lock=document.getElementById('v81LockScreen');
-    var app=document.getElementById('app');
-    if(app && (!lock || lock.style.display==='none')) app.classList.remove('v81-blurred');
-    var bd=document.getElementById('drawerBackdrop');
-    if(bd && !bd.classList.contains('open')) bd.style.pointerEvents='none';
+  function safeJson(key){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return []}}
+  function pendingCount(){
+    var n=0;
+    try{
+      if(Array.isArray(window.authUsersCache)){
+        n+=window.authUsersCache.filter(function(u){
+          var role=(u.role||'viewer');
+          return role!=='admin' && (!u.adminApproved || (u.status&&u.status==='pending'));
+        }).length;
+      }
+      var req=safeJson('family_access_requests');
+      n+=req.filter(function(x){return x&&x.status==='pending'}).length;
+      var local=safeJson('family_v88_registered_users');
+      if(!window.authUsersCache && Array.isArray(local)){
+        n+=local.filter(function(u){return u&&!u.adminApproved}).length;
+      }
+    }catch(e){n=0}
+    return n;
   }
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fix,{once:true}); else fix();
-  window.addEventListener('load',function(){setTimeout(fix,150);},{once:true});
+  function render(){
+    try{
+      var b=document.getElementById('v130NotifyBadge');
+      if(!b)return;
+      var n=pendingCount();
+      b.textContent=String(n>99?'99+':n);
+      if(n>0)b.classList.remove('empty'); else b.classList.add('empty');
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded',render,{once:true});
+  setTimeout(render,1200);setTimeout(render,3500);setInterval(render,7000);
+  window.v130RefreshNotifyBadge=render;
 })();
 </script>
+
 </body>
 </html>
