@@ -482,6 +482,21 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 .v81-remember,.v96-mode-row,.v96-phone-prep,.v80-auth-note,.v81-subtitle,.login-security-note,.viewer-note,.debug-note,.patch-note,.version-marker,.build-marker,[data-debug],[data-version-note]{display:none!important;visibility:hidden!important;pointer-events:none!important}
 @media(max-width:520px){.register-grid,.captcha-row,.v80-auth-switch{grid-template-columns:1fr}.clean-auth-box{padding:22px}}
 </style>
+
+<style id="v131-children-clean-css">
+/* V131: فقط مرتب‌سازی بخش فرزندان؛ بدون لایه و بدون تغییر احراز */
+#view-children .panel{overflow:visible}
+#view-children .quick-child-row{display:grid;grid-template-columns:1.1fr 1.1fr .75fr .75fr;gap:10px;align-items:center}
+#view-children .quick-child-row select,#view-children .quick-child-row input{width:100%;min-height:46px}
+#view-children .children-grid{grid-template-columns:1fr!important}
+#view-children .transfer-panel{display:none!important}
+#childrenListBox .child-card{display:block;text-align:center}
+#childrenListBox .child-card b{font-size:18px;margin-bottom:8px}
+#childrenListBox .child-card small{display:block;line-height:1.8}
+#childrenListBox .children-actions{justify-content:center}
+@media(max-width:780px){#view-children .quick-child-row{grid-template-columns:1fr 1fr}#view-children .quick-child-row select,#view-children .quick-child-row input{min-width:0}}
+@media(max-width:520px){#view-children .quick-child-row{grid-template-columns:1fr}}
+</style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
@@ -735,7 +750,7 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <div class="panel">
 <h2>👶 افزودن سریع فرزند</h2>
 <p class="dashboard-note">این بخش همان داده‌های اصلی افراد را استفاده می‌کند؛ فرد یا شجره تکراری ساخته نمی‌شود.</p>
-<div class="form-row"><select id="childParentSelect"></select><input id="quickChildName" placeholder="نام فرزند"/><select id="quickChildGender"><option value="male">پسر</option><option value="female">دختر</option></select><input id="quickChildBirth" placeholder="سال تولد"/></div>
+<div class="quick-child-row"><select id="childParentSelect"></select><input id="quickChildName" placeholder="نام فرزند"/><select id="quickChildGender"><option value="male">پسر</option><option value="female">دختر</option></select><input id="quickChildBirth" placeholder="سال تولد"/></div>
 <button class="btn" onclick="addQuickChild()">➕ افزودن فرزند</button>
 </div>
 <div class="children-grid">
@@ -744,7 +759,7 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <div class="form-row"><select id="childrenPersonSelect" onchange="renderChildrenManager()"></select></div>
 <div id="childrenListBox"></div>
 </div>
-<div class="panel">
+<div class="panel transfer-panel">
 <h2>🔄 انتقال رابطه فرزند</h2>
 <p class="dashboard-note">این کار فقط والد فرزند را عوض می‌کند؛ خود فرد حذف نمی‌شود.</p>
 <div class="form-row"><select id="moveChildSelect"></select><select id="moveParentSelect"></select></div>
@@ -2853,7 +2868,7 @@ function renderChildrenManager(){
   const p=people.find(x=>String(x.id)===String(personSel.value));
   if(!p){box.innerHTML='<p>فردی انتخاب نشده است.</p>';return;}
   const children=people.filter(x=>String(x.parentId)===String(p.id));
-  box.innerHTML=children.length?children.map(c=>`<div class="child-card"><b>${icon(c.gender)} ${c.name}</b><small>تولد: ${c.birth||'-'} | والد: ${p.name}</small><div class="children-actions"><button class="btn blue-btn" onclick="openProfileView(${c.id})">👤 پروفایل</button><button class="btn gray-btn" onclick="editPerson(${c.id})">✏️ ویرایش</button><button class="btn red-btn" onclick="detachChild(${c.id})">🧹 حذف رابطه والد</button></div></div>`).join(''):'<p>برای این فرد فرزندی ثبت نشده است.</p>';
+  box.innerHTML=children.length?children.map(c=>`<div class="child-card"><b>${icon(c.gender)} ${c.name}</b><small>تولد: ${c.birth||'-'}<br>والد: ${p.name}</small><div class="children-actions"><button class="btn blue-btn" onclick="openProfileView(${c.id})">👤 پروفایل</button><button class="btn gray-btn" onclick="editPerson(${c.id})">✏️ ویرایش</button><button class="btn red-btn" onclick="detachChild(${c.id})">🧹 حذف رابطه والد</button></div></div>`).join(''):'<p>برای این فرد فرزندی ثبت نشده است.</p>';
 }
 function detachChild(id){
   if(!canEdit())return;

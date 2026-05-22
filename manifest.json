@@ -1,5 +1,5 @@
 {
-  "name": "FamilyTreePro V130 Notification Safe",
+  "name": "FamilyTreePro V131 Notification Safe",
   "short_name": "FamilyTreePro",
   "start_url": "./index.html?v=v130-notification-safe",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V130 Notification Safe",
+  "description": "FamilyTreePro V131 Notification Safe",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
