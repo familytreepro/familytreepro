@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V129",
+  "name": "FamilyTreePro V130",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=129-auth-table-safe",
+  "start_url": "./index.html?v=130-notification-safe",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V129 Auth Table Safe",
+  "description": "FamilyTreePro V130 Notification Safe",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
