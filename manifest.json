@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V132",
+  "name": "FamilyTreePro V120 Clean Auth",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=132-children-table-safe",
+  "start_url": "./index.html?v=v120-clean-auth",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V132 Children Table Safe",
+  "description": "FamilyTreePro V120 Clean Auth",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
