@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V127",
+  "name": "FamilyTreePro V129",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=126-strict-auth-gate",
+  "start_url": "./index.html?v=129-auth-table-safe",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V127 Strict Auth Gate",
+  "description": "FamilyTreePro V129 Auth Table Safe",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
