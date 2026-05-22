@@ -3519,38 +3519,7 @@ window.sendResetForCurrentUser = async function(){
   catch(e){alert('ارسال بازیابی ناموفق: '+v86FirebaseError(e.code||e.message));}
 };
 
-// FamilyTreePro V134 Living Status: keep auth buttons clickable even if mobile browser/old CSS blocks inline handlers
-function v88UnlockAuthButtons(){
-  ['loginBtn','showRegisterBtn','forgotPasswordBtn','createAccountBtn','backToLoginBtn','rememberMe'].forEach(function(id){
-    const el=document.getElementById(id);
-    if(!el) return;
-    el.disabled=false;
-    el.removeAttribute('disabled');
-    el.style.pointerEvents='auto';
-    el.style.opacity='1';
-    el.style.visibility='visible';
-    el.style.zIndex='2147483647';
-  });
-  const login=document.getElementById('login');
-  const box=document.getElementById('registerBox');
-  if(login){ login.style.pointerEvents='auto'; login.style.zIndex='2147483647'; }
-  if(box){ box.style.pointerEvents='auto'; }
-}
-function v88BindAuthButtons(){
-  v88UnlockAuthButtons();
-  const lb=document.getElementById('loginBtn');
-  const sr=document.getElementById('showRegisterBtn');
-  const fp=document.getElementById('forgotPasswordBtn');
-  const ca=document.getElementById('createAccountBtn');
-  const bl=document.getElementById('backToLoginBtn');
-  if(lb && !lb.dataset.v88Bound){ lb.dataset.v88Bound='yes'; lb.addEventListener('click',function(e){e.preventDefault(); window.login && window.login();}); lb.addEventListener('touchend',function(e){e.preventDefault(); window.login && window.login();},{passive:false}); }
-  if(sr && !sr.dataset.v88Bound){ sr.dataset.v88Bound='yes'; sr.addEventListener('click',function(e){e.preventDefault(); window.showRegister && window.showRegister();}); sr.addEventListener('touchend',function(e){e.preventDefault(); window.showRegister && window.showRegister();},{passive:false}); }
-  if(fp && !fp.dataset.v88Bound){ fp.dataset.v88Bound='yes'; fp.addEventListener('click',function(e){e.preventDefault(); window.forgotPassword && window.forgotPassword();}); fp.addEventListener('touchend',function(e){e.preventDefault(); window.forgotPassword && window.forgotPassword();},{passive:false}); }
-  if(ca && !ca.dataset.v88Bound){ ca.dataset.v88Bound='yes'; ca.addEventListener('click',function(e){e.preventDefault(); window.registerUser && window.registerUser();}); ca.addEventListener('touchend',function(e){e.preventDefault(); window.registerUser && window.registerUser();},{passive:false}); }
-  if(bl && !bl.dataset.v88Bound){ bl.dataset.v88Bound='yes'; bl.addEventListener('click',function(e){e.preventDefault(); window.showLoginOnly && window.showLoginOnly();}); bl.addEventListener('touchend',function(e){e.preventDefault(); window.showLoginOnly && window.showLoginOnly();},{passive:false}); }
-}
-['DOMContentLoaded','load'].forEach(function(ev){window.addEventListener(ev,function(){setTimeout(v88BindAuthButtons,50);setTimeout(v88BindAuthButtons,500);setTimeout(v88BindAuthButtons,1500);});});
-var v88AuthTicks=0; var v88AuthGuard=setInterval(function(){v88UnlockAuthButtons(); if(++v88AuthTicks>10) clearInterval(v88AuthGuard);},3000);
+// V137 Clean: removed repeated auth button guard that was hijacking clicks and creating blocking behavior.
 
 onAuthStateChanged(auth, async user=>{
   const manualOk = sessionStorage.getItem('family_manual_auth_ok') === 'yes' || localStorage.getItem('family_manual_auth_ok') === 'yes';
@@ -3583,8 +3552,31 @@ onAuthStateChanged(auth, async user=>{
     appBox.style.display="block";
     if(typeof startV81SessionWatch === "function") startV81SessionWatch();
     if(typeof render === "function") render();
+    v137ClearBlockingLayers();
   }
 });
+
+function v137ClearBlockingLayers(){
+  try{
+    const appBox=document.getElementById('app');
+    if(!appBox || appBox.style.display!=='block') return;
+    const loginBox=document.getElementById('login');
+    if(loginBox){
+      loginBox.style.display='none';
+      loginBox.style.pointerEvents='none';
+    }
+    const lock=document.getElementById('v81LockScreen');
+    if(lock && lock.style.display!=='flex') lock.style.display='none';
+    const backdrop=document.getElementById('drawerBackdrop');
+    const anyDrawerOpen=!!document.querySelector('.drawer.open');
+    if(backdrop && !anyDrawerOpen){
+      backdrop.classList.remove('open');
+      backdrop.style.pointerEvents='none';
+    }
+    document.body.classList.remove('v81-blurred');
+  }catch(e){}
+}
+setInterval(v137ClearBlockingLayers,3000);
 
 // V126 strict visual guard: app must never stay open without active approved Firebase user.
 setInterval(async function(){
