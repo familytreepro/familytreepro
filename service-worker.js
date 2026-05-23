@@ -1,7 +1,5 @@
-const CACHE_NAME = 'familytreepro-v142-layer-fix-no-cache';
-self.addEventListener('install', event => {
-  self.skipWaiting();
-});
+const CACHE_NAME = 'familytreepro-v143-clean-safe-no-cache';
+self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
@@ -10,6 +8,5 @@ self.addEventListener('activate', event => {
   })());
 });
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(fetch(event.request, { cache: 'no-store' }));
+  event.respondWith(fetch(event.request, { cache: 'reload' }).catch(() => fetch(event.request)));
 });
