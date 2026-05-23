@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V141",
+  "name": "FamilyTreePro V142 Clean Auth",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=141-tree-pro",
+  "start_url": "./index.html?v=v120-clean-auth",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V141 Tree Pro",
+  "description": "FamilyTreePro V142 Layer Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

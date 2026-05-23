@@ -508,6 +508,16 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 .v81-remember,.v96-mode-row,.v96-phone-prep,.v80-auth-note,.v81-subtitle,.login-security-note,.viewer-note,.debug-note,.patch-note,.version-marker,.build-marker,[data-debug],[data-version-note]{display:none!important;visibility:hidden!important;pointer-events:none!important}
 @media(max-width:520px){.register-grid,.captcha-row,.v80-auth-switch{grid-template-columns:1fr}.clean-auth-box{padding:22px}}
 </style>
+
+<style id="v142-real-layer-clean-css">
+/* V142: فقط پاکسازی لایه مزاحم؛ بدون تغییر UI و بدون تغییر احراز */
+#app:not([style*="display: none"]) ~ #login,
+body.app-ready #login{pointer-events:none!important;display:none!important;visibility:hidden!important;}
+#drawerBackdrop:not(.open){display:none!important;pointer-events:none!important;opacity:0!important;}
+#drawerBackdrop.open{display:block!important;}
+#v81LockScreen[style*="display:none"]{pointer-events:none!important;visibility:hidden!important;}
+#app.v81-blurred:not(.really-locked){filter:none!important;pointer-events:auto!important;}
+</style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
@@ -3938,5 +3948,63 @@ setInterval(async function(){
 })();
 </script>
 
+
+<script id="v142-real-layer-clean-js">
+/* V142: لایه‌های گیرکرده را آزاد می‌کند؛ هیچ دکمه/فرم/فایربیس تغییر نمی‌کند */
+(function(){
+  function clearStuckLayers(){
+    try{
+      var app=document.getElementById('app');
+      var login=document.getElementById('login');
+      var lock=document.getElementById('v81LockScreen');
+      var backdrop=document.getElementById('drawerBackdrop');
+      var appVisible=app && getComputedStyle(app).display!=='none';
+      if(appVisible){
+        document.body.classList.add('app-ready');
+        if(login){
+          login.style.display='none';
+          login.style.pointerEvents='none';
+          login.style.visibility='hidden';
+        }
+        if(app.classList && app.classList.contains('v81-blurred') && (!lock || getComputedStyle(lock).display==='none')){
+          app.classList.remove('v81-blurred');
+          app.style.pointerEvents='auto';
+          app.style.filter='none';
+        }
+      }else{
+        document.body.classList.remove('app-ready');
+      }
+      if(backdrop){
+        var drawerOpen=!!document.querySelector('.drawer.open');
+        if(!drawerOpen){
+          backdrop.classList.remove('open');
+          backdrop.style.pointerEvents='none';
+          backdrop.style.opacity='0';
+          backdrop.style.display='none';
+        }else{
+          backdrop.style.display='block';
+        }
+      }
+      if(lock && getComputedStyle(lock).display==='none'){
+        lock.style.pointerEvents='none';
+        lock.style.visibility='hidden';
+      }else if(lock && getComputedStyle(lock).display!=='none'){
+        lock.style.visibility='visible';
+        lock.style.pointerEvents='auto';
+        if(app) app.classList.add('really-locked');
+      }
+    }catch(e){}
+  }
+  window.v142ClearStuckLayers=clearStuckLayers;
+  document.addEventListener('click', function(){ setTimeout(clearStuckLayers, 40); }, true);
+  document.addEventListener('input', function(){ setTimeout(clearStuckLayers, 40); }, true);
+  document.addEventListener('DOMContentLoaded', clearStuckLayers);
+  setInterval(clearStuckLayers, 1200);
+  var oldClose=window.closeDrawers;
+  window.closeDrawers=function(){ if(typeof oldClose==='function') oldClose.apply(this, arguments); clearStuckLayers(); };
+  var oldShow=window.showView;
+  window.showView=function(){ var r; if(typeof oldShow==='function') r=oldShow.apply(this, arguments); clearStuckLayers(); return r; };
+})();
+</script>
 </body>
 </html>
