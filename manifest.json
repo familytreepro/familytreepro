@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V140",
+  "name": "FamilyTreePro V141",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=v140-relation-engine",
+  "start_url": "./index.html?v=141-tree-pro",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V140 Relation Engine",
+  "description": "FamilyTreePro V141 Tree Pro",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

@@ -339,6 +339,13 @@ body.dark .release-badge{color:#bbf7d0}
 body.dark .release-install-box{background:rgba(255,255,255,.05)}
 @media(max-width:850px){.release-grid,.release-checklist{grid-template-columns:1fr}}
 
+
+/* V141 Tree Pro: faster tree rendering only */
+#tree{contain:layout style paint;}
+.tree-stage{transform:translateZ(0) scale(var(--tree-zoom,1));}
+.tree-wrap{scroll-behavior:auto!important;}
+.node{content-visibility:auto;contain-intrinsic-size:160px 120px;}
+.tree-performance-note{font-size:12px;color:var(--muted);margin-top:6px}
 </style>
 <style id="iranNetworkStabilityStyles">
 /* FamilyTreePro V140 Relation Engine - upgrades existing system, no duplicate dashboard */
@@ -1062,7 +1069,7 @@ body.lang-ltr .chat-msg.user{margin-left:auto;margin-right:0}
 <section class="tree-card" id="treeSection">
 <h2>🌳 نمایش شجره</h2>
 <div class="tree-probar no-print">
-<input id="treeSmartSearch" oninput="renderTree()" placeholder="جستجوی سریع در شجره..."/>
+<input id="treeSmartSearch" oninput="scheduleRenderTree()" placeholder="جستجوی سریع در شجره..."/>
 <select id="treeRootFilter" onchange="renderTree()"><option value="">نمایش همه ریشه‌ها</option></select>
 <select id="treeDepthFilter" onchange="renderTree()">
 <option value="0">همه نسل‌ها</option>
@@ -1406,21 +1413,50 @@ function renderList(){
   
 let treeCollapsed=JSON.parse(localStorage.getItem("family_tree_collapsed_")||"{}");
 let treeFocusId="";
+let treeRenderTimer=null;
+let treeIndexCache=null;
+let treeIndexStamp="";
+
+function getTreeIndex(){
+  const vp=visiblePeople();
+  const stamp=vp.length+":"+vp.map(p=>String(p.id)+":"+String(p.parentId||"")+":"+String((p.spouses||[]).length)).join("|");
+  if(treeIndexCache && treeIndexStamp===stamp)return treeIndexCache;
+  const byId=new Map();
+  const childrenByParent=new Map();
+  vp.forEach(p=>{
+    ensureFamilyFields(p);
+    byId.set(String(p.id),p);
+    const pid=String(p.parentId||"");
+    if(pid){
+      if(!childrenByParent.has(pid))childrenByParent.set(pid,[]);
+      childrenByParent.get(pid).push(p);
+    }
+  });
+  const roots=vp.filter(p=>!p.parentId || !byId.has(String(p.parentId)));
+  treeIndexStamp=stamp;
+  treeIndexCache={vp,byId,childrenByParent,roots};
+  return treeIndexCache;
+}
+function invalidateTreeIndex(){treeIndexCache=null;treeIndexStamp="";}
 
 function renderTreeRootOptions(){
   let sel=document.getElementById("treeRootFilter");
   if(!sel)return;
   let current=sel.value;
-  let vp=visiblePeople();
-  let roots=vp.filter(p=>!p.parentId || !vp.some(x=>String(x.id)===String(p.parentId)));
-  sel.innerHTML='<option value="">نمایش همه ریشه‌ها</option>'+roots.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
+  const idx=getTreeIndex();
+  sel.innerHTML='<option value="">نمایش همه ریشه‌ها</option>'+idx.roots.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
   sel.value=current;
 }
 
-function treeSpouseHtml(p){
+function treeSpouseHtml(p,idx){
   ensureFamilyFields(p);
-  let spouses=(p.spouses||[]).map(id=>visiblePeople().find(x=>String(x.id)===String(id))).filter(Boolean);
+  let spouses=(p.spouses||[]).map(id=>idx.byId.get(String(id))).filter(Boolean);
   return spouses.map(s=>`<span class="spouse-chip">❤️ ${s.name}</span>`).join("");
+}
+
+function scheduleRenderTree(){
+  clearTimeout(treeRenderTimer);
+  treeRenderTimer=setTimeout(renderTree,80);
 }
 
 function toggleTreeBranch(id){
@@ -1429,7 +1465,8 @@ function toggleTreeBranch(id){
   renderTree();
 }
 function collapseAllTree(){
-  people.forEach(p=>{ if(people.some(x=>String(x.parentId)===String(p.id))) treeCollapsed[p.id]=true; });
+  const idx=getTreeIndex();
+  idx.vp.forEach(p=>{ if((idx.childrenByParent.get(String(p.id))||[]).length) treeCollapsed[p.id]=true; });
   localStorage.setItem("family_tree_collapsed_",JSON.stringify(treeCollapsed));
   renderTree();
 }
@@ -1440,69 +1477,70 @@ function expandAllTree(){
 }
 function focusTreePerson(id){
   treeFocusId=String(id);
-  document.getElementById("treeSmartSearch").value="";
+  const search=document.getElementById("treeSmartSearch");
+  if(search)search.value="";
   renderTree();
-  setTimeout(()=>document.querySelector(".node.pro-focus")?.scrollIntoView({behavior:"smooth",block:"center",inline:"center"}),80);
+  setTimeout(()=>document.querySelector(".node.pro-focus")?.scrollIntoView({behavior:"auto",block:"center",inline:"center"}),50);
 }
 
-function renderTree(){  
+function renderTree(){
+  const idx=getTreeIndex();
   let searchInput=document.getElementById("treeSmartSearch");
   let q=((searchInput&&searchInput.value)||document.getElementById("search")?.value||"").trim().toLowerCase();
   let rootFilter=document.getElementById("treeRootFilter")?.value||"";
   let maxDepthLimit=Number(document.getElementById("treeDepthFilter")?.value||0);
-  let vp=visiblePeople();
-  let roots=rootFilter ? vp.filter(p=>String(p.id)===String(rootFilter)) : vp.filter(p=>!p.parentId || !vp.some(x=>String(x.id)===String(p.parentId)));  
+  let roots=rootFilter ? idx.vp.filter(p=>String(p.id)===String(rootFilter)) : idx.roots;
   let tree=document.getElementById("tree");
   if(!tree)return;
-  tree.innerHTML=roots.length ? "<ul>"+roots.map(p=>node(p,q,1,maxDepthLimit)).join("")+"</ul>" : '<div class="tree-empty-state">هنوز ریشه‌ای برای شجره وجود ندارد.</div>';  
-  updateTreeMiniMap(roots,q,maxDepthLimit);
-}  
+  const html=roots.length ? "<ul>"+roots.map(p=>node(p,q,1,maxDepthLimit,idx)).join("")+"</ul>" : '<div class="tree-empty-state">هنوز ریشه‌ای برای شجره وجود ندارد.</div>';
+  if(tree.__lastHtml!==html){tree.innerHTML=html;tree.__lastHtml=html;}
+  updateTreeMiniMap(roots,q,maxDepthLimit,idx);
+}
 
-function node(p,q,level,maxDepthLimit){  
-  ensureFamilyFields(p);
-  let children=visiblePeople().filter(x=>String(x.parentId)===String(p.id));  
-  let match=q && (p.name+p.job+p.phone+(p.birth||"")).toLowerCase().includes(q);  
+function node(p,q,level,maxDepthLimit,idx){
+  let children=idx.childrenByParent.get(String(p.id))||[];
+  let searchable=(p.name+" "+(p.job||"")+" "+(p.phone||"")+" "+(p.birth||"")).toLowerCase();
+  let match=q && searchable.includes(q);
   let isFocused=treeFocusId && String(p.id)===String(treeFocusId);
   let isCollapsed=!!treeCollapsed[p.id];
   let stopByDepth=maxDepthLimit && level>=maxDepthLimit;
-  let hiddenCount=children.length;
   let canShowChildren=children.length && !isCollapsed && !stopByDepth;
-  return `  
-  <li>  
-    <div class="node ${p.gender==="female"?"female":""} ${p.isDead?"dead-node":""} ${match?"match":""} ${isFocused?"pro-focus":""} ${isCollapsed?"collapsed-node":""}"  
-      draggable="true"  
-      ondragstart="dragStart(${p.id})"  
-      ondragover="event.preventDefault()"  
-      ondrop="dropOn(${p.id})"  
-      oncontextmenu="openContext(event,${p.id})">  
-      ${p.photo?`<img src="${p.photo}">`:`<div style="font-size:32px">${icon(p.gender)}</div>`}  
-      <b>${p.name}</b><br>  
+  return `
+  <li>
+    <div class="node ${p.gender==="female"?"female":""} ${p.isDead?"dead-node":""} ${match?"match":""} ${isFocused?"pro-focus":""} ${isCollapsed?"collapsed-node":""}"
+      draggable="true"
+      ondragstart="dragStart(${p.id})"
+      ondragover="event.preventDefault()"
+      ondrop="dropOn(${p.id})"
+      oncontextmenu="openContext(event,${p.id})">
+      ${p.photo?`<img loading="lazy" src="${p.photo}">`:`<div style="font-size:32px">${icon(p.gender)}</div>`}
+      <b>${p.name}</b><br>
       <small>${p.birth||""}</small><br>
-      ${treeSpouseHtml(p)}
-      ${personBadges(p)}<br>  
+      ${treeSpouseHtml(p,idx)}
+      ${personBadges(p)}<br>
       ${children.length?`<small>${children.length} فرزند ${stopByDepth?"/ محدودیت نسل":""}</small>`:""}
       <div class="tree-actions no-print">
         ${children.length?`<button class="tree-mini-btn" onclick="toggleTreeBranch(${p.id});event.stopPropagation()">${isCollapsed||stopByDepth?"بازکردن":"بستن"}</button>`:""}
         <button class="tree-mini-btn" onclick="focusTreePerson(${p.id});event.stopPropagation()">تمرکز</button>
         <button class="tree-mini-btn" onclick="openProfileView(${p.id});event.stopPropagation()">👤 پروفایل</button>
       </div>
-    </div>  
-    ${canShowChildren?`<ul>${children.map(c=>node(c,q,level+1,maxDepthLimit)).join("")}</ul>`:""}  
-  </li>`;  
-}  
+    </div>
+    ${canShowChildren?`<ul>${children.map(c=>node(c,q,level+1,maxDepthLimit,idx)).join("")}</ul>`:""}
+  </li>`;
+}
 
-function updateTreeMiniMap(roots,q,maxDepthLimit){
+function updateTreeMiniMap(roots,q,maxDepthLimit,idx){
   let el=document.getElementById("treeMiniMap");
   if(!el)return;
   let shown=0, collapsed=0, depth=0;
   function walk(p,l){
     shown++; depth=Math.max(depth,l);
-    let children=visiblePeople().filter(x=>String(x.parentId)===String(p.id));
+    let children=idx.childrenByParent.get(String(p.id))||[];
     if(children.length && (treeCollapsed[p.id] || (maxDepthLimit && l>=maxDepthLimit))){collapsed+=children.length; return;}
     children.forEach(c=>walk(c,l+1));
   }
   roots.forEach(r=>walk(r,1));
-  el.innerHTML=`<b>نمای حرفه‌ای:</b> ${shown} نفر در نمایش فعلی | عمق: ${depth} نسل | شاخه‌های بسته/مخفی: ${collapsed} | جستجو: ${q||"-"}`;
+  el.innerHTML=`<b>نمای حرفه‌ای سریع:</b> ${shown} نفر | عمق: ${depth} نسل | شاخه‌های بسته/مخفی: ${collapsed} | جستجو: ${q||"-"}`;
 }
 
 function dragStart(id){dragId=id}  
@@ -2404,7 +2442,7 @@ function zoomOut(){zoom=Math.max(0.35,Number((zoom-0.12).toFixed(2)));applyZoom(
 function resetZoom(){zoom=1;applyZoom();centerTree()}  
 function applyZoom(){
   const stage=document.getElementById("treeStage");
-  if(stage)stage.style.transform=`scale(${zoom})`;
+  if(stage)stage.style.setProperty("--tree-zoom", zoom);
   const btn=document.getElementById("zoomLabel");
   if(btn)btn.innerText=Math.round(zoom*100)+"%";
 }
