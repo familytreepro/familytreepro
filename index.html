@@ -693,6 +693,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 </div>
 <div class="form-row">
 <select id="parent"><option value="">بدون پدر/مادر</option></select>
+<select id="mother" class="female-sensitive"><option value="">بدون مادر</option></select>
 <input id="job" placeholder="شغل"/>
 <input id="phone" placeholder="شماره تماس"/>
 </div>
@@ -1306,6 +1307,7 @@ function savePerson(){
       gender:document.getElementById("gender").value,  
       birth:document.getElementById("birth").value.trim(),  
       parentId:document.getElementById("parent").value||"",  
+      motherId:document.getElementById("mother")?document.getElementById("mother").value||"":"",
       job:document.getElementById("job").value.trim(),  
       phone:document.getElementById("phone").value.trim(),
       photo:photo,
@@ -1316,6 +1318,7 @@ function savePerson(){
       let old=people.find(p=>p.id==id);  
       data.photo=photo||old.photo||"";  
       data.spouses=old.spouses||[];
+      if(!data.motherId && old.motherId)data.motherId=old.motherId;
       data.deathDate=old.deathDate||"";
       data.gravePlace=old.gravePlace||"";
       data.deathNote=old.deathNote||"";
@@ -1347,6 +1350,7 @@ function editPerson(id){
   document.getElementById("gender").value=p.gender;  
   document.getElementById("birth").value=p.birth||"";  
   document.getElementById("parent").value=p.parentId||"";  
+  if(document.getElementById("mother"))document.getElementById("mother").value=p.motherId||"";
   document.getElementById("job").value=p.job||"";  
   document.getElementById("phone").value=p.phone||"";
   ensureFamilyFields(p);
@@ -1380,6 +1384,7 @@ function descendants(id){
 function clearForm(){  
   ["editId","name","birth","job","phone"].forEach(id=>document.getElementById(id).value="");  
   document.getElementById("parent").value="";  
+  if(document.getElementById("mother"))document.getElementById("mother").value="";
   document.getElementById("photo").value="";
   setLifeStatus('alive');
 }  
@@ -1388,6 +1393,7 @@ function render(){
   applyHideWomenClass();
   renderStats();  
   renderParentOptions();  
+  renderMotherOptions();
   renderList();  
   renderTree();  
   renderBirthdays();  
@@ -1426,6 +1432,14 @@ function renderParentOptions(){
   document.getElementById("parent").innerHTML='<option value="">بدون پدر/مادر</option>'+visiblePeople().map(p=>`<option value="${p.id}">${p.name}</option>`).join("");  
   document.getElementById("parent").value=current;
   renderTreeRootOptions();
+}  
+
+function renderMotherOptions(){
+  const mother=document.getElementById("mother");
+  if(!mother)return;
+  const current=mother.value;
+  mother.innerHTML='<option value="">بدون مادر</option>'+visiblePeople().filter(p=>p.gender==="female").map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
+  mother.value=current;
 }  
   
 function renderList(){  
