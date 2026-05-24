@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V143 Clean Safe",
+  "name": "FamilyTreePro V144",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=143-clean-safe",
+  "start_url": "./index.html?v=144-backup-sync-queue",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V143 Clean Safe",
+  "description": "FamilyTreePro V144 Backup Sync Queue",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
