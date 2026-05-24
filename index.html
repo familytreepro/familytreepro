@@ -692,7 +692,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <input id="birth" placeholder="سال تولد"/>
 </div>
 <div class="form-row">
-<select id="parent"><option value="">بدون پدر/مادر</option></select>
+<select id="parent" onchange="autoSetMotherFromParent()"><option value="">بدون پدر/مادر</option></select>
 <select id="mother" class="female-sensitive"><option value="">بدون مادر</option></select>
 <input id="job" placeholder="شغل"/>
 <input id="phone" placeholder="شماره تماس"/>
@@ -1307,7 +1307,7 @@ function savePerson(){
       gender:document.getElementById("gender").value,  
       birth:document.getElementById("birth").value.trim(),  
       parentId:document.getElementById("parent").value||"",  
-      motherId:document.getElementById("mother")?document.getElementById("mother").value||"":"",
+      motherId:(document.getElementById("mother")&&document.getElementById("mother").value)||autoFindMotherFromFather(document.getElementById("parent").value)||"",
       job:document.getElementById("job").value.trim(),  
       phone:document.getElementById("phone").value.trim(),
       photo:photo,
@@ -1441,6 +1441,34 @@ function renderMotherOptions(){
   mother.innerHTML='<option value="">بدون مادر</option>'+visiblePeople().filter(p=>p.gender==="female").map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
   mother.value=current;
 }  
+
+function autoFindMotherFromFather(fatherId){
+  const father=people.find(p=>String(p.id)===String(fatherId));
+  if(!father)return "";
+  ensureFamilyFields(father);
+  const wife=(father.spouses||[])
+    .map(id=>people.find(x=>String(x.id)===String(id)))
+    .find(x=>x && x.gender==="female");
+  return wife ? wife.id : "";
+}
+
+function autoSetMotherFromParent(){
+  const mother=document.getElementById("mother");
+  const parent=document.getElementById("parent");
+  if(!mother||!parent)return;
+  if(mother.value)return;
+  const found=autoFindMotherFromFather(parent.value);
+  if(found)mother.value=found;
+}
+
+function syncChildrenMotherFromMarriage(fatherId,motherId){
+  if(!fatherId||!motherId)return;
+  people.forEach(child=>{
+    if(String(child.parentId||"")===String(fatherId) && !child.motherId){
+      child.motherId=motherId;
+    }
+  });
+}
   
 function renderList(){  
   let q=document.getElementById("search").value.trim().toLowerCase();  
@@ -2214,6 +2242,8 @@ function addMarriage(){
   ensureFamilyFields(pa); ensureFamilyFields(pb);
   if(!pa.spouses.includes(pb.id))pa.spouses.push(pb.id);
   if(!pb.spouses.includes(pa.id))pb.spouses.push(pa.id);
+  if(pa.gender==="male" && pb.gender==="female")syncChildrenMotherFromMarriage(pa.id,pb.id);
+  if(pb.gender==="male" && pa.gender==="female")syncChildrenMotherFromMarriage(pb.id,pa.id);
   save();
   document.getElementById("spouseA").value="";
   document.getElementById("spouseB").value="";
