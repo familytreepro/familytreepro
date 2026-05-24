@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v142-layer-fix-no-cache';
+const CACHE_NAME = 'familytreepro-v145-auto-backup-cloud-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
