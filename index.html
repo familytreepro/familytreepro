@@ -676,6 +676,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 <div class="card stat purple"><div>کل افراد<div class="num" id="total">0</div></div><div class="icon">👥</div></div>
 <div class="card stat blue"><div>مردان<div class="num" id="male">0</div></div><div class="icon">👨</div></div>
 <div class="card stat pink"><div>زنان<div class="num" id="female">0</div></div><div class="icon">👩</div></div>
+<div class="card stat green"><div>فوت‌شده‌ها<div class="num" id="deadHome">0</div></div><div class="icon">🪦</div></div>
 <div class="card stat green"><div>نسل‌ها<div class="num" id="gens">0</div></div><div class="icon">🌳</div></div>
 </div>
 </section>
@@ -1406,6 +1407,8 @@ function renderStats(){
   document.getElementById("total").innerText=visiblePeople().length;  
   document.getElementById("male").innerText=visiblePeople().filter(p=>p.gender==="male").length;  
   document.getElementById("female").innerText=hideWomen?0:people.filter(p=>p.gender==="female").length;  
+  const deadHome=document.getElementById("deadHome");
+  if(deadHome) deadHome.innerText=visiblePeople().filter(p=>{ensureFamilyFields(p); return p.isDead;}).length;
   document.getElementById("gens").innerText=maxDepth();  
 }  
   
