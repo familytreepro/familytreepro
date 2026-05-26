@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V149.3",
+  "name": "FamilyTreePro V149.4",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=149.3-photo-ai-safe",
+  "start_url": "./index.html?v=149-4-photo-death-mother-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V149.3 Photo AI Safe",
+  "description": "FamilyTreePro V149.4 Photo Death Mother Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
