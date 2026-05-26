@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v146-home-update-button-no-cache';
+const CACHE_NAME = 'familytreepro-v147-auth-real-table';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
