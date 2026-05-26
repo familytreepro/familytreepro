@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v148-clean-layer-stable-no-cache';
+const CACHE_NAME = 'familytreepro-v149-photo-ai-safe-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
