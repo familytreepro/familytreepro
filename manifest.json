@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V145",
+  "name": "FamilyTreePro V148",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=145-auto-backup-cloud",
+  "start_url": "./index.html?v=148-clean-layer-stable",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V145 Backup Sync Queue",
+  "description": "FamilyTreePro V148 Clean Layer Stable",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
