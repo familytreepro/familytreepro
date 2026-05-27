@@ -1,6 +1,6 @@
 {
-  "name": "FamilyTreePro V160",
-  "short_name": "FTP V160",
+  "name": "FamilyTreePro V162 Clean",
+  "short_name": "FTP V162",
   "start_url": "./index.html?v=156-tree-mouse-export-max",
   "display": "standalone",
   "background_color": "#071b35",
