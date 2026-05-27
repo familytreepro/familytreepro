@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v152-super-tree-poster';
+const CACHE_NAME = 'familytreepro-v153-single-tree-pro-stable-auth-tree-repair';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
