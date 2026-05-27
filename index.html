@@ -3974,8 +3974,9 @@ window.renderAuthUsersTable=function(){
     const roleControl=canAdmin ? '<select class="auth-role-select" onchange="changeAuthUserRole(this.dataset.uid,this.value)" data-uid="'+uid+'"><option value="viewer" '+(role==='viewer'?'selected':'')+'>نمایشگر</option><option value="editor" '+(role==='editor'?'selected':'')+'>✏️ ویرایشگر</option><option value="admin" '+(role==='admin'?'selected':'')+'>مدیر</option></select>' : '<span class="auth-badge '+authSafe(role)+'">'+authRoleLabel(role)+'</span>';
     const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">تأیید</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
     const resetArg = authSafe(JSON.stringify(String(u.email||'')));
+    const verifyEmailBtn = canAdmin ? (u.emailVerified ? '' : '<button class="btn blue-btn" onclick="verifyAuthUserEmail(\''+uid+'\')" type="button">تأیید ایمیل</button>') : '';
     const resetBtn = u.email ? '<button class="btn blue-btn" onclick="sendResetForAuthUser('+resetArg+')" type="button">بازیابی رمز</button>' : '<span class="auth-badge unverified">بدون ایمیل</span>';
-    return '<tr><td><b>'+authSafe([u.firstName,u.lastName].filter(Boolean).join(' ') || u.name || 'کاربر')+'</b><br><small>'+authSafe(u.uid||u.id||'-')+'</small></td><td>'+authSafe(u.phone||'-')+'</td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td><div class="auth-actions">'+approveBtn+resetBtn+'</div></td></tr>';
+    return '<tr><td><b>'+authSafe([u.firstName,u.lastName].filter(Boolean).join(' ') || u.name || 'کاربر')+'</b><br><small>'+authSafe(u.uid||u.id||'-')+'</small></td><td>'+authSafe(u.phone||'-')+'</td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td><div class="auth-actions">'+approveBtn+verifyEmailBtn+resetBtn+'</div></td></tr>';
   }).join('');
   list.innerHTML='<div class="auth-user-table"><table><thead><tr><th>کاربر</th><th>شماره تلفن</th><th>ایمیل</th><th>وضعیت ایمیل</th><th>نقش</th><th>عملیات واقعی</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">V147: جدول احراز مرتب شد و دکمه‌های عملیات به توابع واقعی Firebase وصل هستند؛ هیچ لایه یا پنل جدید اضافه نشده است.</div>';
 };
@@ -3989,6 +3990,18 @@ window.approveAuthUser=async function(uid){
     const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='کاربر توسط مدیر تأیید شد.';
   }catch(e){alert('تأیید کاربر ناموفق: '+v86FirebaseError(e.code||e.message));}
 };
+
+window.verifyAuthUserEmail=async function(uid){
+  if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند ایمیل را تأیید کند.');return;}
+  if(!uid){alert('شناسه کاربر پیدا نشد.');return;}
+  try{
+    await setDoc(doc(db,'users',uid),{emailVerified:true,emailVerifiedAt:serverTimestamp(),emailVerifiedBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
+    const u=window.authUsersCache.find(x=>String(x.id||x.uid)===String(uid)); if(u) u.emailVerified=true;
+    renderAuthUsersTable();
+    const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='ایمیل کاربر تأیید شد.';
+  }catch(e){alert('تأیید ایمیل ناموفق: '+v86FirebaseError(e.code||e.message));}
+};
+
 window.changeAuthUserRole=async function(uid,role){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند نقش کاربران را تغییر دهد.');return;}
   if(!uid || !['admin','editor','viewer'].includes(role)){alert('نقش معتبر نیست.');return;}
