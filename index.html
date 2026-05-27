@@ -698,6 +698,19 @@ body.app-ready #login{display:none!important;visibility:hidden!important;pointer
 })();
 </script>
 
+
+<style id="v149-confirm-only-btn">
+.auth-users-table td .btn-blue,
+.auth-users-table td .btn-reset,
+.auth-users-table td button.blue-btn{
+display:none!important;
+}
+.auth-users-table td .btn-green,
+.auth-users-table td button.green-btn{
+min-width:90px!important;
+}
+</style>
+
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
@@ -3959,7 +3972,7 @@ window.renderAuthUsersTable=function(){
     const uid=authSafe(u.id||u.uid);
     const approved=!!u.adminApproved || role==='admin';
     const roleControl=canAdmin ? '<select class="auth-role-select" onchange="changeAuthUserRole(this.dataset.uid,this.value)" data-uid="'+uid+'"><option value="viewer" '+(role==='viewer'?'selected':'')+'>نمایشگر</option><option value="editor" '+(role==='editor'?'selected':'')+'>✏️ ویرایشگر</option><option value="admin" '+(role==='admin'?'selected':'')+'>مدیر</option></select>' : '<span class="auth-badge '+authSafe(role)+'">'+authRoleLabel(role)+'</span>';
-    const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">✓ تأیید مدیر</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
+    const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">تأیید</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
     const resetArg = authSafe(JSON.stringify(String(u.email||'')));
     const resetBtn = u.email ? '<button class="btn blue-btn" onclick="sendResetForAuthUser('+resetArg+')" type="button">بازیابی رمز</button>' : '<span class="auth-badge unverified">بدون ایمیل</span>';
     return '<tr><td><b>'+authSafe([u.firstName,u.lastName].filter(Boolean).join(' ') || u.name || 'کاربر')+'</b><br><small>'+authSafe(u.uid||u.id||'-')+'</small></td><td>'+authSafe(u.phone||'-')+'</td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td><div class="auth-actions">'+approveBtn+resetBtn+'</div></td></tr>';
