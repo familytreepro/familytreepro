@@ -4734,42 +4734,6 @@ async function runHomeUpdateRepair(){
       if(!w){alert('Popup مرورگر بسته است. اجازه باز شدن پنجره چاپ را بدهید.');return;}
       w.document.open();
       w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ شجره</title><style>'+collectTreeStyles()+'</style></head><body><h2 style="text-align:center">شجره‌نامه خانواده</h2>'+treeHtmlClone()+'<script>setTimeout(function(){window.focus();window.print();},500);<\/script>
-
-<style id="v156-botanical-tree-css">
-.v156-botanical svg .node rect{
-  rx:18; ry:18;
-  fill:#ffffff;
-  stroke:#4d5b46;
-  stroke-width:1.4;
-}
-.v156-botanical svg path,
-.v156-botanical svg line{
-  stroke:#556b50 !important;
-  stroke-width:2.2 !important;
-  stroke-linecap:round;
-}
-.v156-botanical svg .leaf-decoration{
-  fill:none;
-  stroke:#7a8f70;
-  stroke-width:1.2;
-}
-</style>
-<script>
-window.v156BotanicalEnabled=false;
-window.v156ToggleBotanical=function(){
-  window.v156BotanicalEnabled=!window.v156BotanicalEnabled;
-  var box=document.getElementById('v154TreePreview');
-  if(box){
-    if(window.v156BotanicalEnabled){
-      box.classList.add('v156-botanical');
-    }else{
-      box.classList.remove('v156-botanical');
-    }
-  }
-  alert(window.v156BotanicalEnabled ? 'حالت درخت هنری فعال شد' : 'حالت درخت هنری غیرفعال شد');
-};
-</script>
-
 </body></html>');
       w.document.close();
     },150);
@@ -4784,42 +4748,6 @@ window.v156ToggleBotanical=function(){
     setTimeout(function(){
       var wrap=document.getElementById('treeWrap'); if(!wrap){alert('شجره پیدا نشد.');return;}
       var html='<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>FamilyTreePro Tree</title><style>'+collectTreeStyles()+'</style></head><body>'+treeHtmlClone()+'
-
-<style id="v156-botanical-tree-css">
-.v156-botanical svg .node rect{
-  rx:18; ry:18;
-  fill:#ffffff;
-  stroke:#4d5b46;
-  stroke-width:1.4;
-}
-.v156-botanical svg path,
-.v156-botanical svg line{
-  stroke:#556b50 !important;
-  stroke-width:2.2 !important;
-  stroke-linecap:round;
-}
-.v156-botanical svg .leaf-decoration{
-  fill:none;
-  stroke:#7a8f70;
-  stroke-width:1.2;
-}
-</style>
-<script>
-window.v156BotanicalEnabled=false;
-window.v156ToggleBotanical=function(){
-  window.v156BotanicalEnabled=!window.v156BotanicalEnabled;
-  var box=document.getElementById('v154TreePreview');
-  if(box){
-    if(window.v156BotanicalEnabled){
-      box.classList.add('v156-botanical');
-    }else{
-      box.classList.remove('v156-botanical');
-    }
-  }
-  alert(window.v156BotanicalEnabled ? 'حالت درخت هنری فعال شد' : 'حالت درخت هنری غیرفعال شد');
-};
-</script>
-
 </body></html>';
       var blob=new Blob([html],{type:'text/html;charset=utf-8'});
       var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='family-tree-print.html'; a.click(); setTimeout(function(){URL.revokeObjectURL(a.href);},1000);
@@ -4992,43 +4920,7 @@ body.dark .v154-tree-preview{background:#0f172a}
       if(!w){alert('Popup بسته است. اجازه باز شدن پنجره چاپ را بده.');return;}
       var css='@page{size:A1 landscape;margin:8mm} html,body{margin:0;padding:0;background:white;color:#172033;font-family:tahoma,Arial}.v154-print-tools{padding:8px;text-align:center}.sheet{width:100%;height:auto;overflow:visible;text-align:center}.sheet svg{max-width:100%;height:auto;display:block;margin:0 auto} @media print{.v154-print-tools{display:none!important}.sheet{page-break-inside:avoid}}';
       w.document.open();
-      w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ A1 شجره</title><style>'+css+'</style></head><body class="v154-print-page"><div class="v154-print-tools"><button onclick="window.print()">چاپ A1</button> <button onclick="window.v156ToggleBotanical()">حالت درخت هنری</button> <button onclick="window.close()">بستن</button><div>اگر پرینتر A1 نداری، در Print گزینه Save as PDF و Paper size: A1 Landscape را انتخاب کن.</div></div><div class="sheet">'+r.svg+'</div><script>setTimeout(function(){window.focus();},300);<\/script>
-<style id="v156-botanical-tree-css">
-.v156-botanical svg .node rect{
-  rx:18; ry:18;
-  fill:#ffffff;
-  stroke:#4d5b46;
-  stroke-width:1.4;
-}
-.v156-botanical svg path,
-.v156-botanical svg line{
-  stroke:#556b50 !important;
-  stroke-width:2.2 !important;
-  stroke-linecap:round;
-}
-.v156-botanical svg .leaf-decoration{
-  fill:none;
-  stroke:#7a8f70;
-  stroke-width:1.2;
-}
-</style>
-<script>
-window.v156BotanicalEnabled=false;
-window.v156ToggleBotanical=function(){
-  window.v156BotanicalEnabled=!window.v156BotanicalEnabled;
-  var box=document.getElementById('v154TreePreview');
-  if(box){
-    if(window.v156BotanicalEnabled){
-      box.classList.add('v156-botanical');
-    }else{
-      box.classList.remove('v156-botanical');
-    }
-  }
-  alert(window.v156BotanicalEnabled ? 'حالت درخت هنری فعال شد' : 'حالت درخت هنری غیرفعال شد');
-};
-</script>
-
-</body></html>');
+      w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ A1 شجره</title><style>'+css+'</style></head><body class="v154-print-page"><div class="v154-print-tools"><button onclick="window.print()">چاپ A1</button> <button onclick="window.close()">بستن</button><div>اگر پرینتر A1 نداری، در Print گزینه Save as PDF و Paper size: A1 Landscape را انتخاب کن.</div></div><div class="sheet">'+r.svg+'</div><script>setTimeout(function(){window.focus();},300);<\/script></body></html>');
       w.document.close();
     },140);
   };
@@ -5146,43 +5038,7 @@ window.v156ToggleBotanical=function(){
       var svgText=new XMLSerializer().serializeToString(svg); var cfg=paper[getSize()]||paper.A1; var size=(getSize()==='MAX'?'A0':getSize());
       var w=window.open('','_blank'); if(!w){alert('Popup بسته است. اجازه باز شدن پنجره چاپ را بده.');return;}
       var css='@page{size:'+size+' landscape;margin:6mm} html,body{margin:0;background:white;color:#172033;font-family:tahoma,Arial}.tools{padding:8px;text-align:center}.sheet{width:100%;height:auto;overflow:visible;text-align:center}.sheet svg{width:100%;height:auto;display:block;margin:0 auto}@media print{.tools{display:none!important}}';
-      w.document.open(); w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ شجره '+size+'</title><style>'+css+'</style></head><body><div class="tools"><button onclick="window.print()">چاپ '+size+'</button> <button onclick="window.close()">بستن</button><div>در Print، Paper Size را روی '+size+' و Landscape بگذار.</div></div><div class="sheet">'+svgText+'</div><script>setTimeout(function(){window.focus();},300);<\/script>
-<style id="v156-botanical-tree-css">
-.v156-botanical svg .node rect{
-  rx:18; ry:18;
-  fill:#ffffff;
-  stroke:#4d5b46;
-  stroke-width:1.4;
-}
-.v156-botanical svg path,
-.v156-botanical svg line{
-  stroke:#556b50 !important;
-  stroke-width:2.2 !important;
-  stroke-linecap:round;
-}
-.v156-botanical svg .leaf-decoration{
-  fill:none;
-  stroke:#7a8f70;
-  stroke-width:1.2;
-}
-</style>
-<script>
-window.v156BotanicalEnabled=false;
-window.v156ToggleBotanical=function(){
-  window.v156BotanicalEnabled=!window.v156BotanicalEnabled;
-  var box=document.getElementById('v154TreePreview');
-  if(box){
-    if(window.v156BotanicalEnabled){
-      box.classList.add('v156-botanical');
-    }else{
-      box.classList.remove('v156-botanical');
-    }
-  }
-  alert(window.v156BotanicalEnabled ? 'حالت درخت هنری فعال شد' : 'حالت درخت هنری غیرفعال شد');
-};
-</script>
-
-</body></html>'); w.document.close();
+      w.document.open(); w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ شجره '+size+'</title><style>'+css+'</style></head><body><div class="tools"><button onclick="window.print()">چاپ '+size+'</button> <button onclick="window.close()">بستن</button><div>در Print، Paper Size را روی '+size+' و Landscape بگذار.</div></div><div class="sheet">'+svgText+'</div><script>setTimeout(function(){window.focus();},300);<\/script></body></html>'); w.document.close();
     },350);
   }
   function addControls(){
@@ -5225,7 +5081,8 @@ body.dark .v156-tree-wrap{background:#0f172a}
 <script id="v156-single-svg-tree-pro-js">
 (function(){
   'use strict';
-  var VERSION='FamilyTreePro V156 Single SVG Tree Pro';
+  var VERSION='FamilyTreePro V157 Botanical Tree Output';
+  var botanicalMode=false;
   var NODE_W=178, NODE_H=104, GAP_X=42, GAP_Y=86, ROOT_GAP=92, PAD=70;
   var zoom=1, panBound=false, lastSvgText='';
   var paper={A4:{w:3508,h:2480,label:'A4'},A3:{w:4961,h:3508,label:'A3'},A2:{w:7016,h:4961,label:'A2'},A1:{w:9933,h:7016,label:'A1'},A0:{w:14043,h:9933,label:'A0'},MAX:{w:18000,h:12000,label:'MAX'}};
@@ -5252,6 +5109,7 @@ body.dark .v156-tree-wrap{background:#0f172a}
       +'<button class="btn blue-btn" type="button" onclick="v156Fit()">Fit کامل</button>'
       +'<button class="btn gray-btn" type="button" onclick="collapseAllTree()">بستن شاخه‌ها</button>'
       +'<button class="btn gray-btn" type="button" onclick="expandAllTree()">باز کردن همه</button>'
+      +'<button class="btn green-btn" id="v157BotanicalBtn" type="button" onclick="v157ToggleBotanical()">🌿 شکل درخت</button>'
       +'<button class="btn" type="button" onclick="v156DownloadSVG()">SVG برداری</button>'
       +'<button class="btn" type="button" onclick="v156ExportPNG()">PNG بزرگ</button>'
       +'<button class="btn pink-btn" type="button" onclick="v156Print()">چاپ</button>'
@@ -5325,20 +5183,59 @@ body.dark .v156-tree-wrap{background:#0f172a}
       +(spouse?'<text x="'+(x+NODE_W/2)+'" y="'+(y+99)+'" text-anchor="middle" font-size="10" fill="#155e75">'+esc(spouse)+'</text>':'')
       +'</g>';
   }
+  function leafSvg(x,y,ang,scale){
+    var r=(scale||1), dx=Math.cos(ang)*12*r, dy=Math.sin(ang)*12*r;
+    var cx=x+dx, cy=y+dy;
+    return '<ellipse cx="'+cx.toFixed(1)+'" cy="'+cy.toFixed(1)+'" rx="5" ry="14" transform="rotate('+((ang*180/Math.PI)+90).toFixed(1)+' '+cx.toFixed(1)+' '+cy.toFixed(1)+')" fill="none" stroke="#556b50" stroke-width="1.2" opacity=".86"/>';
+  }
+  function botanicalNodeSvg(n,totalH){
+    var p=n.p, bx=n.x, by=totalH-(n.y+NODE_H/2);
+    var name=String(p.name||'بدون نام'); if(name.length>20) name=name.slice(0,19)+'…';
+    var meta=p.birth?String(p.birth):'';
+    var side=(n.x<(totalH/2)?-1:1);
+    var lx=bx+(n.level%2?28:-28), ly=by-10;
+    return '<g class="v157-botanical-person" data-id="'+esc(p.id)+'">'
+      +'<circle cx="'+bx+'" cy="'+by+'" r="3.2" fill="#2f3f2f"/>'
+      +leafSvg(bx+(n.level%2?12:-12),by-7,(n.level%2?-.65:-2.45),.75)
+      +'<text x="'+lx+'" y="'+ly+'" text-anchor="'+(n.level%2?'start':'end')+'" font-family="Tahoma,Arial" font-size="13" font-weight="700" fill="#111827">'+esc(name)+'</text>'
+      +(meta?'<text x="'+lx+'" y="'+(ly+16)+'" text-anchor="'+(n.level%2?'start':'end')+'" font-family="Tahoma,Arial" font-size="10" fill="#475569">'+esc(meta)+'</text>':'')
+      +'</g>';
+  }
+  function botanicalRender(l){
+    var totalH=l.height+180, stemX=l.width/2;
+    var lines=['<path d="M'+stemX+' '+(totalH-60)+' L'+stemX+' 80" fill="none" stroke="#2f3f2f" stroke-width="2.6" stroke-linecap="round"/>'];
+    l.links.forEach(function(a,i){
+      var x1=a.x1, y1=totalH-(a.y1-NODE_H/2), x2=a.x2, y2=totalH-(a.y2+NODE_H/2);
+      lines.push('<path d="M'+x1.toFixed(1)+' '+y1.toFixed(1)+' L'+x2.toFixed(1)+' '+y2.toFixed(1)+'" fill="none" stroke="#2f3f2f" stroke-width="2.1" stroke-linecap="round"/>');
+      var ang=Math.atan2(y2-y1,x2-x1), mx=(x1+x2)/2, my=(y1+y2)/2;
+      if(i%2===0) lines.push(leafSvg(mx,my,ang-.85,.9));
+      if(i%3===0) lines.push(leafSvg(mx+10,my-10,ang+.85,.7));
+    });
+    l.nodes.forEach(function(n){ if(n.level===1){lines.push('<rect x="'+(n.x-42)+'" y="'+(totalH-55)+'" width="84" height="50" rx="6" fill="#fff" stroke="#2f3f2f" stroke-width="1.5"/>');} });
+    var persons=l.nodes.map(function(n){return botanicalNodeSvg(n,totalH)}).join('');
+    var title='<text x="'+(l.width/2)+'" y="36" text-anchor="middle" font-family="Tahoma,Arial" font-size="24" font-weight="700" fill="#111827">شجره‌نامه خانواده - طرح درخت هنری</text><text x="'+(l.width/2)+'" y="60" text-anchor="middle" font-family="Tahoma,Arial" font-size="12" fill="#64748b">'+l.nodes.length+' نفر | '+l.depth+' نسل | خروجی مناسب چاپ A1/A0</text>';
+    return {w:l.width,h:totalH,body:'<rect width="100%" height="100%" fill="#fff"/>'+title+'<g>'+lines.join('')+persons+'</g>'};
+  }
   function renderSvg(){
     initTreeDOM(); setupToolbar();
     var l=buildLayout();
     var svg=$('v156TreeSvg'); if(!svg) return;
-    var linkSvg=l.links.map(function(a){var mid=(a.y1+a.y2)/2;return '<path d="M'+a.x1+' '+a.y1+' C '+a.x1+' '+mid+', '+a.x2+' '+mid+', '+a.x2+' '+a.y2+'" fill="none" stroke="#94a3b8" stroke-width="2"/>';}).join('');
-    var body=l.nodes.length? linkSvg + l.nodes.map(nodeSvg).join('') : '<text x="600" y="250" text-anchor="middle" font-family="Tahoma" font-size="24" fill="#64748b">هنوز فردی برای شجره ثبت نشده است</text>';
-    var title='<text x="'+(l.width/2)+'" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#071b35">شجره‌نامه خانواده</text><text x="'+(l.width/2)+'" y="58" text-anchor="middle" font-size="12" fill="#64748b">'+esc(VERSION)+' | '+l.nodes.length+' نفر | '+l.depth+' نسل</text>';
-    svg.setAttribute('width',l.width); svg.setAttribute('height',l.height+40); svg.setAttribute('viewBox','0 0 '+l.width+' '+(l.height+40));
-    svg.innerHTML='<rect width="100%" height="100%" fill="#fff"/>'+title+'<g transform="translate(0 40)">'+body+'</g>';
+    if(botanicalMode){
+      var b=botanicalRender(l);
+      svg.setAttribute('width',b.w); svg.setAttribute('height',b.h); svg.setAttribute('viewBox','0 0 '+b.w+' '+b.h);
+      svg.innerHTML=b.body;
+    }else{
+      var linkSvg=l.links.map(function(a){var mid=(a.y1+a.y2)/2;return '<path d="M'+a.x1+' '+a.y1+' C '+a.x1+' '+mid+', '+a.x2+' '+mid+', '+a.x2+' '+a.y2+'" fill="none" stroke="#94a3b8" stroke-width="2"/>';}).join('');
+      var body=l.nodes.length? linkSvg + l.nodes.map(nodeSvg).join('') : '<text x="600" y="250" text-anchor="middle" font-family="Tahoma" font-size="24" fill="#64748b">هنوز فردی برای شجره ثبت نشده است</text>';
+      var title='<text x="'+(l.width/2)+'" y="34" text-anchor="middle" font-size="22" font-weight="700" fill="#071b35">شجره‌نامه خانواده</text><text x="'+(l.width/2)+'" y="58" text-anchor="middle" font-size="12" fill="#64748b">'+esc(VERSION)+' | '+l.nodes.length+' نفر | '+l.depth+' نسل</text>';
+      svg.setAttribute('width',l.width); svg.setAttribute('height',l.height+40); svg.setAttribute('viewBox','0 0 '+l.width+' '+(l.height+40));
+      svg.innerHTML='<rect width="100%" height="100%" fill="#fff"/>'+title+'<g transform="translate(0 40)">'+body+'</g>';
+    }
     lastSvgText=new XMLSerializer().serializeToString(svg);
     updateMini(l);
     applyZoom();
   }
-  function updateMini(l){var m=$('treeMiniMap'); if(m)m.innerHTML='<b>V156 تک‌شجره SVG:</b> '+l.nodes.length+' نفر | عمق '+l.depth+' نسل | اندازه '+l.width+'×'+(l.height+40)+' | زوم '+Math.round(zoom*100)+'٪ | خروجی برداری آماده';}
+  function updateMini(l){var m=$('treeMiniMap'); if(m)m.innerHTML='<b>'+(botanicalMode?'V157 شکل درخت هنری':'V156 تک‌شجره SVG')+':</b> '+l.nodes.length+' نفر | عمق '+l.depth+' نسل | اندازه '+l.width+'×'+(l.height+40)+' | زوم '+Math.round(zoom*100)+'٪ | خروجی برداری آماده';}
   function applyZoom(){var svg=$('v156TreeSvg'); if(svg){svg.style.transform='scale('+zoom+')'; svg.style.marginRight='0';} var zl=$('zoomLabel'); if(zl)zl.textContent=Math.round(zoom*100)+'%';}
   function setZoom(z,cx,cy){var wrap=$('treeWrap'); var old=zoom; zoom=Math.max(0.03,Math.min(5,z)); if(wrap){var ox=cx==null?wrap.clientWidth/2:cx, oy=cy==null?wrap.clientHeight/2:cy; var px=(wrap.scrollLeft+ox)/old, py=(wrap.scrollTop+oy)/old; applyZoom(); wrap.scrollLeft=px*zoom-ox; wrap.scrollTop=py*zoom-oy;} else applyZoom();}
   function fit(){var wrap=$('treeWrap'), svg=$('v156TreeSvg'); if(!wrap||!svg) return; var w=Number(svg.getAttribute('width'))||1, h=Number(svg.getAttribute('height'))||1; var z=Math.min((wrap.clientWidth-30)/w,(wrap.clientHeight-30)/h); setZoom(Math.max(0.03,Math.min(1.25,z))); setTimeout(function(){wrap.scrollLeft=Math.max(0,(w*zoom-wrap.clientWidth)/2);wrap.scrollTop=0;},50);}
@@ -5365,43 +5262,7 @@ body.dark .v156-tree-wrap{background:#0f172a}
     renderSvg(); var size=($('v156Paper')&&$('v156Paper').value)||'A1'; if(size==='MAX')size='A0';
     var w=window.open('','_blank'); if(!w){alert('Popup بسته است. اجازه باز شدن پنجره چاپ را بده.');return;}
     var css='@page{size:'+size+' landscape;margin:5mm}html,body{margin:0;background:white;font-family:tahoma,Arial}.tools{padding:10px;text-align:center;direction:rtl}.sheet{width:100%;height:auto}.sheet svg{width:100%;height:auto;display:block}@media print{.tools{display:none!important}}';
-    w.document.open();w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ شجره '+size+'</title><style>'+css+'</style></head><body><div class="tools"><button onclick="window.print()">چاپ '+size+'</button><p>در پنجره Print، Paper Size را روی '+size+' و Landscape بگذار.</p></div><div class="sheet">'+lastSvgText+'</div>
-<style id="v156-botanical-tree-css">
-.v156-botanical svg .node rect{
-  rx:18; ry:18;
-  fill:#ffffff;
-  stroke:#4d5b46;
-  stroke-width:1.4;
-}
-.v156-botanical svg path,
-.v156-botanical svg line{
-  stroke:#556b50 !important;
-  stroke-width:2.2 !important;
-  stroke-linecap:round;
-}
-.v156-botanical svg .leaf-decoration{
-  fill:none;
-  stroke:#7a8f70;
-  stroke-width:1.2;
-}
-</style>
-<script>
-window.v156BotanicalEnabled=false;
-window.v156ToggleBotanical=function(){
-  window.v156BotanicalEnabled=!window.v156BotanicalEnabled;
-  var box=document.getElementById('v154TreePreview');
-  if(box){
-    if(window.v156BotanicalEnabled){
-      box.classList.add('v156-botanical');
-    }else{
-      box.classList.remove('v156-botanical');
-    }
-  }
-  alert(window.v156BotanicalEnabled ? 'حالت درخت هنری فعال شد' : 'حالت درخت هنری غیرفعال شد');
-};
-</script>
-
-</body></html>');w.document.close();
+    w.document.open();w.document.write('<!doctype html><html dir="rtl" lang="fa"><head><meta charset="utf-8"><title>چاپ شجره '+size+'</title><style>'+css+'</style></head><body><div class="tools"><button onclick="window.print()">چاپ '+size+'</button><p>در پنجره Print، Paper Size را روی '+size+' و Landscape بگذار.</p></div><div class="sheet">'+lastSvgText+'</div></body></html>');w.document.close();
   }
   function refreshRootOptions(){
     var sel=$('treeRootFilter'); if(!sel)return; var cur=sel.value; var idx=dataIndex();
@@ -5410,48 +5271,12 @@ window.v156ToggleBotanical=function(){
   window.renderTree=function(){refreshRootOptions();renderSvg();};
   window.scheduleRenderTree=function(){clearTimeout(window.__v156TreeTimer);window.__v156TreeTimer=setTimeout(renderSvg,60);};
   window.exportPNG=exportPNG; window.printTreeSafe=printTree; window.v156DownloadSVG=downloadSVG; window.v156ExportPNG=exportPNG; window.v156Print=printTree;
-  window.v156Fit=fit; window.v156Zoom=function(f){setZoom(zoom*f)}; window.v156ResetZoom=function(){setZoom(1)};
+  window.v156Fit=fit; window.v156Zoom=function(f){setZoom(zoom*f)}; window.v156ResetZoom=function(){setZoom(1)}; window.v157ToggleBotanical=function(){botanicalMode=!botanicalMode; var btn=$('v157BotanicalBtn'); if(btn)btn.textContent=botanicalMode?'🔙 نمای شجره معمولی':'🌿 شکل درخت'; renderSvg(); setTimeout(fit,80);};
   var oldExpand=window.expandAllTree; window.expandAllTree=function(){try{window.treeCollapsed={};localStorage.setItem('family_tree_collapsed_', '{}');}catch(e){} if(oldExpand&&oldExpand!==window.expandAllTree)try{oldExpand()}catch(e){} renderSvg();};
   function boot(){initTreeDOM();setupToolbar();refreshRootOptions();renderSvg();setTimeout(fit,120);}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot); else boot();
   window.addEventListener('load',function(){setTimeout(boot,300);setTimeout(function(){renderSvg();fit();},1400);});
 })();
-</script>
-
-
-<style id="v156-botanical-tree-css">
-.v156-botanical svg .node rect{
-  rx:18; ry:18;
-  fill:#ffffff;
-  stroke:#4d5b46;
-  stroke-width:1.4;
-}
-.v156-botanical svg path,
-.v156-botanical svg line{
-  stroke:#556b50 !important;
-  stroke-width:2.2 !important;
-  stroke-linecap:round;
-}
-.v156-botanical svg .leaf-decoration{
-  fill:none;
-  stroke:#7a8f70;
-  stroke-width:1.2;
-}
-</style>
-<script>
-window.v156BotanicalEnabled=false;
-window.v156ToggleBotanical=function(){
-  window.v156BotanicalEnabled=!window.v156BotanicalEnabled;
-  var box=document.getElementById('v154TreePreview');
-  if(box){
-    if(window.v156BotanicalEnabled){
-      box.classList.add('v156-botanical');
-    }else{
-      box.classList.remove('v156-botanical');
-    }
-  }
-  alert(window.v156BotanicalEnabled ? 'حالت درخت هنری فعال شد' : 'حالت درخت هنری غیرفعال شد');
-};
 </script>
 
 </body>
