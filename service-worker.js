@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v155-svg-tree-engine-no-cache';
+const CACHE_NAME = 'familytreepro-v156-svg-tree-engine-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
