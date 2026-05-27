@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v153-single-tree-pro-stable-auth-tree-repair';
+const CACHE_NAME = 'familytreepro-v154-svg-tree-engine-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
