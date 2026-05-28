@@ -1,4 +1,4 @@
-const CACHE_NAME = 'familytreepro-v149-cloud-photos-no-cache';
+const CACHE_NAME = 'familytreepro-v149-photo-safe-mobile-no-cache';
 self.addEventListener('install', event => {
   self.skipWaiting();
 });
