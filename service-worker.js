@@ -1,15 +1,10 @@
-const CACHE_NAME = 'familytreepro-v152-production';
-self.addEventListener('install', event => {
-  self.skipWaiting();
-});
+// FamilyTreePro V153 Security Layer - no-cache
+const CACHE_NAME = 'familytreepro-v153-security-layer-no-cache';
+self.addEventListener('install', event => self.skipWaiting());
 self.addEventListener('activate', event => {
-  event.waitUntil((async () => {
-    const keys = await caches.keys();
-    await Promise.all(keys.map(k => caches.delete(k)));
-    await self.clients.claim();
-  })());
+  event.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => self.clients.claim()));
 });
 self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET') return;
-  event.respondWith(fetch(event.request, { cache: 'no-store' }));
+  event.respondWith(fetch(event.request, { cache: 'no-store' }).catch(() => new Response('', {status:503,statusText:'Offline'})));
 });

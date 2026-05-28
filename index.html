@@ -711,6 +711,106 @@ min-width:90px!important;
 }
 </style>
 
+
+<style id="v153-security-hardening-css">
+@media(max-width:700px){
+  #login,#login *{pointer-events:auto!important}
+  #drawerBackdrop:not(.open),.drawer-backdrop:not(.open){display:none!important;pointer-events:none!important;opacity:0!important}
+}
+</style>
+<script id="v153-security-hardening">
+(function(){
+  "use strict";
+  if(window.__V153_SECURITY_HARDENING__) return;
+  window.__V153_SECURITY_HARDENING__ = true;
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V153 Security Layer";
+
+  try{
+    if(window.top !== window.self){ window.top.location = window.self.location.href; }
+  }catch(e){}
+
+  function isBigBase64(v){
+    return typeof v==="string" && /^data:(image|audio|video|application)\//i.test(v) && v.length>1500;
+  }
+  function clean(v){
+    if(isBigBase64(v)) return "";
+    if(Array.isArray(v)) return v.map(clean).filter(function(x){return x!=="";});
+    if(v && typeof v==="object"){
+      var o={};
+      Object.keys(v).forEach(function(k){
+        var val=v[k];
+        if(isBigBase64(val)){
+          if(k==="photo"||k==="image"||k==="data"||k==="base64"||k==="content"){
+            o[k]="";
+            o[k+"Removed"]="v153_no_local_base64";
+          }
+          return;
+        }
+        o[k]=clean(val);
+      });
+      return o;
+    }
+    return v;
+  }
+  window.v153CleanForStorage=function(data){try{return clean(data);}catch(e){return data;}};
+
+  try{
+    var nativeSetItem=Storage.prototype.setItem;
+    if(!Storage.prototype.__v153Patched){
+      Storage.prototype.setItem=function(key,value){
+        if(String(key)==="family_people_"){
+          try{ value=JSON.stringify(window.v153CleanForStorage(JSON.parse(value))); }catch(e){}
+        }
+        try{return nativeSetItem.call(this,key,value);}
+        catch(e){
+          if(String(key)==="family_people_"){
+            try{return nativeSetItem.call(this,key,JSON.stringify(window.v153CleanForStorage(JSON.parse(value||"[]"))));}catch(_){}
+          }
+          throw e;
+        }
+      };
+      Storage.prototype.__v153Patched=true;
+    }
+  }catch(e){}
+
+  function secureFileInput(input){
+    if(!input || input.__v153Secured) return;
+    input.__v153Secured=true;
+    input.addEventListener("change",function(){
+      var files=Array.prototype.slice.call(input.files||[]);
+      for(var i=0;i<files.length;i++){
+        var f=files[i], type=String(f.type||"").toLowerCase(), name=String(f.name||"").toLowerCase();
+        var bad=name.endsWith(".svg")||type==="image/svg+xml"||name.endsWith(".html")||name.endsWith(".js")||name.endsWith(".exe");
+        var tooLarge=f.size>4*1024*1024;
+        if(bad||tooLarge){
+          input.value="";
+          alert(tooLarge?"حجم عکس زیاد است. کمتر از ۴ مگابایت انتخاب کنید.":"نوع فایل مجاز نیست.");
+          return;
+        }
+      }
+    },true);
+  }
+  function apply(){
+    try{
+      document.querySelectorAll('input[type="file"]').forEach(secureFileInput);
+      var login=document.getElementById("login");
+      if(login) login.style.pointerEvents="auto";
+      var back=document.getElementById("drawerBackdrop");
+      if(back && !back.classList.contains("open")){back.style.display="none";back.style.pointerEvents="none";}
+    }catch(e){}
+  }
+  document.addEventListener("DOMContentLoaded",function(){apply();setTimeout(apply,800);setTimeout(apply,2000);});
+  window.addEventListener("resize",apply);
+  window.addEventListener("unhandledrejection",function(e){
+    var s=String((e.reason&&(e.reason.message||e.reason.code))||e.reason||"");
+    if(/client is offline|offline|unavailable|failed to get document/i.test(s)){
+      try{e.preventDefault();}catch(_){}
+      console.warn("V153 handled Firebase offline warning:",s);
+    }
+  });
+})();
+</script>
+
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
 <h2>🔐 ورود به FamilyTreePro</h2>
