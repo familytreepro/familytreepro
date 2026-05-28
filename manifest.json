@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V154 Children Manager Fix",
+  "name": "FamilyTreePro V155 Captcha Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=154-children-manager-fix",
+  "start_url": "./index.html?v=155-captcha-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V154 Children Manager Fix",
+  "description": "FamilyTreePro V155 Captcha Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

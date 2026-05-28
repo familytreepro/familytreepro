@@ -723,7 +723,7 @@ min-width:90px!important;
   "use strict";
   if(window.__V153_SECURITY_HARDENING__) return;
   window.__V153_SECURITY_HARDENING__ = true;
-  window.FAMILYTREEPRO_SECURITY_VERSION = "V154 Children Manager Fix";
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V155 Captcha Fix";
 
   try{
     if(window.top !== window.self){ window.top.location = window.self.location.href; }
@@ -879,6 +879,55 @@ min-width:90px!important;
     setTimeout(function(){
       try{ window.renderChildrenManager(); }catch(e){ console.warn("V154 children manager skipped", e); }
     }, 800);
+  });
+})();
+</script>
+
+
+<script id="v155-captcha-compat-fix">
+(function(){
+  "use strict";
+  if(window.__V155_CAPTCHA_COMPAT_FIX__) return;
+  window.__V155_CAPTCHA_COMPAT_FIX__ = true;
+
+  function setMsg(t){
+    try{
+      var el=document.getElementById("loginWaitTimer") || document.getElementById("loginError");
+      if(el) el.textContent=t;
+    }catch(e){}
+  }
+
+  window.newLoginCaptcha = window.newLoginCaptcha || function(){
+    var a = Math.floor(Math.random()*8)+2;
+    var b = Math.floor(Math.random()*8)+2;
+    window.loginCaptchaAnswer = a + b;
+    var q = document.getElementById("captchaQuestion");
+    if(q) q.textContent = "? = " + a + " + " + b;
+    var ans = document.getElementById("captchaAnswer");
+    if(ans) ans.value = "";
+    setMsg("آماده ورود");
+  };
+
+  window.refreshLoginCaptcha = window.refreshLoginCaptcha || function(){
+    try{ window.newLoginCaptcha(true); }catch(e){}
+  };
+
+  window.v86StartTimer = window.v86StartTimer || function(){ setMsg("آماده ورود"); };
+  window.loginLockedMessage = window.loginLockedMessage || function(){ return ""; };
+  window.registerLoginFail = window.registerLoginFail || function(){};
+  window.resetLoginFails = window.resetLoginFails || function(){};
+
+  document.addEventListener("DOMContentLoaded", function(){
+    setTimeout(function(){
+      try{
+        if(typeof window.loginCaptchaAnswer === "undefined" || !document.getElementById("captchaQuestion").textContent.trim().replace("...","")){
+          window.newLoginCaptcha(true);
+        }else{
+          var q=document.getElementById("captchaQuestion");
+          if(q && (q.textContent.trim()==="..." || q.textContent.trim()==="")) window.newLoginCaptcha(true);
+        }
+      }catch(e){}
+    }, 300);
   });
 })();
 </script>
