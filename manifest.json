@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V151 No Quota Photos",
+  "name": "FamilyTreePro V152 Production Base",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=151-no-quota-photos",
+  "start_url": "./index.html?v=149-mobile-only",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V151 No Quota Photos",
+  "description": "FamilyTreePro V149 Mobile Only Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

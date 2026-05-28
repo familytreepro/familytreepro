@@ -1,5 +1,7 @@
-const CACHE_NAME = 'familytreepro-v151-no-quota-photos-no-cache';
-self.addEventListener('install', event => { self.skipWaiting(); });
+const CACHE_NAME = 'familytreepro-v152-production';
+self.addEventListener('install', event => {
+  self.skipWaiting();
+});
 self.addEventListener('activate', event => {
   event.waitUntil((async () => {
     const keys = await caches.keys();
