@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro V152 Production Base",
+  "name": "FamilyTreePro V149 Photo Safe Mobile",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=149-mobile-only",
+  "start_url": "./index.html?v=149-photo-safe-mobile",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
