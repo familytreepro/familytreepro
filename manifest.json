@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V149 Photo Safe Mobile",
+  "name": "FamilyTreePro V155 Deep Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=149-photo-safe-mobile",
+  "start_url": "./index.html?v=155-deep-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V149 Mobile Only Fix",
+  "description": "FamilyTreePro V155 Deep Clean",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
