@@ -723,7 +723,7 @@ min-width:90px!important;
   "use strict";
   if(window.__V153_SECURITY_HARDENING__) return;
   window.__V153_SECURITY_HARDENING__ = true;
-  window.FAMILYTREEPRO_SECURITY_VERSION = "V153 Security Layer";
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V154 Children Manager Fix";
 
   try{
     if(window.top !== window.self){ window.top.location = window.self.location.href; }
@@ -807,6 +807,78 @@ min-width:90px!important;
       try{e.preventDefault();}catch(_){}
       console.warn("V153 handled Firebase offline warning:",s);
     }
+  });
+})();
+</script>
+
+
+<script id="v154-children-manager-fix">
+(function(){
+  "use strict";
+  if(window.__V154_CHILDREN_MANAGER_FIX__) return;
+  window.__V154_CHILDREN_MANAGER_FIX__ = true;
+
+  function getPeople(){
+    try{
+      if(Array.isArray(window.people)) return window.people;
+      if(typeof people !== "undefined" && Array.isArray(people)) return people;
+    }catch(e){}
+    return [];
+  }
+
+  function esc(s){
+    return String(s==null?"":s).replace(/[&<>"']/g,function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+
+  function parentName(id){
+    var p = getPeople().find(function(x){return String(x.id)===String(id);});
+    return p ? p.name : "نامشخص";
+  }
+
+  window.renderChildrenManager = window.renderChildrenManager || function(){
+    var box = document.getElementById("childrenList") ||
+              document.getElementById("childrenManager") ||
+              document.getElementById("childrenContent") ||
+              document.querySelector("#view-children .panel") ||
+              document.querySelector("#view-children");
+
+    if(!box) return;
+
+    var list = getPeople();
+    var rows = list.filter(function(p){return p && (p.parentId || p.parent || p.motherId);});
+
+    if(!rows.length){
+      box.innerHTML = '<div class="person-row">هنوز فرزندی برای نمایش ثبت نشده است.</div>';
+      return;
+    }
+
+    var out = '<div class="children-add-table-wrap"><table class="children-add-table"><thead><tr>' +
+      '<th>فرزند</th><th>جنسیت</th><th>پدر/والد</th><th>مادر</th><th>تولد</th>' +
+      '</tr></thead><tbody>';
+
+    out += rows.map(function(p){
+      return '<tr>' +
+        '<td><b>'+esc(p.name || "بدون نام")+'</b></td>' +
+        '<td>'+esc(p.gender || "-")+'</td>' +
+        '<td>'+esc(parentName(p.parentId || p.parent || ""))+'</td>' +
+        '<td>'+esc(parentName(p.motherId || ""))+'</td>' +
+        '<td>'+esc(p.birth || "-")+'</td>' +
+      '</tr>';
+    }).join("");
+
+    out += '</tbody></table></div>';
+    box.innerHTML = out;
+  };
+
+  window.renderChildren = window.renderChildren || window.renderChildrenManager;
+  window.refreshChildrenManager = window.refreshChildrenManager || window.renderChildrenManager;
+
+  document.addEventListener("DOMContentLoaded", function(){
+    setTimeout(function(){
+      try{ window.renderChildrenManager(); }catch(e){ console.warn("V154 children manager skipped", e); }
+    }, 800);
   });
 })();
 </script>
