@@ -1,5 +1,5 @@
-// FamilyTreePro V156.11 Children Top Table Removed - no-cache
-const CACHE_NAME = 'familytreepro-v156-11-children-top-table-removed-no-cache';
+// FamilyTreePro V156.12 Clean Final - no-cache
+const CACHE_NAME = 'familytreepro-v156-12-children-drawer-only-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.11 Children Top Table Removed",
+  "name": "FamilyTreePro V156.12 Children Drawer Only In Children Page",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-11-children-top-table-removed",
+  "start_url": "./index.html?v=156-12-children-drawer-only",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.11 Children Top Table Removed",
+  "description": "FamilyTreePro V156.12 Children Drawer Only In Children Page",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
