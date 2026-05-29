@@ -7,7 +7,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.3 Children Audit Bottom</title> <style>  
+<title>FamilyTreePro V156.4 Children Drawer Only</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -5138,7 +5138,7 @@ async function runHomeUpdateRepair(){
 })();
 </script>
 
-<!-- V156_CLEAN_FINAL_MARKER -->
+<!-- V156_4_CHILDREN_DRAWER_ONLY_MARKER -->
 
 
 
@@ -5151,7 +5151,7 @@ async function runHomeUpdateRepair(){
 .v1562-child-card b{display:block;margin-bottom:5px}
 .v1562-child-card small{color:var(--muted)}
 .v1562-child-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.v1562-audit{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:rgba(148,163,184,.06);overflow:hidden}
+.v1562-audit{display:none!important;margin-top:16px;border:1px solid var(--line);border-radius:14px;background:rgba(148,163,184,.06);overflow:hidden}
 .v1562-audit summary{cursor:pointer;padding:12px 14px;font-weight:bold;background:rgba(37,99,235,.08);list-style:none}
 .v1562-audit summary::-webkit-details-marker{display:none}
 .v1562-audit-body{padding:10px;max-height:320px;overflow:auto}
@@ -5294,16 +5294,27 @@ async function runHomeUpdateRepair(){
 <style id="v1563-children-audit-css">
 /* V156.3: جدول کشویی پایین صفحه فرزندان، بدون لایه مزاحم */
 #v1563ChildrenAuditBottom{
-  margin-top:18px;
+  position:fixed!important;
+  left:10px!important;
+  right:10px!important;
+  bottom:0!important;
+  margin:0!important;
   border:1px solid var(--line);
-  border-radius:16px;
+  border-bottom:0!important;
+  border-radius:18px 18px 0 0!important;
   background:var(--card);
   overflow:hidden;
-  box-shadow:0 8px 22px rgba(15,23,42,.06);
+  box-shadow:0 -8px 26px rgba(15,23,42,.18);
+  z-index:80!important;
+  max-height:46vh!important;
+}
+#v1563ChildrenAuditBottom:not([open]){
+  height:48px!important;
 }
 #v1563ChildrenAuditBottom summary{
   cursor:pointer;
   padding:13px 15px;
+  min-height:48px;
   font-weight:700;
   background:rgba(37,99,235,.08);
   list-style:none;
@@ -5311,7 +5322,7 @@ async function runHomeUpdateRepair(){
 #v1563ChildrenAuditBottom summary::-webkit-details-marker{display:none}
 #v1563ChildrenAuditBottom .audit-body{
   padding:10px;
-  max-height:340px;
+  max-height:calc(46vh - 50px);
   overflow:auto;
 }
 #v1563ChildrenAuditBottom table{
