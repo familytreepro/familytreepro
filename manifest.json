@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.7 Children Search Fixed",
+  "name": "FamilyTreePro V156.5 Children Drawer Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-7-children-search-fixed",
+  "start_url": "./index.html?v=156-5-children-drawer-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.7 Children Search Fixed",
+  "description": "FamilyTreePro V156.5 Children Drawer Clean",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
