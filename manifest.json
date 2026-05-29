@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.16 Child Live Search",
+  "name": "FamilyTreePro V156.17 Children Clean Module",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-16-child-live-search",
+  "start_url": "./index.html?v=156-17-children-clean-module",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.16 Child Live Search",
+  "description": "FamilyTreePro V156.17 Children Clean Module",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
