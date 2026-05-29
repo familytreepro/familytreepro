@@ -1,5 +1,5 @@
-// FamilyTreePro V156.22 Children Main Panels + Registry Drawer - no-cache
-const CACHE_NAME = 'familytreepro-v156-22-children-main-registry-drawer-no-cache';
+// FamilyTreePro V156.23 Photo Cloud 500 - no-cache
+const CACHE_NAME = 'familytreepro-v156-23-photo-cloud-500-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

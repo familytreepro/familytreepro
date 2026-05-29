@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.22 Children Main Panels + Registry Drawer",
+  "name": "FamilyTreePro V156.23 Photo Cloud 500",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-22-children-main-registry-drawer",
+  "start_url": "./index.html?v=156-23-photo-cloud-500",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.22 Children Main Panels + Registry Drawer",
+  "description": "FamilyTreePro V156.23 Photo Cloud 500",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
