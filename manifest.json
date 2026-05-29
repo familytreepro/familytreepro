@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.18 Parent Children Preview",
+  "name": "FamilyTreePro V156.19 Children Stable Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-18-parent-children-preview",
+  "start_url": "./index.html?v=156-19-children-stable-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.18 Parent Children Preview",
+  "description": "FamilyTreePro V156.19 Children Stable Clean",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
