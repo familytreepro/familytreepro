@@ -1,5 +1,5 @@
-// FamilyTreePro V156.6 Clean Final - no-cache
-const CACHE_NAME = 'familytreepro-v156-6-children-top-table-removed-no-cache';
+// FamilyTreePro V156.7 Children Search Fixed - no-cache
+const CACHE_NAME = 'familytreepro-v156-7-children-search-fixed-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
