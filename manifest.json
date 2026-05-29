@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.21 Children Layout Drawer Clean",
+  "name": "FamilyTreePro V156.22 Children Main Panels + Registry Drawer",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-21-children-layout-drawer-clean",
+  "start_url": "./index.html?v=156-22-children-main-registry-drawer",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.21 Children Layout Drawer Clean",
+  "description": "FamilyTreePro V156.22 Children Main Panels + Registry Drawer",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

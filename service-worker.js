@@ -1,5 +1,5 @@
-// FamilyTreePro V156.21 Children Layout Clean - no-cache
-const CACHE_NAME = 'familytreepro-v156-21-children-layout-drawer-clean-no-cache';
+// FamilyTreePro V156.22 Children Main Panels + Registry Drawer - no-cache
+const CACHE_NAME = 'familytreepro-v156-22-children-main-registry-drawer-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
