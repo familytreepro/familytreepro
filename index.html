@@ -7,7 +7,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.9 Only Top Children Table Removed</title> <style>  
+<title>FamilyTreePro V156.5 Children Drawer Clean</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -1393,7 +1393,16 @@ body.app-ready #login{
 <h2>👶 افزودن جدول فرزندان</h2>
 <p class="dashboard-note">نام والد را بنویسید یا از لیست انتخاب کنید؛ سپس فرزندان را در جدول وارد کنید. فرد تکراری ساخته نمی‌شود.</p>
 <div class="form-row"><input class="children-parent-input" id="childParentName" list="childParentList" onchange="syncChildrenParentPreview()" oninput="syncChildrenParentPreview()" placeholder="نام والد را بنویسید یا انتخاب کنید"/><datalist id="childParentList"></datalist></div>
-<!-- V156.9: فقط جدول بالای افزودن فرزندان حذف شد؛ سرچ والد دست نخورده ماند -->
+<div class="children-add-table-wrap">
+<table class="children-add-table">
+<thead><tr><th>ردیف</th><th>نام فرزند</th><th>جنسیت</th><th>سال تولد</th><th>حذف</th></tr></thead>
+<tbody id="childrenAddRows"></tbody>
+</table>
+</div>
+<div class="children-table-actions">
+<button class="btn blue-btn" onclick="addChildTableRow()" type="button">➕ ردیف جدید</button>
+<button class="btn" onclick="saveChildrenTable()" type="button">✅ افزودن فرزندان</button>
+</div>
 </div>
 <div class="children-grid">
 <div class="panel">
@@ -5129,21 +5138,6 @@ async function runHomeUpdateRepair(){
 })();
 </script>
 
-<!-- V156.9_CLEAN_FINAL_MARKER -->
-
-
-
-
-
-<style id="v1562-children-v142-css">
-/* V156.2: بازگشت مدیریت فرزندان به حالت V142 + جدول کشویی پایین */
-.v1562-children-tools{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.v1562-child-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0;line-height:1.9}
-.v1562-child-card b{display:block;margin-bottom:5px}
-.v1562-child-card small{color:var(--muted)}
-.v1562-child-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.v1562-audit{position:fixed!important;left:0!important;right:0!important;bottom:0!important;margin:0!important;border:1px solid var(--line);border-radius:18px 18px 0 0;background:var(--card);overflow:hidden;z-index:999999;box-shadow:0 -10px 30px rgba(15,23,42,.18)} .v1562-audit summary{cursor:pointer;padding:13px 15px;font-weight:bold;background:rgba(37,99,235,.08);list-style:none;text-align:center} .v1562-audit summary::-webkit-details-marker{display:none} .v1562-audit-body{padding:10px;max-height:44vh;overflow:auto} .v1562-audit table{width:100%;border-collapse:collapse;min-width:720px;background:var(--card)} .v1562-audit th,.v1562-audit td{border-bottom:1px solid var(--line);padding:9px;text-align:center;vertical-align:middle} .v1562-audit th{background:rgba(148,163,184,.10);color:var(--muted);position:sticky;top:0;z-index:1} .v1562-muted{color:var(--muted);font-size:12px;line-height:1.8} @media(max-width:700px){.v1562-audit-body{overflow:auto;max-height:55vh}.v1562-children-tools .btn{flex:1 1 100%}}
-</style>
-<!-- V156.9: لایه v1562-children-v142-mode حذف شد چون renderChildrenManager را override و جدول کشویی تزریق می‌کرد -->
+<!-- V156.10: removed only v1562-children-v142 layer; no old code pasted -->
 </body>
 </html>

@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.9 Only Top Children Table Removed",
+  "name": "FamilyTreePro V156.10 Remove Only V1562 Layer",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-9-only-top-children-table-no-layer",
+  "start_url": "./index.html?v=156-10-remove-only-v1562-layer",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.9 Only Top Children Table Removed",
+  "description": "FamilyTreePro V156.10 Remove Only V1562 Layer",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
