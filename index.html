@@ -551,7 +551,7 @@ body.app-ready #login{display:none!important;visibility:hidden!important;pointer
 [data-debug],.debug-note,.viewer-note,.patch-note,.version-marker,.build-marker{display:none!important;pointer-events:none!important;}
 </style>
 <style id="v149-mobile-only-fix-css">
-/* V156.3 Children Audit Bottom Fix - فقط موبایل، بدون تغییر دسکتاپ و بدون تغییر منطق ورود */
+/* V156.24 Photo AI 200KB Fix - فقط موبایل، بدون تغییر دسکتاپ و بدون تغییر منطق ورود */
 @media(max-width:700px){
   html,body{
     width:100%!important;
@@ -664,7 +664,7 @@ body.app-ready #login{display:none!important;visibility:hidden!important;pointer
 }
 </style>
 <script id="v149-mobile-only-fix-js">
-/* V156.3 Children Audit Bottom Fix - فقط رفع لمس موبایل، بدون تغییر منطق login/register */
+/* V156.24 Photo AI 200KB Fix - فقط رفع لمس موبایل، بدون تغییر منطق login/register */
 (function(){
   if(window.__v149MobileOnlyFix)return;
   window.__v149MobileOnlyFix=true;
@@ -723,7 +723,7 @@ min-width:90px!important;
   "use strict";
   if(window.__V153_SECURITY_HARDENING__) return;
   window.__V153_SECURITY_HARDENING__ = true;
-  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.3 Children Audit Bottom";
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.24 Photo AI 200KB";
 
   try{
     if(window.top !== window.self){ window.top.location = window.self.location.href; }
@@ -1007,7 +1007,7 @@ min-width:90px!important;
 
 
 <style id="v156-clean-final-css">
-/* V156.3 Children Audit Bottom: no overlay, no visual layer */
+/* V156.24 Photo AI 200KB: no overlay, no visual layer */
 #drawerBackdrop:not(.open), .drawer-backdrop:not(.open){
   display:none!important;
   pointer-events:none!important;
@@ -1028,7 +1028,7 @@ body.app-ready #login{
   "use strict";
   if(window.__V156_CLEAN_FINAL__) return;
   window.__V156_CLEAN_FINAL__ = true;
-  window.FAMILYTREEPRO_VERSION = "V156.3 Children Audit Bottom";
+  window.FAMILYTREEPRO_VERSION = "V156.24 Photo AI 200KB";
 
   function $(id){return document.getElementById(id);}
   function fixCaptcha(){
@@ -1883,11 +1883,11 @@ async function v15623UploadImageToCloud(dataUrl,personId,kind,fileName){
     if(!fb || !fb.storage || !fb.storageRef || !fb.uploadBytes || !fb.getDownloadURL || !user || !dataUrl || !String(dataUrl).startsWith('data:image/'))return {url:dataUrl,cloud:false};
     const cfg=(typeof getFirebaseConfig==='function')?getFirebaseConfig():{fbFamilyId:'my-family'};
     const familyId=String((cfg.fbFamilyId||'my-family')).replace(/[^a-zA-Z0-9_-]/g,'_');
-    const safeName=v15623SafeFileName(fileName||('photo_'+Date.now()+'.jpg'));
+    const safeName=v15623SafeFileName(fileName||('photo_'+Date.now()+'.webp'));
     const path='familytreepro/'+user.uid+'/'+familyId+'/'+String(personId||'new')+'/'+String(kind||'photo')+'/'+Date.now()+'_'+safeName;
     const blob=await fetch(dataUrl).then(r=>r.blob());
     const fileRef=fb.storageRef(fb.storage,path);
-    await fb.uploadBytes(fileRef,blob,{contentType:blob.type||'image/jpeg'});
+    await fb.uploadBytes(fileRef,blob,{contentType:blob.type||'image/webp'});
     const url=await fb.getDownloadURL(fileRef);
     return {url:url,cloud:true,path:path,size:blob.size||0};
   }catch(e){
@@ -2003,9 +2003,9 @@ function savePerson(){
   };  
   
   if(file){
-    v149PrepareImageFile(file,{maxWidth:1200,maxHeight:1200,quality:.74,repair:false},async function(result){
+    v149PrepareImageFile(file,{maxWidth:1200,maxHeight:1200,targetKB:200,repair:false},async function(result){
       let imgData=result&&result.data?result.data:"";
-      let up=await v15623UploadImageToCloud(imgData,id||('person_'+Date.now()),'main',file.name||'main.jpg');
+      let up=await v15623UploadImageToCloud(imgData,id||('person_'+Date.now()),'main',file.name||'main.webp');
       finish(up&&up.url?up.url:imgData);
     });
   }else finish("");  
@@ -2806,13 +2806,13 @@ function renderFullProfile(){
     </div>
     <div class="photo-ai-box">
       <b>🤖 ابزار هوشمند عکس</b>
-      <div><span class="photo-ai-badge">فشرده‌سازی خودکار هنگام افزودن عکس</span><span class="photo-ai-badge">ترمیم سبک عکس قدیمی داخل مرورگر</span></div>
+      <div><span class="photo-ai-badge">هدف حجم ۲۰۰KB</span><span class="photo-ai-badge">WebP هوشمند برای ۵۰۰ عکس</span><span class="photo-ai-badge">ترمیم سبک عکس قدیمی داخل مرورگر</span></div>
       <div class="photo-ai-actions">
         <button class="btn blue-btn" onclick="v149OptimizeProfilePhotos(${p.id},false)">📦 فشرده‌سازی عکس‌ها</button>
         <button class="btn gray-btn" onclick="v149OptimizeProfilePhotos(${p.id},true)">✨ ترمیم عکس قدیمی</button>
         <button class="btn red-btn" onclick="v149RemoveMainPhoto(${p.id})">🗑 حذف تصویر اصلی</button>
       </div>
-      <div class="photo-ai-status" id="photoAiStatus_${p.id}">بدون API خارجی؛ فقط روی همین دستگاه انجام می‌شود.</div>
+      <div class="photo-ai-status" id="photoAiStatus_${p.id}">بدون API خارجی؛ خروجی عکس‌ها WebP و هدف حدود ۲۰۰KB است.</div>
     </div>
     <input id="galleryInput_${p.id}" type="file" accept="image/*" multiple style="display:none" onchange="addProfileFiles(${p.id},'gallery',this.files)">
     <input id="docsInput_${p.id}" type="file" multiple style="display:none" onchange="addProfileFiles(${p.id},'docs',this.files)">
@@ -2826,10 +2826,10 @@ function renderFullProfile(){
 }
 function fileToBase64(file,callback,personId,type){
   if(file && file.type && file.type.indexOf('image/')===0){
-    v149PrepareImageFile(file,{maxWidth:1200,maxHeight:1200,quality:.70,repair:false},async function(result){
+    v149PrepareImageFile(file,{maxWidth:1200,maxHeight:1200,targetKB:200,repair:false},async function(result){
       const localData=result&&result.data?result.data:"";
-      const up=await v15623UploadImageToCloud(localData,personId||'profile',type||'gallery',file.name||'photo.jpg');
-      callback({name:(file.name||'photo').replace(/\.[^.]+$/,'')+'_cloud.jpg',type:'image/jpeg',data:(up&&up.url)||localData,date:new Date().toLocaleDateString("fa-IR"),optimized:true,cloud:!!(up&&up.cloud),storagePath:up&&up.path||'',oldSize:file.size||0,newSize:up&&up.size||result&&result.bytes||0});
+      const up=await v15623UploadImageToCloud(localData,personId||'profile',type||'gallery',file.name||'photo.webp');
+      callback({name:(file.name||'photo').replace(/\.[^.]+$/,'')+'_cloud.webp',type:'image/webp',data:(up&&up.url)||localData,date:new Date().toLocaleDateString("fa-IR"),optimized:true,cloud:!!(up&&up.cloud),storagePath:up&&up.path||'',oldSize:file.size||0,newSize:up&&up.size||result&&result.bytes||0});
     });
     return;
   }
@@ -2918,10 +2918,16 @@ function v149ProcessImageData(dataUrl,opt,callback,oldSize){
         }
         ctx.putImageData(im,0,0);
       }
-      const q=typeof opt.quality==='number'?opt.quality:.76;
-      let out=canvas.toDataURL('image/jpeg',q);
-      if(!opt.repair && oldSize && v149DataUrlBytes(out)>oldSize && oldSize<700000) out=dataUrl;
-      callback({data:out,bytes:v149DataUrlBytes(out),width:w,height:h});
+      const targetBytes = (typeof opt.targetKB==='number' ? opt.targetKB : 200) * 1024;
+      const qualities = opt.qualities || (opt.repair ? [0.86,0.78,0.70,0.62,0.55] : [0.85,0.75,0.65,0.55,0.48,0.40]);
+      const mime = 'image/webp';
+      let out = '';
+      for(let qi=0; qi<qualities.length; qi++){
+        out = canvas.toDataURL(mime, qualities[qi]);
+        if(v149DataUrlBytes(out) <= targetBytes) break;
+      }
+      if(!out) out=canvas.toDataURL('image/jpeg',0.65);
+      callback({data:out,bytes:v149DataUrlBytes(out),width:w,height:h,mime:mime,targetKB:Math.round(targetBytes/1024)});
     }catch(err){
       console.warn('V149 photo process failed',err); callback({data:dataUrl,bytes:v149DataUrlBytes(dataUrl)});
     }
@@ -2942,11 +2948,11 @@ function v149OptimizeProfilePhotos(id,repair){
   function next(){
     if(i>=jobs.length){save();openProfileView(id);setTimeout(()=>v149SetPhotoStatus(id,`انجام شد: ${saved} عکس | قبل ${Math.round(before/1024)}KB، بعد ${Math.round(after/1024)}KB`),80);return;}
     const job=jobs[i++]; before+=v149DataUrlBytes(job.data);
-    v149ProcessImageData(job.data,{maxWidth:repair?1800:1600,maxHeight:repair?1800:1600,quality:(repair?0.86:0.74),repair:!!repair},function(res){
+    v149ProcessImageData(job.data,{maxWidth:repair?1400:1200,maxHeight:repair?1400:1200,targetKB:200,repair:!!repair},function(res){
       if(res&&res.data){
         after+=res.bytes||v149DataUrlBytes(res.data); saved++;
         if(job.kind==='main')p.photo=res.data;
-        else if(p.gallery&&p.gallery[job.index]){p.gallery[job.index].data=res.data;p.gallery[job.index].type='image/jpeg';p.gallery[job.index].optimized=true;p.gallery[job.index].name=(job.name||'photo').replace(/\.[^.]+$/,'')+(repair?'_repaired.jpg':'_optimized.jpg');}
+        else if(p.gallery&&p.gallery[job.index]){p.gallery[job.index].data=res.data;p.gallery[job.index].type='image/webp';p.gallery[job.index].optimized=true;p.gallery[job.index].name=(job.name||'photo').replace(/\.[^.]+$/,'')+(repair?'_repaired.webp':'_optimized.webp');}
       }
       setTimeout(next,0);
     },v149DataUrlBytes(job.data));
