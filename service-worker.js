@@ -1,5 +1,5 @@
-// FamilyTreePro V156 Clean Final - no-cache
-const CACHE_NAME = 'familytreepro-v156-3-children-audit-no-cache';
+// FamilyTreePro V156.5 Children Drawer Top Remove - no-cache
+const CACHE_NAME = 'familytreepro-v156-5-children-drawer-top-remove-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
