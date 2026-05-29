@@ -7,7 +7,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.5 Children Drawer Clean</title> <style>  
+<title>FamilyTreePro V156.9 Only Top Children Table Removed</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -1393,8 +1393,7 @@ body.app-ready #login{
 <h2>👶 افزودن جدول فرزندان</h2>
 <p class="dashboard-note">نام والد را بنویسید یا از لیست انتخاب کنید؛ سپس فرزندان را در جدول وارد کنید. فرد تکراری ساخته نمی‌شود.</p>
 <div class="form-row"><input class="children-parent-input" id="childParentName" list="childParentList" onchange="syncChildrenParentPreview()" oninput="syncChildrenParentPreview()" placeholder="نام والد را بنویسید یا انتخاب کنید"/><datalist id="childParentList"></datalist></div>
-<!-- V156.8: جدول بالای افزودن فرزندان حذف شد؛ سرچ/انتخاب والد دست نخورده ماند -->
-<div style="display:none!important" aria-hidden="true"><table><tbody id="childrenAddRows"></tbody></table></div>
+<!-- V156.9: فقط جدول بالای افزودن فرزندان حذف شد؛ سرچ والد دست نخورده ماند -->
 </div>
 <div class="children-grid">
 <div class="panel">
@@ -5130,7 +5129,7 @@ async function runHomeUpdateRepair(){
 })();
 </script>
 
-<!-- V156.5_CLEAN_FINAL_MARKER -->
+<!-- V156.9_CLEAN_FINAL_MARKER -->
 
 
 
@@ -5145,133 +5144,6 @@ async function runHomeUpdateRepair(){
 .v1562-child-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .v1562-audit{position:fixed!important;left:0!important;right:0!important;bottom:0!important;margin:0!important;border:1px solid var(--line);border-radius:18px 18px 0 0;background:var(--card);overflow:hidden;z-index:999999;box-shadow:0 -10px 30px rgba(15,23,42,.18)} .v1562-audit summary{cursor:pointer;padding:13px 15px;font-weight:bold;background:rgba(37,99,235,.08);list-style:none;text-align:center} .v1562-audit summary::-webkit-details-marker{display:none} .v1562-audit-body{padding:10px;max-height:44vh;overflow:auto} .v1562-audit table{width:100%;border-collapse:collapse;min-width:720px;background:var(--card)} .v1562-audit th,.v1562-audit td{border-bottom:1px solid var(--line);padding:9px;text-align:center;vertical-align:middle} .v1562-audit th{background:rgba(148,163,184,.10);color:var(--muted);position:sticky;top:0;z-index:1} .v1562-muted{color:var(--muted);font-size:12px;line-height:1.8} @media(max-width:700px){.v1562-audit-body{overflow:auto;max-height:55vh}.v1562-children-tools .btn{flex:1 1 100%}}
 </style>
-<script id="v1562-children-v142-mode">
-(function(){
-  "use strict";
-  if(window.__V1562_CHILDREN_V142_MODE__) return;
-  window.__V1562_CHILDREN_V142_MODE__=true;
-
-  function $(id){return document.getElementById(id);}
-  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
-  function peopleList(){try{if(Array.isArray(window.people))return window.people;if(typeof people!=="undefined"&&Array.isArray(people))return people;var r=localStorage.getItem("family_people_");if(r)return JSON.parse(r)||[]}catch(e){}return []}
-  function personById(id){return peopleList().find(function(p){return String(p.id)===String(id)})||null}
-  function personName(id){var p=personById(id);return p&&p.name?p.name:""}
-  function genderFa(g){g=String(g||"").toLowerCase().trim();if(g==="male"||g==="m"||g==="مرد")return"مرد";if(g==="female"||g==="f"||g==="زن")return"زن";return"-"}
-  function parentId(p){return p.parentId||p.fatherId||p.father||p.parent||""}
-  function motherId(p){return p.motherId||p.mother||""}
-  function birth(p){return p.birth||p.birthDate||p.dob||"-"}
-  function canEditSafe(){try{return typeof canEdit==="function"?canEdit():true}catch(e){return true}}
-
-  function getSelectedParentId(){
-    var ids=["childrenParent","childrenParentSelect","childParent","selectedParent","parentForChildren"];
-    for(var i=0;i<ids.length;i++){
-      var el=$(ids[i]);
-      if(el && el.value) return String(el.value);
-    }
-    var profile=$("profilePerson");
-    if(profile && profile.value) return String(profile.value);
-    var rel=$("parent");
-    if(rel && rel.value) return String(rel.value);
-    return "";
-  }
-
-  function ensureParentSelect(root){
-    var existing=$("childrenParentSelect");
-    if(existing) return existing;
-    var list=peopleList();
-    var wrap=document.createElement("div");
-    wrap.className="v1562-children-tools";
-    wrap.innerHTML='<select id="childrenParentSelect" class="search"><option value="">انتخاب والد برای نمایش فرزندان</option>'+
-      list.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.name||"بدون نام")+'</option>'}).join("")+
-      '</select><button class="btn blue-btn" type="button" onclick="renderChildrenManager()">نمایش فرزندان</button>';
-    root.insertBefore(wrap, root.firstChild);
-    return $("childrenParentSelect");
-  }
-
-  function openProfileSafe(id){
-    try{ if(typeof openProfile==="function") return openProfile(id); }catch(e){}
-    try{ if(typeof showProfile==="function") return showProfile(id); }catch(e){}
-    try{ var el=$("profilePerson"); if(el){el.value=id; if(typeof renderProfile==="function")renderProfile();} if(typeof showView==="function")showView("profiles"); }catch(e){}
-  }
-  function editPersonSafe(id){
-    try{ if(typeof editPerson==="function") return editPerson(id); }catch(e){}
-    try{ if(typeof loadPersonToForm==="function") return loadPersonToForm(id); }catch(e){}
-    alert("تابع ویرایش در این نسخه پیدا نشد.");
-  }
-  function removeParentRelation(childId){
-    if(!canEditSafe()) return;
-    var p=personById(childId);
-    if(!p) return;
-    if(!confirm("رابطه والد برای این فرزند حذف شود؟")) return;
-    p.parentId=""; p.parent="";
-    try{ if(typeof save==="function") save(); else localStorage.setItem("family_people_",JSON.stringify(peopleList())); }catch(e){}
-    renderChildrenManager();
-    try{ if(typeof render==="function") render(); }catch(e){}
-  }
-  window.v1562OpenChildProfile=openProfileSafe;
-  window.v1562EditChild=editPersonSafe;
-  window.v1562RemoveParentRelation=removeParentRelation;
-
-  function renderAuditTable(){
-    var rows=peopleList().filter(function(p){return p && p.name && (parentId(p)||motherId(p));});
-    if(!rows.length) return '<div class="v1562-muted">رکوردی برای بررسی نواقص وجود ندارد.</div>';
-    rows.sort(function(a,b){return String(a.name||"").localeCompare(String(b.name||""),"fa")});
-    var out='<div class="v1562-audit-body"><table><thead><tr><th>فرزند</th><th>جنسیت</th><th>پدر/والد</th><th>مادر</th><th>تولد</th><th>نقص احتمالی</th></tr></thead><tbody>';
-    out+=rows.map(function(p){
-      var father=personName(parentId(p));
-      var mother=personName(motherId(p));
-      var issues=[];
-      if(parentId(p) && !father) issues.push("والد پیدا نشد");
-      if(motherId(p) && !mother) issues.push("مادر پیدا نشد");
-      if(!motherId(p)) issues.push("مادر ثبت نشده");
-      return '<tr><td><b>'+esc(p.name||"-")+'</b></td><td>'+esc(genderFa(p.gender||p.sex))+'</td><td>'+esc(father||"-")+'</td><td>'+esc(mother||"-")+'</td><td>'+esc(birth(p))+'</td><td>'+esc(issues.join("، ")||"اوکی")+'</td></tr>';
-    }).join("");
-    out+='</tbody></table></div>';
-    return out;
-  }
-
-  window.renderChildrenManager=function(){
-    var root=$("childrenList")||$("childrenManager")||$("childrenContent")||document.querySelector("#view-children .panel")||document.querySelector("#view-children");
-    if(!root) return;
-    var select=ensureParentSelect(root);
-    var parent=getSelectedParentId();
-    if(!parent && select && select.value) parent=select.value;
-    var p=personById(parent);
-    var cards="";
-    if(!parent){
-      cards='<div class="person-row">اول یک والد را انتخاب کنید تا فقط فرزندان همان فرد نمایش داده شوند.</div>';
-    }else{
-      var kids=peopleList().filter(function(x){return x && String(parentId(x))===String(parent);});
-      if(!kids.length){
-        cards='<div class="person-row">برای «'+esc(p&&p.name?p.name:"والد انتخاب‌شده")+'» فرزندی ثبت نشده است.</div>';
-      }else{
-        kids.sort(function(a,b){return String(birth(a)).localeCompare(String(birth(b)))||String(a.name||"").localeCompare(String(b.name||""),"fa")});
-        cards=kids.map(function(ch){
-          return '<div class="v1562-child-card"><b>👤 '+esc(ch.name||"بدون نام")+'</b>'+
-            '<small>جنسیت: '+esc(genderFa(ch.gender||ch.sex))+' | تولد: '+esc(birth(ch))+' | والد: '+esc(p&&p.name?p.name:"-")+' | مادر: '+esc(personName(motherId(ch))||"-")+'</small>'+
-            '<div class="v1562-child-actions">'+
-            '<button class="btn blue-btn" type="button" onclick="v1562OpenChildProfile(\\''+esc(ch.id)+'\\')">پروفایل</button>'+
-            '<button class="btn gray-btn" type="button" onclick="v1562EditChild(\\''+esc(ch.id)+'\\')">ویرایش</button>'+
-            '<button class="btn red-btn" type="button" onclick="v1562RemoveParentRelation(\\''+esc(ch.id)+'\\')">حذف رابطه والد</button>'+
-            '</div></div>';
-        }).join("");
-      }
-    }
-    var audit='<details class="v1562-audit"><summary>جدول کشویی بررسی نواقص فرزندان</summary>'+renderAuditTable()+'</details>';
-    var oldTools=root.querySelector(".v1562-children-tools");
-    root.innerHTML="";
-    if(oldTools) root.appendChild(oldTools); else ensureParentSelect(root);
-    root.insertAdjacentHTML("beforeend",cards+audit);
-    var sel=$("childrenParentSelect"); if(sel && parent) sel.value=parent;
-  };
-
-  window.renderChildren=window.renderChildrenManager;
-  window.refreshChildrenManager=window.renderChildrenManager;
-
-  document.addEventListener("DOMContentLoaded",function(){
-    setTimeout(function(){try{renderChildrenManager()}catch(e){}},700);
-  });
-})();
-</script>
+<!-- V156.9: لایه v1562-children-v142-mode حذف شد چون renderChildrenManager را override و جدول کشویی تزریق می‌کرد -->
 </body>
 </html>
