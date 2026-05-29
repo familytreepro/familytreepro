@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.5 Children Drawer Clean",
+  "name": "FamilyTreePro V156.6 Children Top Table Removed",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-5-children-drawer-clean",
+  "start_url": "./index.html?v=156-6-children-top-table-removed",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.5 Children Drawer Clean",
+  "description": "FamilyTreePro V156.6 Children Top Table Removed",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

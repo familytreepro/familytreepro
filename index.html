@@ -7,7 +7,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.5 Children Drawer Clean</title> <style>  
+<title>FamilyTreePro V156.6 Children Top Table Removed</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -380,19 +380,6 @@ body.dark .net-log{background:rgba(255,255,255,.04)}
 .child-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:14px;padding:12px;margin:8px 0}
 .child-card b{display:block;margin-bottom:5px}.child-card small{color:var(--muted)}
 .children-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-/* V133 Children Parent Sync: only children section UI, no overlay */
-.children-add-table-wrap{overflow:auto;border:1px solid var(--line);border-radius:14px;margin:10px 0;background:rgba(148,163,184,.04)}
-.children-add-table{width:100%;border-collapse:collapse;min-width:640px}
-.children-add-table th,.children-add-table td{border-bottom:1px solid var(--line);padding:9px;text-align:center;vertical-align:middle}
-.children-add-table th{background:rgba(148,163,184,.08);color:var(--muted);font-weight:bold}
-.children-add-table input,.children-add-table select{width:100%;min-height:40px;border:1px solid #d7deea;border-radius:10px;padding:8px;background:white;color:#172033;font-family:tahoma,Arial}
-body.dark .children-add-table input,body.dark .children-add-table select{background:#0f172a;color:white;border-color:#334155}
-.children-parent-input{width:100%;min-height:46px;border:1px solid #d7deea;border-radius:10px;padding:12px;background:white;color:#172033}
-body.dark .children-parent-input{background:#0f172a;color:white;border-color:#334155}
-.children-table-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.children-mini-remove{border:0;border-radius:10px;background:#ef4444;color:white;padding:8px 10px;cursor:pointer}
-@media(max-width:700px){.children-add-table{min-width:560px}.children-table-actions .btn{flex:1}}
-
 @media(max-width:850px){.children-grid{grid-template-columns:1fr}.captcha-row{flex-direction:column;align-items:stretch}.captcha-question{width:100%}}
 
 .v80-auth-switch{display:flex;gap:8px;margin-top:12px}
@@ -909,17 +896,13 @@ min-width:90px!important;
     return p ? (p.name||"نامشخص") : "نامشخص";
   }
   window.renderChildrenManager = window.renderChildrenManager || function(){
-    var box=$("childrenList") || $("childrenManager") || $("childrenContent") ||
-            document.querySelector("#view-children .panel") || document.querySelector("#view-children");
+    var box=$("childrenListBox") || $("childrenList") || $("childrenManager") || $("childrenContent");
     if(!box) return;
     var rows=getPeople().filter(function(p){return p && (p.parentId || p.parent || p.motherId);});
     if(!rows.length){box.innerHTML='<div class="person-row">هنوز فرزندی برای نمایش ثبت نشده است.</div>';return;}
-    var out='<div class="children-add-table-wrap"><table class="children-add-table"><thead><tr><th>فرزند</th><th>جنسیت</th><th>پدر/والد</th><th>مادر</th><th>تولد</th></tr></thead><tbody>';
-    out += rows.map(function(p){
-      return '<tr><td><b>'+safeText(p.name||"بدون نام")+'</b></td><td>'+safeText(p.gender||"-")+'</td><td>'+safeText(parentName(p.parentId||p.parent||""))+'</td><td>'+safeText(parentName(p.motherId||""))+'</td><td>'+safeText(p.birth||"-")+'</td></tr>';
+    box.innerHTML = rows.map(function(p){
+      return '<div class="child-card"><b>'+safeText(p.name||"بدون نام")+'</b><small>جنسیت: '+safeText(p.gender||"-")+' | والد: '+safeText(parentName(p.parentId||p.parent||""))+' | مادر: '+safeText(parentName(p.motherId||""))+' | تولد: '+safeText(p.birth||"-")+'</small></div>';
     }).join("");
-    out+='</tbody></table></div>';
-    box.innerHTML=out;
   };
   window.renderChildren = window.renderChildren || window.renderChildrenManager;
   window.refreshChildrenManager = window.refreshChildrenManager || window.renderChildrenManager;
@@ -1389,21 +1372,6 @@ body.app-ready #login{
 </section>
 <section class="view-section" id="view-children">
 <div class="page-title"><h1>👨‍👩‍👧‍👦 مدیریت فرزندان</h1><span>👶 افزودن و انتقال فرزند</span></div>
-<div class="panel">
-<h2>👶 افزودن جدول فرزندان</h2>
-<p class="dashboard-note">نام والد را بنویسید یا از لیست انتخاب کنید؛ سپس فرزندان را در جدول وارد کنید. فرد تکراری ساخته نمی‌شود.</p>
-<div class="form-row"><input class="children-parent-input" id="childParentName" list="childParentList" onchange="syncChildrenParentPreview()" oninput="syncChildrenParentPreview()" placeholder="نام والد را بنویسید یا انتخاب کنید"/><datalist id="childParentList"></datalist></div>
-<div class="children-add-table-wrap">
-<table class="children-add-table">
-<thead><tr><th>ردیف</th><th>نام فرزند</th><th>جنسیت</th><th>سال تولد</th><th>حذف</th></tr></thead>
-<tbody id="childrenAddRows"></tbody>
-</table>
-</div>
-<div class="children-table-actions">
-<button class="btn blue-btn" onclick="addChildTableRow()" type="button">➕ ردیف جدید</button>
-<button class="btn" onclick="saveChildrenTable()" type="button">✅ افزودن فرزندان</button>
-</div>
-</div>
 <div class="children-grid">
 <div class="panel">
 <h2>👨‍👩‍👧‍👦 فرزندان هر فرد</h2>
@@ -3847,52 +3815,7 @@ function resolveParentIdFromName(text){
 function refreshChildrenSelects(){
   const ids=['childrenPersonSelect','moveChildSelect','moveParentSelect'];
   ids.forEach(id=>{const el=document.getElementById(id); if(el){const cur=el.value; el.innerHTML=optionPeopleHtml(cur);}});
-  const dl=document.getElementById('childParentList'); if(dl) dl.innerHTML=childrenParentDatalistHtml();
-  const rows=document.getElementById('childrenAddRows'); if(rows && !rows.children.length) addChildTableRow();
 }
-function addChildTableRow(name='',gender='male',birth=''){
-  const body=document.getElementById('childrenAddRows'); if(!body)return;
-  const n=body.children.length+1;
-  const tr=document.createElement('tr');
-  tr.innerHTML=`<td class="child-row-no">${n}</td><td><input class="child-row-name" placeholder="نام فرزند" value="${String(name).replace(/"/g,'&quot;')}"></td><td><select class="child-row-gender"><option value="male" ${gender==='male'?'selected':''}>پسر</option><option value="female" ${gender==='female'?'selected':''}>دختر</option></select></td><td><input class="child-row-birth" placeholder="سال تولد" value="${String(birth).replace(/"/g,'&quot;')}"></td><td><button class="children-mini-remove" onclick="removeChildTableRow(this)" type="button">حذف</button></td>`;
-  body.appendChild(tr);
-}
-function removeChildTableRow(btn){
-  const tr=btn.closest('tr'); if(tr)tr.remove();
-  document.querySelectorAll('#childrenAddRows .child-row-no').forEach((x,i)=>x.textContent=i+1);
-}
-
-function syncChildrenParentPreview(){
-  const parentName=document.getElementById('childParentName')?.value||'';
-  const parentId=resolveParentIdFromName(parentName);
-  const sel=document.getElementById('childrenPersonSelect');
-  if(sel && parentId){ sel.value=String(parentId); }
-  if(typeof renderChildrenManager==='function') renderChildrenManager();
-}
-function saveChildrenTable(){
-  if(!canEdit())return;
-  const parentName=document.getElementById('childParentName')?.value||'';
-  const parentId=resolveParentIdFromName(parentName);
-  if(!parentId){alert('نام والد را از لیست انتخاب کنید یا دقیق بنویسید');return;}
-  const rows=[...document.querySelectorAll('#childrenAddRows tr')];
-  let added=0;
-  rows.forEach(r=>{
-    const name=(r.querySelector('.child-row-name')?.value||'').trim();
-    if(!name)return;
-    const gender=r.querySelector('.child-row-gender')?.value||'male';
-    const birth=(r.querySelector('.child-row-birth')?.value||'').trim();
-    people.push({id:uid(),name,gender,birth,parentId:Number(parentId),job:'',phone:'',photo:''});
-    added++;
-  });
-  if(!added){alert('حداقل نام یک فرزند را وارد کنید');return;}
-  const body=document.getElementById('childrenAddRows'); if(body) body.innerHTML='';
-  addChildTableRow();
-  save();
-  const sel=document.getElementById('childrenPersonSelect'); if(sel) sel.value=String(parentId);
-  renderChildrenManager();
-  showView('children');
-}
-function addQuickChild(){ saveChildrenTable(); }
 function renderChildrenManager(){
   refreshChildrenSelects();
   const personSel=document.getElementById('childrenPersonSelect');
@@ -5239,7 +5162,7 @@ async function runHomeUpdateRepair(){
   }
 
   window.renderChildrenManager=function(){
-    var root=$("childrenList")||$("childrenManager")||$("childrenContent")||document.querySelector("#view-children .panel")||document.querySelector("#view-children");
+    var root=$("childrenListBox")||$("childrenList")||$("childrenManager")||$("childrenContent");
     if(!root) return;
     var select=ensureParentSelect(root);
     var parent=getSelectedParentId();
@@ -5258,9 +5181,9 @@ async function runHomeUpdateRepair(){
           return '<div class="v1562-child-card"><b>👤 '+esc(ch.name||"بدون نام")+'</b>'+
             '<small>جنسیت: '+esc(genderFa(ch.gender||ch.sex))+' | تولد: '+esc(birth(ch))+' | والد: '+esc(p&&p.name?p.name:"-")+' | مادر: '+esc(personName(motherId(ch))||"-")+'</small>'+
             '<div class="v1562-child-actions">'+
-            '<button class="btn blue-btn" type="button" onclick="v1562OpenChildProfile(\\''+esc(ch.id)+'\\')">پروفایل</button>'+
-            '<button class="btn gray-btn" type="button" onclick="v1562EditChild(\\''+esc(ch.id)+'\\')">ویرایش</button>'+
-            '<button class="btn red-btn" type="button" onclick="v1562RemoveParentRelation(\\''+esc(ch.id)+'\\')">حذف رابطه والد</button>'+
+            '<button class="btn blue-btn" type="button" data-id="'+esc(ch.id)+'" onclick="v1562OpenChildProfile(this.dataset.id)">پروفایل</button>'+
+            '<button class="btn gray-btn" type="button" data-id="'+esc(ch.id)+'" onclick="v1562EditChild(this.dataset.id)">ویرایش</button>'+
+            '<button class="btn red-btn" type="button" data-id="'+esc(ch.id)+'" onclick="v1562RemoveParentRelation(this.dataset.id)">حذف رابطه والد</button>'+
             '</div></div>';
         }).join("");
       }
