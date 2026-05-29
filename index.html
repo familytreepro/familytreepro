@@ -1389,16 +1389,7 @@ body.app-ready #login{
 <h2>👶 افزودن فرزندان</h2>
 <p class="dashboard-note">نام والد را بنویسید یا از لیست انتخاب کنید؛ جدول ورود اطلاعات فقط در کشوی پایین باز می‌شود. فرد تکراری ساخته نمی‌شود.</p>
 <div class="form-row"><input class="children-parent-input" id="childParentName" list="childParentList" onchange="syncChildrenParentPreview()" oninput="syncChildrenParentPreview()" placeholder="نام والد را بنویسید یا انتخاب کنید"/><datalist id="childParentList"></datalist></div>
-<div class="children-add-table-wrap">
-<table class="children-add-table">
-<thead><tr><th>ردیف</th><th>نام فرزند</th><th>جنسیت</th><th>سال تولد</th><th>حذف</th></tr></thead>
-<tbody id="childrenAddRows"></tbody>
-</table>
-</div>
-<div class="children-table-actions">
-<button class="btn blue-btn" onclick="addChildTableRow()" type="button">➕ ردیف جدید</button>
-<button class="btn" onclick="saveChildrenTable()" type="button">✅ افزودن فرزندان</button>
-</div>
+<!-- V156.19 safe fix: top children table removed; bottom children list/search stays unchanged -->
 </div>
 <div class="children-grid">
 <div class="panel">
@@ -5139,9 +5130,9 @@ async function runHomeUpdateRepair(){
 
 
 <style id="v15619-children-stable-clean-css">
-/* V156.19: فرم افزودن فرزند بالا ثابت؛ لیست کلی فرزندان فقط داخل کشوی پایین */
-#view-children > .panel > .children-add-table-wrap{display:block!important;}
-#view-children > .panel > .children-table-actions{display:flex!important;}
+/* V156.19 safe fix: جدول بالای افزودن فرزند حذف شد؛ لیست کشویی پایین بدون تغییر */
+#view-children > .panel > .children-add-table-wrap{display:none!important;}
+#view-children > .panel > .children-table-actions{display:none!important;}
 #childrenListBottomDrawer{
   display:none;
   position:fixed;left:0;right:0;bottom:0;background:var(--card);color:var(--text);
