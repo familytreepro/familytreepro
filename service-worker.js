@@ -1,5 +1,5 @@
-// FamilyTreePro V156.12 Clean Final - no-cache
-const CACHE_NAME = 'familytreepro-v156-12-children-drawer-only-no-cache';
+// FamilyTreePro V156.13 Clean Final - no-cache
+const CACHE_NAME = 'familytreepro-v156-13-quick-add-top-list-drawer-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
