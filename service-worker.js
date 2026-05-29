@@ -1,5 +1,5 @@
-// FamilyTreePro V156.17 Clean Final - no-cache
-const CACHE_NAME = 'familytreepro-v156-17-children-clean-module-no-cache';
+// FamilyTreePro V156.18 Clean Final - no-cache
+const CACHE_NAME = 'familytreepro-v156-18-parent-children-preview-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
