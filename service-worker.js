@@ -1,5 +1,5 @@
-// FamilyTreePro V156.19 Clean Final - no-cache
-const CACHE_NAME = 'familytreepro-v156-19-children-stable-clean-no-cache';
+// FamilyTreePro V156.21 Children Layout Clean - no-cache
+const CACHE_NAME = 'familytreepro-v156-21-children-layout-drawer-clean-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
