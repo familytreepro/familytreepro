@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.14 Children Full List Drawer",
+  "name": "FamilyTreePro V156.15 Child Live Search",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-14-children-full-list-drawer",
+  "start_url": "./index.html?v=156-15-child-live-search",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.14 Children Full List Drawer",
+  "description": "FamilyTreePro V156.15 Child Live Search",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
