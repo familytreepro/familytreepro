@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.13 Quick Add Top List Drawer",
+  "name": "FamilyTreePro V156.14 Children Full List Drawer",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-13-quick-add-top-list-drawer",
+  "start_url": "./index.html?v=156-14-children-full-list-drawer",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.13 Quick Add Top List Drawer",
+  "description": "FamilyTreePro V156.14 Children Full List Drawer",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
