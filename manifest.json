@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.29 Photo Storage Clean Fix",
+  "name": "FamilyTreePro V156.30 Manual Spouse Fields",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-29-photo-storage-clean-fix",
+  "start_url": "./index.html?v=156-30-manual-spouse-fields",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.29 Photo Storage Clean Fix",
+  "description": "FamilyTreePro V156.30 Manual Spouse Fields",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
