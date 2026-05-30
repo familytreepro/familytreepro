@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.24 Children Clean Drawer",
+  "name": "FamilyTreePro V156.25 Children Select Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-24-children-clean-drawer",
+  "start_url": "./index.html?v=156-25-children-select-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.24 Children Clean Drawer",
+  "description": "FamilyTreePro V156.25 Children Select Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
