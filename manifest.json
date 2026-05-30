@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.34 Photo Thumb Fallback Clean",
+  "name": "FamilyTreePro V156.35 Photo Rescue Stable",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-34-photo-thumb-fallback-clean",
+  "start_url": "./index.html?v=156-35-photo-rescue-stable",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.34 Photo Thumb Fallback Clean",
+  "description": "FamilyTreePro V156.35 Photo Rescue Stable",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

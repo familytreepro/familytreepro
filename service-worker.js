@@ -1,5 +1,5 @@
-// FamilyTreePro V156.34 Photo Thumb Fallback Clean - network first with safe offline fallback
-const CACHE_NAME = 'familytreepro-v156-34-photo-thumb-fallback-clean';
+// FamilyTreePro V156.35 Photo Rescue Stable - network first with safe offline fallback
+const CACHE_NAME = 'familytreepro-v156-35-photo-rescue-stable';
 const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));
