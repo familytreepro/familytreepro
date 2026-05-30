@@ -1,5 +1,5 @@
-// FamilyTreePro V156.23 Photo Cloud 500 - no-cache
-const CACHE_NAME = 'familytreepro-v156-23-photo-cloud-500-no-cache';
+// FamilyTreePro V156.24 Children Clean Drawer - no-cache
+const CACHE_NAME = 'familytreepro-v156-24-children-clean-drawer-no-cache';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

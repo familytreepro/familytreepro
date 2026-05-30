@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.23 Photo Cloud 500",
+  "name": "FamilyTreePro V156.24 Children Clean Drawer",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-23-photo-cloud-500",
+  "start_url": "./index.html?v=156-24-children-clean-drawer",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.23 Photo Cloud 500",
+  "description": "FamilyTreePro V156.24 Children Clean Drawer",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
