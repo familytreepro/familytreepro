@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.33 Marriage Apply Firebase Clean",
+  "name": "FamilyTreePro V156.34 Photo Thumb Fallback Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-33-marriage-apply-firebase-clean",
+  "start_url": "./index.html?v=156-34-photo-thumb-fallback-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.33 Marriage Apply Firebase Clean",
+  "description": "FamilyTreePro V156.34 Photo Thumb Fallback Clean",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
