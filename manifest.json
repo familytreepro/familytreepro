@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.30 Manual Spouse Fields",
+  "name": "FamilyTreePro V156.32 Firebase Unified No-VPN Safe",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-30-manual-spouse-fields",
+  "start_url": "./index.html?v=156-32-firebase-unified-no-vpn-safe",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.30 Manual Spouse Fields",
+  "description": "FamilyTreePro V156.32 Firebase Unified No-VPN Safe",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
