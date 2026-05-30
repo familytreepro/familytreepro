@@ -1,5 +1,5 @@
-// FamilyTreePro V156.27 Clean Rebuild - no-cache
-const CACHE_NAME = 'familytreepro-v156-27-children-dropdown-fix-no-cache';
+// FamilyTreePro V156.28 Error Clean Guard - no-cache
+const CACHE_NAME = 'familytreepro-v156-28-children-dropdown-fix-no-cache';
 
 self.addEventListener('install', event => { self.skipWaiting(); });
 self.addEventListener('activate', event => { event.waitUntil(caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k)))).then(() => self.clients.claim())); });

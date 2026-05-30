@@ -1,5 +1,5 @@
 {
-  "name": "FamilyTreePro V156.27 Clean Rebuild",
+  "name": "FamilyTreePro V156.28 Error Clean Guard",
   "short_name": "FamilyTreePro",
   "start_url": "./index.html?v=156-25-children-dropdown-fix",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.27 Clean Rebuild",
+  "description": "FamilyTreePro V156.28 Error Clean Guard",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
