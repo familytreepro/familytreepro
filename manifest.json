@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.32 Firebase Unified No-VPN Safe",
+  "name": "FamilyTreePro V156.33 Marriage Apply Firebase Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-32-firebase-unified-no-vpn-safe",
+  "start_url": "./index.html?v=156-33-marriage-apply-firebase-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.32 Firebase Unified No-VPN Safe",
+  "description": "FamilyTreePro V156.33 Marriage Apply Firebase Clean",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

@@ -1,5 +1,5 @@
-// FamilyTreePro V156.32 Firebase Unified No-VPN Safe - network first with safe offline fallback
-const CACHE_NAME = 'familytreepro-v156-32-firebase-unified-no-vpn-safe';
+// FamilyTreePro V156.33 Marriage Apply Firebase Clean - network first with safe offline fallback
+const CACHE_NAME = 'familytreepro-v156-33-marriage-apply-firebase-clean';
 const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));
