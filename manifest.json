@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.35 Photo Rescue Stable",
+  "name": "FamilyTreePro V156.36 Mobile Firebase Grace",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-35-photo-rescue-stable",
+  "start_url": "./index.html?v=156-36-mobile-firebase-grace",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.35 Photo Rescue Stable",
+  "description": "FamilyTreePro V156.36 Mobile Firebase Grace",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
