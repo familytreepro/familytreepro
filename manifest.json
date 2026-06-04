@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.36 Mobile Firebase Grace",
+  "name": "FamilyTreePro V156.38 Liara Email Login Test",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-36-mobile-firebase-grace",
+  "start_url": "./index.html?v=156-38-liara-email-login-test",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.36 Mobile Firebase Grace",
+  "description": "FamilyTreePro V156.38 Liara Email Login Test",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
