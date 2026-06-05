@@ -1,5 +1,5 @@
-// FamilyTreePro V156.39 Remove Number Captcha Login Fix - network first with safe offline fallback
-const CACHE_NAME = 'familytreepro-v156-39-remove-number-captcha-login-fix';
+// FamilyTreePro V156.40 Login Lock Fix - network first with safe offline fallback
+const CACHE_NAME = 'familytreepro-v156-40-login-lock-fix';
 const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));
