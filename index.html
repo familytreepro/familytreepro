@@ -6242,7 +6242,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   }
   async function uploadBlobToLiara(blob, meta){
     const base=apiBase();
-    if(!base) throw new Error('آدرس API لیارا تنظیم نشده است. بعد از ساخت برنامه لیارا، در index مقدار FTP_LIARA_UPLOAD_API را قرار بده یا در Console بنویس: setFamilyTreeProLiaraApi("https://YOUR-APP.liara.run")');
+    if(!base) throw new Error('آدرس API لیارا تنظیم نشده است. بعد از ساخت برنامه لیارا، در index مقدار FTP_LIARA_UPLOAD_API را قرار بده یا در Console بنویس: setFamilyTreeProLiaraApi("https://interesting-haslett-nnsohn-fy.liara.run")');
     const token=await firebaseIdToken();
     const fd=new FormData();
     fd.append('file', blob, meta.fileName || 'photo.webp');
