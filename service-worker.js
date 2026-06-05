@@ -1,5 +1,5 @@
-// FamilyTreePro V156.50 Shared Photo Cloud - network first with safe offline fallback
-const CACHE_NAME = 'familytreepro-v156-52-shared-photo-cloud';
+// FamilyTreePro V156.70 Ultimate Photo Engine - network first with safe offline fallback
+const CACHE_NAME = 'familytreepro-v156-70-ultimate-photo-engine';
 const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));

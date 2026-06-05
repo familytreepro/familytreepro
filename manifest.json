@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.50 Shared Photo Cloud",
+  "name": "FamilyTreePro V156.70 Ultimate Photo Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-50-shared-photo-cloud",
+  "start_url": "./index.html?v=156-70-ultimate-photo-engine",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.50 Shared Photo Cloud",
+  "description": "FamilyTreePro V156.70 Ultimate Photo Engine",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
