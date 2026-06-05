@@ -1,5 +1,5 @@
-// FamilyTreePro V156.48 Clean Base - network first with safe offline fallback
-const CACHE_NAME = 'familytreepro-v156-48-clean-base';
+// FamilyTreePro V156.49 Mobile Login Restore - network first with safe offline fallback
+const CACHE_NAME = 'familytreepro-v156-49-mobile-login-restore';
 const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));

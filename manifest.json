@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.48 Clean Base",
+  "name": "FamilyTreePro V156.49 Mobile Login Restore",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-48-clean-base",
+  "start_url": "./index.html?v=156-49-mobile-login-restore",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.48 Clean Base",
+  "description": "FamilyTreePro V156.49 Mobile Login Restore",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
