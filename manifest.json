@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.49 Mobile Login Restore",
+  "name": "FamilyTreePro V156.50 Shared Photo Cloud",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-49-mobile-login-restore",
+  "start_url": "./index.html?v=156-50-shared-photo-cloud",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.49 Mobile Login Restore",
+  "description": "FamilyTreePro V156.50 Shared Photo Cloud",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
