@@ -1,5 +1,5 @@
 {
-  "name": "FamilyTreePro V156.45 Auth Panel Safe Restore",
+  "name": "FamilyTreePro V156.46 Password Reset Real Fix",
   "short_name": "FamilyTreePro",
   "start_url": "./index.html?v=156-45-auth-panel-safe-restore",
   "display": "standalone",
@@ -8,7 +8,7 @@
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.45 Auth Panel Safe Restore",
+  "description": "FamilyTreePro V156.46 Password Reset Real Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
