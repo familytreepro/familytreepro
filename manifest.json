@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.47 Auth Real Final Connect",
+  "name": "FamilyTreePro V156.48 Clean Base",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-47-auth-real-final-connect",
+  "start_url": "./index.html?v=156-48-clean-base",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.47 Auth Real Final Connect",
+  "description": "FamilyTreePro V156.48 Clean Base",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
