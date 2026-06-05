@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.44 Auth List Reset Fix",
+  "name": "FamilyTreePro V156.45 Auth Panel Safe Restore",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-44-auth-list-reset-fix",
+  "start_url": "./index.html?v=156-45-auth-panel-safe-restore",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.44 Auth List Reset Fix",
+  "description": "FamilyTreePro V156.45 Auth Panel Safe Restore",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
