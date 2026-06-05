@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.42 Register Clean Fix",
+  "name": "FamilyTreePro V156.43 Register Real Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-42-register-clean-fix",
+  "start_url": "./index.html?v=156-43-register-real-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.42 Register Clean Fix",
+  "description": "FamilyTreePro V156.43 Register Real Fix",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
