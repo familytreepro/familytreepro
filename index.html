@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.90 F35 Firebase Photo Engine</title> <style>  
+<title>FamilyTreePro V156.91 F35 Lite Photo Engine 60-120KB</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -732,7 +732,7 @@ min-width:90px!important;
   "use strict";
   if(window.__V153_SECURITY_HARDENING__) return;
   window.__V153_SECURITY_HARDENING__ = true;
-  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.90 F35 Firebase Photo Engine";
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.91 F35 Lite Photo Engine 60-120KB";
 
   try{
     if(window.top !== window.self){ window.top.location = window.self.location.href; }
@@ -6164,269 +6164,48 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 
 
-<script id="f35-firebase-photo-engine-v15690">
-/* FamilyTreePro V156.90 F35 Firebase Photo Engine
-   فقط موتور عکس را روی Firebase Storage استاندارد می‌کند.
-   بدون Liara، بدون Base64 داخل people/localStorage، بدون حذف Login/Register/Auth/Tree.
-   خروجی سازگار با کدهای قدیمی: p.photo همچنان URL عکس را نگه می‌دارد.
-*/
+<script id="f35-lite-photo-engine-v15691">
 (function(){
   'use strict';
-  if(window.__FTP_F35_FIREBASE_PHOTO_ENGINE__) return;
-  window.__FTP_F35_FIREBASE_PHOTO_ENGINE__ = true;
-
-  const ENGINE_VERSION = 'V156.90 F35 Firebase Photo Engine';
-  const MAX_INPUT_MB = 25;
-  const ACCEPTED = /image\/(jpeg|jpg|png|webp)/i;
-  const VARIANTS = {
-    thumb:  { max: 320,  quality: 0.78 },
-    medium: { max: 1080, quality: 0.82 },
-    full:   { max: 1800, quality: 0.86 }
+  if(window.__FTP_F35_LITE_PHOTO_ENGINE__) return;
+  window.__FTP_F35_LITE_PHOTO_ENGINE__ = true;
+  const ENGINE_VERSION='V156.91 F35 Lite Photo Engine 60-120KB';
+  const MAX_INPUT_MB=25;
+  const ACCEPTED=/image\/(jpeg|jpg|png|webp)/i;
+  const TARGETS={thumb:{max:260,kb:20,minQ:.38,startQ:.72},medium:{max:820,kb:60,minQ:.34,startQ:.76},full:{max:1280,kb:120,minQ:.32,startQ:.80}};
+  function status(personId,msg){try{if(typeof window.v149SetPhotoStatus==='function')window.v149SetPhotoStatus(personId,msg);}catch(e){}}
+  function safeName(name){return String(name||'photo').replace(/\.[^.]+$/,'').replace(/[^\w\-]+/g,'_').slice(0,60)+'.webp';}
+  function hsize(bytes){bytes=Number(bytes||0);return bytes<1024?bytes+' B':Math.round(bytes/1024)+' KB';}
+  function fileToImage(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{URL.revokeObjectURL(u);res(i)};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('خواندن عکس در مرورگر انجام نشد'))};i.src=u;});}
+  function dataBytes(d){const c=String(d||'').indexOf(','),l=c>=0?String(d).length-c-1:String(d||'').length;return Math.ceil(l*3/4);}
+  function makeCanvas(img,maxSide){const w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,r=Math.min(1,maxSide/Math.max(w,h)),nw=Math.max(1,Math.round(w*r)),nh=Math.max(1,Math.round(h*r)),c=document.createElement('canvas');c.width=nw;c.height=nh;const x=c.getContext('2d',{alpha:false});x.fillStyle='#fff';x.fillRect(0,0,nw,nh);x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(img,0,0,nw,nh);return c;}
+  function toData(c,q){try{return c.toDataURL('image/webp',q)}catch(e){return c.toDataURL('image/jpeg',q)}}
+  async function compressVariant(file,cfg){const img=await fileToImage(file);let max=cfg.max,best=null;for(let round=0;round<6;round++){const canvas=makeCanvas(img,max);for(let q=cfg.startQ;q>=cfg.minQ;q-=.08){const data=toData(canvas,q),bytes=dataBytes(data);best={data,bytes,width:canvas.width,height:canvas.height,quality:q};if(bytes<=cfg.kb*1024)return best;}max=Math.max(180,Math.round(max*.84));}return best;}
+  async function compressPhotoSet(file,personId,kind){
+    if(!file)throw new Error('هیچ فایلی انتخاب نشده است');
+    if(!ACCEPTED.test(String(file.type||'')))throw new Error('فقط عکس JPG/PNG/WEBP مجاز است');
+    if(file.size>MAX_INPUT_MB*1024*1024)throw new Error('حجم عکس بیشتر از '+MAX_INPUT_MB+'MB است');
+    status(personId,'F35 Lite: در حال فشرده‌سازی عکس به 20/60/120KB...');
+    const thumb=await compressVariant(file,TARGETS.thumb),medium=await compressVariant(file,TARGETS.medium),full=await compressVariant(file,TARGETS.full);
+    const total=(thumb.bytes||0)+(medium.bytes||0)+(full.bytes||0);
+    return {ok:true,cloud:false,provider:'firestore-lite-dataurl',engine:ENGINE_VERSION,name:safeName(file.name),type:'image/webp',url:medium.data,data:medium.data,thumb:thumb.data,thumbUrl:thumb.data,medium:medium.data,mediumUrl:medium.data,full:full.data,fullUrl:full.data,date:new Date().toLocaleDateString('fa-IR'),optimized:true,oldSize:file.size||0,newSize:total,sizes:{thumb:thumb.bytes,medium:medium.bytes,full:full.bytes,total:total},dimensions:{thumb:[thumb.width,thumb.height],medium:[medium.width,medium.height],full:[full.width,full.height]}};
+  }
+  window.ftpCompressPhotoF35Lite=compressPhotoSet;
+  window.v15650UploadPreparedImageFile=async function(file,personId,kind){
+    try{const p=await compressPhotoSet(file,personId,kind);status(personId,'F35 Lite: عکس فشرده شد. حجم کل: '+hsize(p.newSize));return {ok:true,url:p.url,thumbUrl:p.thumbUrl,mediumUrl:p.mediumUrl,fullUrl:p.fullUrl,data:p.data,thumb:p.thumb,medium:p.medium,full:p.full,size:p.newSize,oldSize:p.oldSize,name:p.name,provider:p.provider,sizes:p.sizes};}
+    catch(e){const err=String((e&&e.message)||e||'خطای نامشخص');status(personId,'F35 Lite: عکس قبول نشد: '+err);return {ok:false,error:err,oldSize:file&&file.size||0};}
   };
-
-  function $(id){ return document.getElementById(id); }
-  function cleanText(v){ return String(v == null ? '' : v); }
-  function safePart(v){
-    return cleanText(v || 'x').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,80) || 'x';
-  }
-  function safeFileName(name){
-    name = cleanText(name || 'photo').replace(/\.[^.]+$/,'').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,70) || 'photo';
-    return name + '.webp';
-  }
-  function status(personId,msg){
-    try{ if(typeof window.v149SetPhotoStatus === 'function') window.v149SetPhotoStatus(personId,msg); }catch(e){}
-  }
-  function familyId(){
-    try{
-      const cfg = (typeof window.getFirebaseConfig === 'function') ? window.getFirebaseConfig() : {};
-      return safePart(cfg.fbFamilyId || cfg.projectId || 'my-family');
-    }catch(e){ return 'my-family'; }
-  }
-  function currentUser(){
-    const fb = window.familyFirebase;
-    return window.firebaseAuthUser || (fb && fb.auth && fb.auth.currentUser) || null;
-  }
-  async function waitFirebaseStorage(ms){
-    const end = Date.now() + (ms || 10000);
-    while(Date.now() < end){
-      const fb = window.familyFirebase;
-      const user = currentUser();
-      if(fb && fb.storage && fb.storageRef && fb.uploadBytes && fb.getDownloadURL && user) return {fb,user};
-      try{ if(typeof window.firebaseConnect === 'function') await window.firebaseConnect(); }catch(e){}
-      await new Promise(r => setTimeout(r, 220));
-    }
-    return {fb: window.familyFirebase || null, user: currentUser()};
-  }
-  function humanError(e){
-    const s = cleanText((e && (e.code || e.message)) || e);
-    if(/auth|user|login|وارد/i.test(s)) return 'برای آپلود عکس مشترک باید با Firebase Login وارد شده باشید.';
-    if(/storage\/unauthorized|permission|403|401/i.test(s)) return 'اجازه Storage Rules کافی نیست. Rules باید به کاربر واردشده اجازه read/write بدهد.';
-    if(/network|ERR_NETWORK|failed to fetch|offline|CORS|preflight|Access-Control/i.test(s)) return 'ارتباط مرورگر با Firebase Storage برقرار نشد؛ اینترنت/VPN یا CORS/Rules را بررسی کنید.';
-    if(/quota|limit/i.test(s)) return 'محدودیت سهمیه Firebase Storage یا حجم درخواست.';
-    return s || 'خطای نامشخص Firebase Storage';
-  }
-  function fileToImage(file){
-    return new Promise((resolve,reject)=>{
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
-      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('خواندن عکس در مرورگر انجام نشد')); };
-      img.src = url;
-    });
-  }
-  async function resizeToBlob(file, cfg){
-    const img = await fileToImage(file);
-    const w = img.naturalWidth || img.width;
-    const h = img.naturalHeight || img.height;
-    const ratio = Math.min(1, cfg.max / Math.max(w, h));
-    const nw = Math.max(1, Math.round(w * ratio));
-    const nh = Math.max(1, Math.round(h * ratio));
-    const canvas = document.createElement('canvas');
-    canvas.width = nw;
-    canvas.height = nh;
-    const ctx = canvas.getContext('2d', {alpha:false});
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0,0,nw,nh);
-    ctx.imageSmoothingEnabled = true;
-    ctx.imageSmoothingQuality = 'high';
-    ctx.drawImage(img,0,0,nw,nh);
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/webp', cfg.quality));
-    if(!blob) throw new Error('فشرده‌سازی عکس انجام نشد');
-    return blob;
-  }
-  async function dataUrlToBlob(dataUrl){
-    return await fetch(dataUrl).then(r => r.blob());
-  }
-  async function uploadBlob(blob, meta){
-    const ready = await waitFirebaseStorage(12000);
-    const fb = ready.fb;
-    const user = ready.user;
-    if(!fb || !fb.storage || !fb.storageRef || !fb.uploadBytes || !fb.getDownloadURL){
-      throw new Error('Firebase Storage SDK آماده نیست؛ فایل را از GitHub Pages/HTTPS اجرا کنید.');
-    }
-    if(!user) throw new Error('برای آپلود عکس مشترک باید با Firebase Login وارد شده باشید.');
-    const fid = familyId();
-    const uid = safePart(user.uid || user.email || 'user');
-    const pid = safePart(meta.personId || 'new');
-    const kind = safePart(meta.kind || 'photo');
-    const variant = safePart(meta.variant || 'full');
-    const stamp = Date.now() + '_' + Math.random().toString(36).slice(2,8);
-    const path = [
-      'familytreepro',
-      'families',
-      fid,
-      'people',
-      pid,
-      kind,
-      variant,
-      stamp + '_' + safeFileName(meta.fileName || 'photo.webp')
-    ].join('/');
-    const ref = fb.storageRef(fb.storage, path);
-    await fb.uploadBytes(ref, blob, {
-      contentType: 'image/webp',
-      customMetadata: {
-        engine: ENGINE_VERSION,
-        familyId: fid,
-        personId: String(meta.personId || ''),
-        kind: String(meta.kind || ''),
-        variant: String(meta.variant || ''),
-        uploadedBy: uid
-      }
-    });
-    const url = await fb.getDownloadURL(ref);
-    return {ok:true, url, path, key:path, size:blob.size || 0, variant};
-  }
-  async function uploadPhotoSet(file, personId, kind){
-    if(!file) throw new Error('هیچ فایلی انتخاب نشده است');
-    if(!ACCEPTED.test(String(file.type || ''))) throw new Error('فقط عکس JPG/PNG/WEBP مجاز است');
-    if(file.size > MAX_INPUT_MB * 1024 * 1024) throw new Error('حجم عکس بیشتر از '+MAX_INPUT_MB+'MB است');
-
-    const base = {
-      personId: personId || 'new',
-      kind: kind || 'photo',
-      fileName: file.name || 'photo.webp'
-    };
-
-    const thumbBlob  = await resizeToBlob(file, VARIANTS.thumb);
-    const mediumBlob = await resizeToBlob(file, VARIANTS.medium);
-    const fullBlob   = await resizeToBlob(file, VARIANTS.full);
-
-    const thumb  = await uploadBlob(thumbBlob,  Object.assign({}, base, {variant:'thumb'}));
-    const medium = await uploadBlob(mediumBlob, Object.assign({}, base, {variant:'medium'}));
-    const full   = await uploadBlob(fullBlob,   Object.assign({}, base, {variant:'full'}));
-
-    return {
-      ok:true,
-      cloud:true,
-      provider:'firebase-storage',
-      engine:ENGINE_VERSION,
-      url: full.url || medium.url || thumb.url,
-      thumbUrl: thumb.url || '',
-      mediumUrl: medium.url || '',
-      fullUrl: full.url || '',
-      path: full.path || '',
-      variants:{thumb,medium,full},
-      size:(thumb.size||0)+(medium.size||0)+(full.size||0),
-      oldSize:file.size||0,
-      name:safeFileName(file.name)
-    };
-  }
-
-  window.ftpUploadPhotoF35Firebase = uploadPhotoSet;
-
-  // تابع اصلی پروژه؛ امضا حفظ شده تا savePerson و گالری خراب نشوند.
-  window.v15650UploadPreparedImageFile = async function(file, personId, kind){
-    try{
-      status(personId, 'F35: در حال ساخت نسخه‌های عکس و آپلود در Firebase Storage...');
-      const up = await uploadPhotoSet(file, personId, kind);
-      status(personId, 'F35: عکس با موفقیت در Firebase Storage ذخیره شد.');
-      return {
-        ok:true,
-        url:up.url,
-        thumbUrl:up.thumbUrl,
-        mediumUrl:up.mediumUrl,
-        fullUrl:up.fullUrl,
-        path:up.path,
-        size:up.size,
-        oldSize:up.oldSize,
-        name:up.name,
-        provider:up.provider,
-        variants:up.variants
-      };
-    }catch(e){
-      const err = humanError(e);
-      console.warn('F35 Firebase photo upload failed:', e);
-      status(personId, 'F35: عکس قبول نشد: '+err);
-      return {ok:false, error:err, oldSize:file && file.size || 0};
-    }
+  window.v15623UploadImageToCloud=async function(dataUrl,personId,kind,fileName){
+    try{const blob=await fetch(dataUrl).then(r=>r.blob());const file=new File([blob],fileName||'photo.webp',{type:blob.type||'image/webp'});const p=await compressPhotoSet(file,personId,kind);return {url:p.url,cloud:false,data:p.data,thumbUrl:p.thumbUrl,mediumUrl:p.mediumUrl,fullUrl:p.fullUrl,size:p.newSize,provider:p.provider};}
+    catch(e){return {url:'',cloud:false,error:String((e&&e.message)||e)};}
   };
-
-  // سازگاری با مسیر قدیمی که dataURL می‌داد.
-  window.v15623UploadImageToCloud = async function(dataUrl, personId, kind, fileName){
-    try{
-      if(!String(dataUrl || '').startsWith('data:image/')) throw new Error('داده عکس معتبر نیست');
-      const blob = await dataUrlToBlob(dataUrl);
-      const file = new File([blob], fileName || 'photo.webp', {type: blob.type || 'image/webp'});
-      const up = await uploadPhotoSet(file, personId, kind);
-      return {
-        url:up.url,
-        cloud:true,
-        path:up.path,
-        size:up.size,
-        provider:up.provider,
-        thumbUrl:up.thumbUrl,
-        mediumUrl:up.mediumUrl,
-        fullUrl:up.fullUrl
-      };
-    }catch(e){
-      return {url:'', cloud:false, error:humanError(e)};
-    }
+  window.fileToBase64=function(file,callback,personId,type){
+    if(file&&String(file.type||'').indexOf('image/')===0){compressPhotoSet(file,personId||'profile',type||'photo').then(p=>{status(personId,'F35 Lite: عکس ذخیره شد. Thumb '+hsize(p.sizes.thumb)+' / نمایش '+hsize(p.sizes.medium)+' / بزرگ '+hsize(p.sizes.full));callback({name:p.name,type:'image/webp',data:p.data,url:p.url,thumb:p.thumb,medium:p.medium,full:p.full,thumbUrl:p.thumbUrl,mediumUrl:p.mediumUrl,fullUrl:p.fullUrl,date:p.date,optimized:true,cloud:false,provider:p.provider,oldSize:p.oldSize,newSize:p.newSize,sizes:p.sizes,engine:ENGINE_VERSION});}).catch(e=>{alert('فشرده‌سازی عکس انجام نشد. خطا: '+String((e&&e.message)||e));callback(null);});return;}
+    const r=new FileReader();r.onload=e=>callback({name:file.name,type:file.type,data:e.target.result,date:new Date().toLocaleDateString('fa-IR')});r.onerror=()=>callback(null);r.readAsDataURL(file);
   };
-
-  // گالری و مدارک: فقط عکس‌ها Firebase می‌روند؛ فایل غیرعکس مثل قبل خوانده می‌شود.
-  window.fileToBase64 = function(file, callback, personId, type){
-    if(file && String(file.type || '').indexOf('image/') === 0){
-      status(personId, 'F35: در حال آپلود عکس در Firebase Storage...');
-      uploadPhotoSet(file, personId || 'profile', type || 'gallery').then(function(up){
-        callback({
-          name:up.name,
-          type:'image/webp',
-          data:up.url,
-          url:up.url,
-          thumb:up.thumbUrl,
-          medium:up.mediumUrl,
-          full:up.fullUrl,
-          date:new Date().toLocaleDateString('fa-IR'),
-          optimized:true,
-          cloud:true,
-          provider:'firebase-storage',
-          storagePath:up.path || '',
-          oldSize:up.oldSize || file.size || 0,
-          newSize:up.size || 0,
-          variants:up.variants || {}
-        });
-        status(personId, 'F35: عکس با موفقیت در Firebase Storage ذخیره شد.');
-      }).catch(function(e){
-        const err = humanError(e);
-        alert('آپلود عکس در Firebase Storage انجام نشد. خطا: '+err);
-        callback(null);
-      });
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = e => callback({name:file.name,type:file.type,data:e.target.result,date:new Date().toLocaleDateString('fa-IR')});
-    reader.onerror = () => callback(null);
-    reader.readAsDataURL(file);
-  };
-
-  // نمایش thumbnail در جاهایی که موجود است.
-  const oldMediaSrc = window.v15634MediaSrc;
-  window.v15634MediaSrc = function(item){
-    if(item && typeof item === 'object') return item.thumb || item.medium || item.url || item.data || item.full || '';
-    return oldMediaSrc ? oldMediaSrc(item) : (item || '');
-  };
-
-  console.log(ENGINE_VERSION + ' loaded: Firebase Storage only, Liara disabled.');
+  const oldMediaSrc=window.v15634MediaSrc;
+  window.v15634MediaSrc=function(item){if(item&&typeof item==='object')return item.thumb||item.thumbUrl||item.medium||item.mediumUrl||item.url||item.data||item.full||item.fullUrl||'';return oldMediaSrc?oldMediaSrc(item):(item||'');};
+  console.log(ENGINE_VERSION+' loaded: no Liara, no Firebase Storage, 20/60/120KB compression.');
 })();
 </script>
 

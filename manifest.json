@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.90 F35 Firebase Photo Engine",
+  "name": "FamilyTreePro V156.91 F35 Lite Photo Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-90-f35-firebase-photo",
+  "start_url": "./index.html?v=156-91-f35-lite-photo",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.90 F35 Firebase Photo Engine",
+  "description": "FamilyTreePro V156.91 F35 Lite Photo Engine 60-120KB",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
