@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.91 F35 Lite Photo Engine 60-120KB</title> <style>  
+<title>FamilyTreePro V156.80 Liara Secure Photo Engine</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -732,7 +732,7 @@ min-width:90px!important;
   "use strict";
   if(window.__V153_SECURITY_HARDENING__) return;
   window.__V153_SECURITY_HARDENING__ = true;
-  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.91 F35 Lite Photo Engine 60-120KB";
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.80 Liara Secure Photo Engine";
 
   try{
     if(window.top !== window.self){ window.top.location = window.self.location.href; }
@@ -6163,49 +6163,285 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 
-
-<script id="f35-lite-photo-engine-v15691">
+<script id="liara-ultimate-photo-engine-v15680">
+/* FamilyTreePro V156.80 Liara Secure Photo Engine
+   فقط موتور عکس را جایگزین می‌کند؛ Auth/Register/Logout/Admin/Tree دست نمی‌خورد.
+   مسیر امن: Firebase Auth Token -> Liara Upload API -> Liara Object Storage -> URL در people/gallery.
+*/
 (function(){
   'use strict';
-  if(window.__FTP_F35_LITE_PHOTO_ENGINE__) return;
-  window.__FTP_F35_LITE_PHOTO_ENGINE__ = true;
-  const ENGINE_VERSION='V156.91 F35 Lite Photo Engine 60-120KB';
-  const MAX_INPUT_MB=25;
-  const ACCEPTED=/image\/(jpeg|jpg|png|webp)/i;
-  const TARGETS={thumb:{max:260,kb:20,minQ:.38,startQ:.72},medium:{max:820,kb:60,minQ:.34,startQ:.76},full:{max:1280,kb:120,minQ:.32,startQ:.80}};
-  function status(personId,msg){try{if(typeof window.v149SetPhotoStatus==='function')window.v149SetPhotoStatus(personId,msg);}catch(e){}}
-  function safeName(name){return String(name||'photo').replace(/\.[^.]+$/,'').replace(/[^\w\-]+/g,'_').slice(0,60)+'.webp';}
-  function hsize(bytes){bytes=Number(bytes||0);return bytes<1024?bytes+' B':Math.round(bytes/1024)+' KB';}
-  function fileToImage(file){return new Promise((res,rej)=>{const u=URL.createObjectURL(file),i=new Image();i.onload=()=>{URL.revokeObjectURL(u);res(i)};i.onerror=()=>{URL.revokeObjectURL(u);rej(new Error('خواندن عکس در مرورگر انجام نشد'))};i.src=u;});}
-  function dataBytes(d){const c=String(d||'').indexOf(','),l=c>=0?String(d).length-c-1:String(d||'').length;return Math.ceil(l*3/4);}
-  function makeCanvas(img,maxSide){const w=img.naturalWidth||img.width,h=img.naturalHeight||img.height,r=Math.min(1,maxSide/Math.max(w,h)),nw=Math.max(1,Math.round(w*r)),nh=Math.max(1,Math.round(h*r)),c=document.createElement('canvas');c.width=nw;c.height=nh;const x=c.getContext('2d',{alpha:false});x.fillStyle='#fff';x.fillRect(0,0,nw,nh);x.imageSmoothingEnabled=true;x.imageSmoothingQuality='high';x.drawImage(img,0,0,nw,nh);return c;}
-  function toData(c,q){try{return c.toDataURL('image/webp',q)}catch(e){return c.toDataURL('image/jpeg',q)}}
-  async function compressVariant(file,cfg){const img=await fileToImage(file);let max=cfg.max,best=null;for(let round=0;round<6;round++){const canvas=makeCanvas(img,max);for(let q=cfg.startQ;q>=cfg.minQ;q-=.08){const data=toData(canvas,q),bytes=dataBytes(data);best={data,bytes,width:canvas.width,height:canvas.height,quality:q};if(bytes<=cfg.kb*1024)return best;}max=Math.max(180,Math.round(max*.84));}return best;}
-  async function compressPhotoSet(file,personId,kind){
-    if(!file)throw new Error('هیچ فایلی انتخاب نشده است');
-    if(!ACCEPTED.test(String(file.type||'')))throw new Error('فقط عکس JPG/PNG/WEBP مجاز است');
-    if(file.size>MAX_INPUT_MB*1024*1024)throw new Error('حجم عکس بیشتر از '+MAX_INPUT_MB+'MB است');
-    status(personId,'F35 Lite: در حال فشرده‌سازی عکس به 20/60/120KB...');
-    const thumb=await compressVariant(file,TARGETS.thumb),medium=await compressVariant(file,TARGETS.medium),full=await compressVariant(file,TARGETS.full);
-    const total=(thumb.bytes||0)+(medium.bytes||0)+(full.bytes||0);
-    return {ok:true,cloud:false,provider:'firestore-lite-dataurl',engine:ENGINE_VERSION,name:safeName(file.name),type:'image/webp',url:medium.data,data:medium.data,thumb:thumb.data,thumbUrl:thumb.data,medium:medium.data,mediumUrl:medium.data,full:full.data,fullUrl:full.data,date:new Date().toLocaleDateString('fa-IR'),optimized:true,oldSize:file.size||0,newSize:total,sizes:{thumb:thumb.bytes,medium:medium.bytes,full:full.bytes,total:total},dimensions:{thumb:[thumb.width,thumb.height],medium:[medium.width,medium.height],full:[full.width,full.height]}};
+  if(window.__FTP_LIARA_PHOTO_ENGINE_V15680__) return;
+  window.__FTP_LIARA_PHOTO_ENGINE_V15680__ = true;
+
+  const ENGINE_VERSION = 'V156.80 Liara Secure Photo Engine';
+  const MAX_INPUT_MB = 25;
+  const ACCEPTED = /image\/(jpeg|jpg|png|webp)/i;
+  const SIZES = {
+    thumb:  { max: 320,  quality: 0.78 },
+    medium: { max: 1080, quality: 0.82 },
+    full:   { max: 1800, quality: 0.86 }
+  };
+
+  function apiBase(){
+    return String(window.FTP_LIARA_UPLOAD_API || localStorage.getItem('ftp_liara_upload_api') || '').replace(/\/+$/,'');
   }
-  window.ftpCompressPhotoF35Lite=compressPhotoSet;
-  window.v15650UploadPreparedImageFile=async function(file,personId,kind){
-    try{const p=await compressPhotoSet(file,personId,kind);status(personId,'F35 Lite: عکس فشرده شد. حجم کل: '+hsize(p.newSize));return {ok:true,url:p.url,thumbUrl:p.thumbUrl,mediumUrl:p.mediumUrl,fullUrl:p.fullUrl,data:p.data,thumb:p.thumb,medium:p.medium,full:p.full,size:p.newSize,oldSize:p.oldSize,name:p.name,provider:p.provider,sizes:p.sizes};}
-    catch(e){const err=String((e&&e.message)||e||'خطای نامشخص');status(personId,'F35 Lite: عکس قبول نشد: '+err);return {ok:false,error:err,oldSize:file&&file.size||0};}
+  window.setFamilyTreeProLiaraApi = function(url){
+    localStorage.setItem('ftp_liara_upload_api', String(url||'').replace(/\/+$/,''));
+    alert('آدرس API لیارا ذخیره شد.');
   };
-  window.v15623UploadImageToCloud=async function(dataUrl,personId,kind,fileName){
-    try{const blob=await fetch(dataUrl).then(r=>r.blob());const file=new File([blob],fileName||'photo.webp',{type:blob.type||'image/webp'});const p=await compressPhotoSet(file,personId,kind);return {url:p.url,cloud:false,data:p.data,thumbUrl:p.thumbUrl,mediumUrl:p.mediumUrl,fullUrl:p.fullUrl,size:p.newSize,provider:p.provider};}
-    catch(e){return {url:'',cloud:false,error:String((e&&e.message)||e)};}
+
+  function safeName(name){
+    name = String(name||'photo').replace(/\.[^.]+$/,'').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,60) || 'photo';
+    return name + '.webp';
+  }
+  function dataURLToBlob(dataURL){
+    const parts=String(dataURL).split(',');
+    const mime=(parts[0].match(/:(.*?);/)||[])[1]||'image/webp';
+    const bin=atob(parts[1]||'');
+    const arr=new Uint8Array(bin.length);
+    for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+    return new Blob([arr],{type:mime});
+  }
+  function fileToBitmapImage(file){
+    return new Promise((resolve,reject)=>{
+      const url=URL.createObjectURL(file);
+      const img=new Image();
+      img.onload=()=>{URL.revokeObjectURL(url); resolve(img);};
+      img.onerror=()=>{URL.revokeObjectURL(url); reject(new Error('خواندن عکس در مرورگر انجام نشد'));};
+      img.src=url;
+    });
+  }
+  async function resizeToBlob(file, sizeCfg){
+    const img=await fileToBitmapImage(file);
+    const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+    const ratio=Math.min(1, sizeCfg.max/Math.max(w,h));
+    const nw=Math.max(1, Math.round(w*ratio));
+    const nh=Math.max(1, Math.round(h*ratio));
+    const canvas=document.createElement('canvas');
+    canvas.width=nw; canvas.height=nh;
+    const ctx=canvas.getContext('2d',{alpha:false});
+    ctx.fillStyle='#fff'; ctx.fillRect(0,0,nw,nh);
+    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+    ctx.drawImage(img,0,0,nw,nh);
+    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',sizeCfg.quality));
+    if(!blob) throw new Error('فشرده‌سازی عکس انجام نشد');
+    return blob;
+  }
+  async function firebaseIdToken(){
+    const fb=window.familyFirebase;
+    const user=window.firebaseAuthUser || (fb && fb.auth && fb.auth.currentUser);
+    if(!user) throw new Error('برای آپلود امن عکس باید با Firebase Login وارد شده باشید. ورود محلی admin کافی نیست.');
+    if(typeof user.getIdToken !== 'function') throw new Error('Firebase Auth Token در دسترس نیست.');
+    return await user.getIdToken(false);
+  }
+  function familyId(){
+    try{
+      const cfg=(typeof getFirebaseConfig==='function')?getFirebaseConfig():{};
+      return String(cfg.fbFamilyId || cfg.projectId || 'my-family').replace(/[^a-zA-Z0-9_-]/g,'_');
+    }catch(_){return 'my-family';}
+  }
+  async function uploadBlobToLiara(blob, meta){
+    const base=apiBase();
+    if(!base) throw new Error('آدرس API لیارا تنظیم نشده است. بعد از ساخت برنامه لیارا، در index مقدار FTP_LIARA_UPLOAD_API را قرار بده یا در Console بنویس: setFamilyTreeProLiaraApi("https://interesting-haslett-nnsohn-fy.liara.run")');
+    const token=await firebaseIdToken();
+    const fd=new FormData();
+    fd.append('file', blob, meta.fileName || 'photo.webp');
+    fd.append('variant', meta.variant||'full');
+    fd.append('personId', String(meta.personId||'new'));
+    fd.append('familyId', familyId());
+    fd.append('originalName', meta.originalName||'photo');
+    fd.append('engineVersion', ENGINE_VERSION);
+    const res=await fetch(base+'/api/photos/upload',{
+      method:'POST',
+      headers:{'Authorization':'Bearer '+token},
+      body:fd
+    });
+    const json=await res.json().catch(()=>({}));
+    if(!res.ok || !json.ok) throw new Error(json.error || ('Liara Upload API خطا داد: '+res.status));
+    return json;
+  }
+  async function uploadPhotoSet(file, personId, kind){
+    if(!file) throw new Error('هیچ فایلی انتخاب نشده است');
+    if(!ACCEPTED.test(String(file.type||''))) throw new Error('فقط عکس JPG/PNG/WEBP مجاز است');
+    if(file.size > MAX_INPUT_MB*1024*1024) throw new Error('حجم عکس بیشتر از '+MAX_INPUT_MB+'MB است');
+
+    const baseMeta={personId:personId||'new', originalName:file.name||'photo', kind:kind||'photo'};
+    const [thumbBlob, mediumBlob, fullBlob] = await Promise.all([
+      resizeToBlob(file,SIZES.thumb), resizeToBlob(file,SIZES.medium), resizeToBlob(file,SIZES.full)
+    ]);
+    const stamp=Date.now()+'_'+Math.random().toString(36).slice(2,8)+'_'+safeName(file.name);
+    const thumb = await uploadBlobToLiara(thumbBlob,  Object.assign({},baseMeta,{variant:'thumb', fileName:'thumb_'+stamp}));
+    const medium= await uploadBlobToLiara(mediumBlob, Object.assign({},baseMeta,{variant:'medium',fileName:'medium_'+stamp}));
+    const full  = await uploadBlobToLiara(fullBlob,   Object.assign({},baseMeta,{variant:'full',  fileName:'full_'+stamp}));
+    return {
+      ok:true,
+      cloud:true,
+      provider:'liara-object-storage',
+      engine:ENGINE_VERSION,
+      url: full.url || medium.url || thumb.url,
+      thumbUrl: thumb.url || '',
+      mediumUrl: medium.url || '',
+      fullUrl: full.url || '',
+      path: full.key || '',
+      variants:{thumb,medium,full},
+      size:(thumb.size||0)+(medium.size||0)+(full.size||0),
+      oldSize:file.size||0,
+      name:safeName(file.name)
+    };
+  }
+  window.ftpUploadPhotoLiaraUltimate = uploadPhotoSet;
+
+  // جایگزین امن تابع قدیمی؛ امضا را حفظ می‌کند تا بقیه برنامه خراب نشود.
+  window.v15650UploadPreparedImageFile = async function(file, personId, kind){
+    try{
+      const up=await uploadPhotoSet(file, personId, kind);
+      return {ok:true,url:up.url,thumbUrl:up.thumbUrl,mediumUrl:up.mediumUrl,fullUrl:up.fullUrl,path:up.path,size:up.size,oldSize:up.oldSize,name:up.name,provider:up.provider,variants:up.variants};
+    }catch(e){
+      console.warn('Liara photo upload failed:', e);
+      return {ok:false,error:e && e.message ? e.message : String(e), oldSize:file&&file.size||0};
+    }
   };
-  window.fileToBase64=function(file,callback,personId,type){
-    if(file&&String(file.type||'').indexOf('image/')===0){compressPhotoSet(file,personId||'profile',type||'photo').then(p=>{status(personId,'F35 Lite: عکس ذخیره شد. Thumb '+hsize(p.sizes.thumb)+' / نمایش '+hsize(p.sizes.medium)+' / بزرگ '+hsize(p.sizes.full));callback({name:p.name,type:'image/webp',data:p.data,url:p.url,thumb:p.thumb,medium:p.medium,full:p.full,thumbUrl:p.thumbUrl,mediumUrl:p.mediumUrl,fullUrl:p.fullUrl,date:p.date,optimized:true,cloud:false,provider:p.provider,oldSize:p.oldSize,newSize:p.newSize,sizes:p.sizes,engine:ENGINE_VERSION});}).catch(e=>{alert('فشرده‌سازی عکس انجام نشد. خطا: '+String((e&&e.message)||e));callback(null);});return;}
-    const r=new FileReader();r.onload=e=>callback({name:file.name,type:file.type,data:e.target.result,date:new Date().toLocaleDateString('fa-IR')});r.onerror=()=>callback(null);r.readAsDataURL(file);
+
+  // قدیمی‌ها را به Liara هدایت می‌کند؛ Firebase Storage دیگر مسیر اصلی عکس نیست.
+  window.v15623UploadImageToCloud = async function(dataUrl, personId, kind, fileName){
+    try{
+      if(!String(dataUrl||'').startsWith('data:image/')) throw new Error('invalid image data');
+      const blob=dataURLToBlob(dataUrl);
+      const file=new File([blob], fileName||'photo.webp', {type:blob.type||'image/webp'});
+      const up=await uploadPhotoSet(file,personId,kind);
+      return {url:up.url,cloud:true,path:up.path,size:up.size,provider:up.provider,thumbUrl:up.thumbUrl,mediumUrl:up.mediumUrl,fullUrl:up.fullUrl};
+    }catch(e){return {url:'',cloud:false,error:e&&e.message?e.message:String(e)};}
   };
+
+  // پروفایل/گالری: اطلاعات نسخه‌ها را هم ذخیره می‌کند، ولی سازگاری p.photo قدیمی حفظ می‌شود.
+  window.fileToBase64 = function(file, callback, personId, type){
+    if(file && file.type && file.type.indexOf('image/')===0){
+      try{ if(typeof v149SetPhotoStatus==='function') v149SetPhotoStatus(personId,'در حال ساخت ۳ نسخه عکس و آپلود امن در لیارا...'); }catch(e){}
+      uploadPhotoSet(file, personId||'profile', type||'gallery').then(function(up){
+        callback({
+          name:up.name,
+          type:'image/webp',
+          data:up.url,
+          url:up.url,
+          thumb:up.thumbUrl,
+          medium:up.mediumUrl,
+          full:up.fullUrl,
+          date:new Date().toLocaleDateString('fa-IR'),
+          optimized:true,
+          cloud:true,
+          provider:'liara-object-storage',
+          storagePath:up.path||'',
+          oldSize:up.oldSize||file.size||0,
+          newSize:up.size||0,
+          variants:up.variants||{}
+        });
+      }).catch(function(e){
+        const err=e&&e.message?e.message:String(e);
+        try{ if(typeof v149SetPhotoStatus==='function') v149SetPhotoStatus(personId,'عکس قبول نشد: '+err); }catch(_e){}
+        alert('آپلود عکس در لیارا انجام نشد. خطا: '+err);
+        callback(null);
+      });
+      return;
+    }
+    // فایل‌های غیرعکس مثل PDF/Voice مثل قبل Base64 می‌مانند تا بخش مدارک خراب نشود.
+    const reader=new FileReader();
+    reader.onload=e=>callback({name:file.name,type:file.type,data:e.target.result,date:new Date().toLocaleDateString('fa-IR')});
+    reader.onerror=()=>callback(null);
+    reader.readAsDataURL(file);
+  };
+
+  // نمایش بهتر thumb/medium در جاهایی که گالری دارد.
   const oldMediaSrc=window.v15634MediaSrc;
-  window.v15634MediaSrc=function(item){if(item&&typeof item==='object')return item.thumb||item.thumbUrl||item.medium||item.mediumUrl||item.url||item.data||item.full||item.fullUrl||'';return oldMediaSrc?oldMediaSrc(item):(item||'');};
-  console.log(ENGINE_VERSION+' loaded: no Liara, no Firebase Storage, 20/60/120KB compression.');
+  window.v15634MediaSrc=function(item){
+    if(item && typeof item==='object') return item.thumb || item.medium || item.url || item.data || item.full || '';
+    return oldMediaSrc ? oldMediaSrc(item) : (item||'');
+  };
+
+  console.log(ENGINE_VERSION+' loaded. API:', apiBase()||'NOT SET');
+})();
+</script>
+
+
+<script id="f35-lite-display-fix-v15692">
+/* V156.92 F35 Lite Display Fix
+   مشکل: کدهای قدیمی v153/v15650 عکس‌های DataURL را قبل از نمایش/ذخیره حذف می‌کردند.
+   این Fix فقط برای موتور F35 Lite اجازه نگهداری عکس‌های فشرده WebP را می‌دهد.
+*/
+(function(){
+  'use strict';
+  if(window.__FTP_F35_LITE_DISPLAY_FIX__) return;
+  window.__FTP_F35_LITE_DISPLAY_FIX__ = true;
+
+  function isImg(v){ return typeof v === 'string' && /^data:image\//i.test(v); }
+  function isF35Item(x){
+    return !!(x && typeof x === 'object' && (
+      x.provider === 'firestore-lite-dataurl' ||
+      String(x.engine||'').indexOf('F35 Lite') >= 0 ||
+      isImg(x.thumb) || isImg(x.medium) || isImg(x.full) || isImg(x.data) || isImg(x.url)
+    ));
+  }
+  function preserveMediaItem(item){
+    if(!item || typeof item !== 'object') return item;
+    if(!isF35Item(item)) return item;
+    var out = Object.assign({}, item);
+    out.data = out.data || out.medium || out.mediumUrl || out.url || out.full || out.fullUrl || out.thumb || out.thumbUrl || '';
+    out.url = out.url || out.data;
+    out.thumb = out.thumb || out.thumbUrl || out.data;
+    out.medium = out.medium || out.mediumUrl || out.data;
+    out.full = out.full || out.fullUrl || out.medium || out.data;
+    out.cloud = false;
+    out.provider = out.provider || 'firestore-lite-dataurl';
+    out.engine = out.engine || 'V156.92 F35 Lite Display Fix';
+    return out;
+  }
+
+  window.v15650CleanMediaItem = function(item){ return preserveMediaItem(item); };
+  window.v15650CleanPersonMedia = function(person){
+    if(!person || typeof person !== 'object') return person;
+    if(Array.isArray(person.gallery)) person.gallery = person.gallery.map(preserveMediaItem).filter(Boolean);
+    if(isImg(person.photo) || isImg(person.photoThumb)){
+      person.photo = person.photo || person.photoThumb || '';
+      person.photoThumb = person.photoThumb || person.photo || '';
+    }
+    return person;
+  };
+  window.v15650CleanPeopleMedia = function(list){
+    try{ return (Array.isArray(list)?list:[]).map(function(p){return window.v15650CleanPersonMedia(Object.assign({},p));}); }
+    catch(e){ return Array.isArray(list)?list:[]; }
+  };
+
+  window.v153CleanForStorage = function(data){ return data; };
+
+  window.v15634MediaSrc = function(item){
+    if(!item) return '';
+    if(typeof item === 'string') return item;
+    return item.thumb || item.thumbUrl || item.medium || item.mediumUrl || item.url || item.data || item.full || item.fullUrl || '';
+  };
+
+  window.v15634ImgFallbackAttr = function(item){
+    var t = item && (item.thumb || item.thumbUrl || item.medium || item.mediumUrl || item.data || item.url || '');
+    if(t) t = String(t).replace(/&/g,'&amp;').replace(/"/g,'&quot;');
+    return t ? ' data-thumb="'+t+'" onerror="if(this.dataset.thumb&&this.src!==this.dataset.thumb){this.src=this.dataset.thumb}else{this.style.display=\'none\';this.insertAdjacentHTML(\'afterend\',\'<small>تصویر قابل نمایش نیست</small>\')}"' : '';
+  };
+
+  var oldSave = window.save;
+  if(typeof oldSave === 'function' && !oldSave.__f35LiteWrapped){
+    window.save = function(){
+      try{
+        if(Array.isArray(window.people)){
+          window.people.forEach(function(p){
+            if(!p) return;
+            if(Array.isArray(p.gallery)) p.gallery = p.gallery.map(preserveMediaItem);
+            if(!p.photo && p.gallery && p.gallery[0]) p.photo = window.v15634MediaSrc(p.gallery[0]);
+          });
+        }
+      }catch(e){}
+      return oldSave.apply(this, arguments);
+    };
+    window.save.__f35LiteWrapped = true;
+  }
+
+  console.log('V156.92 F35 Lite Display Fix loaded: compressed DataURL photos are preserved and displayed.');
 })();
 </script>
 

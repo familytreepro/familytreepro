@@ -1,25 +1,13 @@
 {
-  "name": "FamilyTreePro V156.91 F35 Lite Photo Engine",
+  "name": "FamilyTreePro V156.92 F35 Lite Display Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-91-f35-lite-photo",
+  "start_url": "./index.html?v=156-92-f35-lite-display-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.91 F35 Lite Photo Engine 60-120KB",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
+  "description": "FamilyTreePro V156.92 F35 Lite Display Fix 60-120KB",
   "scope": "./"
 }
