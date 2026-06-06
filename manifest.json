@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V156.80 Liara Secure Photo Engine",
+  "name": "FamilyTreePro V156.90 F35 Firebase Photo Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-80-liara-secure-photo-engine",
+  "start_url": "./index.html?v=156-90-f35-firebase-photo",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.80 Liara Secure Photo Engine",
+  "description": "FamilyTreePro V156.90 F35 Firebase Photo Engine",
   "icons": [
     {
       "src": "https://cdn-icons-png.flaticon.com/512/3069/3069172.png",

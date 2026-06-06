@@ -1,5 +1,5 @@
-// FamilyTreePro V156.80 Liara Secure Photo Engine - network first with safe offline fallback
-const CACHE_NAME = 'familytreepro-v156-80-liara-secure-photo-engine';
+// FamilyTreePro V156.50 Shared Photo Cloud - network first with safe offline fallback
+const CACHE_NAME = 'familytreepro-v156-90-f35-firebase-photo';
 const CORE_ASSETS = ['./', './index.html', './manifest.json'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()));
