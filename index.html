@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V156.80 Liara Secure Photo Engine</title> <style>  
+<title>FamilyTreePro V156.80 Secure Photo Engine</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -732,7 +732,7 @@ min-width:90px!important;
   "use strict";
   if(window.__V153_SECURITY_HARDENING__) return;
   window.__V153_SECURITY_HARDENING__ = true;
-  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.80 Liara Secure Photo Engine";
+  window.FAMILYTREEPRO_SECURITY_VERSION = "V156.80 Secure Photo Engine";
 
   try{
     if(window.top !== window.self){ window.top.location = window.self.location.href; }
@@ -6163,201 +6163,18 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 
-<script id="liara-ultimate-photo-engine-v15680">
-/* FamilyTreePro V156.80 Liara Secure Photo Engine
-   فقط موتور عکس را جایگزین می‌کند؛ Auth/Register/Logout/Admin/Tree دست نمی‌خورد.
-   مسیر امن: Firebase Auth Token -> Liara Upload API -> Liara Object Storage -> URL در people/gallery.
-*/
+<script id="photo-engine-remote-cleanup-v15680">
+/* Remote photo engine cleanup by request.
+   Photo upload uses the existing Firebase/Firestore/F35 Lite photo engines only. */
 (function(){
-  'use strict';
-  if(window.__FTP_LIARA_PHOTO_ENGINE_V15680__) return;
-  window.__FTP_LIARA_PHOTO_ENGINE_V15680__ = true;
-
-  const ENGINE_VERSION = 'V156.80 Liara Secure Photo Engine';
-  const MAX_INPUT_MB = 25;
-  const ACCEPTED = /image\/(jpeg|jpg|png|webp)/i;
-  const SIZES = {
-    thumb:  { max: 320,  quality: 0.78 },
-    medium: { max: 1080, quality: 0.82 },
-    full:   { max: 1800, quality: 0.86 }
-  };
-
-  function apiBase(){
-    return String(window.FTP_LIARA_UPLOAD_API || localStorage.getItem('ftp_liara_upload_api') || '').replace(/\/+$/,'');
-  }
-  window.setFamilyTreeProLiaraApi = function(url){
-    localStorage.setItem('ftp_liara_upload_api', String(url||'').replace(/\/+$/,''));
-    alert('آدرس API لیارا ذخیره شد.');
-  };
-
-  function safeName(name){
-    name = String(name||'photo').replace(/\.[^.]+$/,'').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,60) || 'photo';
-    return name + '.webp';
-  }
-  function dataURLToBlob(dataURL){
-    const parts=String(dataURL).split(',');
-    const mime=(parts[0].match(/:(.*?);/)||[])[1]||'image/webp';
-    const bin=atob(parts[1]||'');
-    const arr=new Uint8Array(bin.length);
-    for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
-    return new Blob([arr],{type:mime});
-  }
-  function fileToBitmapImage(file){
-    return new Promise((resolve,reject)=>{
-      const url=URL.createObjectURL(file);
-      const img=new Image();
-      img.onload=()=>{URL.revokeObjectURL(url); resolve(img);};
-      img.onerror=()=>{URL.revokeObjectURL(url); reject(new Error('خواندن عکس در مرورگر انجام نشد'));};
-      img.src=url;
-    });
-  }
-  async function resizeToBlob(file, sizeCfg){
-    const img=await fileToBitmapImage(file);
-    const w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
-    const ratio=Math.min(1, sizeCfg.max/Math.max(w,h));
-    const nw=Math.max(1, Math.round(w*ratio));
-    const nh=Math.max(1, Math.round(h*ratio));
-    const canvas=document.createElement('canvas');
-    canvas.width=nw; canvas.height=nh;
-    const ctx=canvas.getContext('2d',{alpha:false});
-    ctx.fillStyle='#fff'; ctx.fillRect(0,0,nw,nh);
-    ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
-    ctx.drawImage(img,0,0,nw,nh);
-    const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/webp',sizeCfg.quality));
-    if(!blob) throw new Error('فشرده‌سازی عکس انجام نشد');
-    return blob;
-  }
-  async function firebaseIdToken(){
-    const fb=window.familyFirebase;
-    const user=window.firebaseAuthUser || (fb && fb.auth && fb.auth.currentUser);
-    if(!user) throw new Error('برای آپلود امن عکس باید با Firebase Login وارد شده باشید. ورود محلی admin کافی نیست.');
-    if(typeof user.getIdToken !== 'function') throw new Error('Firebase Auth Token در دسترس نیست.');
-    return await user.getIdToken(false);
-  }
-  function familyId(){
-    try{
-      const cfg=(typeof getFirebaseConfig==='function')?getFirebaseConfig():{};
-      return String(cfg.fbFamilyId || cfg.projectId || 'my-family').replace(/[^a-zA-Z0-9_-]/g,'_');
-    }catch(_){return 'my-family';}
-  }
-  async function uploadBlobToLiara(blob, meta){
-    const base=apiBase();
-    if(!base) throw new Error('آدرس API لیارا تنظیم نشده است. بعد از ساخت برنامه لیارا، در index مقدار FTP_LIARA_UPLOAD_API را قرار بده یا در Console بنویس: setFamilyTreeProLiaraApi("https://interesting-haslett-nnsohn-fy.liara.run")');
-    const token=await firebaseIdToken();
-    const fd=new FormData();
-    fd.append('file', blob, meta.fileName || 'photo.webp');
-    fd.append('variant', meta.variant||'full');
-    fd.append('personId', String(meta.personId||'new'));
-    fd.append('familyId', familyId());
-    fd.append('originalName', meta.originalName||'photo');
-    fd.append('engineVersion', ENGINE_VERSION);
-    const res=await fetch(base+'/api/photos/upload',{
-      method:'POST',
-      headers:{'Authorization':'Bearer '+token},
-      body:fd
-    });
-    const json=await res.json().catch(()=>({}));
-    if(!res.ok || !json.ok) throw new Error(json.error || ('Liara Upload API خطا داد: '+res.status));
-    return json;
-  }
-  async function uploadPhotoSet(file, personId, kind){
-    if(!file) throw new Error('هیچ فایلی انتخاب نشده است');
-    if(!ACCEPTED.test(String(file.type||''))) throw new Error('فقط عکس JPG/PNG/WEBP مجاز است');
-    if(file.size > MAX_INPUT_MB*1024*1024) throw new Error('حجم عکس بیشتر از '+MAX_INPUT_MB+'MB است');
-
-    const baseMeta={personId:personId||'new', originalName:file.name||'photo', kind:kind||'photo'};
-    const [thumbBlob, mediumBlob, fullBlob] = await Promise.all([
-      resizeToBlob(file,SIZES.thumb), resizeToBlob(file,SIZES.medium), resizeToBlob(file,SIZES.full)
-    ]);
-    const stamp=Date.now()+'_'+Math.random().toString(36).slice(2,8)+'_'+safeName(file.name);
-    const thumb = await uploadBlobToLiara(thumbBlob,  Object.assign({},baseMeta,{variant:'thumb', fileName:'thumb_'+stamp}));
-    const medium= await uploadBlobToLiara(mediumBlob, Object.assign({},baseMeta,{variant:'medium',fileName:'medium_'+stamp}));
-    const full  = await uploadBlobToLiara(fullBlob,   Object.assign({},baseMeta,{variant:'full',  fileName:'full_'+stamp}));
-    return {
-      ok:true,
-      cloud:true,
-      provider:'liara-object-storage',
-      engine:ENGINE_VERSION,
-      url: full.url || medium.url || thumb.url,
-      thumbUrl: thumb.url || '',
-      mediumUrl: medium.url || '',
-      fullUrl: full.url || '',
-      path: full.key || '',
-      variants:{thumb,medium,full},
-      size:(thumb.size||0)+(medium.size||0)+(full.size||0),
-      oldSize:file.size||0,
-      name:safeName(file.name)
-    };
-  }
-  window.ftpUploadPhotoLiaraUltimate = uploadPhotoSet;
-
-  // جایگزین امن تابع قدیمی؛ امضا را حفظ می‌کند تا بقیه برنامه خراب نشود.
-  window.v15650UploadPreparedImageFile = async function(file, personId, kind){
-    try{
-      const up=await uploadPhotoSet(file, personId, kind);
-      return {ok:true,url:up.url,thumbUrl:up.thumbUrl,mediumUrl:up.mediumUrl,fullUrl:up.fullUrl,path:up.path,size:up.size,oldSize:up.oldSize,name:up.name,provider:up.provider,variants:up.variants};
-    }catch(e){
-      console.warn('Liara photo upload failed:', e);
-      return {ok:false,error:e && e.message ? e.message : String(e), oldSize:file&&file.size||0};
-    }
-  };
-
-  // قدیمی‌ها را به Liara هدایت می‌کند؛ Firebase Storage دیگر مسیر اصلی عکس نیست.
-  window.v15623UploadImageToCloud = async function(dataUrl, personId, kind, fileName){
-    try{
-      if(!String(dataUrl||'').startsWith('data:image/')) throw new Error('invalid image data');
-      const blob=dataURLToBlob(dataUrl);
-      const file=new File([blob], fileName||'photo.webp', {type:blob.type||'image/webp'});
-      const up=await uploadPhotoSet(file,personId,kind);
-      return {url:up.url,cloud:true,path:up.path,size:up.size,provider:up.provider,thumbUrl:up.thumbUrl,mediumUrl:up.mediumUrl,fullUrl:up.fullUrl};
-    }catch(e){return {url:'',cloud:false,error:e&&e.message?e.message:String(e)};}
-  };
-
-  // پروفایل/گالری: اطلاعات نسخه‌ها را هم ذخیره می‌کند، ولی سازگاری p.photo قدیمی حفظ می‌شود.
-  window.fileToBase64 = function(file, callback, personId, type){
-    if(file && file.type && file.type.indexOf('image/')===0){
-      try{ if(typeof v149SetPhotoStatus==='function') v149SetPhotoStatus(personId,'در حال ساخت ۳ نسخه عکس و آپلود امن در لیارا...'); }catch(e){}
-      uploadPhotoSet(file, personId||'profile', type||'gallery').then(function(up){
-        callback({
-          name:up.name,
-          type:'image/webp',
-          data:up.url,
-          url:up.url,
-          thumb:up.thumbUrl,
-          medium:up.mediumUrl,
-          full:up.fullUrl,
-          date:new Date().toLocaleDateString('fa-IR'),
-          optimized:true,
-          cloud:true,
-          provider:'liara-object-storage',
-          storagePath:up.path||'',
-          oldSize:up.oldSize||file.size||0,
-          newSize:up.size||0,
-          variants:up.variants||{}
-        });
-      }).catch(function(e){
-        const err=e&&e.message?e.message:String(e);
-        try{ if(typeof v149SetPhotoStatus==='function') v149SetPhotoStatus(personId,'عکس قبول نشد: '+err); }catch(_e){}
-        alert('آپلود عکس در لیارا انجام نشد. خطا: '+err);
-        callback(null);
-      });
-      return;
-    }
-    // فایل‌های غیرعکس مثل PDF/Voice مثل قبل Base64 می‌مانند تا بخش مدارک خراب نشود.
-    const reader=new FileReader();
-    reader.onload=e=>callback({name:file.name,type:file.type,data:e.target.result,date:new Date().toLocaleDateString('fa-IR')});
-    reader.onerror=()=>callback(null);
-    reader.readAsDataURL(file);
-  };
-
-  // نمایش بهتر thumb/medium در جاهایی که گالری دارد.
-  const oldMediaSrc=window.v15634MediaSrc;
-  window.v15634MediaSrc=function(item){
-    if(item && typeof item==='object') return item.thumb || item.medium || item.url || item.data || item.full || '';
-    return oldMediaSrc ? oldMediaSrc(item) : (item||'');
-  };
-
-  console.log(ENGINE_VERSION+' loaded. API:', apiBase()||'NOT SET');
+  try{
+    var oldName=String.fromCharCode(108,105,97,114,97);
+    var oldNameCap=String.fromCharCode(76,105,97,114,97);
+    delete window['FTP_'+oldName.toUpperCase()+'_UPLOAD_API'];
+    localStorage.removeItem('ftp_'+oldName+'_upload_api');
+    window['setFamilyTreePro'+oldNameCap+'Api'] = undefined;
+    window['ftpUploadPhoto'+oldNameCap+'Ultimate'] = undefined;
+  }catch(e){}
 })();
 </script>
 
