@@ -6264,3 +6264,127 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 </body>
 </html>
+
+<script id="v15693-photo-no-stuck-final">
+/* V156.93 Final Photo Fix: no Liara, no endless cloud preparing.
+   Tries Firebase Storage, then Firestore Photo Doc, then small local fallback so the photo appears immediately. */
+(function(){
+  if(window.__V15693_PHOTO_NO_STUCK__) return;
+  window.__V15693_PHOTO_NO_STUCK__=true;
+  function $(id){return document.getElementById(id)}
+  function safe(v){return String(v==null?'':v)}
+  function isData(v){return /^data:image\//i.test(safe(v))}
+  function isFt(v){return /^ftphoto:\/\//i.test(safe(v))}
+  function familyId(){try{var c=(typeof getFirebaseConfig==='function')?getFirebaseConfig():{};return safe(c.fbFamilyId||'my-family').replace(/[^a-zA-Z0-9_-]/g,'_')||'my-family'}catch(e){return 'my-family'}}
+  function safeName(n){return safe(n||'photo.webp').replace(/[^a-zA-Z0-9._-]/g,'_').slice(0,90)||'photo.webp'}
+  function bytesOfDataUrl(d){try{return Math.round((safe(d).split(',')[1]||'').length*3/4)}catch(e){return 0}}
+  function setStatus(msg){try{document.querySelectorAll('.photo-ai-status').forEach(function(x){x.textContent=msg})}catch(e){}}
+  function timeout(p,ms,label){return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error((label||'عملیات')+' بیش از حد طول کشید'))},ms||12000)})])}
+
+  function compressImage(file,targetKB,maxW,maxH){
+    targetKB=targetKB||45; maxW=maxW||900; maxH=maxH||900;
+    return new Promise(function(resolve){
+      if(!file || !/^image\//i.test(file.type||'')) return resolve({ok:false,error:'فقط فایل عکس مجاز است'});
+      var img=new Image();
+      var reader=new FileReader();
+      reader.onerror=function(){resolve({ok:false,error:'خواندن عکس ناموفق بود'})};
+      reader.onload=function(){
+        img.onload=function(){
+          try{
+            var w=img.width,h=img.height,ratio=Math.min(1,maxW/w,maxH/h);
+            w=Math.max(1,Math.round(w*ratio)); h=Math.max(1,Math.round(h*ratio));
+            var canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+            var ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+            var best='', bestBytes=999999999;
+            var qualities=[0.82,0.72,0.62,0.52,0.44,0.36,0.30,0.24];
+            for(var i=0;i<qualities.length;i++){
+              var d=canvas.toDataURL('image/jpeg',qualities[i]);
+              var b=bytesOfDataUrl(d); best=d; bestBytes=b;
+              if(b<=targetKB*1024) break;
+            }
+            resolve({ok:true,data:best,bytes:bestBytes,name:safeName(file.name).replace(/\.[^.]+$/,'')+'_safe.jpg'});
+          }catch(e){resolve({ok:false,error:e.message||String(e)})}
+        };
+        img.onerror=function(){resolve({ok:false,error:'پردازش عکس انجام نشد'})};
+        img.src=reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function waitFb(ms){
+    var end=Date.now()+(ms||5000);
+    while(Date.now()<end){
+      try{ if(window.familyFirebase && window.familyFirebase.db) return window.familyFirebase; }catch(e){}
+      try{ if(typeof firebaseConnect==='function') await firebaseConnect(); }catch(e){}
+      await new Promise(function(r){setTimeout(r,250)});
+    }
+    return window.familyFirebase||null;
+  }
+
+  async function uploadStorage(dataUrl,personId,kind,fileName){
+    var fb=await waitFb(4500);
+    var user=null; try{user=window.firebaseAuthUser || (fb&&fb.auth&&fb.auth.currentUser)}catch(e){}
+    if(!fb || !fb.storage || !fb.storageRef || !fb.uploadBytes || !fb.getDownloadURL) throw new Error('Firebase Storage آماده نیست');
+    if(!user) throw new Error('ورود Firebase فعال نیست');
+    var blob=await fetch(dataUrl).then(function(r){return r.blob()});
+    var path='familytreepro/families/'+familyId()+'/people/'+safe(personId||'new').replace(/[^a-zA-Z0-9_-]/g,'_')+'/'+safe(kind||'photo').replace(/[^a-zA-Z0-9_-]/g,'_')+'/'+Date.now()+'_'+safeName(fileName||'photo.jpg');
+    var ref=fb.storageRef(fb.storage,path);
+    await fb.uploadBytes(ref,blob,{contentType:blob.type||'image/jpeg'});
+    var url=await fb.getDownloadURL(ref);
+    return {ok:true,url:url,path:path,mode:'storage',size:blob.size||0};
+  }
+
+  async function uploadFirestore(dataUrl,personId,kind,fileName){
+    var fb=await waitFb(5000);
+    if(!fb || !fb.db || !fb.doc || !fb.setDoc) throw new Error('Firestore آماده نیست');
+    var photoId=[Date.now().toString(36),Math.random().toString(36).slice(2,8),safe(personId||'p').replace(/[^a-zA-Z0-9_-]/g,'_')].join('_');
+    var ref=fb.doc(fb.db,'families',familyId(),'photos',photoId);
+    await fb.setDoc(ref,{id:photoId,personId:safe(personId||''),kind:safe(kind||'photo'),name:safeName(fileName||'photo.jpg'),type:'image/jpeg',data:dataUrl,bytes:bytesOfDataUrl(dataUrl),createdAt:(new Date()).toISOString(),mode:'firestore-photo-doc',version:'V156.93'},{merge:false});
+    try{window.__v15652PhotoCache=window.__v15652PhotoCache||new Map();window.__v15652PhotoCache.set(photoId,dataUrl)}catch(e){}
+    return {ok:true,url:'ftphoto://'+photoId,path:'families/'+familyId()+'/photos/'+photoId,mode:'firestore',size:bytesOfDataUrl(dataUrl)};
+  }
+
+  window.v15650UploadPreparedImageFile=async function(file,personId,kind){
+    setStatus('در حال فشرده‌سازی امن عکس...');
+    var prep=await compressImage(file,45,900,900);
+    if(!prep.ok) return {ok:false,error:prep.error||'آماده‌سازی عکس ناموفق بود'};
+    setStatus('در حال ذخیره ابری عکس...');
+    var err1='',err2='';
+    try{return await timeout(uploadStorage(prep.data,personId,kind,file&&file.name||prep.name),12000,'Storage')}
+    catch(e){err1=e&&e.message?e.message:String(e); console.warn('V156.93 storage failed:',e)}
+    try{return await timeout(uploadFirestore(prep.data,personId,kind,file&&file.name||prep.name),12000,'Firestore Photo Doc')}
+    catch(e){err2=e&&e.message?e.message:String(e); console.warn('V156.93 firestore photo failed:',e)}
+    setStatus('ابر وصل نشد؛ عکس به صورت محلی ذخیره شد و نمایش داده می‌شود.');
+    return {ok:true,url:prep.data,path:'local-small-photo',mode:'local',size:prep.bytes||0,oldSize:file&&file.size||0,name:prep.name,warning:'Cloud failed: '+err1+' | '+err2};
+  };
+
+  var oldSave=window.savePerson;
+  window.savePerson=function(){
+    if(typeof canEdit==='function' && !canEdit()) return;
+    var file=$('photo')&&$('photo').files&&$('photo').files[0];
+    if(!file) return oldSave.apply(this,arguments);
+    var id=$('editId')&&$('editId').value;
+    var name=$('name')&&$('name').value&&$('name').value.trim();
+    if(!name){alert('نام را وارد کنید');return;}
+    setStatus('در حال آماده‌سازی عکس...');
+    window.v15650UploadPreparedImageFile(file,id||('person_'+Date.now()),'main').then(function(up){
+      if(!up || !up.ok || !up.url){alert('عکس ذخیره نشد: '+((up&&up.error)||'خطای نامشخص'));return;}
+      var oldFile=$('photo');
+      var savedUrl=up.url;
+      var finish=function(photo){
+        var data={id:id?Number(id):(typeof uid==='function'?uid():Date.now()),name:name,gender:$('gender').value,birth:$('birth').value.trim(),parentId:$('parent').value||'',motherId:(($('motherSelect')&&$('motherSelect').value)||((typeof v1493AutoMotherFromFather==='function')?v1493AutoMotherFromFather($('parent').value||''):'')||''),job:$('job').value.trim(),phone:$('phone').value.trim(),photo:photo,isDead:(($('lifeStatus')&&$('lifeStatus').value)==='dead')};
+        if(id){var old=people.find(function(p){return p.id==id}); if(old){data.photo=photo||old.photo||'';data.spouses=old.spouses||[];data.motherId=data.motherId||old.motherId||'';data.gallery=old.gallery||[];data.docs=old.docs||[];data.voices=old.voices||[];data.events=old.events||[];data.memory=old.memory||'';data.deathDate=old.deathDate||'';data.gravePlace=old.gravePlace||'';data.deathNote=old.deathNote||''; if(!data.isDead){data.deathDate='';data.gravePlace='';data.deathNote='';} Object.assign(old,data);}}
+        else{data.spouses=[];data.deathDate='';data.gravePlace='';data.deathNote='';people.push(data)}
+        try{if(typeof v1493NormalizeMothers==='function')v1493NormalizeMothers()}catch(e){}
+        try{if(typeof clearForm==='function')clearForm()}catch(e){}
+        try{if(typeof save==='function')save();else{localStorage.setItem('family_people_',JSON.stringify(people)); if(typeof render==='function')render();}}catch(e){console.error(e)}
+        setStatus(up.mode==='local'?'عکس نمایش داده شد؛ ولی ابری نشد.':'عکس ذخیره و نمایش داده شد.');
+        setTimeout(function(){try{if(typeof v15652HydrateFtPhotos==='function')v15652HydrateFtPhotos(document)}catch(e){}},300);
+      };
+      finish(savedUrl);
+    }).catch(function(e){setStatus('خطا در ذخیره عکس');alert('عکس ذخیره نشد: '+(e&&e.message?e.message:String(e)))});
+  };
+  console.log('V156.93 Photo No-Stuck Final loaded');
+})();
+</script>
