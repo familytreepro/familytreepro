@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V157 Clean Photo Engine</title> <style>  
+<title>FamilyTreePro V158 Shared Photo Engine</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=157-clean-photo" rel="manifest"/>
+<link href="./manifest.json?v=158-shared-photo" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -6264,7 +6264,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 
 <script id="v157-clean-photo-engine">
-/* FamilyTreePro V157 Clean Photo Engine
+/* FamilyTreePro V158 Shared Photo Engine
    - بدون موتورهای قدیمی خارجی
    - آپلود اصلی: Firebase Storage
    - جایگزین امن: Firestore Photo Doc
@@ -6417,7 +6417,213 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   document.addEventListener('DOMContentLoaded',function(){
     try{document.querySelectorAll('.photo-ai-status').forEach(function(el){el.textContent='آماده افزودن عکس؛ بدون گیرکردن روی آماده‌سازی.'})}catch(e){}
   });
-  console.log('FamilyTreePro V157 Clean Photo Engine loaded');
+  console.log('FamilyTreePro V158 Shared Photo Engine loaded');
+})();
+</script>
+
+
+<script id="v158-shared-photo-engine-final">
+/* FamilyTreePro V158 Shared Photo Engine
+   مرحله اول: فقط موتور عکس مشترک برای همه کاربران.
+   ذخیره عکس فقط ابری است: Firebase Storage، و اگر Storage به خاطر CORS/Rules نشد، Firestore Photo Doc.
+   هیچ عکس بزرگی داخل people/localStorage ذخیره نمی‌شود. */
+(function(){
+  'use strict';
+  window.__V158_SHARED_PHOTO_ENGINE__ = true;
+  var VERSION='V158 Shared Photo Engine';
+  var TARGET_STORAGE_KB=420;
+  var TARGET_FIRESTORE_KB=180;
+  var MAX_W=1600, MAX_H=1600;
+  var cache = window.__v158PhotoCache || (window.__v158PhotoCache = new Map());
+
+  function $(id){return document.getElementById(id)}
+  function s(v){return String(v==null?'':v)}
+  function cleanId(v){return s(v||'x').replace(/[^a-zA-Z0-9_-]/g,'_').slice(0,80)||'x'}
+  function safeName(v){return s(v||'photo.jpg').replace(/[^a-zA-Z0-9._-]/g,'_').slice(0,90)||'photo.jpg'}
+  function isDataImage(v){return typeof v==='string' && /^data:image\//i.test(v)}
+  function isHttp(v){return typeof v==='string' && /^https?:\/\//i.test(v)}
+  function isFt(v){return typeof v==='string' && /^ftphoto:\/\//i.test(v)}
+  function ftId(v){return s(v).replace(/^ftphoto:\/\//i,'').replace(/[^a-zA-Z0-9_-]/g,'')}
+  function bytes(d){try{return Math.round((s(d).split(',')[1]||'').length*3/4)}catch(e){return 0}}
+  function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+  function familyId(){try{var c=(typeof getFirebaseConfig==='function')?getFirebaseConfig():{};return cleanId(c.fbFamilyId||'my-family')}catch(e){return 'my-family'}}
+  function setStatus(msg){
+    try{var el=$('photoEngineStatus'); if(el) el.textContent=msg;}catch(e){}
+    try{var fs=$('firebaseStatus'); if(fs) fs.textContent='وضعیت عکس: '+msg;}catch(e){}
+    console.log('[V158 Photo]',msg);
+  }
+  function human(e){
+    var m=s((e&&(e.code||e.message))||e);
+    if(/permission|403|unauthorized|insufficient/i.test(m)) return 'اجازه Firebase Rules کافی نیست. کاربر باید editor/admin باشد و Rules اجازه write بدهد.';
+    if(/CORS|preflight|access control/i.test(m)) return 'Storage با CORS رد شد؛ موتور به Firestore Photo Doc می‌رود.';
+    if(/network|failed to fetch|ERR_FAILED|offline/i.test(m)) return 'ارتباط با Firebase قطع/فیلتر است.';
+    if(/quota/i.test(m)) return 'سهمیه Firebase پر شده است.';
+    return m||'خطای نامشخص';
+  }
+  async function ready(ms){
+    var end=Date.now()+(ms||9000);
+    while(Date.now()<end){
+      try{ if(window.familyFirebase && window.familyFirebase.db && window.familyFirebase.doc && window.familyFirebase.setDoc && window.familyFirebase.getDoc) return window.familyFirebase; }catch(e){}
+      try{ if(typeof firebaseConnect==='function') await firebaseConnect(); }catch(e){}
+      await wait(250);
+    }
+    return window.familyFirebase||null;
+  }
+  function compress(file,targetKB,maxW,maxH){
+    return new Promise(function(resolve){
+      if(!file) return resolve({ok:false,error:'هیچ عکسی انتخاب نشده است'});
+      if(!/^image\//i.test(file.type||'')) return resolve({ok:false,error:'فقط فایل عکس مجاز است'});
+      var reader=new FileReader();
+      reader.onerror=function(){resolve({ok:false,error:'خواندن عکس ناموفق بود'})};
+      reader.onload=function(){
+        var img=new Image();
+        img.onload=function(){
+          try{
+            var w=img.naturalWidth||img.width, h=img.naturalHeight||img.height;
+            var scale=Math.min(1,(maxW||MAX_W)/w,(maxH||MAX_H)/h);
+            w=Math.max(1,Math.round(w*scale)); h=Math.max(1,Math.round(h*scale));
+            var canvas=document.createElement('canvas'); canvas.width=w; canvas.height=h;
+            var ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0,w,h);
+            var qs=[0.92,0.86,0.80,0.74,0.68,0.60,0.52,0.44,0.36,0.30,0.24,0.18];
+            var data='', b=0;
+            for(var i=0;i<qs.length;i++){data=canvas.toDataURL('image/jpeg',qs[i]); b=bytes(data); if(b <= (targetKB||TARGET_STORAGE_KB)*1024) break;}
+            resolve({ok:true,data:data,bytes:b,name:safeName(file.name).replace(/\.[^.]+$/,'')+'_v158.jpg'});
+          }catch(e){resolve({ok:false,error:human(e)})}
+        };
+        img.onerror=function(){resolve({ok:false,error:'پردازش تصویر ناموفق بود'})};
+        img.src=reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  async function uploadStorage(dataUrl,personId,kind,fileName){
+    var fb=await ready(9000);
+    var user=null; try{user=window.firebaseAuthUser || (fb&&fb.auth&&fb.auth.currentUser)}catch(e){}
+    if(!fb || !fb.storage || !fb.storageRef || !fb.uploadBytes || !fb.getDownloadURL) throw new Error('Firebase Storage SDK آماده نیست');
+    if(!user) throw new Error('برای عکس مشترک باید با Firebase Login وارد شوید؛ ورود محلی admin کافی نیست');
+    var blob=await fetch(dataUrl).then(function(r){return r.blob()});
+    var path='familytreepro/families/'+familyId()+'/people/'+cleanId(personId)+'/photos/'+Date.now()+'_'+safeName(fileName||'photo.jpg');
+    var ref=fb.storageRef(fb.storage,path);
+    await fb.uploadBytes(ref,blob,{contentType:'image/jpeg',customMetadata:{engine:VERSION,familyId:familyId(),personId:s(personId||'')}});
+    var url=await fb.getDownloadURL(ref);
+    return {ok:true,mode:'storage',url:url,path:path,size:blob.size||0};
+  }
+  async function uploadPhotoDoc(dataUrl,personId,kind,fileName){
+    var fb=await ready(9000);
+    var user=null; try{user=window.firebaseAuthUser || (fb&&fb.auth&&fb.auth.currentUser)}catch(e){}
+    if(!fb || !fb.db || !fb.doc || !fb.setDoc) throw new Error('Firestore آماده نیست');
+    if(!user) throw new Error('برای عکس مشترک باید با Firebase Login وارد شوید');
+    var id=Date.now().toString(36)+'_'+Math.random().toString(36).slice(2,9)+'_'+cleanId(personId);
+    var b=bytes(dataUrl); if(b>760000) throw new Error('حجم عکس برای Firestore زیاد است: '+Math.round(b/1024)+'KB');
+    var ref=fb.doc(fb.db,'families',familyId(),'photos',id);
+    await fb.setDoc(ref,{id:id,personId:s(personId||''),kind:s(kind||'main'),name:safeName(fileName||'photo.jpg'),data:dataUrl,type:'image/jpeg',bytes:b,createdAt:new Date().toISOString(),createdBy:user.uid||'',engine:VERSION},{merge:false});
+    cache.set(id,dataUrl);
+    return {ok:true,mode:'firestore-photo-doc',url:'ftphoto://'+id,path:'families/'+familyId()+'/photos/'+id,size:b};
+  }
+  async function uploadShared(file,personId,kind){
+    setStatus('در حال آماده‌سازی عکس...');
+    var prep=await compress(file,TARGET_STORAGE_KB,MAX_W,MAX_H);
+    if(!prep.ok) return {ok:false,error:prep.error};
+    var err1='';
+    try{ setStatus('در حال آپلود در Firebase Storage...'); return await uploadStorage(prep.data,personId,kind,file&&file.name||prep.name); }
+    catch(e){err1=human(e); console.warn('[V158] Storage failed; fallback Firestore',e);}
+    try{
+      setStatus('Storage نشد؛ در حال ذخیره ابری جایگزین در Firestore...');
+      var small=prep.bytes<=680000 ? prep : await compress(file,TARGET_FIRESTORE_KB,1200,1200);
+      var fs=await uploadPhotoDoc(small.data,personId,kind,file&&file.name||small.name);
+      fs.warning=err1; return fs;
+    }catch(e2){return {ok:false,error:'Storage: '+err1+' | Firestore: '+human(e2)}}
+  }
+  async function loadFtPhoto(src){
+    var id=ftId(src); if(!id) return '';
+    if(cache.has(id)) return cache.get(id);
+    var fb=await ready(9000);
+    if(!fb || !fb.db || !fb.doc || !fb.getDoc) throw new Error('Firestore آماده نیست');
+    var snap=await fb.getDoc(fb.doc(fb.db,'families',familyId(),'photos',id));
+    if(!snap.exists()) throw new Error('عکس ابری پیدا نشد');
+    var data=(snap.data()||{}).data;
+    if(!isDataImage(data)) throw new Error('داده عکس معتبر نیست');
+    cache.set(id,data); return data;
+  }
+  function hydrate(root){
+    root=root||document;
+    Array.prototype.slice.call(root.querySelectorAll('img')).forEach(function(img){
+      var raw=img.getAttribute('src')||img.dataset.ftphotoSrc||'';
+      if(!isFt(raw) || img.dataset.v158Loading==='yes' || img.dataset.v158Loading==='done') return;
+      img.dataset.ftphotoSrc=raw; img.dataset.v158Loading='yes';
+      loadFtPhoto(raw).then(function(data){img.src=data; img.dataset.v158Loading='done'; img.style.display='';}).catch(function(e){img.dataset.v158Loading='fail'; console.warn('[V158] load ftphoto failed',e);});
+    });
+  }
+  window.v158UploadSharedPhoto=uploadShared;
+  window.v158HydratePhotos=hydrate;
+  window.v15652HydrateFtPhotos=hydrate;
+  window.v15652LoadFtPhoto=loadFtPhoto;
+  window.v15650UploadPreparedImageFile=function(file,personId,kind){return uploadShared(file,personId,kind||'main')};
+  window.v15634IsImageUrl=function(v){return isHttp(v)||isDataImage(v)||isFt(v)||/^blob:/i.test(s(v))};
+  window.fileToBase64=function(file,callback,personId,type){
+    uploadShared(file,personId||'profile',type||'gallery').then(function(up){
+      if(up&&up.ok&&up.url){callback({name:safeName(file.name),type:'image/jpeg',data:up.url,url:up.url,cloud:true,mode:up.mode,storagePath:up.path||'',date:new Date().toLocaleDateString('fa-IR')}); setTimeout(function(){hydrate(document)},300);}
+      else{alert('عکس ابری ذخیره نشد: '+((up&&up.error)||'خطای نامشخص')); callback(null);}
+    }).catch(function(e){alert('عکس ابری ذخیره نشد: '+human(e)); callback(null);});
+  };
+
+  function readFormData(photoUrl,id){
+    var old=id?(window.people||people).find(function(p){return String(p.id)===String(id)}):null;
+    var data={
+      id:id?Number(id):(typeof uid==='function'?uid():Date.now()),
+      name:($('name')&&$('name').value.trim())||'',
+      gender:($('gender')&&$('gender').value)||'male',
+      birth:($('birth')&&$('birth').value.trim())||'',
+      parentId:($('parent')&&$('parent').value)||'',
+      motherId:(($('motherSelect')&&$('motherSelect').value)||((typeof v1493AutoMotherFromFather==='function')?v1493AutoMotherFromFather(($('parent')&&$('parent').value)||''):'')||''),
+      job:($('job')&&$('job').value.trim())||'',
+      phone:($('phone')&&$('phone').value.trim())||'',
+      photo:photoUrl || (old&&old.photo) || '',
+      isDead:(($('lifeStatus')&&$('lifeStatus').value)==='dead')
+    };
+    if(old){data.spouses=old.spouses||[];data.gallery=old.gallery||[];data.docs=old.docs||[];data.voices=old.voices||[];data.events=old.events||[];data.memory=old.memory||'';data.deathDate=old.deathDate||'';data.gravePlace=old.gravePlace||'';data.deathNote=old.deathNote||'';data.motherId=data.motherId||old.motherId||'';}
+    else{data.spouses=[];data.gallery=[];data.docs=[];data.voices=[];data.events=[];data.memory='';data.deathDate='';data.gravePlace='';data.deathNote='';}
+    if(!data.isDead){data.deathDate='';data.gravePlace='';data.deathNote='';}
+    return data;
+  }
+  window.savePerson=function(){
+    if(typeof canEdit==='function' && !canEdit()) return;
+    var id=($('editId')&&$('editId').value)||'';
+    var name=($('name')&&$('name').value.trim())||'';
+    if(!name){alert('نام را وارد کنید');return;}
+    var file=$('photo')&&$('photo').files&&$('photo').files[0];
+    var doSave=function(photoUrl){
+      var list=window.people||people;
+      var data=readFormData(photoUrl,id);
+      if(id){var old=list.find(function(p){return String(p.id)===String(id)}); if(old) Object.assign(old,data);}
+      else list.push(data);
+      try{if(typeof v1493NormalizeMothers==='function')v1493NormalizeMothers()}catch(e){}
+      try{if(typeof clearForm==='function')clearForm()}catch(e){}
+      try{localStorage.setItem('family_people_',JSON.stringify(list));}catch(e){}
+      try{if(typeof render==='function')render();}catch(e){}
+      try{if(typeof firebaseSaveCloud==='function') firebaseSaveCloud();}catch(e){}
+      setTimeout(function(){hydrate(document)},500);
+      setStatus(photoUrl?'عکس ابری ذخیره شد و برای همه کاربران بعد از دریافت/Sync دیده می‌شود.':'اطلاعات بدون عکس ذخیره شد.');
+    };
+    if(file){
+      uploadShared(file,id||('person_'+Date.now()),'main').then(function(up){
+        if(!up||!up.ok||!up.url){alert('عکس برای همه کاربران ذخیره نشد: '+((up&&up.error)||'خطای نامشخص')); setStatus('عکس ذخیره نشد.'); return;}
+        doSave(up.url);
+      }).catch(function(e){alert('عکس برای همه کاربران ذخیره نشد: '+human(e)); setStatus('عکس ذخیره نشد.');});
+    }else doSave('');
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    try{
+      var input=$('photo');
+      if(input && !input.dataset.v158Hint){input.dataset.v158Hint='yes'; input.insertAdjacentHTML('afterend','<div id="photoEngineStatus" class="photo-ai-status">موتور عکس مشترک آماده است: Storage سپس Firestore، بدون ذخیره محلی.</div>');}
+    }catch(e){}
+    setTimeout(function(){hydrate(document)},700);
+  });
+  var oldRender=window.render;
+  if(typeof oldRender==='function' && !oldRender.__v158Wrapped){
+    window.render=function(){var r=oldRender.apply(this,arguments); setTimeout(function(){hydrate(document)},250); return r;};
+    window.render.__v158Wrapped=true;
+  }
 })();
 </script>
 

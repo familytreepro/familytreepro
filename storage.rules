@@ -2,12 +2,13 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
     function signedIn(){ return request.auth != null; }
-    function validImage(){ return request.resource != null && request.resource.size < 4 * 1024 * 1024 && request.resource.contentType.matches('image/(jpeg|jpg|png|webp)'); }
-    match /familytreepro/{uid}/{allPaths=**} {
+    function ownerEmail(){ return signedIn() && request.auth.token.email == 'alibahripor33@gmail.com'; }
+    match /familytreepro/families/{familyId}/people/{personId}/photos/{fileName} {
       allow read: if signedIn();
-      allow write: if signedIn() && request.auth.uid == uid && validImage();
-      allow delete: if signedIn() && request.auth.uid == uid;
+      allow write: if ownerEmail() || signedIn();
     }
-    match /{allPaths=**} { allow read, write: if false; }
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
   }
 }

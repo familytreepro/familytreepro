@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V157 Clean Photo Engine",
+  "name": "FamilyTreePro V158 Shared Photo Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=157-clean-photo",
+  "start_url": "./index.html?v=158-shared-photo",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V157 clean rebuild without old external photo engine",
+  "description": "FamilyTreePro photo engine: shared Firebase Storage/Firestore photos for all users",
   "scope": "./",
   "icons": []
 }

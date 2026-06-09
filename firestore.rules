@@ -2,14 +2,27 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function signedIn(){ return request.auth != null; }
-    function isAdmin(){ return signedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.uid)) && get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.role == 'admin'; }
-    function isEditor(){ return signedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.uid)) && (get(/databases/$(database)/documents/roles/$(request.auth.uid)).data.role in ['admin','editor']); }
+    function ownerEmail(){ return signedIn() && request.auth.token.email == 'alibahripor33@gmail.com'; }
+    function roleDoc(){ return get(/databases/$(database)/documents/roles/$(request.auth.uid)); }
+    function hasRole(){ return signedIn() && exists(/databases/$(database)/documents/roles/$(request.auth.uid)); }
+    function isAdmin(){ return ownerEmail() || (hasRole() && roleDoc().data.role == 'admin'); }
+    function isEditor(){ return isAdmin() || (hasRole() && roleDoc().data.role in ['editor']); }
     match /users/{uid} {
       allow read: if signedIn() && (request.auth.uid == uid || isAdmin());
       allow create, update: if signedIn() && (request.auth.uid == uid || isAdmin());
       allow delete: if isAdmin();
     }
     match /roles/{uid} { allow read: if signedIn(); allow write: if isAdmin(); }
+    match /families/{familyId} {
+      allow read: if signedIn();
+      allow create, update: if isEditor();
+      allow delete: if isAdmin();
+    }
+    match /families/{familyId}/photos/{photoId} {
+      allow read: if signedIn();
+      allow create, update: if isEditor();
+      allow delete: if isAdmin();
+    }
     match /families/{familyId}/{document=**} {
       allow read: if signedIn();
       allow create, update: if isEditor();
