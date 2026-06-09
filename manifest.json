@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V158 Shared Photo Engine",
+  "name": "FamilyTreePro V159 Auto Sync Photo Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=158-shared-photo",
+  "start_url": "./index.html?v=159-auto-sync",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro photo engine: shared Firebase Storage/Firestore photos for all users",
+  "description": "FamilyTreePro V157 auto sync shared photo engine",
   "scope": "./",
   "icons": []
 }
