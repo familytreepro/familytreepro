@@ -1,13 +1,14 @@
 {
-  "name": "FamilyTreePro V156.92 F35 Lite Display Fix",
+  "name": "FamilyTreePro V157 Clean Photo Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=156-92-f35-lite-display-fix",
+  "start_url": "./index.html?v=157-clean-photo",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V156.92 F35 Lite Display Fix 60-120KB",
-  "scope": "./"
+  "description": "FamilyTreePro V157 clean rebuild without old external photo engine",
+  "scope": "./",
+  "icons": []
 }
