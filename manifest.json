@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V162 Mobile Firebase Debug",
+  "name": "FamilyTreePro V163 Mobile Auth Retry",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=162-mobile-debug",
+  "start_url": "./index.html?v=163-mobile-auth-retry",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V160 user registry fix for Auth users missing in Firestore users",
+  "description": "FamilyTreePro V163 mobile Firebase Auth retry and persistent login",
   "scope": "./",
   "icons": []
 }
