@@ -1,5 +1,5 @@
-// FamilyTreePro V163 Mobile Auth Retry
-const CACHE_NAME='familytreepro-v163-mobile-auth-retry';
+// FamilyTreePro V164 Mobile Cloud Sync Fix
+const CACHE_NAME='familytreepro-v164-mobile-cloud-sync';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});

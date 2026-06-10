@@ -3,7 +3,7 @@
 <html dir="rtl" lang="fa">
 <head>
 <script id="firebase-error-guard">
-/* FamilyTreePro V163 Mobile Auth Retry: do not block Firebase; throttle repeated network noise only */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: do not block Firebase; throttle repeated network noise only */
 (function(){
   'use strict';
   window.__FTP_ALLOW_FIREBASE_TOKEN_REFRESH__ = true;
@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V163 Mobile Auth Retry</title> <style>  
+<title>FamilyTreePro V164 Mobile Cloud Sync Fix</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -46,7 +46,7 @@ button,input,select{font-family:tahoma,Arial}
 .loginbox{background:white;color:#172033;width:92%;max-width:390px;padding:28px;border-radius:22px;text-align:center}  
 .loginbox input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:12px}
 
-/* FamilyTreePro V163 Mobile Auth Retry */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix */
 #login{z-index:2147483000!important;touch-action:manipulation;-webkit-overflow-scrolling:touch}
 .loginbox{position:relative;z-index:2147483001!important;pointer-events:auto!important}
 .loginbox input{display:block!important;width:100%!important;min-height:52px!important;font-size:16px!important;line-height:1.4!important;background:#fff!important;color:#111827!important;border:1px solid #d1d5db!important;outline:none!important;pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:manipulation!important;position:relative!important;z-index:2147483002!important;direction:ltr!important;text-align:left!important;unicode-bidi:plaintext!important}
@@ -56,7 +56,7 @@ button,input,select{font-family:tahoma,Arial}
 .login-error-hint{font-size:12px;color:#64748b;line-height:1.8;margin-top:8px}
 
 
-/* FamilyTreePro V163 Mobile Auth Retry: keep login fields always interactive */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: keep login fields always interactive */
 #login, #login * { pointer-events:auto!important; }
 #login { z-index:2147483647!important; isolation:isolate!important; }
 .loginbox { transform:none!important; overflow:visible!important; }
@@ -224,7 +224,7 @@ body.dark .memorial-card{background:rgba(127,29,29,.18);border-color:#7f1d1d}
 .spouse-badge{background:#ecfeff;color:#155e75;border-color:#67e8f9}
 .relation-result{background:rgba(37,99,235,.08);border:1px solid var(--line);border-radius:14px;padding:14px;line-height:1.9;margin-top:12px}
 .dashboard-note{color:var(--muted);line-height:1.9;margin-top:-6px}
-/* FamilyTreePro V163 Mobile Auth Retry */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix */
 .dashboard-profile{padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid var(--line)}
 .dash-search-wrap{position:sticky;top:0;background:var(--card);z-index:2;padding:0 0 10px}
 .dash-search{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(148,163,184,.08);color:var(--text);outline:none}
@@ -252,7 +252,7 @@ body.dark .dash-group-title{background:rgba(255,255,255,.05)}
 .export-note{font-size:13px;color:var(--muted);line-height:1.9}
 .export-select{width:100%;padding:12px;border:1px solid #d7deea;border-radius:10px;background:white;color:#172033}
 body.dark .export-select{background:#0f172a;color:white;border-color:#334155}
-/* FamilyTreePro V163 Mobile Auth Retry: upgrades existing Export Center, no duplicate dashboard */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: upgrades existing Export Center, no duplicate dashboard */
 .backup-status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .backup-chip{background:rgba(37,99,235,.08);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
 .backup-chip b{display:block;font-size:18px;margin-bottom:5px}
@@ -264,7 +264,7 @@ body.dark .restore-preview{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.backup-status-grid{grid-template-columns:1fr}.backup-chip{text-align:right}}
 
 
-/* FamilyTreePro V163 Mobile Auth Retry - upgrade existing Memory module, no duplicate panels */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix - upgrade existing Memory module, no duplicate panels */
 .heritage-stage{margin-top:18px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(7,27,53,.96),rgba(37,99,235,.82));color:white;box-shadow:0 18px 45px rgba(15,23,42,.18)}
 .heritage-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.16)}
 .heritage-head h2{margin:0}.heritage-head small{color:rgba(255,255,255,.78)}
@@ -310,7 +310,7 @@ body.dark .access-link-box{background:#0f172a;color:white;border-color:#334155}
 .tree-wrap.fullscreen-tree .tree-stage{transform-origin:top left}
 
 
-/* FamilyTreePro V163 Mobile Auth Retry */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix */
 .tree-probar{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;margin-bottom:12px}
 .tree-probar input,.tree-probar select{padding:11px;border:1px solid #d7deea;border-radius:10px;background:white;color:#172033}
 body.dark .tree-probar input,body.dark .tree-probar select{background:#0f172a;color:white;border-color:#334155}
@@ -364,7 +364,7 @@ body.dark .home-back-btn{background:#334155;color:#f8fafc}
 body.hide-women .female-sensitive{display:none!important}
 @media(max-width:850px){.memory-grid{grid-template-columns:1fr}.memory-event{grid-template-columns:1fr}.memory-year{text-align:right}}
 
-/* FamilyTreePro V163 Mobile Auth Retry - no duplicate UI */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix - no duplicate UI */
 .release-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
 .release-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:16px;padding:15px;line-height:1.9}
 .release-card h3{margin:0 0 8px}.release-card small{color:var(--muted)}
@@ -384,7 +384,7 @@ body.dark .release-install-box{background:rgba(255,255,255,.05)}
 .tree-performance-note{font-size:12px;color:var(--muted);margin-top:6px}
 </style>
 <style id="network-stability-styles">
-/* FamilyTreePro V163 Mobile Auth Retry - upgrades existing system, no duplicate dashboard */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix - upgrades existing system, no duplicate dashboard */
 .network-status-card{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .network-chip{background:rgba(148,163,184,.12);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
 .network-chip b{display:block;font-size:18px;margin-bottom:4px}
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=161-mobile-login" rel="manifest"/>
+<link href="./manifest.json?v=164-mobile-cloud-sync" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -428,7 +428,7 @@ body.dark .children-parent-input{background:#0f172a;color:white;border-color:#33
 
 .v81-subtitle{font-size:12px;color:#64748b;line-height:1.8;margin:0 0 10px}.v81-remember{display:flex;align-items:center;gap:7px;justify-content:flex-start;font-size:12px;color:#475569;margin:6px 0 10px}.v81-remember input{width:auto!important;min-height:auto!important;margin:0!important}.v81-lock-screen{position:fixed;inset:0;background:rgba(7,27,53,.96);z-index:2147483500;display:flex;align-items:center;justify-content:center;padding:18px}.v81-lock-box{background:#fff;color:#172033;width:92%;max-width:390px;padding:26px;border-radius:22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25)}.v81-lock-box input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box}.v81-blurred{filter:blur(2px);pointer-events:none}
 
-/* FamilyTreePro V163 Mobile Auth Retry: visible timer/refresh/password hints */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: visible timer/refresh/password hints */
 .v86-auth-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 10px;direction:rtl}
 .v86-mini-btn{border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:12px;padding:9px 10px;cursor:pointer;font-size:12px;min-height:38px}
 .v86-mini-btn:disabled{opacity:.55;cursor:not-allowed}
@@ -445,7 +445,7 @@ body.dark .children-parent-input{background:#0f172a;color:white;border-color:#33
 #v811StableMarker{position:fixed;left:10px;bottom:10px;z-index:999999;background:rgba(15,23,42,.84);color:white;border-radius:999px;padding:7px 11px;font:12px tahoma,arial;pointer-events:none}
 </style>
 <style id="app-stability-styles">
-/* FamilyTreePro V163 Mobile Auth Retry: stability only, no duplicate UI */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: stability only, no duplicate UI */
 html,body{max-width:100%;overflow-x:hidden}
 .view-section{animation:none!important}
 .drawer,.drawer-backdrop{backface-visibility:hidden}
@@ -487,7 +487,7 @@ button{touch-action:manipulation}
 .auth-back-row .btn{flex:1 1 150px!important;min-height:48px!important}
 </style>
 <style id="smart-auth-styles">
-/* FamilyTreePro V163 Mobile Auth Retry - no duplicate UI, only auth polish */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix - no duplicate UI, only auth polish */
 .v96-auth-mini{margin-top:10px;padding:10px;border:1px solid #dbeafe;background:#f8fbff;border-radius:14px;text-align:right;line-height:1.8;color:#334155;font-size:12px}
 .v96-auth-mini b{color:#1e40af}
 body.dark .v96-auth-mini{background:rgba(37,99,235,.08);border-color:#334155;color:#cbd5e1}
@@ -503,7 +503,7 @@ body.dark .v96-auth-mini{background:rgba(37,99,235,.08);border-color:#334155;col
 .v96-health-card b{display:block;font-size:18px;margin-top:4px}
 </style>
 <style id="language-system-styles">
-/* FamilyTreePro V163 Mobile Auth Retry: no duplicate UI, lightweight offline translation */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: no duplicate UI, lightweight offline translation */
 .language-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .lang-choice{min-height:48px;font-weight:bold}
 body.lang-ltr{direction:ltr;text-align:left}
@@ -1240,7 +1240,7 @@ body.app-ready #login{
 <section class="view-section active" id="view-home">
 <div class="home-hero">
 <h1>سامانه شجره‌نامه خانواده</h1>
-<div class="product-brand-line"><span class="brand-badge-V118">🌳 FamilyTreePro V163 Mobile Auth Retry</span><span></span></div>
+<div class="product-brand-line"><span class="brand-badge-V118">🌳 FamilyTreePro V164 Mobile Cloud Sync Fix</span><span></span></div>
 <p></p>
 </div>
 <div class="home-actions no-print">
@@ -1523,7 +1523,7 @@ body.app-ready #login{
 <section class="view-section" id="view-release">
 <div class="page-title"><h1>انتشار محصول</h1><span>☁️ </span></div>
 <div class="panel">
-<h2>🚀 FamilyTreePro V163 Mobile Auth Retry</h2>
+<h2>🚀 FamilyTreePro V164 Mobile Cloud Sync Fix</h2>
 <p class="dashboard-note">این بخش برای بررسی نهایی انتشار است؛ بدون ساخت پنل تکراری، سلامت Login، Backup، Offline و نسخه را کنترل می‌کند.</p>
 <div class="release-grid">
 <div class="release-card"><h3>📱 نصب Android</h3><small>از Chrome یا Samsung Internet سایت را باز کن و گزینه Add to Home screen / Install app را بزن.</small><br/><button class="btn blue-btn" onclick="v94InstallPWA()">نصب اگر مرورگر اجازه داد</button></div>
@@ -1770,10 +1770,10 @@ localStorage.setItem("family_editor_key",approvedEditorKey);
 let pendingAccessRequests=JSON.parse(localStorage.getItem("family_access_requests")||"[]");
 function getBaseUrl(){return location.origin+location.pathname;}
 function buildAccessLink(role){
-  if(role==="viewer")return getBaseUrl()+"?role=viewer&v=FamilyTreePro V163 Mobile Auth Retry";
-  if(role==="editor")return getBaseUrl()+"?role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V163 Mobile Auth Retry";
-  if(role==="request")return getBaseUrl()+"?request=editor&v=FamilyTreePro V163 Mobile Auth Retry";
-  return getBaseUrl()+"?v=FamilyTreePro V163 Mobile Auth Retry";
+  if(role==="viewer")return getBaseUrl()+"?role=viewer&v=FamilyTreePro V164 Mobile Cloud Sync Fix";
+  if(role==="editor")return getBaseUrl()+"?role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V164 Mobile Cloud Sync Fix";
+  if(role==="request")return getBaseUrl()+"?request=editor&v=FamilyTreePro V164 Mobile Cloud Sync Fix";
+  return getBaseUrl()+"?v=FamilyTreePro V164 Mobile Cloud Sync Fix";
 }
 function canEdit(){
   if(accessRole==="viewer"){
@@ -3575,7 +3575,7 @@ function exportSummaryReport(){
 }
 
 
-/* FamilyTreePro V163 Mobile Auth Retry: no duplicate UI, upgrades existing Export Center */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: no duplicate UI, upgrades existing Export Center */
 const V90_BACKUP_KEY="family_v90_backups";
 const V90_TRASH_KEY="family_v90_recycle_bin";
 const V90_AUTOBACKUP_EVERY_MS=10*60*1000;
@@ -3585,7 +3585,7 @@ function v90SetBackups(list){localStorage.setItem(V90_BACKUP_KEY,JSON.stringify(
 function v90GetTrash(){try{return JSON.parse(localStorage.getItem(V90_TRASH_KEY)||"[]");}catch(e){return [];}}
 function v90SetTrash(list){localStorage.setItem(V90_TRASH_KEY,JSON.stringify((list||[]).slice(0,80)));}
 function v90BuildBackup(reason){
-  return {app:"FamilyTreePro",version:"FamilyTreePro V163 Mobile Auth Retry",reason:reason||"manual",createdAt:new Date().toISOString(),people:people,settings:{dark:localStorage.getItem("family_dark")||"no",hideWomen:localStorage.getItem("family_hide_women")||"no"},access:{editorKey:typeof approvedEditorKey!=="undefined"?approvedEditorKey:"",role:typeof currentRole!=="undefined"?currentRole:"admin"}};
+  return {app:"FamilyTreePro",version:"FamilyTreePro V164 Mobile Cloud Sync Fix",reason:reason||"manual",createdAt:new Date().toISOString(),people:people,settings:{dark:localStorage.getItem("family_dark")||"no",hideWomen:localStorage.getItem("family_hide_women")||"no"},access:{editorKey:typeof approvedEditorKey!=="undefined"?approvedEditorKey:"",role:typeof currentRole!=="undefined"?currentRole:"admin"}};
 }
 function v90MakeLocalBackup(reason){
   let list=v90GetBackups();
@@ -3814,9 +3814,8 @@ function firebaseSaveConfig(){
 }
 async function firebaseConnect(){
   if(window.isLowInternetMode && window.isLowInternetMode()){
-    setFirebaseStatus("حالت اینترنت ضعیف روشن است؛ برای اتصال Firebase آن را خاموش کنید یا اتصال را دستی تست کنید.");
-    if(window.addNetworkLog) addNetworkLog("Firebase در حالت Low Internet متوقف شد تا سایت کند نشود.");
-    return null;
+    setFirebaseStatus("حالت اینترنت ضعیف روشن است؛ ولی V164 اتصال Firebase را برای Sync ادامه می‌دهد.");
+    if(window.addNetworkLog) addNetworkLog("V164: Low Internet روشن است اما Sync ابری متوقف نمی‌شود.");
   }
   firebaseSaveConfig();
   const cfg=getFirebaseConfig();
@@ -3890,8 +3889,8 @@ function renderFirebasePanel(){
   const cfg=getFirebaseConfig();
   const familyId=encodeURIComponent((document.getElementById("fbFamilyId")?.value||cfg.fbFamilyId||"my-family").trim());
   const v=document.getElementById("fbViewerLink"), e=document.getElementById("fbEditorLink");
-  if(v)v.value=getBaseUrl()+"?family="+familyId+"&role=viewer&v=FamilyTreePro V163 Mobile Auth Retry";
-  if(e)e.value=getBaseUrl()+"?family="+familyId+"&role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V163 Mobile Auth Retry";
+  if(v)v.value=getBaseUrl()+"?family="+familyId+"&role=viewer&v=FamilyTreePro V164 Mobile Cloud Sync Fix";
+  if(e)e.value=getBaseUrl()+"?family="+familyId+"&role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V164 Mobile Cloud Sync Fix";
 }
 
 
@@ -3947,7 +3946,7 @@ if(initAccessFromUrl()){render();}else{render();}
 </script>
 <!--  CLEAN BASE MARKER -->
 <script id="network-stability-core">
-/* FamilyTreePro V163 Mobile Auth Retry - single upgrade layer */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix - single upgrade layer */
 (function(){
   const LOW_KEY="family_low_internet_mode";
   const SNAP_KEY="family_offline_snapshot_";
@@ -4019,7 +4018,7 @@ if(initAccessFromUrl()){render();}else{render();}
 </script>
 <!--  REAL FIREBASE SECURITY: Auth + role guard, no UI duplication -->
 <script>
-/* FamilyTreePro V163 Mobile Auth Retry */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix */
 (function(){
   function ready(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fn); else fn(); }
   ready(function(){
@@ -4039,7 +4038,7 @@ if(initAccessFromUrl()){render();}else{render();}
 })();
 </script>
 <script>
-/* FamilyTreePro V163 Mobile Auth Retry: inputs must never be disabled on mobile */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: inputs must never be disabled on mobile */
 (function(){
   function unlockLoginInputs(){
     var ids=['loginUser','loginPass'];
@@ -4079,7 +4078,7 @@ if(initAccessFromUrl()){render();}else{render();}
 })();
 </script>
 <script id="auth-bootstrap-core">
-/* FamilyTreePro V163 Mobile Auth Retry: early UI bootstrap before Firebase module loads */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: early UI bootstrap before Firebase module loads */
 (function(){
   function $(id){return document.getElementById(id);}
   function msg(text, ok){
@@ -4132,7 +4131,7 @@ if(initAccessFromUrl()){render();}else{render();}
 <script type="module">
 import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
 import { initializeAuth, getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, setPersistence, inMemoryPersistence, browserLocalPersistence, browserSessionPersistence, sendPasswordResetEmail, sendEmailVerification, reload } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import { getStorage, ref as storageRef, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 const firebaseConfig = (window.getFamilyFirebaseSdkConfig ? window.getFamilyFirebaseSdkConfig() : {
@@ -4217,7 +4216,7 @@ window.v15646SendPasswordResetReal = async function(email, source){
 
 try{ await v15633ApplyPersistence(); }catch(e){}
 
-window.familyFirebase = { app, auth, db, storage, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, updateDoc, storageRef, uploadBytes, getDownloadURL, deleteObject, applyPersistence:v15633ApplyPersistence, config:firebaseConfig };
+window.familyFirebase = { app, auth, db, storage, doc, getDoc, setDoc, serverTimestamp, collection, getDocs, query, orderBy, limit, updateDoc, onSnapshot, storageRef, uploadBytes, getDownloadURL, deleteObject, applyPersistence:v15633ApplyPersistence, config:firebaseConfig };
 window.auth = auth;
 window.db = db;
 window.firebaseAuth = auth;
@@ -4247,6 +4246,91 @@ function updateAuthStatus(text, role){
   if(s) s.innerText=text || "-";
   if(r) r.innerText=role || window.firebaseRole || "-";
 }
+
+/* V164 Mobile Cloud Sync Fix: after mobile login, load Firestore directly with the already-working Firebase app.
+   This bypasses the old firebaseConnect() layer that could be blocked by Low Internet mode or timing. */
+let ftpV164PeopleUnsubscribe = null;
+function ftpV164FamilyDocRef(){
+  let familyId = 'my-family';
+  try{
+    const saved = JSON.parse(localStorage.getItem('family_firebase_config') || '{}');
+    familyId = (new URLSearchParams(location.search).get('family') || saved.fbFamilyId || familyId);
+  }catch(e){}
+  familyId = String(familyId || 'my-family').replace(/[^a-zA-Z0-9_-]/g,'_');
+  return doc(db, 'families', familyId);
+}
+function ftpV164SetCloudStatus(msg){
+  try{ if(typeof setFirebaseStatus==='function') setFirebaseStatus(msg); }catch(e){}
+  try{ if(window.addNetworkLog) window.addNetworkLog(msg); }catch(e){}
+}
+function ftpV164ApplyCloudPeople(list, reason){
+  if(!Array.isArray(list)) return false;
+  try{
+    const cleaned = (typeof v15650CleanPeopleMedia==='function') ? v15650CleanPeopleMedia(list) : list;
+    try{ people = cleaned; }catch(e){}
+    try{ window.people = cleaned; }catch(e){}
+    try{ localStorage.setItem('family_people_', JSON.stringify(cleaned)); }catch(e){}
+    try{ if(typeof render==='function') render(); }catch(e){}
+    try{ setTimeout(function(){ if(typeof v15652HydrateFtPhotos==='function') v15652HydrateFtPhotos(document); },150); }catch(e){}
+    ftpV164SetCloudStatus('V164: لیست افراد از Firebase دریافت شد ('+cleaned.length+' نفر) — '+(reason||''));
+    return true;
+  }catch(e){
+    ftpV164SetCloudStatus('V164 خطای اعمال لیست افراد: '+(e.code||e.message||e));
+    console.warn('V164 apply cloud people failed', e);
+    return false;
+  }
+}
+window.ftpV164LoadPeopleFromCloud = async function(reason){
+  try{
+    if(!auth.currentUser){
+      ftpV164SetCloudStatus('V164: کاربر وارد نشده؛ دریافت ابر متوقف شد');
+      return false;
+    }
+    const snap = await getDoc(ftpV164FamilyDocRef());
+    if(!snap.exists()){
+      ftpV164SetCloudStatus('V164: سند خانواده در Firestore پیدا نشد');
+      return false;
+    }
+    const data = snap.data() || {};
+    if(Array.isArray(data.people)){
+      return ftpV164ApplyCloudPeople(data.people, reason || 'load-on-login');
+    }
+    ftpV164SetCloudStatus('V164: سند ابری people ندارد');
+    return false;
+  }catch(e){
+    ftpV164SetCloudStatus('V164 خطای خواندن Firestore: '+(e.code||e.message||e));
+    console.error('V164 load people failed', e);
+    return false;
+  }
+};
+window.ftpV164StartLivePeopleSync = function(reason){
+  try{
+    if(!auth.currentUser) return false;
+    if(ftpV164PeopleUnsubscribe) return true;
+    ftpV164PeopleUnsubscribe = onSnapshot(ftpV164FamilyDocRef(), function(snap){
+      if(!snap.exists()) return;
+      const data = snap.data() || {};
+      if(Array.isArray(data.people)) ftpV164ApplyCloudPeople(data.people, 'live-'+(reason||''));
+    }, function(err){
+      ftpV164SetCloudStatus('V164 خطای Sync زنده: '+(err.code||err.message||err));
+      console.error('V164 live sync failed', err);
+      ftpV164PeopleUnsubscribe = null;
+    });
+    ftpV164SetCloudStatus('V164: Sync زنده افراد روشن شد');
+    return true;
+  }catch(e){
+    ftpV164SetCloudStatus('V164 Sync زنده روشن نشد: '+(e.code||e.message||e));
+    console.error('V164 start live failed', e);
+    return false;
+  }
+};
+window.ftpV164AfterLoginCloudBoot = async function(reason){
+  try{
+    await window.ftpV164LoadPeopleFromCloud(reason || 'after-login');
+    window.ftpV164StartLivePeopleSync(reason || 'after-login');
+    try{ if(typeof window.ftpStartAutoCloudSync==='function') setTimeout(function(){ window.ftpStartAutoCloudSync('v164-compat'); },500); }catch(e){}
+  }catch(e){ console.warn('V164 cloud boot failed', e); }
+};
 
 async function resolveRole(user){
   if(!user) return "guest";
@@ -4294,7 +4378,7 @@ async function v125EnsureUserProfile(user, extra){
     status: isAdmin ? 'approved' : (existing.adminApproved?'approved':'pending'),
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V163 Mobile Auth Retry'
+    lastAuthVersion:'FamilyTreePro V164 Mobile Cloud Sync Fix'
   }, extra||{});
   if(!existing.createdAt) payload.createdAt=serverTimestamp();
   try{
@@ -4498,7 +4582,7 @@ window.login = async function(){
     document.getElementById("login").style.display="none"; document.getElementById("app").style.display="block";
     if(typeof startV81SessionWatch === "function") startV81SessionWatch(); if(typeof render === "function") render();
     window.__FTP_LOGIN_IN_PROGRESS__ = false;
-    try{ if(typeof window.ftpStartAutoCloudSync==='function') window.ftpStartAutoCloudSync('login'); }catch(_e){}
+    try{ if(typeof window.ftpV164AfterLoginCloudBoot==='function') await window.ftpV164AfterLoginCloudBoot('login'); }catch(_e){}
   }catch(e){
     window.__FTP_LOGIN_IN_PROGRESS__ = false;
     sessionStorage.removeItem('family_manual_auth_ok');
@@ -4576,7 +4660,7 @@ window.registerUser = async function(){
       await setDoc(doc(db,'users',cred.user.uid),{
         name,firstName,lastName,phone,email,uid:cred.user.uid,role:ADMIN_EMAILS.includes(email)?'admin':'viewer',
         adminApproved:ADMIN_EMAILS.includes(email),status:ADMIN_EMAILS.includes(email)?'approved':'pending',blocked:false,
-        createdAt:serverTimestamp(),lastLoginAt:serverTimestamp(),version:'FamilyTreePro V163 Mobile Auth Retry',provider:'email-password',lastAuthVersion:'FamilyTreePro V163 Mobile Auth Retry',emailVerified:false,updatedAt:serverTimestamp()
+        createdAt:serverTimestamp(),lastLoginAt:serverTimestamp(),version:'FamilyTreePro V164 Mobile Cloud Sync Fix',provider:'email-password',lastAuthVersion:'FamilyTreePro V164 Mobile Cloud Sync Fix',emailVerified:false,updatedAt:serverTimestamp()
       }, {merge:true});
     }catch(e){ profileSaved=false; console.warn('Firestore users profile save failed', e); }
     try{ await v125EnsureUserProfile(cred.user,{name,firstName,lastName,phone,email,role:ADMIN_EMAILS.includes(email)?'admin':'viewer',adminApproved:ADMIN_EMAILS.includes(email),status:ADMIN_EMAILS.includes(email)?'approved':'pending',provider:'email-password'}); }catch(e){}
@@ -4831,9 +4915,9 @@ onAuthStateChanged(auth, async user=>{
     appBox.style.display="block";
     if(typeof startV81SessionWatch === "function") startV81SessionWatch();
     if(typeof render === "function") render();
-    try{ if(typeof window.ftpStartAutoCloudSync==='function') window.ftpStartAutoCloudSync('auth-state'); }catch(_e){}
     v137ClearBlockingLayers();
   }
+  try{ if(typeof window.ftpV164AfterLoginCloudBoot==='function') await window.ftpV164AfterLoginCloudBoot('auth-state'); }catch(_e){}
 });
 
 function v137ClearBlockingLayers(){
@@ -4884,7 +4968,7 @@ setInterval(async function(){
 (function(){
   var KEY='family_v94_release_health';
   function setHealth(note){
-    try{localStorage.setItem(KEY, JSON.stringify({version:'FamilyTreePro V163 Mobile Auth Retry', note:note||'ok', online:navigator.onLine, time:new Date().toISOString()}));}catch(e){}
+    try{localStorage.setItem(KEY, JSON.stringify({version:'FamilyTreePro V164 Mobile Cloud Sync Fix', note:note||'ok', online:navigator.onLine, time:new Date().toISOString()}));}catch(e){}
   }
   window.v94CloudSafeState=function(){
     var state={online:navigator.onLine, firebase:!!window.firebaseApp || !!window.auth || !!window.db, localStorage:false};
@@ -4899,21 +4983,21 @@ setInterval(async function(){
 <script id="language-system-core">
 (function(){
   'use strict';
-  var VERSION='FamilyTreePro V163 Mobile Auth Retry';
+  var VERSION='FamilyTreePro V164 Mobile Cloud Sync Fix';
   var KEY='familytreepro_language';
   var dict={
     fa:{dir:'rtl',html:'fa',name:'فارسی',direction:'RTL',mode:'آفلاین و سبک',
-      title:'FamilyTreePro V163 Mobile Auth Retry',loginTitle:'🔐 FamilyTreePro V163 Mobile Auth Retry',subtitle:'ورود امن، ثبت‌نام، بازیابی رمز و قفل خودکار',
+      title:'FamilyTreePro V164 Mobile Cloud Sync Fix',loginTitle:'🔐 FamilyTreePro V164 Mobile Cloud Sync Fix',subtitle:'ورود امن، ثبت‌نام، بازیابی رمز و قفل خودکار',
       login:'ورود امن',register:'ثبت‌نام',forgot:'فراموشی رمز',remember:'مرا در این دستگاه به خاطر بسپار',
       dashboard:'داشبورد',chat:'چت',logout:'🔒 خروج',home:'خانه',people:'افراد',tree:'شجره',language:'زبان و مترجم',release:'انتشار محصول',auth:'سیستم احراز',export:'Export Center',
       langTitle:'زبان و مترجم',langSub:'🌐 فارسی / انگلیسی / عربی',langHead:'🌐 سیستم زبان هوشمند',langNote:'این بخش فقط متن‌های رابط کاربری را تغییر می‌دهد و به اطلاعات خانواده، شجره، بکاپ و ورود دست نمی‌زند.',currentLang:'زبان فعلی:',currentDir:'جهت صفحه:',translatorStatus:'وضعیت مترجم:',offlineNote:'برای پایداری ، ترجمه آنلاین سنگین اضافه نشده است. نسخه V118 متن‌های اصلی Login، Dashboard، Release، Auth و دکمه‌های مهم را به‌صورت داخلی ترجمه می‌کند.'},
     en:{dir:'ltr',html:'en',name:'English',direction:'LTR',mode:'Light offline translation',
-      title:'FamilyTreePro V163 Mobile Auth Retry',loginTitle:'🔐 FamilyTreePro V163 Mobile Auth Retry',subtitle:'Secure login, registration, password recovery and auto lock',
+      title:'FamilyTreePro V164 Mobile Cloud Sync Fix',loginTitle:'🔐 FamilyTreePro V164 Mobile Cloud Sync Fix',subtitle:'Secure login, registration, password recovery and auto lock',
       login:'Secure Login',register:'Register',forgot:'Forgot Password',remember:'Remember me on this device',
       dashboard:'Dashboard',chat:'Chat',logout:'🔒 Logout',home:'Home',people:'People',tree:'Family Tree',language:'Language',release:'Product Release',auth:'Auth System',export:'Export Center',
       langTitle:'Language',langSub:'🌐 Persian / English / Arabic',langHead:'🌐 Smart Language System',langNote:'This section changes only UI text and does not touch family data, tree, backup, or login logic.',currentLang:'Current language:',currentDir:'Page direction:',translatorStatus:'Translator status:',offlineNote:'For  stability, no heavy online translation API is added. V118 translates the main Login, Dashboard, Release, Auth and important buttons internally.'},
     ar:{dir:'rtl',html:'ar',name:'العربية',direction:'RTL',mode:'ترجمة خفيفة بدون اتصال',
-      title:'FamilyTreePro V163 Mobile Auth Retry',loginTitle:'🔐 FamilyTreePro V163 Mobile Auth Retry',subtitle:'دخول آمن، تسجيل، استعادة كلمة المرور وقفل تلقائي',
+      title:'FamilyTreePro V164 Mobile Cloud Sync Fix',loginTitle:'🔐 FamilyTreePro V164 Mobile Cloud Sync Fix',subtitle:'دخول آمن، تسجيل، استعادة كلمة المرور وقفل تلقائي',
       login:'دخول آمن',register:'تسجيل',forgot:'نسيت كلمة المرور',remember:'تذكرني على هذا الجهاز',
       dashboard:'لوحة التحكم',chat:'المحادثة',logout:'🔒 خروج',home:'الرئيسية',people:'الأشخاص',tree:'شجرة العائلة',language:'اللغة والمترجم',release:'إصدار المنتج',auth:'نظام التحقق',export:'مركز التصدير',
       langTitle:'اللغة والمترجم',langSub:'🌐 الفارسية / الإنجليزية / العربية',langHead:'🌐 نظام اللغة الذكي',langNote:'هذا القسم يغير نصوص الواجهة فقط ولا يلمس بيانات العائلة أو الشجرة أو النسخ الاحتياطي أو تسجيل الدخول.',currentLang:'اللغة الحالية:',currentDir:'اتجاه الصفحة:',translatorStatus:'حالة المترجم:',offlineNote:'لثبات  لم تتم إضافة ترجمة أونلاين ثقيلة. V118 يترجم داخلياً النصوص الرئيسية للدخول ولوحة التحكم والإصدار والتحقق والأزرار المهمة.'}
@@ -4947,7 +5031,7 @@ setInterval(async function(){
     var lang='fa'; try{lang=localStorage.getItem(KEY)||'fa';}catch(e){}
     window.setAppLanguage(lang);
     var marker=document.getElementById('buildMarker'); if(marker) marker.textContent='V118';
-    var rel=document.querySelector('#view-release h2'); if(rel && rel.textContent.indexOf('FamilyTreePro')>-1) rel.textContent='🚀 FamilyTreePro V163 Mobile Auth Retry';
+    var rel=document.querySelector('#view-release h2'); if(rel && rel.textContent.indexOf('FamilyTreePro')>-1) rel.textContent='🚀 FamilyTreePro V164 Mobile Cloud Sync Fix';
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bootLang,{once:true}); else bootLang();
   window.addEventListener('load',function(){setTimeout(bootLang,150);},{once:true});
@@ -4989,7 +5073,7 @@ setInterval(async function(){
 })();
 </script>
 <script id="backup-sync-queue">
-/* FamilyTreePro V163 Mobile Auth Retry - backup only, no UI layer, no auth changes */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix - backup only, no UI layer, no auth changes */
 (function(){
   const BACKUP_KEY = 'family_v144_backups';
   const QUEUE_KEY = 'family_v144_backup_queue';
@@ -5023,7 +5107,7 @@ setInterval(async function(){
     const people = getPeople();
     return {
       app: 'FamilyTreePro',
-      version: 'FamilyTreePro V163 Mobile Auth Retry',
+      version: 'FamilyTreePro V164 Mobile Cloud Sync Fix',
       reason: reason || 'manual',
       createdAt: nowISO(),
       source: navigator.onLine ? 'online' : 'offline',
@@ -5280,7 +5364,7 @@ async function runHomeUpdateRepair(){
     var ps=people();
     return {
       app:'FamilyTreePro',
-      version:'FamilyTreePro V163 Mobile Auth Retry',
+      version:'FamilyTreePro V164 Mobile Cloud Sync Fix',
       reason:reason||'auto',
       createdAt:now(),
       source:navigator.onLine?'online':'offline',
@@ -5483,7 +5567,7 @@ body.children-view-active #childrenRegistryDrawerV15624.open{transform:translate
 @media print{#childrenRegistryDrawerV15624{display:none!important}}
 </style>
 <script id="children-manager-core">
-/* FamilyTreePro V163 Mobile Auth Retry: single Children module, no patch stacking */
+/* FamilyTreePro V164 Mobile Cloud Sync Fix: single Children module, no patch stacking */
 (function(){
   'use strict';
   if(window.__V15627_CLEAN_CHILDREN__) return;
@@ -5817,7 +5901,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 <script id="auth-real-final-connect">
 /*
-  FamilyTreePro V163 Mobile Auth Retry
+  FamilyTreePro V164 Mobile Cloud Sync Fix
   هدف: بدون حذف ساختار قبلی، دکمه‌های بازیابی رمز/تأیید ایمیل را واقعاً به Firebase Auth REST API وصل می‌کند.
   دلیل: نسخه‌های قبلی پیام موفقیت را نشان می‌دادند اما در Network الزاماً sendOobCode دیده نمی‌شد.
 */
@@ -6085,7 +6169,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 <script id="v15652-photo-clean-rebuild">
-/* FamilyTreePro V163 Mobile Auth Retry
+/* FamilyTreePro V164 Mobile Cloud Sync Fix
    بازسازی تمیز سیستم عکس: انتخاب فایل واقعی، فشرده‌سازی، آپلود Storage، و fallback ابری Firestore Photo Docs.
    قانون: Base64 داخل people/localStorage ذخیره نمی‌شود؛ فقط URL یا ftphoto://id ذخیره می‌شود. */
 (function(){
@@ -6400,7 +6484,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 
 <script id="v160-user-registry-engine">
-/* FamilyTreePro V163 Mobile Auth Retry
+/* FamilyTreePro V164 Mobile Cloud Sync Fix
    - بدون موتورهای قدیمی خارجی
    - آپلود اصلی: Firebase Storage
    - جایگزین امن: Firestore Photo Doc
@@ -6553,7 +6637,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   document.addEventListener('DOMContentLoaded',function(){
     try{document.querySelectorAll('.photo-ai-status').forEach(function(el){el.textContent='آماده افزودن عکس؛ بدون گیرکردن روی آماده‌سازی.'})}catch(e){}
   });
-  console.log('FamilyTreePro V163 Mobile Auth Retry loaded');
+  console.log('FamilyTreePro V164 Mobile Cloud Sync Fix loaded');
 })();
 </script>
 

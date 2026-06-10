@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V163 Mobile Auth Retry",
+  "name": "FamilyTreePro V164 Mobile Cloud Sync Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=163-mobile-auth-retry",
+  "start_url": "./index.html?v=164-mobile-cloud-sync",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V163 mobile Firebase Auth retry and persistent login",
+  "description": "FamilyTreePro V164 fixes mobile login to Firestore cloud people sync",
   "scope": "./",
   "icons": []
 }
