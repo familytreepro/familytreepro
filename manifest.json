@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V166 Mobile Auth Role Chain Fix",
+  "name": "FamilyTreePro V167 Notification SMS Secure",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=166-mobile-auth-role",
+  "start_url": "./index.html?v=167-notification-sms",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V166 mobile auth role chain fix",
+  "description": "FamilyTreePro secure notification center and Kavenegar SMS queue without exposing API key",
   "scope": "./",
   "icons": []
 }
