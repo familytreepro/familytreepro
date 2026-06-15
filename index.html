@@ -2,6 +2,25 @@
 
 <html dir="rtl" lang="fa">
 <head>
+<script id="v172-mobile-cache-cleaner">
+(function(){
+  var VER='v172-mobile-cache-auth-fix';
+  try{
+    var key='FTP_ACTIVE_BUILD';
+    var old=localStorage.getItem(key);
+    if(old!==VER){
+      localStorage.setItem(key,VER);
+      if('caches' in window){caches.keys().then(function(keys){keys.forEach(function(k){caches.delete(k);});}).catch(function(){});}
+      if(navigator.serviceWorker&&navigator.serviceWorker.getRegistrations){navigator.serviceWorker.getRegistrations().then(function(regs){regs.forEach(function(r){try{r.unregister();}catch(e){}});}).catch(function(){});}
+      if(!/v=172-mobile-cache-auth-fix/.test(location.href)){
+        var sep=location.href.indexOf('?')>=0?'&':'?';
+        setTimeout(function(){location.replace(location.href+sep+'v=172-mobile-cache-auth-fix');},300);
+      }
+    }
+  }catch(e){}
+})();
+</script>
+
 <script id="firebase-error-guard">
 /* FamilyTreePro V163 Mobile Auth Retry: do not block Firebase; throttle repeated network noise only */
 (function(){
@@ -35,7 +54,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V171 Auth No Legacy Fallback</title> <style>  
+<title>FamilyTreePro V172 Mobile Cache Auth Fix</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +416,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=168-auth-registry-repair" rel="manifest"/>
+<link href="./manifest.json?v=172-mobile-cache-auth-fix" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -1116,7 +1135,7 @@ body.app-ready #login{
 </style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
-<h2>🔐 FamilyTreePro V171<br/>Firebase Login</h2>
+<h2>🔐 FamilyTreePro V172<br/>Firebase Login</h2>
 <div class="login-main-fields">
 <input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
 <input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
@@ -4307,7 +4326,7 @@ async function v125EnsureUserProfile(user, extra){
     blocked: !!existing.blocked,
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V171 Auth No Legacy Fallback',
+    lastAuthVersion:'FamilyTreePro V172 Mobile Cache Auth Fix',
     registrySource: exists ? (existing.registrySource||'firestore-existing') : 'auto-created-from-auth-login'
   }, extra||{});
   if(!exists || !existing.createdAt) payload.createdAt=serverTimestamp();
@@ -4852,8 +4871,9 @@ window.bulkImportMissingAuthUsers = async function(){
     const parts=line.split(/\s+/).map(x=>x.trim()).filter(Boolean);
     let uid='';
     for(const part of parts){
+      if(/\.\.\./.test(part)) continue;
       const clean=part.replace(/[^A-Za-z0-9_-]/g,'');
-      if(clean.length>=18 && clean!==email){ uid=clean; break; }
+      if(clean.length>=20 && clean.toLowerCase()!==email.toLowerCase() && !/^20\d{2}$/.test(clean)){ uid=clean; break; }
     }
     if(!email || !uid){ bad.push(line); continue; }
     try{ await v168UpsertUserDocFromRecord({uid,email,name:email.split('@')[0],role:'viewer',emailVerified:false}, true); ok++; }
@@ -6809,17 +6829,17 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 
-<script id="v167-notification-sms-security-center">
-/* FamilyTreePro V167 Notification Center + Secure SMS Queue
+<script id="notification-sms-security-center">
+/* FamilyTreePro Notification Center + Secure SMS Queue
    Security rule: Kavenegar API key is NEVER stored in browser. The app only creates smsQueue docs.
    A trusted server/Cloud Function must send SMS and mark queue items as sent.
 */
 (function(){
   'use strict';
-  if(window.__FTP_V167_NOTIFY_SMS__) return;
-  window.__FTP_V167_NOTIFY_SMS__=true;
+  if(window.__FTP_NOTIFY_SMS__) return;
+  window.__FTP_NOTIFY_SMS__=true;
 
-  var VERSION='V167 Notification SMS Secure';
+  var VERSION='Notification SMS Secure';
   var opened=false;
   var lastItems=[];
 
@@ -6861,7 +6881,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       if(!database || !f.doc || !f.setDoc) return false;
       await f.setDoc(f.doc(database,collectionName,id), data, {merge:true});
       return true;
-    }catch(e){console.warn('V167 addDocSafe failed',collectionName,id,e);return false;}
+    }catch(e){console.warn('Notify addDocSafe failed',collectionName,id,e);return false;}
   }
   async function markNotification(id, read){
     if(!isAdmin()) return;
@@ -6892,32 +6912,32 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
     return await addDocSafe('notifications',id,payload);
   }
   function injectUI(){
-    if($('ftpV167NotifyPanel')) return;
+    if($('ftpNotifyPanel')) return;
     var css=document.createElement('style');
-    css.id='ftpV167NotifyStyle';
+    css.id='ftpNotifyStyle';
     css.textContent=`
       #v130NotifyMail{pointer-events:auto!important;cursor:pointer!important;position:relative!important}
-      #ftpV167NotifyPanel{position:fixed;top:76px;left:18px;right:18px;max-width:760px;margin:auto;background:var(--card,#fff);color:var(--text,#172033);border:1px solid var(--line,#e5eaf2);border-radius:18px;box-shadow:0 28px 90px rgba(15,23,42,.30);z-index:2147482500;display:none;overflow:hidden;direction:rtl}
-      #ftpV167NotifyPanel.open{display:block}
-      .ftp-v167-head{background:var(--navy,#071b35);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-      .ftp-v167-body{padding:14px;max-height:70vh;overflow:auto;-webkit-overflow-scrolling:touch}
-      .ftp-v167-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.ftp-v167-tabs button{border:1px solid var(--line,#e5eaf2);background:rgba(37,99,235,.08);color:var(--text,#172033);border-radius:999px;padding:9px 12px;cursor:pointer}.ftp-v167-tabs button.active{background:var(--blue,#2563eb);color:#fff}
-      .ftp-v167-item{border:1px solid var(--line,#e5eaf2);border-radius:14px;padding:12px;margin:9px 0;background:rgba(148,163,184,.08);line-height:1.9}.ftp-v167-item.unread{border-color:#60a5fa;background:rgba(37,99,235,.08)}
-      .ftp-v167-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.ftp-v167-actions .btn{margin:0}.ftp-v167-muted{color:var(--muted,#64748b);font-size:12px}.ftp-v167-secure{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:12px;padding:10px;line-height:1.8;margin-bottom:10px}.ftp-v167-close{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
-      @media(max-width:700px){#ftpV167NotifyPanel{top:70px;left:8px;right:8px}.ftp-v167-body{max-height:74vh}}
+      #ftpNotifyPanel{position:fixed;top:76px;left:18px;right:18px;max-width:760px;margin:auto;background:var(--card,#fff);color:var(--text,#172033);border:1px solid var(--line,#e5eaf2);border-radius:18px;box-shadow:0 28px 90px rgba(15,23,42,.30);z-index:2147482500;display:none;overflow:hidden;direction:rtl}
+      #ftpNotifyPanel.open{display:block}
+      .ftp-notify-head{background:var(--navy,#071b35);color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+      .ftp-notify-body{padding:14px;max-height:70vh;overflow:auto;-webkit-overflow-scrolling:touch}
+      .ftp-notify-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.ftp-notify-tabs button{border:1px solid var(--line,#e5eaf2);background:rgba(37,99,235,.08);color:var(--text,#172033);border-radius:999px;padding:9px 12px;cursor:pointer}.ftp-notify-tabs button.active{background:var(--blue,#2563eb);color:#fff}
+      .ftp-notify-item{border:1px solid var(--line,#e5eaf2);border-radius:14px;padding:12px;margin:9px 0;background:rgba(148,163,184,.08);line-height:1.9}.ftp-notify-item.unread{border-color:#60a5fa;background:rgba(37,99,235,.08)}
+      .ftp-notify-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.ftp-notify-actions .btn{margin:0}.ftp-notify-muted{color:var(--muted,#64748b);font-size:12px}.ftp-notify-secure{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:12px;padding:10px;line-height:1.8;margin-bottom:10px}.ftp-notify-close{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:10px;padding:8px 12px;cursor:pointer}
+      @media(max-width:700px){#ftpNotifyPanel{top:70px;left:8px;right:8px}.ftp-notify-body{max-height:74vh}}
     `;
     document.head.appendChild(css);
     var panel=document.createElement('div');
-    panel.id='ftpV167NotifyPanel';
-    panel.innerHTML='<div class="ftp-v167-head"><b>✉️ مرکز اعلان‌ها و پیامک امن</b><button class="ftp-v167-close" id="ftpV167CloseBtn">بستن</button></div><div class="ftp-v167-body"><div class="ftp-v167-secure">کلید کاوه‌نگار داخل سایت قرار نمی‌گیرد. این صفحه فقط صف امن پیامک را می‌سازد؛ ارسال واقعی توسط سرور امن انجام می‌شود.</div><div class="ftp-v167-tabs"><button data-tab="all" class="active">همه</button><button data-tab="signup">ثبت‌نام‌ها</button><button data-tab="alerts">مناسبت‌ها</button><button data-tab="sms">صف پیامک</button></div><div id="ftpV167NotifyList">در حال بارگذاری...</div></div>';
+    panel.id='ftpNotifyPanel';
+    panel.innerHTML='<div class="ftp-notify-head"><b>✉️ مرکز اعلان‌ها و پیامک امن</b><button class="ftp-notify-close" id="ftpNotifyCloseBtn">بستن</button></div><div class="ftp-notify-body"><div class="ftp-notify-secure">کلید کاوه‌نگار داخل سایت قرار نمی‌گیرد. این صفحه فقط صف امن پیامک را می‌سازد؛ ارسال واقعی توسط سرور امن انجام می‌شود.</div><div class="ftp-notify-tabs"><button data-tab="all" class="active">همه</button><button data-tab="signup">ثبت‌نام‌ها</button><button data-tab="alerts">مناسبت‌ها</button><button data-tab="sms">صف پیامک</button></div><div id="ftpNotifyList">در حال بارگذاری...</div></div>';
     document.body.appendChild(panel);
-    $('ftpV167CloseBtn').onclick=function(){panel.classList.remove('open');opened=false};
-    panel.querySelectorAll('.ftp-v167-tabs button').forEach(function(b){b.onclick=function(){panel.querySelectorAll('.ftp-v167-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList(b.dataset.tab||'all');};});
+    $('ftpNotifyCloseBtn').onclick=function(){panel.classList.remove('open');opened=false};
+    panel.querySelectorAll('.ftp-notify-tabs button').forEach(function(b){b.onclick=function(){panel.querySelectorAll('.ftp-notify-tabs button').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderList(b.dataset.tab||'all');};});
     var mail=$('v130NotifyMail');
-    if(mail && !mail.dataset.v167Bound){mail.dataset.v167Bound='yes'; mail.addEventListener('click',function(e){e.preventDefault(); e.stopPropagation(); openCenter();},true); mail.addEventListener('touchend',function(e){e.preventDefault(); openCenter();},{passive:false});}
+    if(mail && !mail.dataset.notifyBound){mail.dataset.notifyBound='yes'; mail.addEventListener('click',function(e){e.preventDefault(); e.stopPropagation(); openCenter();},true); mail.addEventListener('touchend',function(e){e.preventDefault(); openCenter();},{passive:false});}
   }
   async function fetchUsers(){
-    var out=[];try{var f=ff(), database=db(); if(!database||!f.collection||!f.getDocs) return out; var snap=await f.getDocs(f.collection(database,'users')); snap.forEach(function(d){out.push(Object.assign({id:d.id},d.data()||{}));});}catch(e){console.warn('V167 users fetch failed',e);} return out;
+    var out=[];try{var f=ff(), database=db(); if(!database||!f.collection||!f.getDocs) return out; var snap=await f.getDocs(f.collection(database,'users')); snap.forEach(function(d){out.push(Object.assign({id:d.id},d.data()||{}));});}catch(e){console.warn('Notify users fetch failed',e);} return out;
   }
   async function fetchCollection(name, max){
     var out=[];try{var f=ff(), database=db(); if(!database||!f.collection||!f.getDocs) return out; var snap=await f.getDocs(f.collection(database,name)); snap.forEach(function(d){out.push(Object.assign({id:d.id},d.data()||{}));});}catch(e){console.warn('V167 '+name+' fetch failed',e);} return out.slice(0,max||100);
@@ -6952,33 +6972,33 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   }
   function renderList(tab){
     tab=tab||'all';
-    var box=$('ftpV167NotifyList'); if(!box) return;
+    var box=$('ftpNotifyList'); if(!box) return;
     var items=lastItems.slice();
     if(tab==='signup') items=items.filter(x=>x.type==='signup');
     if(tab==='alerts') items=items.filter(x=>x.type==='alerts');
     if(tab==='sms') return renderSmsQueue();
-    if(!items.length){box.innerHTML='<p class="ftp-v167-muted">اعلانی وجود ندارد.</p>';return;}
+    if(!items.length){box.innerHTML='<p class="ftp-notify-muted">اعلانی وجود ندارد.</p>';return;}
     box.innerHTML=items.map(function(n){
       var actions=[];
       if(n.user && n.user.uid){actions.push('<button class="btn" onclick="approveAuthUser(\''+esc(n.user.uid)+'\')">✓ تأیید و ساخت صف پیامک</button>');}
       if(n.request && n.request.id){actions.push('<button class="btn" onclick="approveRequest(\''+esc(n.request.id)+'\')">✓ تأیید درخواست</button>');}
-      if(n.type==='alerts' && n.person && n.person.phone && n.id.indexOf('birth_')===0){actions.push('<button class="btn blue-btn" onclick="ftpV167QueueBirthdaySms(\''+esc(n.person.id)+'\')">🎂 صف پیام تبریک</button>');}
-      if(!n.local){actions.push('<button class="btn gray-btn" onclick="ftpV167MarkRead(\''+esc(n.id)+'\',true)">خوانده شد</button>');}
-      return '<div class="ftp-v167-item '+(!n.read?'unread':'')+'"><b>'+esc(n.title)+'</b><br><span>'+esc(n.message)+'</span><br><small class="ftp-v167-muted">'+esc(n.type||'')+' '+esc(n.createdAt||'')+'</small><div class="ftp-v167-actions">'+actions.join('')+'</div></div>';
+      if(n.type==='alerts' && n.person && n.person.phone && n.id.indexOf('birth_')===0){actions.push('<button class="btn blue-btn" onclick="ftpQueueBirthdaySms(\''+esc(n.person.id)+'\')">🎂 صف پیام تبریک</button>');}
+      if(!n.local){actions.push('<button class="btn gray-btn" onclick="ftpMarkRead(\''+esc(n.id)+'\',true)">خوانده شد</button>');}
+      return '<div class="ftp-notify-item '+(!n.read?'unread':'')+'"><b>'+esc(n.title)+'</b><br><span>'+esc(n.message)+'</span><br><small class="ftp-notify-muted">'+esc(n.type||'')+' '+esc(n.createdAt||'')+'</small><div class="ftp-notify-actions">'+actions.join('')+'</div></div>';
     }).join('');
   }
   async function renderSmsQueue(){
-    var box=$('ftpV167NotifyList'); if(!box) return;
+    var box=$('ftpNotifyList'); if(!box) return;
     var list=await fetchCollection('smsQueue',100);
-    if(!list.length){box.innerHTML='<p class="ftp-v167-muted">صف پیامک خالی است. بعد از تأیید کاربر یا تولد، رکورد pending ساخته می‌شود.</p>';return;}
-    box.innerHTML=list.map(function(s){return '<div class="ftp-v167-item"><b>📨 '+esc(s.type||'sms')+' — '+esc(s.status||'pending')+'</b><br>گیرنده: '+esc(s.to||'-')+'<br>'+esc(s.message||'')+'<br><small class="ftp-v167-muted">'+esc(s.id||'')+'</small></div>';}).join('');
+    if(!list.length){box.innerHTML='<p class="ftp-notify-muted">صف پیامک خالی است. بعد از تأیید کاربر یا تولد، رکورد pending ساخته می‌شود.</p>';return;}
+    box.innerHTML=list.map(function(s){return '<div class="ftp-notify-item"><b>📨 '+esc(s.type||'sms')+' — '+esc(s.status||'pending')+'</b><br>گیرنده: '+esc(s.to||'-')+'<br>'+esc(s.message||'')+'<br><small class="ftp-notify-muted">'+esc(s.id||'')+'</small></div>';}).join('');
   }
   function updateBadge(n){var b=$('v130NotifyBadge'); if(!b)return; b.textContent=String(n||0); b.classList.toggle('empty',!n);}
-  async function refreshCenter(){injectUI(); await buildItems(); var active=document.querySelector('#ftpV167NotifyPanel .ftp-v167-tabs button.active'); renderList(active?active.dataset.tab:'all');}
-  async function openCenter(){injectUI(); var panel=$('ftpV167NotifyPanel'); if(!panel)return; if(!isAdmin()){alert('مرکز اعلان‌ها فقط برای مدیر نمایش داده می‌شود.');return;} panel.classList.add('open'); opened=true; await refreshCenter();}
+  async function refreshCenter(){injectUI(); await buildItems(); var active=document.querySelector('#ftpNotifyPanel .ftp-notify-tabs button.active'); renderList(active?active.dataset.tab:'all');}
+  async function openCenter(){injectUI(); var panel=$('ftpNotifyPanel'); if(!panel)return; if(!isAdmin()){alert('مرکز اعلان‌ها فقط برای مدیر نمایش داده می‌شود.');return;} panel.classList.add('open'); opened=true; await refreshCenter();}
 
-  window.ftpV167MarkRead=markNotification;
-  window.ftpV167QueueBirthdaySms=async function(personId){
+  window.ftpMarkRead=markNotification;
+  window.ftpQueueBirthdaySms=async function(personId){
     if(!isAdmin()){alert('فقط مدیر مجاز است.');return;}
     var p=peopleList().find(function(x){return String(x.id)===String(personId)});
     if(!p){alert('شخص پیدا نشد.');return;}
@@ -7008,7 +7028,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
             if(phone){await enqueueSms('approval',phone,'ورود شما به سامانه شجره‌نامه خانواده تأیید شد.',{uid:uid,email:u.email||'',key:'approval'});} 
           }
           await refreshCenter();
-        }catch(e){console.warn('V167 after approve hook failed',e);}      
+        }catch(e){console.warn('Notify after approve hook failed',e);}      
       };
       wrapped.__v167Wrapped=true;
       window.approveAuthUser=wrapped;
@@ -7017,7 +7037,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
   async function autoBirthdayQueueOnce(){
     if(!isAdmin()) return;
-    var key='ftp_v167_birthday_queue_'+todayKey();
+    var key='ftp_birthday_queue_'+todayKey();
     try{if(localStorage.getItem(key)==='yes') return;}catch(e){}
     var d=new Date(), m=d.getMonth()+1, day=d.getDate();
     var count=0;
@@ -7166,5 +7186,15 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 })();
 </script>
 
+
+<script id="v172-service-worker-register">
+(function(){
+  if('serviceWorker' in navigator){
+    window.addEventListener('load',function(){
+      navigator.serviceWorker.register('./service-worker.js?v=172-mobile-cache-auth-fix').catch(function(e){console.warn('SW register failed',e);});
+    });
+  }
+})();
+</script>
 </body>
 </html>

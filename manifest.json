@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V171 Firebase Loader Fixed",
+  "name": "FamilyTreePro V172 Mobile Cache Auth Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=171-firebase-loader-fixed",
+  "start_url": "./index.html?v=172-mobile-cache-auth-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V171 Firebase dynamic loader and auth fallback",
+  "description": "FamilyTreePro V172 mobile cache cleanup and Firebase Auth stable loader",
   "scope": "./",
   "icons": []
 }
