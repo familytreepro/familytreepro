@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V168 Auth Registry Repair",
+  "name": "FamilyTreePro V169 Auth Registry Fixed",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=168-auth-registry-repair",
+  "start_url": "./index.html?v=169-auth-fixed",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro auth registry repair: sync Firebase Auth users with Firestore users safely",
+  "description": "FamilyTreePro auth registry fixed build",
   "scope": "./",
   "icons": []
 }

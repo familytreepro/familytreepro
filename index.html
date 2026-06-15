@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V168 Auth Registry Repair</title> <style>  
+<title>FamilyTreePro V169 Auth Registry Fixed</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -4301,7 +4301,7 @@ async function v125EnsureUserProfile(user, extra){
     blocked: !!existing.blocked,
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V168 Auth Registry Repair',
+    lastAuthVersion:'FamilyTreePro V169 Auth Registry Fixed',
     registrySource: exists ? (existing.registrySource||'firestore-existing') : 'auto-created-from-auth-login'
   }, extra||{});
   if(!exists || !existing.createdAt) payload.createdAt=serverTimestamp();
@@ -4836,8 +4836,7 @@ window.bulkImportMissingAuthUsers = async function(){
   const st=document.getElementById('missingAuthStatus');
   const text=(box&&box.value||'').trim();
   if(!text){ if(st) st.innerText='متن ثبت گروهی خالی است.'; return; }
-  const lines=text.split(/
-+/).map(x=>x.trim()).filter(Boolean);
+  const lines=text.split(/\n+/).map(x=>x.trim()).filter(Boolean);
   let ok=0, bad=[];
   for(const line of lines){
     const emailMatch=line.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
