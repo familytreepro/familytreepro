@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V169 Auth Registry Fixed</title> <style>  
+<title>FamilyTreePro V170 Auth No Legacy Fallback</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -1116,7 +1116,7 @@ body.app-ready #login{
 </style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
-<h2>🔐 ورود به FamilyTreePro</h2>
+<h2>🔐 FamilyTreePro V170<br/>Firebase Login</h2>
 <div class="login-main-fields">
 <input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
 <input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
@@ -1864,15 +1864,20 @@ function applyAccessControl(){
 }
 
   
-function login(){  
-  let u=document.getElementById("loginUser").value.trim();  
-  let p=document.getElementById("loginPass").value;  
-  if(u==="admin" && p===password){  
-    accessRole="admin";
-    document.getElementById("login").style.display="none";  
-    document.getElementById("app").style.display="block";  
-    render();  
-  }else document.getElementById("loginError").innerText="نام کاربری یا رمز اشتباه است";  
+function login(){
+  /* V170: legacy local admin/password login is disabled. If Firebase module has not loaded,
+     show the real cause instead of the false old message "نام کاربری یا رمز اشتباه است". */
+  var err=document.getElementById("loginError");
+  var email=(document.getElementById("loginUser")&&document.getElementById("loginUser").value||"").trim();
+  if(window.__FTP_FIREBASE_LOGIN_READY__ && typeof window.ftpFirebaseRealLogin==='function'){
+    return window.ftpFirebaseRealLogin();
+  }
+  if(err){
+    err.style.color='red';
+    err.innerText='Firebase Login هنوز بارگذاری نشده است. این خطا از ورود قدیمی نیست. صفحه را با اینترنت/VPN باز کنید و اگر ادامه داشت Console را بفرستید. ایمیل واردشده: '+(email||'-');
+  }
+  console.error('V170 legacy login prevented: Firebase module not ready', {email:email, online:navigator.onLine, host:location.host});
+  return false;
 }  
   
 async function logout(){
@@ -4226,6 +4231,7 @@ window.db = db;
 window.firebaseAuth = auth;
 window.firebaseDb = db;
 window.v88FirebaseReady = true;
+window.__FTP_FIREBASE_MODULE_LOADED__ = true;
 
 window.ftpMobileLoginHealth = function(){
   try{
@@ -4301,7 +4307,7 @@ async function v125EnsureUserProfile(user, extra){
     blocked: !!existing.blocked,
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V169 Auth Registry Fixed',
+    lastAuthVersion:'FamilyTreePro V170 Auth No Legacy Fallback',
     registrySource: exists ? (existing.registrySource||'firestore-existing') : 'auto-created-from-auth-login'
   }, extra||{});
   if(!exists || !existing.createdAt) payload.createdAt=serverTimestamp();
@@ -4483,7 +4489,7 @@ window.v86PasswordReview=function(){
   if(status && pass2){ status.innerText = pass===pass2 ? 'تکرار رمز درست است.' : 'تکرار رمز با رمز اصلی یکی نیست.'; status.className='v86-status '+(pass===pass2?'v86-ok':'v86-bad'); }
 };
 document.addEventListener('DOMContentLoaded',function(){v88RestoreRememberUI();v86PasswordReview();});
-window.login = async function(){
+window.ftpFirebaseRealLogin = async function(){
   if(window.unlockLoginInputs) window.unlockLoginInputs();
   const email = (document.getElementById("loginUser")?.value || "").trim().toLowerCase();
   const pass = document.getElementById("loginPass")?.value || "";
@@ -4528,6 +4534,8 @@ window.login = async function(){
     v86SetAuthMessage('ورود ناموفق: '+v86FirebaseError(e.code || e.message)+'\n'+v162AuthDebugDetail(e,v162Stage),false);
   }
 };
+window.login = window.ftpFirebaseRealLogin;
+window.__FTP_FIREBASE_LOGIN_READY__ = true;
 
 function v88UnlockAuthButtons(){
   ['loginBtn','showRegisterBtn','forgotPasswordBtn','createAccountBtn','backToLoginBtn','loginUser','loginPass','regFirstName','regLastName','regPhone','regEmail','regPass','regPass2'].forEach(function(id){
@@ -7036,5 +7044,22 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 })();
 </script>
 
+
+<script id="v170-auth-module-load-guard">
+(function(){
+  function $(id){return document.getElementById(id)}
+  function showModuleLoadState(){
+    var login=$('login'), err=$('loginError');
+    if(!login || login.style.display==='none') return;
+    if(window.__FTP_FIREBASE_LOGIN_READY__) return;
+    if(err && !(err.textContent||'').trim()){
+      err.style.color='red';
+      err.textContent='در حال بارگذاری Firebase Login... اگر این پیام ماند، اتصال به gstatic/firebase یا کش قدیمی مشکل دارد.';
+    }
+  }
+  setTimeout(showModuleLoadState,2500);
+  setTimeout(showModuleLoadState,7000);
+})();
+</script>
 </body>
 </html>

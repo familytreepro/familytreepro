@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V169 Auth Registry Fixed",
+  "name": "FamilyTreePro V170 Auth No Legacy Fallback",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=169-auth-fixed",
+  "start_url": "./index.html?v=170-auth-no-legacy",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro auth registry fixed build",
+  "description": "FamilyTreePro V170 Firebase auth without legacy local-login fallback",
   "scope": "./",
   "icons": []
 }
