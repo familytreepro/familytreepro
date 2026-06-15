@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V170 Auth No Legacy Fallback</title> <style>  
+<title>FamilyTreePro V171 Auth No Legacy Fallback</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -1116,7 +1116,7 @@ body.app-ready #login{
 </style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
-<h2>🔐 FamilyTreePro V170<br/>Firebase Login</h2>
+<h2>🔐 FamilyTreePro V171<br/>Firebase Login</h2>
 <div class="login-main-fields">
 <input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
 <input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
@@ -4307,7 +4307,7 @@ async function v125EnsureUserProfile(user, extra){
     blocked: !!existing.blocked,
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V170 Auth No Legacy Fallback',
+    lastAuthVersion:'FamilyTreePro V171 Auth No Legacy Fallback',
     registrySource: exists ? (existing.registrySource||'firestore-existing') : 'auto-created-from-auth-login'
   }, extra||{});
   if(!exists || !existing.createdAt) payload.createdAt=serverTimestamp();
@@ -7045,7 +7045,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 
-<script id="v170-auth-module-load-guard">
+<script id="v171-auth-module-load-guard">
 (function(){
   function $(id){return document.getElementById(id)}
   function showModuleLoadState(){
@@ -7061,5 +7061,110 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   setTimeout(showModuleLoadState,7000);
 })();
 </script>
+
+<script id="v171-firebase-dynamic-fallback">
+(function(){
+  'use strict';
+  var CFG={
+    apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
+    authDomain:"family-tree-pro-a661d.firebaseapp.com",
+    projectId:"family-tree-pro-a661d",
+    storageBucket:"family-tree-pro-a661d.firebasestorage.app",
+    messagingSenderId:"634237399841",
+    appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"
+  };
+  var ADMIN=['alibahripor33@gmail.com'];
+  var sdk=null, loading=null;
+  function $(id){return document.getElementById(id)}
+  function say(t,ok){var e=$('loginError'); if(e){e.style.color=ok?'green':'red'; e.innerText=t||'';} }
+  function normalizeEmail(x){return String(x||'').trim().toLowerCase()}
+  function mapErr(e){
+    var s=String((e&&(e.code||e.message))||e||'');
+    if(/auth\/wrong-password|auth\/invalid-credential|auth\/user-not-found|INVALID_LOGIN_CREDENTIALS/i.test(s)) return 'ایمیل یا رمز Firebase درست نیست.';
+    if(/auth\/too-many-requests/i.test(s)) return 'درخواست زیاد شده؛ چند دقیقه بعد دوباره تلاش کنید.';
+    if(/auth\/network-request-failed|ERR_FAILED|Failed to fetch|Load failed|NetworkError|gstatic|unknown_url_scheme/i.test(s)) return 'Firebase SDK از gstatic بارگذاری نشد. اینترنت/VPN یا کش مرورگر را بررسی کنید.';
+    return s || 'خطای نامشخص Firebase';
+  }
+  async function loadSdk(){
+    if(window.__FTP_FIREBASE_LOGIN_READY__ && window.familyFirebase && window.familyFirebase.auth) return window.familyFirebase;
+    if(sdk) return sdk;
+    if(loading) return loading;
+    loading=(async function(){
+      say('در حال بارگذاری مستقیم Firebase SDK...', true);
+      var appMod = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js');
+      var authMod = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js');
+      var fsMod = await import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js');
+      var appName='familytreepro-'+CFG.projectId;
+      var apps=appMod.getApps();
+      var app=apps.find(function(a){return a.name===appName}) || apps.find(function(a){return a.name==='[DEFAULT]' && a.options && a.options.projectId===CFG.projectId}) || appMod.initializeApp(CFG, appName);
+      var auth;
+      try{auth=authMod.initializeAuth(app,{persistence:authMod.browserLocalPersistence});}catch(e){auth=authMod.getAuth(app);}
+      try{await authMod.setPersistence(auth, authMod.browserLocalPersistence);}catch(e){}
+      var db=fsMod.getFirestore(app);
+      sdk={app:app,auth:auth,db:db,appMod:appMod,authMod:authMod,fsMod:fsMod};
+      window.familyFirebase={app:app,auth:auth,db:db,doc:fsMod.doc,getDoc:fsMod.getDoc,setDoc:fsMod.setDoc,serverTimestamp:fsMod.serverTimestamp,collection:fsMod.collection,getDocs:fsMod.getDocs,updateDoc:fsMod.updateDoc,config:CFG};
+      window.auth=auth; window.db=db; window.firebaseAuth=auth; window.firebaseDb=db; window.v88FirebaseReady=true; window.__FTP_FIREBASE_MODULE_LOADED__=true; window.__FTP_FIREBASE_LOGIN_READY__=true;
+      return sdk;
+    })().catch(function(e){loading=null; throw e;});
+    return loading;
+  }
+  async function ensureProfile(user, extra){
+    var s=await loadSdk(), fs=s.fsMod, db=s.db;
+    var ref=fs.doc(db,'users',user.uid);
+    var snap=await fs.getDoc(ref);
+    var email=normalizeEmail(user.email);
+    var isAdmin=ADMIN.indexOf(email)>=0;
+    var base={uid:user.uid,email:email,displayName:user.displayName||email,provider:'email-password',registrySource:'v171-fallback',lastLoginAt:fs.serverTimestamp(),updatedAt:fs.serverTimestamp()};
+    if(!snap.exists()){base.createdAt=fs.serverTimestamp(); base.role=isAdmin?'admin':'viewer'; base.adminApproved=!!isAdmin; base.status=isAdmin?'approved':'pending';}
+    if(extra) Object.assign(base,extra);
+    await fs.setDoc(ref,base,{merge:true});
+    var finalSnap=await fs.getDoc(ref);
+    return finalSnap.exists()?finalSnap.data():base;
+  }
+  async function canEnter(user){
+    var email=normalizeEmail(user.email);
+    if(ADMIN.indexOf(email)>=0){await ensureProfile(user,{role:'admin',adminApproved:true,status:'approved'}); return {ok:true,role:'admin'};}
+    var data=await ensureProfile(user,{});
+    if(data.adminApproved===true || data.status==='approved') return {ok:true,role:data.role||'viewer'};
+    return {ok:false,msg:'حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.'};
+  }
+  window.login = async function(){
+    var email=normalizeEmail($('loginUser')&&$('loginUser').value);
+    var pass=($('loginPass')&&$('loginPass').value)||'';
+    if(!email||!pass){say('ایمیل و رمز را وارد کنید.',false);return false;}
+    try{
+      var s=await loadSdk();
+      var cred=await s.authMod.signInWithEmailAndPassword(s.auth,email,pass);
+      var gate=await canEnter(cred.user);
+      if(!gate.ok){try{await s.authMod.signOut(s.auth);}catch(e){} say(gate.msg,false); return false;}
+      window.firebaseAuthUser=cred.user; window.firebaseRole=gate.role||'viewer';
+      try{localStorage.setItem('family_manual_auth_ok','yes');sessionStorage.setItem('family_manual_auth_ok','yes');localStorage.setItem('family_v81_last_email',email);localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));}catch(e){}
+      var l=$('login'), app=$('app'); if(l) l.style.display='none'; if(app) app.style.display='block';
+      if(typeof window.render==='function') window.render();
+      say('',true); return true;
+    }catch(e){console.error('V171 firebase fallback login failed',e); say('ورود ناموفق: '+mapErr(e),false); return false;}
+  };
+  window.showRegister = window.showRegister || function(){var b=$('registerBox'); var l=$('login'); if(l)l.classList.add('register-mode'); if(b){b.style.display='block';b.classList.add('active');} say('فرم ثبت‌نام باز شد.',true);};
+  window.showLoginOnly = window.showLoginOnly || function(){var b=$('registerBox'); var l=$('login'); if(l)l.classList.remove('register-mode'); if(b){b.style.display='none';b.classList.remove('active');} say('',false);};
+  window.forgotPassword = async function(){
+    var email=normalizeEmail($('loginUser')&&$('loginUser').value); if(!email){say('اول ایمیل را وارد کنید.',false);return;}
+    try{var s=await loadSdk(); await s.authMod.sendPasswordResetEmail(s.auth,email,{url:location.origin+location.pathname,handleCodeInApp:false}); say('ایمیل بازیابی رمز ارسال شد.',true);}catch(e){console.error('V171 reset failed',e); say('ارسال بازیابی ناموفق: '+mapErr(e),false);}
+  };
+  window.registerUser = async function(){
+    var first=String(($('regFirstName')&&$('regFirstName').value)||'').trim();
+    var last=String(($('regLastName')&&$('regLastName').value)||'').trim();
+    var phone=String(($('regPhone')&&$('regPhone').value)||'').trim();
+    var email=normalizeEmail($('regEmail')&&$('regEmail').value);
+    var pass=($('regPass')&&$('regPass').value)||''; var pass2=($('regPass2')&&$('regPass2').value)||'';
+    if(!email||!pass){say('ایمیل و رمز ثبت‌نام را وارد کنید.',false);return;}
+    if(pass!==pass2){say('تکرار رمز درست نیست.',false);return;}
+    try{var s=await loadSdk(); var cred=await s.authMod.createUserWithEmailAndPassword(s.auth,email,pass); try{await s.authMod.updateProfile(cred.user,{displayName:(first+' '+last).trim()});}catch(e){} await ensureProfile(cred.user,{firstName:first,lastName:last,phone:phone,displayName:(first+' '+last).trim()||email}); say('ثبت‌نام انجام شد. اگر مدیر تأیید نکرده باشد، ورود بعد از تأیید فعال می‌شود.',true);}catch(e){console.error('V171 register failed',e); say('ثبت‌نام ناموفق: '+mapErr(e),false);}
+  };
+  document.addEventListener('DOMContentLoaded',function(){
+    ['loginBtn','showRegisterBtn','forgotPasswordBtn','createAccountBtn','backToLoginBtn'].forEach(function(id){var el=$(id); if(el){el.disabled=false;el.removeAttribute('disabled');}});
+  });
+})();
+</script>
+
 </body>
 </html>

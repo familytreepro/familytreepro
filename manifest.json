@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V170 Auth No Legacy Fallback",
+  "name": "FamilyTreePro V171 Firebase Loader Fixed",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=170-auth-no-legacy",
+  "start_url": "./index.html?v=171-firebase-loader-fixed",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V170 Firebase auth without legacy local-login fallback",
+  "description": "FamilyTreePro V171 Firebase dynamic loader and auth fallback",
   "scope": "./",
   "icons": []
 }
