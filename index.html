@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V167 Notification SMS Secure</title> <style>  
+<title>FamilyTreePro V168 Auth Registry Repair</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=167-notification-sms" rel="manifest"/>
+<link href="./manifest.json?v=168-auth-registry-repair" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -1606,6 +1606,9 @@ body.app-ready #login{
 <button class="btn blue-btn" onclick="refreshAuthDashboard()" type="button">خواندن دوباره users</button>
 </div>
 <div class="auth-import-help" id="missingAuthStatus">این کار فقط سند users/{UID} را می‌سازد؛ کاربر باید قبلاً در Authentication وجود داشته باشد.</div>
+<div class="auth-import-help"><b>ثبت گروهی کاربران Auth:</b> ردیف‌های Firebase Authentication را کپی کنید؛ هر خط باید حداقل ایمیل و UID داشته باشد. نمونه: <span dir="ltr">user@email.com  abcUID123...</span></div>
+<textarea id="missingAuthBulk" class="access-link-box" placeholder="اینجا ردیف‌های کپی‌شده از Firebase Authentication را قرار بدهید" dir="ltr"></textarea>
+<div class="auth-import-actions"><button class="btn" onclick="bulkImportMissingAuthUsers()" type="button">ثبت گروهی در users</button></div>
 </div>
 
 <div id="authUsersList"></div>
@@ -4276,48 +4279,66 @@ async function applyFirebaseRole(user){
 
 async function v125EnsureUserProfile(user, extra){
   if(!user) return null;
-  const email=(user.email||'').toLowerCase();
+  const email=(user.email||'').trim().toLowerCase();
   const isAdmin=ADMIN_EMAILS.includes(email);
   let existing={};
+  let exists=false;
   try{
     const snap=await getDoc(doc(db,'users',user.uid));
-    if(snap.exists()) existing=snap.data()||{};
-  }catch(e){ console.warn('v125 read user profile failed', e); }
+    if(snap.exists()){ existing=snap.data()||{}; exists=true; }
+  }catch(e){ console.warn('v168 read user profile failed', e); }
+  const finalRole = (extra&&extra.role) || existing.role || (isAdmin?'admin':'viewer');
+  const finalApproved = isAdmin ? true : !!((extra&&Object.prototype.hasOwnProperty.call(extra,'adminApproved')) ? extra.adminApproved : existing.adminApproved);
   const payload=Object.assign({
     uid:user.uid,
-    email:email,
-    name:user.displayName||existing.name||'',
-    phone:existing.phone||'-',
-    role: existing.role || (isAdmin?'admin':'viewer'),
-    emailVerified: !!user.emailVerified,
-    adminApproved: isAdmin ? true : !!existing.adminApproved,
-    status: isAdmin ? 'approved' : (existing.adminApproved?'approved':'pending'),
+    email:email || existing.email || '',
+    name:(extra&&extra.name) || user.displayName || existing.name || (email?email.split('@')[0]:''),
+    phone:(extra&&extra.phone) || existing.phone || '-',
+    role: finalRole,
+    emailVerified: !!(user.emailVerified || existing.emailVerified),
+    adminApproved: finalApproved,
+    status: isAdmin ? 'approved' : (finalApproved?'approved':'pending'),
+    blocked: !!existing.blocked,
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V163 Mobile Auth Retry'
+    lastAuthVersion:'FamilyTreePro V168 Auth Registry Repair',
+    registrySource: exists ? (existing.registrySource||'firestore-existing') : 'auto-created-from-auth-login'
   }, extra||{});
-  if(!existing.createdAt) payload.createdAt=serverTimestamp();
+  if(!exists || !existing.createdAt) payload.createdAt=serverTimestamp();
+  // Never let extra accidentally approve normal users unless explicitly true from admin/import.
+  if(!isAdmin && !(extra&&extra.adminApproved===true) && !existing.adminApproved){ payload.adminApproved=false; payload.status='pending'; }
   try{
     await setDoc(doc(db,'users',user.uid),payload,{merge:true});
-    if(isAdmin){
-      try{ await setDoc(doc(db,'roles',user.uid),{role:'admin',email:email,updatedAt:serverTimestamp(),source:'admin_email_autofix_v160'},{merge:true}); }catch(_roleErr){}
+    if(isAdmin || finalRole==='admin'){
+      try{ await setDoc(doc(db,'roles',user.uid),{role:'admin',email:email,updatedAt:serverTimestamp(),source:'v168_admin_sync'},{merge:true}); }catch(_roleErr){}
     }
-    return Object.assign({}, existing, payload);
+    return Object.assign({}, existing, payload, {id:user.uid});
   }catch(e){
-    console.warn('v125 save user profile failed', e);
-    return Object.assign({}, existing, payload, {saveError:e.code||e.message});
+    console.warn('v168 save user profile failed', e);
+    return Object.assign({}, existing, payload, {id:user.uid, saveError:e.code||e.message});
   }
 }
 async function v125CanEnterApp(user){
   if(!user) return {ok:false,msg:'کاربر وارد نشده است'};
   try{ await reload(user); }catch(e){}
-  const email=(user.email||'').toLowerCase();
-  if(ADMIN_EMAILS.includes(email)) return {ok:true};
-  let snap=null;
-  try{ snap=await getDoc(doc(db,'users',user.uid)); }catch(e){ return {ok:false,msg:'خواندن وضعیت تأیید مدیر از Firestore ممکن نیست. Rules را بررسی کنید.'}; }
-  const data=snap && snap.exists()?snap.data():{};
-  if(!data.adminApproved) return {ok:false,msg:'حساب شما ثبت شد، اما هنوز توسط مدیر تأیید نشده است.'};
+  const email=(user.email||'').trim().toLowerCase();
+  if(ADMIN_EMAILS.includes(email)){
+    try{ await v125EnsureUserProfile(user,{role:'admin',adminApproved:true,status:'approved',registrySource:'admin-auto-sync-v168'}); }catch(_e){}
+    return {ok:true};
+  }
+  let snap=null, data={};
+  try{
+    snap=await getDoc(doc(db,'users',user.uid));
+    if(snap && snap.exists()) data=snap.data()||{};
+    else{
+      // Core repair: an Auth user with no users/{uid} must not disappear from admin panel.
+      data = await v125EnsureUserProfile(user,{registrySource:'missing-users-doc-auto-created-v168'});
+    }
+  }catch(e){
+    return {ok:false,msg:'خواندن/ساخت سند users از Firestore ممکن نیست. Rules باید اجازه دهد کاربر سند users خودش را بخواند/بسازد. ['+(e.code||e.message||e)+']'};
+  }
   if(data.blocked) return {ok:false,msg:'این حساب توسط مدیر مسدود شده است.'};
+  if(!data.adminApproved) return {ok:false,msg:'حساب شما در Firebase ساخته شد و در لیست مدیر ثبت شد؛ ورود بعد از تأیید مدیر فعال می‌شود.'};
   return {ok:true};
 }
 
@@ -4649,6 +4670,57 @@ window.authUsersCache = [];
 function authSafe(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
 function authRoleLabel(role){return role==='admin'?'مدیر':(role==='editor'?'✏️ ویرایشگر':'نمایشگر');}
 function authVerifiedLabel(v){return v?'<span class="auth-badge verified">تأییدشده</span>':'<span class="auth-badge unverified">تأییدنشده</span>';}
+
+function v168UserKey(u){ return String((u&&(u.uid||u.id)) || '').trim() || ('email:'+String((u&&u.email)||'').trim().toLowerCase()); }
+function v168NormalizeUser(id,u,source){
+  u=Object.assign({},u||{});
+  if(id && !u.id) u.id=id;
+  if(!u.uid && id && !String(id).startsWith('email:')) u.uid=id;
+  if(u.email) u.email=String(u.email).trim().toLowerCase();
+  u.role=u.role||'viewer';
+  u.emailVerified=!!u.emailVerified;
+  u.adminApproved=!!u.adminApproved || u.role==='admin' || String(u.status||'')==='approved';
+  u.status=u.status || (u.adminApproved?'approved':'pending');
+  u.registrySource=u.registrySource||source||'unknown';
+  return u;
+}
+function v168MergeUsers(list){
+  const byUid=new Map(), byEmail=new Map();
+  (list||[]).forEach(function(raw){
+    const u=v168NormalizeUser(raw.id||raw.uid, raw, raw.registrySource);
+    const uid=String(u.uid||u.id||'').trim();
+    const email=String(u.email||'').trim().toLowerCase();
+    let key=uid || (email?'email:'+email:'');
+    if(!key) return;
+    if(email && byEmail.has(email) && !uid){ key=byEmail.get(email); }
+    if(uid && byUid.has(uid)) key=uid;
+    const old=byUid.get(key) || {};
+    const merged=Object.assign({}, old, u);
+    merged.adminApproved=!!(old.adminApproved||u.adminApproved||merged.role==='admin');
+    merged.emailVerified=!!(old.emailVerified||u.emailVerified);
+    merged.status=merged.adminApproved?'approved':(merged.status||'pending');
+    byUid.set(key, merged);
+    if(uid) byUid.set(uid, merged);
+    if(email) byEmail.set(email, key);
+  });
+  return Array.from(new Set(Array.from(byUid.values())));
+}
+async function v168UpsertUserDocFromRecord(u, approved){
+  const uid=String(u&& (u.uid||u.id) || '').trim();
+  const email=String(u&&u.email||'').trim().toLowerCase();
+  if(!uid || uid.startsWith('email:')) throw new Error('missing-uid');
+  await setDoc(doc(db,'users',uid),{
+    uid:uid,email:email,name:u.name||u.displayName||(email?email.split('@')[0]:'کاربر'),phone:u.phone||'-',
+    role:u.role||'viewer',emailVerified:!!u.emailVerified,
+    adminApproved: approved===false ? !!u.adminApproved : true,
+    status: approved===false ? (u.adminApproved?'approved':'pending') : 'approved',
+    updatedAt:serverTimestamp(),
+    createdAt:u.createdAt||serverTimestamp(),
+    registrySource:'v168_registry_repair_upsert',
+    repairedBy:auth.currentUser?.email||''
+  },{merge:true});
+  if(u.role){ await setDoc(doc(db,'roles',uid),{role:u.role,email:email,updatedAt:serverTimestamp(),source:'v168_registry_repair'},{merge:true}); }
+}
 window.renderAuthUsersTable=function(){
   const list=document.getElementById('authUsersList'); if(!list) return;
   let users=Array.isArray(window.authUsersCache)?window.authUsersCache.slice():[];
@@ -4662,24 +4734,26 @@ window.renderAuthUsersTable=function(){
   const canAdmin=(window.firebaseRole==='admin');
   const rows=users.map(u=>{
     const role=(u.role||'viewer');
-    const uid=authSafe(u.id||u.uid);
+    const uid=authSafe(u.uid||u.id);
+    const sourceBadge='<br><small>منبع: '+authSafe(u.registrySource||'users')+'</small>';
+    const repairBtn = canAdmin && (!u.uid || String(u.id||'').startsWith('email:')) ? '<button class="btn" onclick="repairAuthUserDocFromCache(\''+uid+'\')" type="button">ثبت users</button>' : '';
     const approved=!!u.adminApproved || role==='admin';
     const roleControl=canAdmin ? '<select class="auth-role-select" onchange="changeAuthUserRole(this.dataset.uid,this.value)" data-uid="'+uid+'"><option value="viewer" '+(role==='viewer'?'selected':'')+'>نمایشگر</option><option value="editor" '+(role==='editor'?'selected':'')+'>✏️ ویرایشگر</option><option value="admin" '+(role==='admin'?'selected':'')+'>مدیر</option></select>' : '<span class="auth-badge '+authSafe(role)+'">'+authRoleLabel(role)+'</span>';
     const approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">تأیید</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
     const resetArg = authSafe(JSON.stringify(String(u.email||'')));
     const verifyEmailBtn = canAdmin ? (u.emailVerified ? '' : '<button class="btn blue-btn" onclick="verifyAuthUserEmail(\''+uid+'\')" type="button">تأیید ایمیل</button>') : '';
     const resetBtn = u.email ? '<button class="btn blue-btn" onclick="sendResetForAuthUser('+resetArg+')" type="button">بازیابی رمز</button>' : '<span class="auth-badge unverified">بدون ایمیل</span>';
-    return '<tr><td><b>'+authSafe([u.firstName,u.lastName].filter(Boolean).join(' ') || u.name || 'کاربر')+'</b><br><small>'+authSafe(u.uid||u.id||'-')+'</small></td><td>'+authSafe(u.phone||'-')+'</td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td><div class="auth-actions">'+approveBtn+verifyEmailBtn+resetBtn+'</div></td></tr>';
+    return '<tr><td><b>'+authSafe([u.firstName,u.lastName].filter(Boolean).join(' ') || u.name || 'کاربر')+'</b><br><small>'+authSafe(u.uid||u.id||'-')+'</small>'+sourceBadge+'</td><td>'+authSafe(u.phone||'-')+'</td><td>'+authSafe(u.email||'-')+'</td><td>'+authVerifiedLabel(!!u.emailVerified)+'</td><td>'+roleControl+'</td><td><div class="auth-actions">'+approveBtn+verifyEmailBtn+resetBtn+repairBtn+'</div></td></tr>';
   }).join('');
-  list.innerHTML='<div class="auth-user-table"><table><thead><tr><th>کاربر</th><th>شماره تلفن</th><th>ایمیل</th><th>وضعیت ایمیل</th><th>نقش</th><th>عملیات واقعی</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">V160: جدول احراز از Firestore users خوانده می‌شود. کاربران موجود در Authentication که سند users ندارند باید با UID ثبت شوند یا یک‌بار وارد برنامه شوند.</div>';
+  list.innerHTML='<div class="auth-user-table"><table><thead><tr><th>کاربر</th><th>شماره تلفن</th><th>ایمیل</th><th>وضعیت ایمیل</th><th>نقش</th><th>عملیات واقعی</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">V168: منبع اصلی Firestore users است. کاربران جاافتاده از Auth با ورود کاربر یا ثبت دستی/گروهی UID به users اضافه می‌شوند؛ تأیید مدیر فقط روی users/{UID} ذخیره می‌شود.</div>';
 };
 window.approveAuthUser=async function(uid){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند کاربر را تأیید کند.');return;}
   if(!uid){alert('شناسه کاربر پیدا نشد.');return;}
   try{
     await setDoc(doc(db,'users',uid),{adminApproved:true,status:'approved',approvedAt:serverTimestamp(),approvedBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
-    const u=window.authUsersCache.find(x=>String(x.id||x.uid)===String(uid)); if(u){u.adminApproved=true;u.status='approved';}
-    renderAuthUsersTable();
+    const u=window.authUsersCache.find(x=>String(x.uid||x.id)===String(uid)); if(u){u.uid=u.uid||uid;u.id=u.id||uid;u.adminApproved=true;u.status='approved';u.registrySource=u.registrySource||'firestore-users';}
+    await refreshAuthDashboard();
     const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='کاربر توسط مدیر تأیید شد.';
   }catch(e){alert('تأیید کاربر ناموفق: '+v86FirebaseError(e.code||e.message));}
 };
@@ -4748,6 +4822,41 @@ window.createMissingAuthUserDoc = async function(){
   }
 };
 
+window.repairAuthUserDocFromCache = async function(uid){
+  if(window.firebaseRole !== 'admin'){alert('فقط مدیر می‌تواند اصلاح کند.');return;}
+  const u=(window.authUsersCache||[]).find(x=>String(x.uid||x.id)===String(uid));
+  if(!u){alert('کاربر در کش جدول پیدا نشد.');return;}
+  try{ await v168UpsertUserDocFromRecord(u, true); await refreshAuthDashboard(); alert('سند users برای این کاربر اصلاح/ثبت شد.'); }
+  catch(e){ alert('اصلاح ناموفق: '+(e.code||e.message||e)); }
+};
+
+window.bulkImportMissingAuthUsers = async function(){
+  if(window.firebaseRole !== 'admin'){alert('فقط مدیر می‌تواند ثبت گروهی انجام دهد.');return;}
+  const box=document.getElementById('missingAuthBulk');
+  const st=document.getElementById('missingAuthStatus');
+  const text=(box&&box.value||'').trim();
+  if(!text){ if(st) st.innerText='متن ثبت گروهی خالی است.'; return; }
+  const lines=text.split(/
++/).map(x=>x.trim()).filter(Boolean);
+  let ok=0, bad=[];
+  for(const line of lines){
+    const emailMatch=line.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+    const email=emailMatch?emailMatch[0].toLowerCase():'';
+    const parts=line.split(/\s+/).map(x=>x.trim()).filter(Boolean);
+    let uid='';
+    for(const part of parts){
+      const clean=part.replace(/[^A-Za-z0-9_-]/g,'');
+      if(clean.length>=18 && clean!==email){ uid=clean; break; }
+    }
+    if(!email || !uid){ bad.push(line); continue; }
+    try{ await v168UpsertUserDocFromRecord({uid,email,name:email.split('@')[0],role:'viewer',emailVerified:false}, true); ok++; }
+    catch(e){ bad.push(email+' / '+(e.code||e.message||e)); }
+  }
+  if(st) st.innerText='ثبت گروهی تمام شد: '+ok+' کاربر ثبت شد، '+bad.length+' خطا.'+(bad.length?' خطاها: '+bad.slice(0,3).join(' | '):'');
+  if(box && ok) box.value='';
+  await refreshAuthDashboard();
+};
+
 window.refreshAuthDashboard = async function(){
   const status=document.getElementById('authDashboardStatus');
   const total=document.getElementById('authTotalUsers');
@@ -4767,27 +4876,26 @@ window.refreshAuthDashboard = async function(){
   if(importPanel) importPanel.style.display = window.firebaseRole==='admin' ? 'block' : 'none';
   if(status) status.innerText = 'در حال خواندن کاربران از Firestore users...';
   let users=[];
+  let localUsers=[]; try{localUsers=JSON.parse(localStorage.getItem('family_v88_registered_users')||'[]');}catch(_){localUsers=[];}
+  localUsers=(localUsers||[]).map(u=>v168NormalizeUser(u.uid||u.id,u,'local-register-cache'));
+  if(user && !localUsers.some(u=>String(u.uid||'')===String(user.uid) || String(u.email||'').toLowerCase()===String(user.email||'').toLowerCase())){
+    localUsers.unshift(v168NormalizeUser(user.uid,{name:user.displayName||'کاربر فعلی',email:user.email,uid:user.uid,phone:'-',role:window.firebaseRole||'viewer',emailVerified:!!user.emailVerified},'current-auth-user'));
+  }
   try{
-    const q=query(collection(db,'users'), orderBy('createdAt','desc'), limit(100));
+    const q=query(collection(db,'users'), orderBy('createdAt','desc'), limit(500));
     const snap=await getDocs(q);
-    snap.forEach(d=>users.push({id:d.id,...d.data()}));
-    users=users.map(u=>({role:u.role||'viewer', emailVerified:!!u.emailVerified, adminApproved:!!u.adminApproved, status:u.status||(u.adminApproved?'approved':'pending'), ...u}));
-    const uniqMap=new Map();
-    users.forEach(u=>{ const k=String(u.uid||u.id||u.email||'').toLowerCase(); if(k && !uniqMap.has(k)) uniqMap.set(k,u); });
-    users=Array.from(uniqMap.values());
-    window.authUsersCache=users;
-    if(total) total.innerText=String(users.length);
-    if(verified) verified.innerText=String(users.filter(u=>u.emailVerified).length)+' / '+String(users.length);
-    renderAuthUsersTable();
-    if(status) status.innerText='آمار کاربران از Firestore users خوانده شد. تعداد نمایش: '+users.length+' کاربر. اگر Authentication بیشتر است، کاربران جاافتاده هنوز سند users ندارند.';
-  }catch(e){
-    let localUsers=[]; try{localUsers=JSON.parse(localStorage.getItem('family_v88_registered_users')||'[]');}catch(_){localUsers=[];}
-    if(user && !localUsers.some(u=>u.email===user.email)) localUsers.unshift({name:user.displayName||'کاربر فعلی',email:user.email,uid:user.uid,phone:'-',role:window.firebaseRole||'viewer',emailVerified:!!user.emailVerified});
-    window.authUsersCache=localUsers.map(u=>({role:u.role||'viewer', emailVerified:!!u.emailVerified, adminApproved:!!u.adminApproved, status:u.status||(u.adminApproved?'approved':'pending'), ...u}));
+    snap.forEach(d=>users.push(v168NormalizeUser(d.id,d.data(),'firestore-users')));
+    window.authUsersCache=v168MergeUsers(users.concat(localUsers));
     if(total) total.innerText=String(window.authUsersCache.length);
     if(verified) verified.innerText=String(window.authUsersCache.filter(u=>u.emailVerified).length)+' / '+String(window.authUsersCache.length);
     renderAuthUsersTable();
-    if(status) status.innerText='خواندن users از Firestore انجام نشد. احتمالاً Rules اجازه نمی‌دهد. ثبت‌نام Auth ممکن است درست باشد. جزئیات: '+(e.code||e.message||e);
+    if(status) status.innerText='V168: users از Firestore خوانده شد و با کش ثبت‌نام/کاربر فعلی ادغام شد. تعداد نمایش: '+window.authUsersCache.length+' کاربر. لیست کامل Authentication فقط با کپی UID یا ورود همان کاربر قابل ساخت در users است.';
+  }catch(e){
+    window.authUsersCache=v168MergeUsers(localUsers);
+    if(total) total.innerText=String(window.authUsersCache.length);
+    if(verified) verified.innerText=String(window.authUsersCache.filter(u=>u.emailVerified).length)+' / '+String(window.authUsersCache.length);
+    renderAuthUsersTable();
+    if(status) status.innerText='خواندن users از Firestore انجام نشد. کش محلی نمایش داده شد. Rules اجازه خواندن users را بررسی کنید. جزئیات: '+(e.code||e.message||e);
   }
 };
 window.sendResetForAuthUser = async function(email){

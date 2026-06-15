@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V167 Notification SMS Secure",
+  "name": "FamilyTreePro V168 Auth Registry Repair",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=167-notification-sms",
+  "start_url": "./index.html?v=168-auth-registry-repair",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro secure notification center and Kavenegar SMS queue without exposing API key",
+  "description": "FamilyTreePro auth registry repair: sync Firebase Auth users with Firestore users safely",
   "scope": "./",
   "icons": []
 }
