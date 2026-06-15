@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V172 Mobile Cache Auth Fix",
+  "name": "FamilyTreePro V173 Mobile Auth Stable",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=172-mobile-cache-auth-fix",
+  "start_url": "./index.html?v=173-mobile-auth-stable",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V172 mobile cache cleanup and Firebase Auth stable loader",
+  "description": "FamilyTreePro V173 stable mobile Firebase Auth and cache cleanup",
   "scope": "./",
   "icons": []
 }
