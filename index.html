@@ -4,7 +4,7 @@
 <head>
 <script id="v173-mobile-cache-cleaner">
 (function(){
-  var VER='v173-mobile-auth-stable';
+  var VER='v174-mobile-auth-rest-timeout';
   try{
     var key='FTP_ACTIVE_BUILD';
     var old=localStorage.getItem(key);
@@ -22,7 +22,7 @@
 </script>
 
 <script id="firebase-error-guard">
-/* FamilyTreePro V173 Mobile Auth Stable: do not block Firebase; throttle repeated network noise only */
+/* FamilyTreePro V174 Mobile Auth Stable: do not block Firebase; throttle repeated network noise only */
 (function(){
   'use strict';
   window.__FTP_ALLOW_FIREBASE_TOKEN_REFRESH__ = true;
@@ -54,7 +54,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V173 Mobile Auth Stable</title> <style>  
+<title>FamilyTreePro V174 Mobile Auth Stable</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -65,7 +65,7 @@ button,input,select{font-family:tahoma,Arial}
 .loginbox{background:white;color:#172033;width:92%;max-width:390px;padding:28px;border-radius:22px;text-align:center}  
 .loginbox input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:12px}
 
-/* FamilyTreePro V173 Mobile Auth Stable */
+/* FamilyTreePro V174 Mobile Auth Stable */
 #login{z-index:2147483000!important;touch-action:manipulation;-webkit-overflow-scrolling:touch}
 .loginbox{position:relative;z-index:2147483001!important;pointer-events:auto!important}
 .loginbox input{display:block!important;width:100%!important;min-height:52px!important;font-size:16px!important;line-height:1.4!important;background:#fff!important;color:#111827!important;border:1px solid #d1d5db!important;outline:none!important;pointer-events:auto!important;user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important;touch-action:manipulation!important;position:relative!important;z-index:2147483002!important;direction:ltr!important;text-align:left!important;unicode-bidi:plaintext!important}
@@ -75,7 +75,7 @@ button,input,select{font-family:tahoma,Arial}
 .login-error-hint{font-size:12px;color:#64748b;line-height:1.8;margin-top:8px}
 
 
-/* FamilyTreePro V173 Mobile Auth Stable: keep login fields always interactive */
+/* FamilyTreePro V174 Mobile Auth Stable: keep login fields always interactive */
 #login, #login * { pointer-events:auto!important; }
 #login { z-index:2147483647!important; isolation:isolate!important; }
 .loginbox { transform:none!important; overflow:visible!important; }
@@ -243,7 +243,7 @@ body.dark .memorial-card{background:rgba(127,29,29,.18);border-color:#7f1d1d}
 .spouse-badge{background:#ecfeff;color:#155e75;border-color:#67e8f9}
 .relation-result{background:rgba(37,99,235,.08);border:1px solid var(--line);border-radius:14px;padding:14px;line-height:1.9;margin-top:12px}
 .dashboard-note{color:var(--muted);line-height:1.9;margin-top:-6px}
-/* FamilyTreePro V173 Mobile Auth Stable */
+/* FamilyTreePro V174 Mobile Auth Stable */
 .dashboard-profile{padding-bottom:12px;margin-bottom:10px;border-bottom:1px solid var(--line)}
 .dash-search-wrap{position:sticky;top:0;background:var(--card);z-index:2;padding:0 0 10px}
 .dash-search{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:rgba(148,163,184,.08);color:var(--text);outline:none}
@@ -271,7 +271,7 @@ body.dark .dash-group-title{background:rgba(255,255,255,.05)}
 .export-note{font-size:13px;color:var(--muted);line-height:1.9}
 .export-select{width:100%;padding:12px;border:1px solid #d7deea;border-radius:10px;background:white;color:#172033}
 body.dark .export-select{background:#0f172a;color:white;border-color:#334155}
-/* FamilyTreePro V173 Mobile Auth Stable: upgrades existing Export Center, no duplicate dashboard */
+/* FamilyTreePro V174 Mobile Auth Stable: upgrades existing Export Center, no duplicate dashboard */
 .backup-status-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .backup-chip{background:rgba(37,99,235,.08);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
 .backup-chip b{display:block;font-size:18px;margin-bottom:5px}
@@ -283,7 +283,7 @@ body.dark .restore-preview{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.backup-status-grid{grid-template-columns:1fr}.backup-chip{text-align:right}}
 
 
-/* FamilyTreePro V173 Mobile Auth Stable - upgrade existing Memory module, no duplicate panels */
+/* FamilyTreePro V174 Mobile Auth Stable - upgrade existing Memory module, no duplicate panels */
 .heritage-stage{margin-top:18px;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:linear-gradient(135deg,rgba(7,27,53,.96),rgba(37,99,235,.82));color:white;box-shadow:0 18px 45px rgba(15,23,42,.18)}
 .heritage-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding:16px 18px;border-bottom:1px solid rgba(255,255,255,.16)}
 .heritage-head h2{margin:0}.heritage-head small{color:rgba(255,255,255,.78)}
@@ -329,7 +329,7 @@ body.dark .access-link-box{background:#0f172a;color:white;border-color:#334155}
 .tree-wrap.fullscreen-tree .tree-stage{transform-origin:top left}
 
 
-/* FamilyTreePro V173 Mobile Auth Stable */
+/* FamilyTreePro V174 Mobile Auth Stable */
 .tree-probar{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;margin-bottom:12px}
 .tree-probar input,.tree-probar select{padding:11px;border:1px solid #d7deea;border-radius:10px;background:white;color:#172033}
 body.dark .tree-probar input,body.dark .tree-probar select{background:#0f172a;color:white;border-color:#334155}
@@ -383,7 +383,7 @@ body.dark .home-back-btn{background:#334155;color:#f8fafc}
 body.hide-women .female-sensitive{display:none!important}
 @media(max-width:850px){.memory-grid{grid-template-columns:1fr}.memory-event{grid-template-columns:1fr}.memory-year{text-align:right}}
 
-/* FamilyTreePro V173 Mobile Auth Stable - no duplicate UI */
+/* FamilyTreePro V174 Mobile Auth Stable - no duplicate UI */
 .release-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0}
 .release-card{background:rgba(148,163,184,.08);border:1px solid var(--line);border-radius:16px;padding:15px;line-height:1.9}
 .release-card h3{margin:0 0 8px}.release-card small{color:var(--muted)}
@@ -403,7 +403,7 @@ body.dark .release-install-box{background:rgba(255,255,255,.05)}
 .tree-performance-note{font-size:12px;color:var(--muted);margin-top:6px}
 </style>
 <style id="network-stability-styles">
-/* FamilyTreePro V173 Mobile Auth Stable - upgrades existing system, no duplicate dashboard */
+/* FamilyTreePro V174 Mobile Auth Stable - upgrades existing system, no duplicate dashboard */
 .network-status-card{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .network-chip{background:rgba(148,163,184,.12);border:1px solid var(--line);border-radius:14px;padding:12px;text-align:center}
 .network-chip b{display:block;font-size:18px;margin-bottom:4px}
@@ -447,7 +447,7 @@ body.dark .children-parent-input{background:#0f172a;color:white;border-color:#33
 
 .v81-subtitle{font-size:12px;color:#64748b;line-height:1.8;margin:0 0 10px}.v81-remember{display:flex;align-items:center;gap:7px;justify-content:flex-start;font-size:12px;color:#475569;margin:6px 0 10px}.v81-remember input{width:auto!important;min-height:auto!important;margin:0!important}.v81-lock-screen{position:fixed;inset:0;background:rgba(7,27,53,.96);z-index:2147483500;display:flex;align-items:center;justify-content:center;padding:18px}.v81-lock-box{background:#fff;color:#172033;width:92%;max-width:390px;padding:26px;border-radius:22px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.25)}.v81-lock-box input{width:100%;padding:13px;margin:8px 0;border:1px solid #ddd;border-radius:12px;box-sizing:border-box}.v81-blurred{filter:blur(2px);pointer-events:none}
 
-/* FamilyTreePro V173 Mobile Auth Stable: visible timer/refresh/password hints */
+/* FamilyTreePro V174 Mobile Auth Stable: visible timer/refresh/password hints */
 .v86-auth-tools{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0 10px;direction:rtl}
 .v86-mini-btn{border:1px solid #bfdbfe;background:#eff6ff;color:#1d4ed8;border-radius:12px;padding:9px 10px;cursor:pointer;font-size:12px;min-height:38px}
 .v86-mini-btn:disabled{opacity:.55;cursor:not-allowed}
@@ -464,7 +464,7 @@ body.dark .children-parent-input{background:#0f172a;color:white;border-color:#33
 #v811StableMarker{position:fixed;left:10px;bottom:10px;z-index:999999;background:rgba(15,23,42,.84);color:white;border-radius:999px;padding:7px 11px;font:12px tahoma,arial;pointer-events:none}
 </style>
 <style id="app-stability-styles">
-/* FamilyTreePro V173 Mobile Auth Stable: stability only, no duplicate UI */
+/* FamilyTreePro V174 Mobile Auth Stable: stability only, no duplicate UI */
 html,body{max-width:100%;overflow-x:hidden}
 .view-section{animation:none!important}
 .drawer,.drawer-backdrop{backface-visibility:hidden}
@@ -506,7 +506,7 @@ button{touch-action:manipulation}
 .auth-back-row .btn{flex:1 1 150px!important;min-height:48px!important}
 </style>
 <style id="smart-auth-styles">
-/* FamilyTreePro V173 Mobile Auth Stable - no duplicate UI, only auth polish */
+/* FamilyTreePro V174 Mobile Auth Stable - no duplicate UI, only auth polish */
 .v96-auth-mini{margin-top:10px;padding:10px;border:1px solid #dbeafe;background:#f8fbff;border-radius:14px;text-align:right;line-height:1.8;color:#334155;font-size:12px}
 .v96-auth-mini b{color:#1e40af}
 body.dark .v96-auth-mini{background:rgba(37,99,235,.08);border-color:#334155;color:#cbd5e1}
@@ -522,7 +522,7 @@ body.dark .v96-auth-mini{background:rgba(37,99,235,.08);border-color:#334155;col
 .v96-health-card b{display:block;font-size:18px;margin-top:4px}
 </style>
 <style id="language-system-styles">
-/* FamilyTreePro V173 Mobile Auth Stable: no duplicate UI, lightweight offline translation */
+/* FamilyTreePro V174 Mobile Auth Stable: no duplicate UI, lightweight offline translation */
 .language-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
 .lang-choice{min-height:48px;font-weight:bold}
 body.lang-ltr{direction:ltr;text-align:left}
@@ -1135,7 +1135,7 @@ body.app-ready #login{
 </style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
-<h2>🔐 FamilyTreePro V173<br/>Firebase Login</h2>
+<h2>🔐 FamilyTreePro V174<br/>Mobile Firebase Login</h2>
 <div class="login-main-fields">
 <input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
 <input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
@@ -1259,7 +1259,7 @@ body.app-ready #login{
 <section class="view-section active" id="view-home">
 <div class="home-hero">
 <h1>سامانه شجره‌نامه خانواده</h1>
-<div class="product-brand-line"><span class="brand-badge-V118">🌳 FamilyTreePro V173 Mobile Auth Stable</span><span></span></div>
+<div class="product-brand-line"><span class="brand-badge-V118">🌳 FamilyTreePro V174 Mobile Auth Stable</span><span></span></div>
 <p></p>
 </div>
 <div class="home-actions no-print">
@@ -1542,7 +1542,7 @@ body.app-ready #login{
 <section class="view-section" id="view-release">
 <div class="page-title"><h1>انتشار محصول</h1><span>☁️ </span></div>
 <div class="panel">
-<h2>🚀 FamilyTreePro V173 Mobile Auth Stable</h2>
+<h2>🚀 FamilyTreePro V174 Mobile Auth Stable</h2>
 <p class="dashboard-note">این بخش برای بررسی نهایی انتشار است؛ بدون ساخت پنل تکراری، سلامت Login، Backup، Offline و نسخه را کنترل می‌کند.</p>
 <div class="release-grid">
 <div class="release-card"><h3>📱 نصب Android</h3><small>از Chrome یا Samsung Internet سایت را باز کن و گزینه Add to Home screen / Install app را بزن.</small><br/><button class="btn blue-btn" onclick="v94InstallPWA()">نصب اگر مرورگر اجازه داد</button></div>
@@ -1792,10 +1792,10 @@ localStorage.setItem("family_editor_key",approvedEditorKey);
 let pendingAccessRequests=JSON.parse(localStorage.getItem("family_access_requests")||"[]");
 function getBaseUrl(){return location.origin+location.pathname;}
 function buildAccessLink(role){
-  if(role==="viewer")return getBaseUrl()+"?role=viewer&v=FamilyTreePro V173 Mobile Auth Stable";
-  if(role==="editor")return getBaseUrl()+"?role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V173 Mobile Auth Stable";
-  if(role==="request")return getBaseUrl()+"?request=editor&v=FamilyTreePro V173 Mobile Auth Stable";
-  return getBaseUrl()+"?v=FamilyTreePro V173 Mobile Auth Stable";
+  if(role==="viewer")return getBaseUrl()+"?role=viewer&v=FamilyTreePro V174 Mobile Auth Stable";
+  if(role==="editor")return getBaseUrl()+"?role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V174 Mobile Auth Stable";
+  if(role==="request")return getBaseUrl()+"?request=editor&v=FamilyTreePro V174 Mobile Auth Stable";
+  return getBaseUrl()+"?v=FamilyTreePro V174 Mobile Auth Stable";
 }
 function canEdit(){
   if(accessRole==="viewer"){
@@ -3602,7 +3602,7 @@ function exportSummaryReport(){
 }
 
 
-/* FamilyTreePro V173 Mobile Auth Stable: no duplicate UI, upgrades existing Export Center */
+/* FamilyTreePro V174 Mobile Auth Stable: no duplicate UI, upgrades existing Export Center */
 const V90_BACKUP_KEY="family_v90_backups";
 const V90_TRASH_KEY="family_v90_recycle_bin";
 const V90_AUTOBACKUP_EVERY_MS=10*60*1000;
@@ -3612,7 +3612,7 @@ function v90SetBackups(list){localStorage.setItem(V90_BACKUP_KEY,JSON.stringify(
 function v90GetTrash(){try{return JSON.parse(localStorage.getItem(V90_TRASH_KEY)||"[]");}catch(e){return [];}}
 function v90SetTrash(list){localStorage.setItem(V90_TRASH_KEY,JSON.stringify((list||[]).slice(0,80)));}
 function v90BuildBackup(reason){
-  return {app:"FamilyTreePro",version:"FamilyTreePro V173 Mobile Auth Stable",reason:reason||"manual",createdAt:new Date().toISOString(),people:people,settings:{dark:localStorage.getItem("family_dark")||"no",hideWomen:localStorage.getItem("family_hide_women")||"no"},access:{editorKey:typeof approvedEditorKey!=="undefined"?approvedEditorKey:"",role:typeof currentRole!=="undefined"?currentRole:"admin"}};
+  return {app:"FamilyTreePro",version:"FamilyTreePro V174 Mobile Auth Stable",reason:reason||"manual",createdAt:new Date().toISOString(),people:people,settings:{dark:localStorage.getItem("family_dark")||"no",hideWomen:localStorage.getItem("family_hide_women")||"no"},access:{editorKey:typeof approvedEditorKey!=="undefined"?approvedEditorKey:"",role:typeof currentRole!=="undefined"?currentRole:"admin"}};
 }
 function v90MakeLocalBackup(reason){
   let list=v90GetBackups();
@@ -3917,8 +3917,8 @@ function renderFirebasePanel(){
   const cfg=getFirebaseConfig();
   const familyId=encodeURIComponent((document.getElementById("fbFamilyId")?.value||cfg.fbFamilyId||"my-family").trim());
   const v=document.getElementById("fbViewerLink"), e=document.getElementById("fbEditorLink");
-  if(v)v.value=getBaseUrl()+"?family="+familyId+"&role=viewer&v=FamilyTreePro V173 Mobile Auth Stable";
-  if(e)e.value=getBaseUrl()+"?family="+familyId+"&role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V173 Mobile Auth Stable";
+  if(v)v.value=getBaseUrl()+"?family="+familyId+"&role=viewer&v=FamilyTreePro V174 Mobile Auth Stable";
+  if(e)e.value=getBaseUrl()+"?family="+familyId+"&role=editor&key="+encodeURIComponent(approvedEditorKey)+"&v=FamilyTreePro V174 Mobile Auth Stable";
 }
 
 
@@ -3974,7 +3974,7 @@ if(initAccessFromUrl()){render();}else{render();}
 </script>
 <!--  CLEAN BASE MARKER -->
 <script id="network-stability-core">
-/* FamilyTreePro V173 Mobile Auth Stable - single upgrade layer */
+/* FamilyTreePro V174 Mobile Auth Stable - single upgrade layer */
 (function(){
   const LOW_KEY="family_low_internet_mode";
   const SNAP_KEY="family_offline_snapshot_";
@@ -4046,7 +4046,7 @@ if(initAccessFromUrl()){render();}else{render();}
 </script>
 <!--  REAL FIREBASE SECURITY: Auth + role guard, no UI duplication -->
 <script>
-/* FamilyTreePro V173 Mobile Auth Stable */
+/* FamilyTreePro V174 Mobile Auth Stable */
 (function(){
   function ready(fn){ if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',fn); else fn(); }
   ready(function(){
@@ -4066,7 +4066,7 @@ if(initAccessFromUrl()){render();}else{render();}
 })();
 </script>
 <script>
-/* FamilyTreePro V173 Mobile Auth Stable: inputs must never be disabled on mobile */
+/* FamilyTreePro V174 Mobile Auth Stable: inputs must never be disabled on mobile */
 (function(){
   function unlockLoginInputs(){
     var ids=['loginUser','loginPass'];
@@ -4106,7 +4106,7 @@ if(initAccessFromUrl()){render();}else{render();}
 })();
 </script>
 <script id="auth-bootstrap-core">
-/* FamilyTreePro V173 Mobile Auth Stable: early UI bootstrap before Firebase module loads */
+/* FamilyTreePro V174 Mobile Auth Stable: early UI bootstrap before Firebase module loads */
 (function(){
   function $(id){return document.getElementById(id);}
   function msg(text, ok){
@@ -4326,7 +4326,7 @@ async function v125EnsureUserProfile(user, extra){
     blocked: !!existing.blocked,
     lastLoginAt: serverTimestamp(),
     updatedAt: serverTimestamp(),
-    lastAuthVersion:'FamilyTreePro V173 Mobile Auth Stable',
+    lastAuthVersion:'FamilyTreePro V174 Mobile Auth Stable',
     registrySource: exists ? (existing.registrySource||'firestore-existing') : 'auto-created-from-auth-login'
   }, extra||{});
   if(!exists || !existing.createdAt) payload.createdAt=serverTimestamp();
@@ -4624,7 +4624,7 @@ window.registerUser = async function(){
       await setDoc(doc(db,'users',cred.user.uid),{
         name,firstName,lastName,phone,email,uid:cred.user.uid,role:ADMIN_EMAILS.includes(email)?'admin':'viewer',
         adminApproved:ADMIN_EMAILS.includes(email),status:ADMIN_EMAILS.includes(email)?'approved':'pending',blocked:false,
-        createdAt:serverTimestamp(),lastLoginAt:serverTimestamp(),version:'FamilyTreePro V173 Mobile Auth Stable',provider:'email-password',lastAuthVersion:'FamilyTreePro V173 Mobile Auth Stable',emailVerified:false,updatedAt:serverTimestamp()
+        createdAt:serverTimestamp(),lastLoginAt:serverTimestamp(),version:'FamilyTreePro V174 Mobile Auth Stable',provider:'email-password',lastAuthVersion:'FamilyTreePro V174 Mobile Auth Stable',emailVerified:false,updatedAt:serverTimestamp()
       }, {merge:true});
     }catch(e){ profileSaved=false; console.warn('Firestore users profile save failed', e); }
     try{ await v125EnsureUserProfile(cred.user,{name,firstName,lastName,phone,email,role:ADMIN_EMAILS.includes(email)?'admin':'viewer',adminApproved:ADMIN_EMAILS.includes(email),status:ADMIN_EMAILS.includes(email)?'approved':'pending',provider:'email-password'}); }catch(e){}
@@ -5019,7 +5019,7 @@ setInterval(async function(){
 (function(){
   var KEY='family_v94_release_health';
   function setHealth(note){
-    try{localStorage.setItem(KEY, JSON.stringify({version:'FamilyTreePro V173 Mobile Auth Stable', note:note||'ok', online:navigator.onLine, time:new Date().toISOString()}));}catch(e){}
+    try{localStorage.setItem(KEY, JSON.stringify({version:'FamilyTreePro V174 Mobile Auth Stable', note:note||'ok', online:navigator.onLine, time:new Date().toISOString()}));}catch(e){}
   }
   window.v94CloudSafeState=function(){
     var state={online:navigator.onLine, firebase:!!window.firebaseApp || !!window.auth || !!window.db, localStorage:false};
@@ -5034,21 +5034,21 @@ setInterval(async function(){
 <script id="language-system-core">
 (function(){
   'use strict';
-  var VERSION='FamilyTreePro V173 Mobile Auth Stable';
+  var VERSION='FamilyTreePro V174 Mobile Auth Stable';
   var KEY='familytreepro_language';
   var dict={
     fa:{dir:'rtl',html:'fa',name:'فارسی',direction:'RTL',mode:'آفلاین و سبک',
-      title:'FamilyTreePro V173 Mobile Auth Stable',loginTitle:'🔐 FamilyTreePro V173 Mobile Auth Stable',subtitle:'ورود امن، ثبت‌نام، بازیابی رمز و قفل خودکار',
+      title:'FamilyTreePro V174 Mobile Auth Stable',loginTitle:'🔐 FamilyTreePro V174 Mobile Auth Stable',subtitle:'ورود امن، ثبت‌نام، بازیابی رمز و قفل خودکار',
       login:'ورود امن',register:'ثبت‌نام',forgot:'فراموشی رمز',remember:'مرا در این دستگاه به خاطر بسپار',
       dashboard:'داشبورد',chat:'چت',logout:'🔒 خروج',home:'خانه',people:'افراد',tree:'شجره',language:'زبان و مترجم',release:'انتشار محصول',auth:'سیستم احراز',export:'Export Center',
       langTitle:'زبان و مترجم',langSub:'🌐 فارسی / انگلیسی / عربی',langHead:'🌐 سیستم زبان هوشمند',langNote:'این بخش فقط متن‌های رابط کاربری را تغییر می‌دهد و به اطلاعات خانواده، شجره، بکاپ و ورود دست نمی‌زند.',currentLang:'زبان فعلی:',currentDir:'جهت صفحه:',translatorStatus:'وضعیت مترجم:',offlineNote:'برای پایداری ، ترجمه آنلاین سنگین اضافه نشده است. نسخه V118 متن‌های اصلی Login، Dashboard، Release، Auth و دکمه‌های مهم را به‌صورت داخلی ترجمه می‌کند.'},
     en:{dir:'ltr',html:'en',name:'English',direction:'LTR',mode:'Light offline translation',
-      title:'FamilyTreePro V173 Mobile Auth Stable',loginTitle:'🔐 FamilyTreePro V173 Mobile Auth Stable',subtitle:'Secure login, registration, password recovery and auto lock',
+      title:'FamilyTreePro V174 Mobile Auth Stable',loginTitle:'🔐 FamilyTreePro V174 Mobile Auth Stable',subtitle:'Secure login, registration, password recovery and auto lock',
       login:'Secure Login',register:'Register',forgot:'Forgot Password',remember:'Remember me on this device',
       dashboard:'Dashboard',chat:'Chat',logout:'🔒 Logout',home:'Home',people:'People',tree:'Family Tree',language:'Language',release:'Product Release',auth:'Auth System',export:'Export Center',
       langTitle:'Language',langSub:'🌐 Persian / English / Arabic',langHead:'🌐 Smart Language System',langNote:'This section changes only UI text and does not touch family data, tree, backup, or login logic.',currentLang:'Current language:',currentDir:'Page direction:',translatorStatus:'Translator status:',offlineNote:'For  stability, no heavy online translation API is added. V118 translates the main Login, Dashboard, Release, Auth and important buttons internally.'},
     ar:{dir:'rtl',html:'ar',name:'العربية',direction:'RTL',mode:'ترجمة خفيفة بدون اتصال',
-      title:'FamilyTreePro V173 Mobile Auth Stable',loginTitle:'🔐 FamilyTreePro V173 Mobile Auth Stable',subtitle:'دخول آمن، تسجيل، استعادة كلمة المرور وقفل تلقائي',
+      title:'FamilyTreePro V174 Mobile Auth Stable',loginTitle:'🔐 FamilyTreePro V174 Mobile Auth Stable',subtitle:'دخول آمن، تسجيل، استعادة كلمة المرور وقفل تلقائي',
       login:'دخول آمن',register:'تسجيل',forgot:'نسيت كلمة المرور',remember:'تذكرني على هذا الجهاز',
       dashboard:'لوحة التحكم',chat:'المحادثة',logout:'🔒 خروج',home:'الرئيسية',people:'الأشخاص',tree:'شجرة العائلة',language:'اللغة والمترجم',release:'إصدار المنتج',auth:'نظام التحقق',export:'مركز التصدير',
       langTitle:'اللغة والمترجم',langSub:'🌐 الفارسية / الإنجليزية / العربية',langHead:'🌐 نظام اللغة الذكي',langNote:'هذا القسم يغير نصوص الواجهة فقط ولا يلمس بيانات العائلة أو الشجرة أو النسخ الاحتياطي أو تسجيل الدخول.',currentLang:'اللغة الحالية:',currentDir:'اتجاه الصفحة:',translatorStatus:'حالة المترجم:',offlineNote:'لثبات  لم تتم إضافة ترجمة أونلاين ثقيلة. V118 يترجم داخلياً النصوص الرئيسية للدخول ولوحة التحكم والإصدار والتحقق والأزرار المهمة.'}
@@ -5082,7 +5082,7 @@ setInterval(async function(){
     var lang='fa'; try{lang=localStorage.getItem(KEY)||'fa';}catch(e){}
     window.setAppLanguage(lang);
     var marker=document.getElementById('buildMarker'); if(marker) marker.textContent='V118';
-    var rel=document.querySelector('#view-release h2'); if(rel && rel.textContent.indexOf('FamilyTreePro')>-1) rel.textContent='🚀 FamilyTreePro V173 Mobile Auth Stable';
+    var rel=document.querySelector('#view-release h2'); if(rel && rel.textContent.indexOf('FamilyTreePro')>-1) rel.textContent='🚀 FamilyTreePro V174 Mobile Auth Stable';
   }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bootLang,{once:true}); else bootLang();
   window.addEventListener('load',function(){setTimeout(bootLang,150);},{once:true});
@@ -5124,7 +5124,7 @@ setInterval(async function(){
 })();
 </script>
 <script id="backup-sync-queue">
-/* FamilyTreePro V173 Mobile Auth Stable - backup only, no UI layer, no auth changes */
+/* FamilyTreePro V174 Mobile Auth Stable - backup only, no UI layer, no auth changes */
 (function(){
   const BACKUP_KEY = 'family_v144_backups';
   const QUEUE_KEY = 'family_v144_backup_queue';
@@ -5158,7 +5158,7 @@ setInterval(async function(){
     const people = getPeople();
     return {
       app: 'FamilyTreePro',
-      version: 'FamilyTreePro V173 Mobile Auth Stable',
+      version: 'FamilyTreePro V174 Mobile Auth Stable',
       reason: reason || 'manual',
       createdAt: nowISO(),
       source: navigator.onLine ? 'online' : 'offline',
@@ -5415,7 +5415,7 @@ async function runHomeUpdateRepair(){
     var ps=people();
     return {
       app:'FamilyTreePro',
-      version:'FamilyTreePro V173 Mobile Auth Stable',
+      version:'FamilyTreePro V174 Mobile Auth Stable',
       reason:reason||'auto',
       createdAt:now(),
       source:navigator.onLine?'online':'offline',
@@ -5618,7 +5618,7 @@ body.children-view-active #childrenRegistryDrawerV15624.open{transform:translate
 @media print{#childrenRegistryDrawerV15624{display:none!important}}
 </style>
 <script id="children-manager-core">
-/* FamilyTreePro V173 Mobile Auth Stable: single Children module, no patch stacking */
+/* FamilyTreePro V174 Mobile Auth Stable: single Children module, no patch stacking */
 (function(){
   'use strict';
   if(window.__V15627_CLEAN_CHILDREN__) return;
@@ -5952,7 +5952,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 <script id="auth-real-final-connect">
 /*
-  FamilyTreePro V173 Mobile Auth Stable
+  FamilyTreePro V174 Mobile Auth Stable
   هدف: بدون حذف ساختار قبلی، دکمه‌های بازیابی رمز/تأیید ایمیل را واقعاً به Firebase Auth REST API وصل می‌کند.
   دلیل: نسخه‌های قبلی پیام موفقیت را نشان می‌دادند اما در Network الزاماً sendOobCode دیده نمی‌شد.
 */
@@ -6220,7 +6220,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 <script id="v15652-photo-clean-rebuild">
-/* FamilyTreePro V173 Mobile Auth Stable
+/* FamilyTreePro V174 Mobile Auth Stable
    بازسازی تمیز سیستم عکس: انتخاب فایل واقعی، فشرده‌سازی، آپلود Storage، و fallback ابری Firestore Photo Docs.
    قانون: Base64 داخل people/localStorage ذخیره نمی‌شود؛ فقط URL یا ftphoto://id ذخیره می‌شود. */
 (function(){
@@ -6535,7 +6535,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 
 <script id="v160-user-registry-engine">
-/* FamilyTreePro V173 Mobile Auth Stable
+/* FamilyTreePro V174 Mobile Auth Stable
    - بدون موتورهای قدیمی خارجی
    - آپلود اصلی: Firebase Storage
    - جایگزین امن: Firestore Photo Doc
@@ -6688,7 +6688,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   document.addEventListener('DOMContentLoaded',function(){
     try{document.querySelectorAll('.photo-ai-status').forEach(function(el){el.textContent='آماده افزودن عکس؛ بدون گیرکردن روی آماده‌سازی.'})}catch(e){}
   });
-  console.log('FamilyTreePro V173 Mobile Auth Stable loaded');
+  console.log('FamilyTreePro V174 Mobile Auth Stable loaded');
 })();
 </script>
 
@@ -7190,13 +7190,13 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 <script id="v173-final-title-and-cache-guard">
 (function(){
-  var BUILD='FamilyTreePro V173 Mobile Auth Stable';
-  var QUERY='v173-mobile-auth-stable';
+  var BUILD='FamilyTreePro V174 Mobile Auth Stable';
+  var QUERY='v174-mobile-auth-rest-timeout';
   function fixTitles(){
     try{
       document.title=BUILD;
       var h=document.querySelector('#login h2');
-      if(h) h.innerHTML='🔐 FamilyTreePro V173<br/>Firebase Login';
+      if(h) h.innerHTML='🔐 FamilyTreePro V174<br/>Mobile Firebase Login';
       var rel=document.querySelector('#view-release h2');
       if(rel && /FamilyTreePro/.test(rel.textContent)) rel.textContent='🚀 '+BUILD;
       var badges=document.querySelectorAll('.brand-badge-V118');
@@ -7228,5 +7228,121 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   }
 })();
 </script>
+
+
+<script id="v174-mobile-auth-rest-timeout-final">
+(function(){
+  'use strict';
+  if(window.__V174_MOBILE_AUTH_FINAL__) return;
+  window.__V174_MOBILE_AUTH_FINAL__=true;
+  var CFG={
+    apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
+    authDomain:"family-tree-pro-a661d.firebaseapp.com",
+    projectId:"family-tree-pro-a661d",
+    storageBucket:"family-tree-pro-a661d.firebasestorage.app",
+    messagingSenderId:"634237399841",
+    appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"
+  };
+  var ADMIN=['alibahripor33@gmail.com'];
+  function $(id){return document.getElementById(id)}
+  function val(id){var e=$(id);return e?String(e.value||'').trim():''}
+  function emailNorm(x){return String(x||'').trim().toLowerCase()}
+  function say(t,ok){var e=$('loginError'); if(e){e.style.display='block';e.style.color=ok?'green':'red';e.style.whiteSpace='pre-line';e.innerText=t||'';}}
+  function setBtnBusy(busy){var b=$('loginBtn'); if(!b)return; b.disabled=!!busy; b.style.opacity=busy?'.65':'1'; b.innerText=busy?'در حال ورود...':'ورود امن';}
+  function timeout(ms,label){return new Promise(function(_,rej){setTimeout(function(){rej(new Error(label||('timeout '+ms)));},ms);});}
+  function withTimeout(p,ms,label){return Promise.race([p,timeout(ms,label)]);}
+  function mapErr(e){
+    var s=String((e&&(e.code||e.message||e.error&&e.error.message))||e||'');
+    if(/INVALID_PASSWORD|EMAIL_NOT_FOUND|INVALID_LOGIN_CREDENTIALS|auth\/wrong-password|auth\/invalid-credential|auth\/user-not-found/i.test(s)) return 'ایمیل یا رمز Firebase درست نیست.';
+    if(/TOO_MANY_ATTEMPTS|too-many-requests/i.test(s)) return 'درخواست زیاد شده؛ چند دقیقه بعد دوباره تلاش کنید.';
+    if(/timeout|Failed to fetch|NetworkError|Load failed|ERR_FAILED|network|gstatic|identitytoolkit/i.test(s)) return 'اتصال Firebase کامل نیست یا کند است. با VPN روشن دوباره بزنید. اگر پیام ماند، Console را بفرستید.';
+    return s||'خطای نامشخص ورود';
+  }
+  async function loadSdkFresh(){
+    var appMod=await withTimeout(import('https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js'),10000,'timeout firebase-app gstatic');
+    var authMod=await withTimeout(import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js'),10000,'timeout firebase-auth gstatic');
+    var fsMod=await withTimeout(import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js'),10000,'timeout firestore gstatic');
+    var app=(appMod.getApps().find(function(a){return a.options&&a.options.projectId===CFG.projectId}) || appMod.initializeApp(CFG));
+    var auth;
+    try{auth=authMod.initializeAuth(app,{persistence:authMod.browserLocalPersistence});}catch(e){auth=authMod.getAuth(app);}
+    try{await authMod.setPersistence(auth,authMod.browserLocalPersistence);}catch(e){}
+    var db=fsMod.getFirestore(app);
+    window.familyFirebase={app:app,auth:auth,db:db,doc:fsMod.doc,getDoc:fsMod.getDoc,setDoc:fsMod.setDoc,serverTimestamp:fsMod.serverTimestamp,collection:fsMod.collection,getDocs:fsMod.getDocs,updateDoc:fsMod.updateDoc,config:CFG};
+    window.auth=auth; window.db=db; window.firebaseAuth=auth; window.firebaseDb=db; window.__FTP_FIREBASE_LOGIN_READY__=true;
+    return {appMod:appMod,authMod:authMod,fsMod:fsMod,app:app,auth:auth,db:db};
+  }
+  async function ensureDocSdk(s,user){
+    var email=emailNorm(user.email), isAdmin=ADMIN.indexOf(email)>=0, fs=s.fsMod, ref=fs.doc(s.db,'users',user.uid);
+    var snap=await fs.getDoc(ref).catch(function(){return null});
+    var base={uid:user.uid,email:email,displayName:user.displayName||email,provider:'email-password',lastLoginAt:fs.serverTimestamp(),updatedAt:fs.serverTimestamp(),registrySource:'v174-sdk'};
+    if(!snap || !snap.exists()){base.createdAt=fs.serverTimestamp();base.role=isAdmin?'admin':'viewer';base.adminApproved=!!isAdmin;base.status=isAdmin?'approved':'pending';}
+    if(isAdmin){base.role='admin';base.adminApproved=true;base.status='approved';}
+    try{await fs.setDoc(ref,base,{merge:true});}catch(e){}
+    var finalSnap=await fs.getDoc(ref).catch(function(){return null});
+    return finalSnap&&finalSnap.exists()?finalSnap.data():base;
+  }
+  async function restSignIn(email,pass){
+    var url='https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(CFG.apiKey);
+    var res=await withTimeout(fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:email,password:pass,returnSecureToken:true})}),12000,'timeout identitytoolkit');
+    var data=await res.json().catch(function(){return {}});
+    if(!res.ok) throw new Error(data&&data.error&&data.error.message || ('HTTP '+res.status));
+    return data;
+  }
+  async function restUpsertUser(r){
+    var email=emailNorm(r.email), uid=r.localId, isAdmin=ADMIN.indexOf(email)>=0;
+    var docUrl='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid);
+    var fields={uid:{stringValue:uid},email:{stringValue:email},displayName:{stringValue:r.displayName||email},provider:{stringValue:'email-password'},registrySource:{stringValue:'v174-rest'},lastLoginAt:{timestampValue:new Date().toISOString()},updatedAt:{timestampValue:new Date().toISOString()}};
+    if(isAdmin){fields.role={stringValue:'admin'};fields.adminApproved={booleanValue:true};fields.status={stringValue:'approved'};}
+    try{
+      var get=await withTimeout(fetch(docUrl,{headers:{Authorization:'Bearer '+r.idToken}}),9000,'timeout firestore get');
+      if(get.ok){var j=await get.json(); var f=j.fields||{}; if(f.role) fields.role=f.role; if(f.adminApproved) fields.adminApproved=f.adminApproved; if(f.status) fields.status=f.status;}
+      else if(!isAdmin){fields.role={stringValue:'viewer'};fields.adminApproved={booleanValue:false};fields.status={stringValue:'pending'};}
+      await withTimeout(fetch(docUrl+'?currentDocument.exists=false',{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+r.idToken},body:JSON.stringify({fields:fields})}),9000,'timeout firestore create').catch(function(){return null});
+    }catch(e){}
+    return {uid:uid,email:email,role:(fields.role&&fields.role.stringValue)||'viewer',adminApproved:!!(fields.adminApproved&&fields.adminApproved.booleanValue),status:(fields.status&&fields.status.stringValue)||'pending'};
+  }
+  function openApp(user,role,mode){
+    try{localStorage.setItem('family_manual_auth_ok','yes');sessionStorage.setItem('family_manual_auth_ok','yes');localStorage.setItem('family_v81_last_email',user.email||'');localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));localStorage.setItem('family_v174_login_mode',mode||'sdk');}catch(e){}
+    window.firebaseAuthUser=user; window.currentUser=user; window.firebaseRole=role||'viewer';
+    var l=$('login'), app=$('app'); if(l){l.style.display='none';l.classList.remove('login-active');} if(app){app.style.display='block';app.classList.remove('v81-blurred');}
+    document.body.classList.remove('login-active'); document.body.classList.add('app-ready');
+    try{if(typeof window.render==='function') window.render();}catch(e){console.warn('render after login failed',e)}
+  }
+  window.login=async function(){
+    var email=emailNorm(val('loginUser')), pass=val('loginPass');
+    if(!email||!pass){say('ایمیل و رمز را وارد کنید.',false);return false;}
+    setBtnBusy(true); say('در حال اتصال به Firebase...',true);
+    try{
+      var s=await loadSdkFresh();
+      say('Firebase وصل شد؛ در حال بررسی رمز...',true);
+      var cred=await withTimeout(s.authMod.signInWithEmailAndPassword(s.auth,email,pass),15000,'timeout signInWithEmailAndPassword');
+      var data=await ensureDocSdk(s,cred.user);
+      var isAdmin=ADMIN.indexOf(email)>=0;
+      if(!isAdmin && !(data.adminApproved===true || data.status==='approved')){try{await s.authMod.signOut(s.auth);}catch(e){} say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
+      openApp(cred.user,isAdmin?'admin':(data.role||'viewer'),'sdk');
+      return true;
+    }catch(e1){
+      console.warn('V174 SDK login failed, trying REST fallback',e1);
+      say('SDK کند یا مسدود شد؛ تلاش دوم با مسیر مستقیم Firebase...',true);
+      try{
+        var r=await restSignIn(email,pass);
+        var data=await restUpsertUser(r);
+        var isAdmin=ADMIN.indexOf(email)>=0;
+        if(!isAdmin && !(data.adminApproved===true || data.status==='approved')){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
+        openApp({uid:r.localId,email:email,displayName:r.displayName||email,stsTokenManager:{accessToken:r.idToken}},isAdmin?'admin':(data.role||'viewer'),'rest');
+        return true;
+      }catch(e2){
+        console.error('V174 final login failed',e1,e2);
+        say('ورود انجام نشد:\n'+mapErr(e2)+'\nجزئیات کوتاه: '+String((e2&&e2.message)||e2).slice(0,120),false);
+        return false;
+      }
+    }finally{setBtnBusy(false);}
+  };
+  window.showRegister=window.showRegister||function(){var b=$('registerBox'),l=$('login'); if(l)l.classList.add('register-mode'); if(b){b.style.display='block';b.classList.add('active');} say('فرم ثبت‌نام باز شد.',true);};
+  window.showLoginOnly=window.showLoginOnly||function(){var b=$('registerBox'),l=$('login'); if(l)l.classList.remove('register-mode'); if(b){b.style.display='none';b.classList.remove('active');} say('',true);};
+  document.addEventListener('DOMContentLoaded',function(){var h=document.querySelector('#login h2'); if(h) h.innerHTML='🔐 FamilyTreePro V174<br/>Mobile Firebase Login'; var b=$('loginBtn'); if(b){b.onclick=function(ev){ev.preventDefault();window.login();}; b.disabled=false; b.innerText='ورود امن';}});
+})();
+</script>
+
 </body>
 </html>

@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V173 Mobile Auth Stable",
+  "name": "FamilyTreePro V174 Mobile Login Final",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=173-mobile-auth-stable",
+  "start_url": "./index.html?v=174-mobile-login-final",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V173 stable mobile Firebase Auth and cache cleanup",
+  "description": "Mobile Firebase login with timeout and REST fallback",
   "scope": "./",
   "icons": []
 }

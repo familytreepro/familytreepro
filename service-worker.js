@@ -1,11 +1,11 @@
-// FamilyTreePro V173 Mobile Auth Stable
-const CACHE_NAME='familytreepro-v173-mobile-auth-stable';
-const CORE_ASSETS=['./index.html?v=173-mobile-auth-stable','./manifest.json?v=173-mobile-auth-stable'];
+// FamilyTreePro V174 Mobile Login Final
+const CACHE_NAME='familytreepro-v174-mobile-login-final';
+const CORE_ASSETS=['./index.html?v=174-mobile-login-final','./manifest.json?v=174-mobile-login-final'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener('fetch',event=>{
   if(event.request.method!=='GET')return;
   const url=new URL(event.request.url);
   if(url.origin!==location.origin)return;
-  event.respondWith(fetch(event.request,{cache:'no-store'}).then(res=>res).catch(async()=>{const cache=await caches.open(CACHE_NAME);return await cache.match(event.request)||await cache.match('./index.html?v=173-mobile-auth-stable')||new Response('',{status:503})}));
+  event.respondWith(fetch(event.request,{cache:'no-store'}).then(res=>res).catch(async()=>{const cache=await caches.open(CACHE_NAME);return await cache.match(event.request)||await cache.match('./index.html?v=174-mobile-login-final')||new Response('',{status:503})}));
 });
