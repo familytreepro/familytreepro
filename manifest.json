@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V201 Clean Status",
+  "name": "FamilyTreePro V171 Firebase Loader Fixed",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=201-clean-status",
+  "start_url": "./index.html?v=171-firebase-loader-fixed",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "Clean status FamilyTreePro with filtered deleted records and pagination",
+  "description": "FamilyTreePro V171 Firebase dynamic loader and auth fallback",
   "scope": "./",
   "icons": []
 }
