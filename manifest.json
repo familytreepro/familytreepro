@@ -1,1 +1,14 @@
-{"name":"FamilyTreePro V175 Mobile REST Login DocSafe","short_name":"FamilyTreePro","start_url":"./index.html?v=175-mobile-rest-login-docsafe","display":"standalone","background_color":"#071b35","theme_color":"#2563eb","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V175 mobile Firebase REST login docsafe","scope":"./","icons":[]}
+{
+  "name": "FamilyTreePro V200 Clean Unified",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=200-clean-unified",
+  "display": "standalone",
+  "background_color": "#071b35",
+  "theme_color": "#2563eb",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "Clean unified FamilyTreePro without duplicate patches",
+  "scope": "./",
+  "icons": []
+}
