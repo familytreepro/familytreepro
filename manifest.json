@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V200 Clean Unified",
+  "name": "FamilyTreePro V201 Clean Status",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=200-clean-unified",
+  "start_url": "./index.html?v=201-clean-status",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "Clean unified FamilyTreePro without duplicate patches",
+  "description": "Clean status FamilyTreePro with filtered deleted records and pagination",
   "scope": "./",
   "icons": []
 }
