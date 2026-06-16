@@ -1,14 +1,1 @@
-{
-  "name": "FamilyTreePro V174 Mobile Login Final",
-  "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=174-mobile-login-final",
-  "display": "standalone",
-  "background_color": "#071b35",
-  "theme_color": "#2563eb",
-  "orientation": "portrait",
-  "lang": "fa",
-  "dir": "rtl",
-  "description": "Mobile Firebase login with timeout and REST fallback",
-  "scope": "./",
-  "icons": []
-}
+{"name":"FamilyTreePro V175 Mobile REST Login DocSafe","short_name":"FamilyTreePro","start_url":"./index.html?v=175-mobile-rest-login-docsafe","display":"standalone","background_color":"#071b35","theme_color":"#2563eb","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V175 mobile Firebase REST login docsafe","scope":"./","icons":[]}
