@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V171 Firebase Loader Fixed",
+  "name": "FamilyTreePro V172 Quick Mobile Register",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=171-firebase-loader-fixed",
+  "start_url": "./index.html?v=172-quick-mobile-register",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V171 Firebase dynamic loader and auth fallback",
+  "description": "FamilyTreePro V172 quick mobile registration REST fallback without changing tree/data features",
   "scope": "./",
   "icons": []
 }
