@@ -7493,12 +7493,156 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       btn.addEventListener('touchend',v174Login,true);
     }
     var h=document.querySelector('#login h2');
-    if(h) h.innerHTML='🔐 FamilyTreePro V174<br>Mobile REST Final';
+    if(h) h.innerHTML='🔐 FamilyTreePro V175<br>Mobile REST + Auth Fix';
   }
   install();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
   window.addEventListener('load',function(){setTimeout(install,50);setTimeout(install,600);setTimeout(install,1800);setTimeout(install,3500);});
   setTimeout(install,500); setTimeout(install,1500); setTimeout(install,3000); setTimeout(install,6000);
+})();
+</script>
+
+
+
+<script id="v175-mobile-auth-admin-rest-fix">
+/* FamilyTreePro V175 Mobile Auth Admin REST Fix
+   Fix: when login uses V174 REST, Firebase SDK auth.currentUser may be empty on mobile.
+   This makes the Access/Auth dashboard read and approve users through Firestore REST using the V174 token. */
+(function(){
+  'use strict';
+  if(window.__FTP_V175_MOBILE_AUTH_ADMIN_REST__) return;
+  window.__FTP_V175_MOBILE_AUTH_ADMIN_REST__=true;
+  var CFG={projectId:'family-tree-pro-a661d'};
+  function $(id){return document.getElementById(id)}
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function nowIso(){return new Date().toISOString();}
+  function currentUser(){
+    var u=window.firebaseAuthUser || (window.auth&&window.auth.currentUser) || (window.familyFirebase&&window.familyFirebase.auth&&window.familyFirebase.auth.currentUser) || null;
+    return u;
+  }
+  async function token(){
+    var u=currentUser();
+    if(u && typeof u.getIdToken==='function') return await u.getIdToken();
+    return '';
+  }
+  function fsToJs(fields){
+    var out={}; fields=fields||{};
+    Object.keys(fields).forEach(function(k){
+      var v=fields[k]||{};
+      if('stringValue' in v) out[k]=v.stringValue;
+      else if('booleanValue' in v) out[k]=v.booleanValue;
+      else if('integerValue' in v) out[k]=Number(v.integerValue||0);
+      else if('doubleValue' in v) out[k]=Number(v.doubleValue||0);
+      else if('timestampValue' in v) out[k]=v.timestampValue;
+      else if('nullValue' in v) out[k]=null;
+      else out[k]='';
+    });
+    return out;
+  }
+  function jsToFs(data){
+    var f={}; Object.keys(data||{}).forEach(function(k){
+      var v=data[k];
+      if(v===null) f[k]={nullValue:null};
+      else if(typeof v==='boolean') f[k]={booleanValue:v};
+      else if(typeof v==='number') f[k]={integerValue:String(v)};
+      else f[k]={stringValue:String(v==null?'':v)};
+    }); return f;
+  }
+  async function jfetch(url,opt,ms){
+    var ctrl=new AbortController(), t=setTimeout(function(){try{ctrl.abort()}catch(e){}},ms||25000);
+    try{
+      var r=await fetch(url,Object.assign({},opt||{},{signal:ctrl.signal,cache:'no-store'}));
+      var tx=await r.text(), data={}; try{data=tx?JSON.parse(tx):{};}catch(_){data={raw:tx};}
+      if(!r.ok) throw new Error((data.error&&(data.error.message||data.error.status))||r.statusText||('HTTP '+r.status));
+      return data;
+    }finally{clearTimeout(t)}
+  }
+  async function listUsersRest(){
+    var tk=await token(); if(!tk) throw new Error('no-rest-token');
+    var url='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users?pageSize=500';
+    var data=await jfetch(url,{headers:{Authorization:'Bearer '+tk}},30000);
+    var docs=data.documents||[];
+    return docs.map(function(d){
+      var id=String(d.name||'').split('/').pop();
+      var u=fsToJs(d.fields||{}); u.id=u.id||id; u.uid=u.uid||id; u.registrySource=u.registrySource||'firestore-rest-users';
+      return (typeof window.v168NormalizeUser==='function')?window.v168NormalizeUser(id,u,'firestore-rest-users'):u;
+    });
+  }
+  async function patchUserRest(uid,data){
+    var tk=await token(); if(!tk) throw new Error('no-rest-token');
+    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
+    var url='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+(masks?'?'+masks:'');
+    return await jfetch(url,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tk},body:JSON.stringify({fields:jsToFs(data)})},25000);
+  }
+  async function patchRoleRest(uid,role){
+    var tk=await token(); if(!tk) throw new Error('no-rest-token');
+    var data={role:role,updatedAt:nowIso(),updatedBy:(currentUser()&&currentUser().email)||'',source:'v175-mobile-rest'};
+    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
+    var url='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/roles/'+encodeURIComponent(uid)+'?'+masks;
+    return await jfetch(url,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tk},body:JSON.stringify({fields:jsToFs(data)})},25000);
+  }
+  function merge(list){return (typeof window.v168MergeUsers==='function')?window.v168MergeUsers(list):list;}
+  function localUsers(){
+    var a=[]; try{a=JSON.parse(localStorage.getItem('family_v88_registered_users')||'[]')||[];}catch(_){a=[];}
+    a=(a||[]).map(function(u){return (typeof window.v168NormalizeUser==='function')?window.v168NormalizeUser(u.uid||u.id,u,'local-register-cache'):u;});
+    var cu=currentUser();
+    if(cu && !a.some(function(u){return String(u.uid||'')===String(cu.uid)||String(u.email||'').toLowerCase()===String(cu.email||'').toLowerCase();})){
+      a.unshift((typeof window.v168NormalizeUser==='function')?window.v168NormalizeUser(cu.uid,{name:cu.displayName||'کاربر فعلی',email:cu.email,uid:cu.uid,phone:'-',role:window.firebaseRole||window.accessRole||'viewer',emailVerified:!!cu.emailVerified,adminApproved:(window.firebaseRole||window.accessRole)==='admin',status:((window.firebaseRole||window.accessRole)==='admin')?'approved':'pending'},'current-rest-user'):{uid:cu.uid,email:cu.email});
+    }
+    return a;
+  }
+  async function refreshRest(){
+    var status=$('authDashboardStatus'), total=$('authTotalUsers'), verified=$('authVerifiedUsers'), signed=$('authSignedState'), role=$('authRoleState'), remember=$('authRememberState'), fbstate=$('authFirebaseState'), hint=$('authAdminHint'), importPanel=$('authMissingUserPanel');
+    var cu=currentUser();
+    if(signed) signed.innerText=cu?'فعال':'خیر';
+    if(role) role.innerText=window.firebaseRole||window.accessRole||'guest';
+    if(remember) remember.innerText=(localStorage.getItem('family_v88_remember')==='yes'||localStorage.getItem('family_manual_auth_ok')==='yes')?'فعال':'خاموش';
+    if(fbstate) fbstate.innerText=cu?'فعال':'فعال / REST';
+    if(hint) hint.style.display=(window.firebaseRole==='admin'||window.accessRole==='admin')?'none':'block';
+    if(importPanel) importPanel.style.display=(window.firebaseRole==='admin'||window.accessRole==='admin')?'block':'none';
+    if(status) status.innerText='V175: در حال خواندن کاربران از Firestore REST موبایل...';
+    try{
+      var users=await listUsersRest();
+      window.authUsersCache=merge(users.concat(localUsers()));
+      if(total) total.innerText=String(window.authUsersCache.length);
+      if(verified) verified.innerText=String(window.authUsersCache.filter(function(u){return !!u.emailVerified}).length)+' / '+String(window.authUsersCache.length);
+      if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();
+      if(status) status.innerText='V175: احراز موبایل درست شد؛ users با REST خوانده شد. تعداد: '+window.authUsersCache.length;
+    }catch(e){
+      window.authUsersCache=merge(localUsers());
+      if(total) total.innerText=String(window.authUsersCache.length);
+      if(verified) verified.innerText=String(window.authUsersCache.filter(function(u){return !!u.emailVerified}).length)+' / '+String(window.authUsersCache.length);
+      if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();
+      if(status) status.innerText='V175: خواندن REST users ناموفق شد؛ کش محلی نمایش داده شد. جزئیات: '+(e.message||e);
+    }
+  }
+  var oldRefresh=window.refreshAuthDashboard;
+  window.refreshAuthDashboard=function(){
+    if(window.firebaseAuthUser || !(window.auth&&window.auth.currentUser)) return refreshRest();
+    try{return oldRefresh?oldRefresh.apply(this,arguments):refreshRest();}catch(e){return refreshRest();}
+  };
+  window.approveAuthUser=async function(uid){
+    if((window.firebaseRole||window.accessRole)!=='admin'){alert('فقط مدیر می‌تواند کاربر را تأیید کند.');return;}
+    if(!uid){alert('شناسه کاربر پیدا نشد.');return;}
+    try{
+      await patchUserRest(uid,{adminApproved:true,status:'approved',approvedAt:nowIso(),approvedBy:(currentUser()&&currentUser().email)||'',updatedAt:nowIso(),approvedVia:'v175-mobile-rest'});
+      var u=(window.authUsersCache||[]).find(function(x){return String(x.uid||x.id)===String(uid)}); if(u){u.adminApproved=true;u.status='approved';}
+      await refreshRest();
+      var st=$('authDashboardStatus'); if(st) st.innerText='V175: کاربر با موبایل تأیید شد.';
+    }catch(e){alert('تأیید کاربر ناموفق: '+(e.message||e));}
+  };
+  window.verifyAuthUserEmail=async function(uid){
+    if((window.firebaseRole||window.accessRole)!=='admin'){alert('فقط مدیر می‌تواند ایمیل را تأیید کند.');return;}
+    try{await patchUserRest(uid,{emailVerified:true,emailVerifiedAt:nowIso(),emailVerifiedBy:(currentUser()&&currentUser().email)||'',updatedAt:nowIso()}); var u=(window.authUsersCache||[]).find(function(x){return String(x.uid||x.id)===String(uid)}); if(u)u.emailVerified=true; if(typeof window.renderAuthUsersTable==='function')window.renderAuthUsersTable();}catch(e){alert('تأیید ایمیل ناموفق: '+(e.message||e));}
+  };
+  window.changeAuthUserRole=async function(uid,role){
+    if((window.firebaseRole||window.accessRole)!=='admin'){alert('فقط مدیر می‌تواند نقش کاربران را تغییر دهد.');return;}
+    if(!uid||!['admin','editor','viewer'].includes(role)){alert('نقش معتبر نیست.');return;}
+    try{await patchUserRest(uid,{role:role,updatedAt:nowIso(),updatedBy:(currentUser()&&currentUser().email)||''}); await patchRoleRest(uid,role).catch(function(){}); var u=(window.authUsersCache||[]).find(function(x){return String(x.uid||x.id)===String(uid)}); if(u)u.role=role; if(typeof window.renderAuthUsersTable==='function')window.renderAuthUsersTable();}catch(e){alert('تغییر نقش ناموفق: '+(e.message||e));}
+  };
+  var oldShowApp=window.showApp;
+  setTimeout(function(){try{if((window.firebaseRole||window.accessRole)==='admin' && typeof window.refreshAuthDashboard==='function') window.refreshAuthDashboard();}catch(e){}},1200);
+  window.addEventListener('load',function(){setTimeout(function(){try{if((window.firebaseRole||window.accessRole)==='admin' && typeof window.refreshAuthDashboard==='function') window.refreshAuthDashboard();}catch(e){}},1800);});
 })();
 </script>
 

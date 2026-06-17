@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V174 Mobile REST Final",
+  "name": "FamilyTreePro V175 Mobile Auth Admin Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=174-mobile-rest-final",
+  "start_url": "./index.html?v=175-mobile-auth-admin-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V174 final mobile REST login fix without changing tree/data features",
+  "description": "FamilyTreePro V175 mobile REST login plus auth admin dashboard REST fix",
   "scope": "./",
   "icons": []
 }
