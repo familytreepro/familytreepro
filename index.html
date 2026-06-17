@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V172 Auth No Legacy Fallback</title> <style>  
+<title>FamilyTreePro V174 Mobile REST Final</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -1116,7 +1116,7 @@ body.app-ready #login{
 </style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
-<h2>🔐 FamilyTreePro V172<br/>Quick Mobile Register</h2>
+<h2>🔐 FamilyTreePro V174<br/>Mobile REST Final</h2>
 <div class="login-main-fields">
 <input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
 <input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
@@ -7374,6 +7374,131 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
   if(typeof oldRender==='function' && !oldRender.__v173FtWrapped){window.render=function(){var r=oldRender.apply(this,arguments); setTimeout(function(){fixFtImgs(document)},0); setTimeout(function(){fixFtImgs(document)},300); return r;}; window.render.__v173FtWrapped=true;}
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){fixFtImgs(document)}); else fixFtImgs(document);
   try{new MutationObserver(function(m){m.forEach(function(x){if(x.addedNodes)Array.from(x.addedNodes).forEach(function(n){if(n.nodeType===1)fixFtImgs(n);});});}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}
+})();
+</script>
+
+
+<script id="v174-mobile-rest-final-lock">
+/* FamilyTreePro V174 Mobile REST Final
+   Fix: V173 was overwritten by the async Firebase module after load. This layer re-installs
+   the REST login after module completion and prevents the old mobile SDK path from hijacking login. */
+(function(){
+  'use strict';
+  if(window.__FTP_V174_MOBILE_REST_FINAL__) return;
+  window.__FTP_V174_MOBILE_REST_FINAL__ = true;
+  var CFG={apiKey:'AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8',projectId:'family-tree-pro-a661d'};
+  var ADMIN=['alibahripor33@gmail.com'];
+  var oldLogin=null;
+  function $(id){return document.getElementById(id)}
+  function clean(v){return String(v==null?'':v).trim()}
+  function mail(v){return clean(v).toLowerCase()}
+  function say(t,ok){var e=$('loginError'); if(e){e.style.color=ok?'green':'red'; e.style.whiteSpace='pre-line'; e.textContent=t||'';}}
+  function mapErr(e){
+    var s=String((e&&(e.code||e.message))||e||'');
+    if(/EMAIL_NOT_FOUND|INVALID_LOGIN_CREDENTIALS|INVALID_PASSWORD|auth\/invalid-credential/i.test(s)) return 'ایمیل یا رمز عبور اشتباه است.';
+    if(/USER_DISABLED/i.test(s)) return 'این حساب در Firebase غیرفعال شده است.';
+    if(/TOO_MANY_ATTEMPTS/i.test(s)) return 'درخواست زیاد شده؛ چند دقیقه بعد دوباره امتحان کنید.';
+    if(/API key|PROJECT/i.test(s)) return 'تنظیمات Firebase اشتباه است.';
+    if(/Failed to fetch|NetworkError|Load failed|ERR_FAILED|AbortError|timeout/i.test(s)) return 'ارتباط موبایل با Firebase/Google قطع یا بسیار کند است.';
+    return s||'خطای نامشخص';
+  }
+  async function jfetch(url,opt,ms){
+    var ctrl=new AbortController(), timer=setTimeout(function(){try{ctrl.abort()}catch(e){}},ms||30000);
+    try{
+      var r=await fetch(url,Object.assign({},opt||{},{signal:ctrl.signal,cache:'no-store'}));
+      var tx=await r.text(), data={};
+      try{data=tx?JSON.parse(tx):{};}catch(_e){data={raw:tx};}
+      if(!r.ok) throw new Error((data.error&&(data.error.message||data.error.status))||r.statusText||('HTTP '+r.status));
+      return data;
+    } finally { clearTimeout(timer); }
+  }
+  function fsToJs(fields){
+    var out={}; fields=fields||{};
+    Object.keys(fields).forEach(function(k){var v=fields[k]||{}; out[k]=('stringValue' in v)?v.stringValue:('booleanValue' in v)?v.booleanValue:('integerValue' in v)?Number(v.integerValue):('doubleValue' in v)?Number(v.doubleValue):('timestampValue' in v)?v.timestampValue:'';});
+    return out;
+  }
+  function jsToFs(data){var f={}; Object.keys(data).forEach(function(k){var v=data[k]; if(typeof v==='boolean')f[k]={booleanValue:v}; else if(typeof v==='number')f[k]={integerValue:String(v)}; else f[k]={stringValue:String(v==null?'':v)};}); return f;}
+  async function restSignIn(em,pass){
+    return await jfetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(CFG.apiKey),{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pass,returnSecureToken:true})
+    },30000);
+  }
+  async function getUserDoc(uid,token){
+    try{
+      var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid);
+      var d=await jfetch(u,{headers:{Authorization:'Bearer '+token}},22000);
+      return fsToJs(d.fields||{});
+    }catch(e){return null;}
+  }
+  async function patchUserDoc(uid,token,data){
+    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
+    var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+'?'+masks;
+    return await jfetch(u,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({fields:jsToFs(data)})},22000);
+  }
+  function showApp(role,em,uid,token,emailVerified){
+    window.firebaseAuthUser={uid:uid,email:em,emailVerified:!!emailVerified,getIdToken:function(){return Promise.resolve(token)}};
+    window.firebaseRole=role||'viewer';
+    window.accessRole=window.firebaseRole;
+    try{
+      localStorage.setItem('family_manual_auth_ok','yes');
+      sessionStorage.setItem('family_manual_auth_ok','yes');
+      localStorage.setItem('family_v81_last_email',em);
+      localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));
+      localStorage.setItem('family_v174_rest_token_time',String(Date.now()));
+      localStorage.setItem('family_v174_rest_uid',uid);
+    }catch(_e){}
+    var l=$('login'), app=$('app');
+    if(l){l.style.display='none';l.style.visibility='hidden';l.style.pointerEvents='none';}
+    if(app){app.style.display='block';app.classList.remove('v81-blurred');}
+    try{ if(typeof applyAccessControl==='function') applyAccessControl(); }catch(_e){}
+    try{ if(typeof renderAccessPanel==='function') renderAccessPanel(); }catch(_e){}
+    try{ if(typeof render==='function') render(); }catch(_e){}
+    try{ if(typeof window.ftpStartAutoCloudSync==='function') window.ftpStartAutoCloudSync('v174-rest-login'); }catch(_e){}
+    say('',true);
+  }
+  async function v174Login(ev){
+    try{ if(ev&&ev.preventDefault) ev.preventDefault(); if(ev&&ev.stopPropagation) ev.stopPropagation(); }catch(_e){}
+    var btn=$('loginBtn'); if(btn&&btn.dataset.busy==='1') return false;
+    var em=mail($('loginUser')&&$('loginUser').value), pass=($('loginPass')&&$('loginPass').value)||'';
+    if(!em||!pass){say('ایمیل و رمز را وارد کنید.',false);return false;}
+    if(btn){btn.dataset.busy='1';btn.disabled=true;btn.textContent='در حال ورود...';}
+    try{
+      say('در حال ورود مستقیم موبایل...',true);
+      var a=await restSignIn(em,pass);
+      var uid=a.localId, token=a.idToken, isAdmin=ADMIN.indexOf(em)>=0;
+      var doc=await getUserDoc(uid,token) || {};
+      var approved=isAdmin || doc.adminApproved===true || doc.status==='approved';
+      var role=isAdmin?'admin':(doc.role||'viewer');
+      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V174 Mobile REST Final'}); }catch(_e){}
+      if(!approved){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
+      showApp(role,em,uid,token,a.emailVerified);
+      return true;
+    }catch(e){
+      console.error('V174 REST login failed',e);
+      say('ورود ناموفق: '+mapErr(e),false);
+      return false;
+    }finally{
+      if(btn){btn.dataset.busy='0';btn.disabled=false;btn.textContent='ورود امن';}
+    }
+  }
+  v174Login.__v174Rest=true;
+  function install(){
+    if(window.login && !window.login.__v174Rest) oldLogin=window.login;
+    window.login=v174Login;
+    var btn=$('loginBtn');
+    if(btn && btn.dataset.v174!=='1'){
+      btn.dataset.v174='1';
+      btn.onclick=v174Login;
+      btn.addEventListener('click',v174Login,true);
+      btn.addEventListener('touchend',v174Login,true);
+    }
+    var h=document.querySelector('#login h2');
+    if(h) h.innerHTML='🔐 FamilyTreePro V174<br>Mobile REST Final';
+  }
+  install();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
+  window.addEventListener('load',function(){setTimeout(install,50);setTimeout(install,600);setTimeout(install,1800);setTimeout(install,3500);});
+  setTimeout(install,500); setTimeout(install,1500); setTimeout(install,3000); setTimeout(install,6000);
 })();
 </script>
 

@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V172 Quick Mobile Register",
+  "name": "FamilyTreePro V174 Mobile REST Final",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=172-quick-mobile-register",
+  "start_url": "./index.html?v=174-mobile-rest-final",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V172 quick mobile registration REST fallback without changing tree/data features",
+  "description": "FamilyTreePro V174 final mobile REST login fix without changing tree/data features",
   "scope": "./",
   "icons": []
 }
