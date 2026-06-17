@@ -7280,5 +7280,102 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 })();
 </script>
 
+
+
+<script id="v173-mobile-rest-login-and-ftphoto-fix">
+/* FamilyTreePro V173 Mobile REST Login + ftphoto display safety
+   هدف: وقتی موبایل/ایران به gstatic Firebase SDK وصل نمی‌شود، ورود با REST API انجام شود.
+   نکته: ساختار درخت و داده‌ها حذف یا تغییر داده نشده؛ فقط مسیر ورود و نمایش ftphoto ایمن‌تر شده است. */
+(function(){
+  'use strict';
+  if(window.__FTP_V173_MOBILE_REST_LOGIN__) return;
+  window.__FTP_V173_MOBILE_REST_LOGIN__ = true;
+  var CFG={apiKey:'AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8',projectId:'family-tree-pro-a661d'};
+  var ADMIN=['alibahripor33@gmail.com'];
+  function $(id){return document.getElementById(id)}
+  function clean(v){return String(v==null?'':v).trim()}
+  function mail(v){return clean(v).toLowerCase()}
+  function say(t,ok){var e=$('loginError'); if(e){e.style.color=ok?'green':'red'; e.textContent=t||'';}}
+  function mapErr(e){
+    var s=String((e&&(e.code||e.message))||e||'');
+    if(/EMAIL_NOT_FOUND|INVALID_LOGIN_CREDENTIALS|INVALID_PASSWORD/i.test(s)) return 'ایمیل یا رمز عبور اشتباه است.';
+    if(/USER_DISABLED/i.test(s)) return 'این حساب در Firebase غیرفعال شده است.';
+    if(/TOO_MANY_ATTEMPTS/i.test(s)) return 'درخواست زیاد شده؛ چند دقیقه بعد دوباره امتحان کنید.';
+    if(/API key|PROJECT/i.test(s)) return 'تنظیمات Firebase اشتباه است.';
+    if(/Failed to fetch|NetworkError|Load failed|ERR_FAILED|AbortError|timeout/i.test(s)) return 'ارتباط موبایل با Firebase/Google قطع یا فیلتر است. با این نسخه مسیر REST هم امتحان شد، ولی اینترنت به googleapis هم نرسید.';
+    return s||'خطای نامشخص';
+  }
+  async function jfetch(url,opt,ms){
+    var ctrl=new AbortController(), timer=setTimeout(function(){try{ctrl.abort()}catch(e){}},ms||22000);
+    try{
+      var r=await fetch(url,Object.assign({},opt||{},{signal:ctrl.signal,cache:'no-store'}));
+      var tx=await r.text(), data={};
+      try{data=tx?JSON.parse(tx):{};}catch(_e){data={raw:tx};}
+      if(!r.ok) throw new Error((data.error&&(data.error.message||data.error.status))||r.statusText||('HTTP '+r.status));
+      return data;
+    } finally {clearTimeout(timer);}
+  }
+  async function restSignIn(em,pass){
+    return await jfetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(CFG.apiKey),{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pass,returnSecureToken:true})
+    },25000);
+  }
+  function fsToJs(fields){
+    var out={}; fields=fields||{};
+    Object.keys(fields).forEach(function(k){var v=fields[k]||{}; out[k]=('stringValue' in v)?v.stringValue:('booleanValue' in v)?v.booleanValue:('integerValue' in v)?Number(v.integerValue):('doubleValue' in v)?Number(v.doubleValue):('timestampValue' in v)?v.timestampValue:'';});
+    return out;
+  }
+  function jsToFs(data){var f={}; Object.keys(data).forEach(function(k){var v=data[k]; if(typeof v==='boolean')f[k]={booleanValue:v}; else if(typeof v==='number')f[k]={integerValue:String(v)}; else f[k]={stringValue:String(v==null?'':v)};}); return f;}
+  async function getUserDoc(uid,idToken){
+    try{
+      var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid);
+      var d=await jfetch(u,{headers:{Authorization:'Bearer '+idToken}},20000);
+      return fsToJs(d.fields||{});
+    }catch(e){return null;}
+  }
+  async function patchUserDoc(uid,idToken,data){
+    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
+    var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+'?'+masks;
+    return await jfetch(u,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+idToken},body:JSON.stringify({fields:jsToFs(data)})},20000);
+  }
+  async function restLogin(){
+    var em=mail($('loginUser')&&$('loginUser').value), pass=($('loginPass')&&$('loginPass').value)||'';
+    if(!em||!pass){say('ایمیل و رمز را وارد کنید.',false);return false;}
+    try{
+      say('در حال ورود سریع موبایل...',true);
+      var a=await restSignIn(em,pass);
+      var uid=a.localId, token=a.idToken, isAdmin=ADMIN.indexOf(em)>=0;
+      var doc=await getUserDoc(uid,token) || {};
+      var approved=isAdmin || doc.adminApproved===true || doc.status==='approved';
+      var role=isAdmin?'admin':(doc.role||'viewer');
+      await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V173 Mobile REST Login'}).catch(function(){});
+      if(!approved){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
+      window.firebaseAuthUser={uid:uid,email:em,emailVerified:!!a.emailVerified,getIdToken:function(){return Promise.resolve(token)}};
+      window.firebaseRole=role;
+      try{window.accessRole=role;localStorage.setItem('family_manual_auth_ok','yes');sessionStorage.setItem('family_manual_auth_ok','yes');localStorage.setItem('family_v81_last_email',em);localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));localStorage.setItem('family_v173_rest_token_time',String(Date.now()));}catch(_e){}
+      var l=$('login'), app=$('app'); if(l) l.style.display='none'; if(app) app.style.display='block';
+      try{if(typeof applyAccessControl==='function')applyAccessControl();}catch(_e){}
+      try{if(typeof renderAccessPanel==='function')renderAccessPanel();}catch(_e){}
+      try{if(typeof render==='function')render();}catch(_e){}
+      say('',true);
+      return true;
+    }catch(e){console.error('V173 REST login failed',e); say('ورود ناموفق: '+mapErr(e),false); return false;}
+  }
+  var oldLogin=window.login;
+  window.login=function(){
+    /* اول REST چون روی موبایل ایران از import SDK پایدارتر است؛ اگر نشد، مسیر قبلی دست‌نخورده امتحان می‌شود. */
+    return restLogin().then(function(ok){ if(ok) return true; if(typeof oldLogin==='function') return oldLogin.apply(window,arguments); return false; });
+  };
+  function ftPlaceholder(){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80"><rect width="100%" height="100%" fill="#eef2f7"/><text x="50%" y="54%" text-anchor="middle" font-size="20">🌳</text></svg>');}
+  function fixFtImgs(root){
+    try{Array.from((root||document).querySelectorAll('img')).forEach(function(img){var raw=img.getAttribute('src')||img.dataset.ftphotoSrc||''; if(/^ftphoto:\/\//i.test(raw)){img.dataset.ftphotoSrc=raw; img.setAttribute('src',ftPlaceholder()); if(typeof window.v15652LoadFtPhoto==='function'){window.v15652LoadFtPhoto(raw).then(function(d){if(d)img.src=d;}).catch(function(){img.style.display='none';});}}});}catch(e){}
+  }
+  var oldRender=window.render;
+  if(typeof oldRender==='function' && !oldRender.__v173FtWrapped){window.render=function(){var r=oldRender.apply(this,arguments); setTimeout(function(){fixFtImgs(document)},0); setTimeout(function(){fixFtImgs(document)},300); return r;}; window.render.__v173FtWrapped=true;}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',function(){fixFtImgs(document)}); else fixFtImgs(document);
+  try{new MutationObserver(function(m){m.forEach(function(x){if(x.addedNodes)Array.from(x.addedNodes).forEach(function(n){if(n.nodeType===1)fixFtImgs(n);});});}).observe(document.documentElement,{childList:true,subtree:true});}catch(e){}
+})();
+</script>
+
 </body>
 </html>
