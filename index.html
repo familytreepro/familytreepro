@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V172 Auth No Legacy Fallback</title> <style>  
+<title>FamilyTreePro V174 Mobile REST Final</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -1116,7 +1116,7 @@ body.app-ready #login{
 </style>
 </head> <body> <div id="login">
 <div class="loginbox clean-auth-box">
-<h2>🔐 FamilyTreePro V172<br/>Quick Mobile Register</h2>
+<h2>🔐 FamilyTreePro V174<br/>Mobile REST Final</h2>
 <div class="login-main-fields">
 <input autocapitalize="none" autocomplete="username" autocorrect="off" id="loginUser" inputmode="email" placeholder="ایمیل" spellcheck="false" tabindex="1" type="email" value=""/>
 <input autocomplete="current-password" id="loginPass" placeholder="رمز عبور" tabindex="2" type="password"/>
@@ -4680,6 +4680,79 @@ function authRoleLabel(role){return role==='admin'?'مدیر':(role==='editor'?'
 function authVerifiedLabel(v){return v?'<span class="auth-badge verified">تأییدشده</span>':'<span class="auth-badge unverified">تأییدنشده</span>';}
 
 function v168UserKey(u){ return String((u&&(u.uid||u.id)) || '').trim() || ('email:'+String((u&&u.email)||'').trim().toLowerCase()); }
+
+/* V178 Clean Auth Dashboard Core: one shared current-user source for SDK + REST mobile login */
+function ftpV178CurrentUser(){
+  try{
+    return window.firebaseAuthUser || (typeof auth!=="undefined" && auth && auth.currentUser) || null;
+  }catch(_e){ return window.firebaseAuthUser || null; }
+}
+async function ftpV178IdToken(){
+  var u=ftpV178CurrentUser();
+  if(u && typeof u.getIdToken==="function") return await u.getIdToken();
+  return "";
+}
+function ftpV178FsValueToJs(v){
+  if(!v) return "";
+  if("stringValue" in v) return v.stringValue;
+  if("booleanValue" in v) return !!v.booleanValue;
+  if("integerValue" in v) return Number(v.integerValue);
+  if("doubleValue" in v) return Number(v.doubleValue);
+  if("timestampValue" in v) return v.timestampValue;
+  if("nullValue" in v) return null;
+  if("arrayValue" in v) return (v.arrayValue.values||[]).map(ftpV178FsValueToJs);
+  if("mapValue" in v){var o={}; Object.keys((v.mapValue.fields||{})).forEach(function(k){o[k]=ftpV178FsValueToJs(v.mapValue.fields[k]);}); return o;}
+  return "";
+}
+function ftpV178DocToUser(d){
+  var data={};
+  Object.keys((d&&d.fields)||{}).forEach(function(k){data[k]=ftpV178FsValueToJs(d.fields[k]);});
+  var name=String((d&&d.name)||"");
+  data.uid=data.uid || name.split("/").pop() || data.id || "";
+  data.id=data.id || data.uid;
+  return data;
+}
+function ftpV178JsToFs(data){
+  var f={};
+  Object.keys(data||{}).forEach(function(k){
+    var v=data[k];
+    if(v===undefined) return;
+    if(v===null) f[k]={nullValue:null};
+    else if(typeof v==="boolean") f[k]={booleanValue:v};
+    else if(typeof v==="number") f[k]={integerValue:String(v)};
+    else f[k]={stringValue:String(v)};
+  });
+  return f;
+}
+async function ftpV178ReadUsersRest(){
+  var token=await ftpV178IdToken();
+  if(!token) throw new Error("NO_REST_TOKEN");
+  var url="https://firestore.googleapis.com/v1/projects/"+encodeURIComponent(firebaseConfig.projectId)+"/databases/(default)/documents/users?pageSize=500";
+  var r=await fetch(url,{headers:{Authorization:"Bearer "+token},cache:"no-store"});
+  var text=await r.text(), data={};
+  try{data=text?JSON.parse(text):{};}catch(_e){data={raw:text};}
+  if(!r.ok) throw new Error((data.error&&(data.error.message||data.error.status))||r.statusText||("HTTP "+r.status));
+  return (data.documents||[]).map(ftpV178DocToUser);
+}
+async function ftpV178PatchUserRest(uid,data){
+  var token=await ftpV178IdToken();
+  if(!token) throw new Error("NO_REST_TOKEN");
+  data=Object.assign({},data||{}, {updatedAt:new Date().toISOString()});
+  var masks=Object.keys(data).map(function(k){return "updateMask.fieldPaths="+encodeURIComponent(k)}).join("&");
+  var url="https://firestore.googleapis.com/v1/projects/"+encodeURIComponent(firebaseConfig.projectId)+"/databases/(default)/documents/users/"+encodeURIComponent(uid)+(masks?("?"+masks):"");
+  var r=await fetch(url,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({fields:ftpV178JsToFs(data)}),cache:"no-store"});
+  var text=await r.text(), out={};
+  try{out=text?JSON.parse(text):{};}catch(_e){out={raw:text};}
+  if(!r.ok) throw new Error((out.error&&(out.error.message||out.error.status))||r.statusText||("HTTP "+r.status));
+  return out;
+}
+async function ftpV178SetUserMerge(uid,data){
+  if(auth && auth.currentUser){
+    return await setDoc(doc(db,'users',uid),data,{merge:true});
+  }
+  return await ftpV178PatchUserRest(uid,data);
+}
+
 function v168NormalizeUser(id,u,source){
   u=Object.assign({},u||{});
   if(id && !u.id) u.id=id;
@@ -4759,7 +4832,7 @@ window.approveAuthUser=async function(uid){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند کاربر را تأیید کند.');return;}
   if(!uid){alert('شناسه کاربر پیدا نشد.');return;}
   try{
-    await setDoc(doc(db,'users',uid),{adminApproved:true,status:'approved',approvedAt:serverTimestamp(),approvedBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
+    await ftpV178SetUserMerge(uid,{adminApproved:true,status:'approved',approvedAt:new Date().toISOString(),approvedBy:(ftpV178CurrentUser()&&ftpV178CurrentUser().email)||'',updatedAt:new Date().toISOString()});
     const u=window.authUsersCache.find(x=>String(x.uid||x.id)===String(uid)); if(u){u.uid=u.uid||uid;u.id=u.id||uid;u.adminApproved=true;u.status='approved';u.registrySource=u.registrySource||'firestore-users';}
     await refreshAuthDashboard();
     const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='کاربر توسط مدیر تأیید شد.';
@@ -4770,7 +4843,7 @@ window.verifyAuthUserEmail=async function(uid){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند ایمیل را تأیید کند.');return;}
   if(!uid){alert('شناسه کاربر پیدا نشد.');return;}
   try{
-    await setDoc(doc(db,'users',uid),{emailVerified:true,emailVerifiedAt:serverTimestamp(),emailVerifiedBy:auth.currentUser?.email||'',updatedAt:serverTimestamp()},{merge:true});
+    await ftpV178SetUserMerge(uid,{emailVerified:true,emailVerifiedAt:new Date().toISOString(),emailVerifiedBy:(ftpV178CurrentUser()&&ftpV178CurrentUser().email)||'',updatedAt:new Date().toISOString()});
     const u=window.authUsersCache.find(x=>String(x.id||x.uid)===String(uid)); if(u) u.emailVerified=true;
     renderAuthUsersTable();
     const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='ایمیل کاربر تأیید شد.';
@@ -4781,8 +4854,8 @@ window.changeAuthUserRole=async function(uid,role){
   if(window.firebaseRole!=='admin'){alert('فقط مدیر می‌تواند نقش کاربران را تغییر دهد.');return;}
   if(!uid || !['admin','editor','viewer'].includes(role)){alert('نقش معتبر نیست.');return;}
   try{
-    await setDoc(doc(db,'roles',uid),{role,updatedAt:serverTimestamp(),updatedBy:auth.currentUser?.email||''},{merge:true});
-    await setDoc(doc(db,'users',uid),{role,updatedAt:serverTimestamp(),updatedBy:auth.currentUser?.email||''},{merge:true});
+    try{ if(auth && auth.currentUser) await setDoc(doc(db,'roles',uid),{role,updatedAt:serverTimestamp(),updatedBy:(ftpV178CurrentUser()&&ftpV178CurrentUser().email)||''},{merge:true}); }catch(_e){}
+    await ftpV178SetUserMerge(uid,{role:role,updatedAt:new Date().toISOString(),updatedBy:(ftpV178CurrentUser()&&ftpV178CurrentUser().email)||''});
     const u=window.authUsersCache.find(x=>String(x.id||x.uid)===String(uid)); if(u) u.role=role;
     renderAuthUsersTable();
     const st=document.getElementById('authDashboardStatus'); if(st) st.innerText='نقش کاربر بروزرسانی شد.';
@@ -4874,7 +4947,7 @@ window.refreshAuthDashboard = async function(){
   const fbstate=document.getElementById('authFirebaseState');
   const hint=document.getElementById('authAdminHint');
   const importPanel=document.getElementById('authMissingUserPanel');
-  const user=auth.currentUser;
+  const user=ftpV178CurrentUser();
   if(signed) signed.innerText = user ? 'فعال' : 'خیر';
   if(role) role.innerText = window.firebaseRole || 'guest';
   if(remember) remember.innerText = localStorage.getItem('family_v88_remember')==='yes' ? 'فعال' : 'خاموش';
@@ -4889,20 +4962,33 @@ window.refreshAuthDashboard = async function(){
     localUsers.unshift(v168NormalizeUser(user.uid,{name:user.displayName||'کاربر فعلی',email:user.email,uid:user.uid,phone:'-',role:window.firebaseRole||'viewer',emailVerified:!!user.emailVerified},'current-auth-user'));
   }
   try{
-    const q=query(collection(db,'users'), orderBy('createdAt','desc'), limit(500));
-    const snap=await getDocs(q);
-    snap.forEach(d=>users.push(v168NormalizeUser(d.id,d.data(),'firestore-users')));
+    if(user && !auth.currentUser){
+      users=(await ftpV178ReadUsersRest()).map(function(u){return v168NormalizeUser(u.uid||u.id,u,'firestore-users-rest');});
+    }else{
+      const q=query(collection(db,'users'), orderBy('createdAt','desc'), limit(500));
+      const snap=await getDocs(q);
+      snap.forEach(d=>users.push(v168NormalizeUser(d.id,d.data(),'firestore-users')));
+    }
     window.authUsersCache=v168MergeUsers(users.concat(localUsers));
     if(total) total.innerText=String(window.authUsersCache.length);
     if(verified) verified.innerText=String(window.authUsersCache.filter(u=>u.emailVerified).length)+' / '+String(window.authUsersCache.length);
     renderAuthUsersTable();
     if(status) status.innerText='V168: users از Firestore خوانده شد و با کش ثبت‌نام/کاربر فعلی ادغام شد. تعداد نمایش: '+window.authUsersCache.length+' کاربر. لیست کامل Authentication فقط با کپی UID یا ورود همان کاربر قابل ساخت در users است.';
   }catch(e){
-    window.authUsersCache=v168MergeUsers(localUsers);
-    if(total) total.innerText=String(window.authUsersCache.length);
-    if(verified) verified.innerText=String(window.authUsersCache.filter(u=>u.emailVerified).length)+' / '+String(window.authUsersCache.length);
-    renderAuthUsersTable();
-    if(status) status.innerText='خواندن users از Firestore انجام نشد. کش محلی نمایش داده شد. Rules اجازه خواندن users را بررسی کنید. جزئیات: '+(e.code||e.message||e);
+    try{
+      users=(await ftpV178ReadUsersRest()).map(function(u){return v168NormalizeUser(u.uid||u.id,u,'firestore-users-rest-fallback');});
+      window.authUsersCache=v168MergeUsers(users.concat(localUsers));
+      if(total) total.innerText=String(window.authUsersCache.length);
+      if(verified) verified.innerText=String(window.authUsersCache.filter(u=>u.emailVerified).length)+' / '+String(window.authUsersCache.length);
+      renderAuthUsersTable();
+      if(status) status.innerText='V178: users با توکن ورود موبایل از Firestore REST خوانده شد. تعداد نمایش: '+window.authUsersCache.length+' کاربر.';
+    }catch(e2){
+      window.authUsersCache=v168MergeUsers(localUsers);
+      if(total) total.innerText=String(window.authUsersCache.length);
+      if(verified) verified.innerText=String(window.authUsersCache.filter(u=>u.emailVerified).length)+' / '+String(window.authUsersCache.length);
+      renderAuthUsersTable();
+      if(status) status.innerText='خواندن users از Firestore انجام نشد. کش محلی نمایش داده شد. Rules اجازه خواندن users را بررسی کنید. جزئیات: '+((e2&&e2.message)||(e&&e.code)||e);
+    }
   }
 };
 window.sendResetForAuthUser = async function(email){
@@ -7378,311 +7464,127 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 
-<script id="v177-clean-auth-dashboard-repair">
-/* FamilyTreePro V177 Clean Auth Dashboard Repair
-   فقط پنل احراز موبایل را اصلاح می‌کند؛ ورود، درخت، افراد، عکس و داشبورد اصلی دست‌نخورده‌اند.
-   علت مشکل: بعد از ورود REST، auth.currentUser در موبایل خالی می‌مانْد و احراز به جای کاربر واقعی، لیست را خالی نشان می‌داد.
-*/
+<script id="v174-mobile-rest-final-lock">
+/* FamilyTreePro V174 Mobile REST Final
+   Fix: V173 was overwritten by the async Firebase module after load. This layer re-installs
+   the REST login after module completion and prevents the old mobile SDK path from hijacking login. */
 (function(){
   'use strict';
-  if(window.__FTP_V177_CLEAN_AUTH_DASHBOARD_REPAIR__) return;
-  window.__FTP_V177_CLEAN_AUTH_DASHBOARD_REPAIR__ = true;
-
-  var CFG = {projectId:'family-tree-pro-a661d'};
-  var ADMIN = ['alibahripor33@gmail.com'];
-
-  function $(id){ return document.getElementById(id); }
-  function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
-  function lower(v){ return String(v||'').trim().toLowerCase(); }
-  function nowIso(){ return new Date().toISOString(); }
-
-  function restUser(){
-    var u = window.firebaseAuthUser ||
-      (window.auth && window.auth.currentUser) ||
-      (window.familyFirebase && window.familyFirebase.auth && window.familyFirebase.auth.currentUser) ||
-      null;
-
-    if(!u){
-      try{
-        var uid = localStorage.getItem('family_v174_rest_uid') || '';
-        var email = localStorage.getItem('family_v81_last_email') || '';
-        if(uid && email){
-          u = {uid:uid,email:email,emailVerified:false,getIdToken:function(){return Promise.reject(new Error('rest-token-expired'));}};
-        }
-      }catch(_){}
-    }
-    return u;
+  if(window.__FTP_V174_MOBILE_REST_FINAL__) return;
+  window.__FTP_V174_MOBILE_REST_FINAL__ = true;
+  var CFG={apiKey:'AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8',projectId:'family-tree-pro-a661d'};
+  var ADMIN=['alibahripor33@gmail.com'];
+  var oldLogin=null;
+  function $(id){return document.getElementById(id)}
+  function clean(v){return String(v==null?'':v).trim()}
+  function mail(v){return clean(v).toLowerCase()}
+  function say(t,ok){var e=$('loginError'); if(e){e.style.color=ok?'green':'red'; e.style.whiteSpace='pre-line'; e.textContent=t||'';}}
+  function mapErr(e){
+    var s=String((e&&(e.code||e.message))||e||'');
+    if(/EMAIL_NOT_FOUND|INVALID_LOGIN_CREDENTIALS|INVALID_PASSWORD|auth\/invalid-credential/i.test(s)) return 'ایمیل یا رمز عبور اشتباه است.';
+    if(/USER_DISABLED/i.test(s)) return 'این حساب در Firebase غیرفعال شده است.';
+    if(/TOO_MANY_ATTEMPTS/i.test(s)) return 'درخواست زیاد شده؛ چند دقیقه بعد دوباره امتحان کنید.';
+    if(/API key|PROJECT/i.test(s)) return 'تنظیمات Firebase اشتباه است.';
+    if(/Failed to fetch|NetworkError|Load failed|ERR_FAILED|AbortError|timeout/i.test(s)) return 'ارتباط موبایل با Firebase/Google قطع یا بسیار کند است.';
+    return s||'خطای نامشخص';
   }
-
-  async function getToken(){
-    var u = restUser();
-    if(u && typeof u.getIdToken === 'function'){
-      try{ return await u.getIdToken(); }catch(e){ return ''; }
-    }
-    return '';
+  async function jfetch(url,opt,ms){
+    var ctrl=new AbortController(), timer=setTimeout(function(){try{ctrl.abort()}catch(e){}},ms||30000);
+    try{
+      var r=await fetch(url,Object.assign({},opt||{},{signal:ctrl.signal,cache:'no-store'}));
+      var tx=await r.text(), data={};
+      try{data=tx?JSON.parse(tx):{};}catch(_e){data={raw:tx};}
+      if(!r.ok) throw new Error((data.error&&(data.error.message||data.error.status))||r.statusText||('HTTP '+r.status));
+      return data;
+    } finally { clearTimeout(timer); }
   }
-
   function fsToJs(fields){
     var out={}; fields=fields||{};
-    Object.keys(fields).forEach(function(k){
-      var v=fields[k]||{};
-      if('stringValue' in v) out[k]=v.stringValue;
-      else if('booleanValue' in v) out[k]=v.booleanValue;
-      else if('integerValue' in v) out[k]=Number(v.integerValue||0);
-      else if('doubleValue' in v) out[k]=Number(v.doubleValue||0);
-      else if('timestampValue' in v) out[k]=v.timestampValue;
-      else if('arrayValue' in v) out[k]=(v.arrayValue.values||[]).map(function(x){return fsToJs({v:x}).v;});
-      else if('mapValue' in v) out[k]=fsToJs(v.mapValue.fields||{});
-      else if('nullValue' in v) out[k]=null;
-      else out[k]='';
-    });
+    Object.keys(fields).forEach(function(k){var v=fields[k]||{}; out[k]=('stringValue' in v)?v.stringValue:('booleanValue' in v)?v.booleanValue:('integerValue' in v)?Number(v.integerValue):('doubleValue' in v)?Number(v.doubleValue):('timestampValue' in v)?v.timestampValue:'';});
     return out;
   }
-
-  function jsToFs(data){
-    var f={};
-    Object.keys(data||{}).forEach(function(k){
-      var v=data[k];
-      if(v===null) f[k]={nullValue:null};
-      else if(typeof v==='boolean') f[k]={booleanValue:v};
-      else if(typeof v==='number') f[k]={integerValue:String(v)};
-      else f[k]={stringValue:String(v==null?'':v)};
-    });
-    return f;
+  function jsToFs(data){var f={}; Object.keys(data).forEach(function(k){var v=data[k]; if(typeof v==='boolean')f[k]={booleanValue:v}; else if(typeof v==='number')f[k]={integerValue:String(v)}; else f[k]={stringValue:String(v==null?'':v)};}); return f;}
+  async function restSignIn(em,pass){
+    return await jfetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key='+encodeURIComponent(CFG.apiKey),{
+      method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:em,password:pass,returnSecureToken:true})
+    },30000);
   }
-
-  async function jfetch(url,opt,ms){
-    var ctrl = new AbortController();
-    var timer = setTimeout(function(){try{ctrl.abort();}catch(_){}}, ms||25000);
+  async function getUserDoc(uid,token){
     try{
-      var r = await fetch(url, Object.assign({}, opt||{}, {signal:ctrl.signal, cache:'no-store'}));
-      var tx = await r.text();
-      var data={}; try{ data = tx ? JSON.parse(tx) : {}; }catch(_){ data={raw:tx}; }
-      if(!r.ok) throw new Error((data.error && (data.error.message||data.error.status)) || r.statusText || ('HTTP '+r.status));
-      return data;
-    }finally{ clearTimeout(timer); }
+      var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid);
+      var d=await jfetch(u,{headers:{Authorization:'Bearer '+token}},22000);
+      return fsToJs(d.fields||{});
+    }catch(e){return null;}
   }
-
-  function normalizeUser(uid,u,source){
-    u=u||{};
-    var out = {
-      uid: String(u.uid || u.id || uid || ''),
-      id: String(u.id || u.uid || uid || ''),
-      email: lower(u.email || ''),
-      name: u.name || u.displayName || u.fullName || '',
-      firstName: u.firstName || '',
-      lastName: u.lastName || '',
-      phone: u.phone || u.mobile || '-',
-      role: u.role || 'viewer',
-      emailVerified: !!u.emailVerified,
-      adminApproved: !!u.adminApproved || u.status === 'approved' || u.role === 'admin',
-      status: u.status || ((u.adminApproved || u.role === 'admin') ? 'approved' : 'pending'),
-      registrySource: source || u.registrySource || 'users'
-    };
-    if(typeof window.v168NormalizeUser === 'function'){
-      try{ return window.v168NormalizeUser(out.uid || out.id, Object.assign({}, u, out), source || out.registrySource); }catch(_){}
-    }
-    return out;
+  async function patchUserDoc(uid,token,data){
+    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
+    var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+'?'+masks;
+    return await jfetch(u,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({fields:jsToFs(data)})},22000);
   }
-
-  function mergeUsers(list){
-    if(typeof window.v168MergeUsers === 'function'){
-      try{ return window.v168MergeUsers(list); }catch(_){}
-    }
-    var map={};
-    (list||[]).forEach(function(u){
-      var key = String(u.uid||u.id||u.email||Math.random()).toLowerCase();
-      map[key] = Object.assign(map[key]||{}, u);
-    });
-    return Object.keys(map).map(function(k){return map[k];});
-  }
-
-  function clearAuthFilters(){
-    ['authUserSearch','authRoleFilter','authVerifyFilter'].forEach(function(id){
-      var el=$(id); if(el) el.value='';
-    });
-  }
-
-  function currentUserRecord(){
-    var u=restUser();
-    if(!u) return null;
-    var em=lower(u.email);
-    var role = ADMIN.indexOf(em)>=0 ? 'admin' : (window.firebaseRole || window.accessRole || 'viewer');
-    return normalizeUser(u.uid, {
-      uid:u.uid,
-      id:u.uid,
-      email:em,
-      name:u.displayName || 'کاربر فعلی',
-      phone:'-',
-      role:role,
-      emailVerified:!!u.emailVerified,
-      adminApproved: role==='admin',
-      status: role==='admin' ? 'approved' : 'pending'
-    }, 'current-rest-user');
-  }
-
-  function localUsers(){
-    var arr=[];
-    try{ arr = JSON.parse(localStorage.getItem('family_v88_registered_users')||'[]') || []; }catch(_){ arr=[]; }
-    arr = arr.map(function(u){return normalizeUser(u.uid||u.id,u,'local-register-cache');});
-    var cu=currentUserRecord();
-    if(cu && !arr.some(function(x){return String(x.uid||x.id)===String(cu.uid) || lower(x.email)===lower(cu.email);})) arr.unshift(cu);
-    return arr;
-  }
-
-  async function listUsersRest(){
-    var tk=await getToken();
-    if(!tk) throw new Error('no-active-rest-token');
-    var url='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users?pageSize=500';
-    var data=await jfetch(url,{headers:{Authorization:'Bearer '+tk}},30000);
-    return (data.documents||[]).map(function(d){
-      var id=String(d.name||'').split('/').pop();
-      return normalizeUser(id, fsToJs(d.fields||{}), 'firestore-rest-users');
-    });
-  }
-
-  async function patchUserRest(uid,data){
-    var tk=await getToken();
-    if(!tk) throw new Error('no-active-rest-token');
-    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k);}).join('&');
-    var url='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+(masks?'?'+masks:'');
-    return jfetch(url,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tk},body:JSON.stringify({fields:jsToFs(data)})},25000);
-  }
-
-  async function patchRoleRest(uid,role){
-    var tk=await getToken();
-    if(!tk) throw new Error('no-active-rest-token');
-    var data={role:role,email:'',updatedAt:nowIso(),updatedBy:(restUser()&&restUser().email)||'',source:'v177-clean-auth-dashboard'};
-    var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k);}).join('&');
-    var url='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/roles/'+encodeURIComponent(uid)+'?'+masks;
-    return jfetch(url,{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+tk},body:JSON.stringify({fields:jsToFs(data)})},25000);
-  }
-
-  function roleLabel(role){ return role==='admin'?'مدیر':(role==='editor'?'✏️ ویرایشگر':'نمایشگر'); }
-
-  window.renderAuthUsersTable = function(){
-    var list=$('authUsersList'); if(!list) return;
-    var users=Array.isArray(window.authUsersCache) ? window.authUsersCache.slice() : [];
-    var q=lower(($('authUserSearch')&&$('authUserSearch').value)||'');
-    var rf=($('authRoleFilter')&&$('authRoleFilter').value)||'';
-    var vf=($('authVerifyFilter')&&$('authVerifyFilter').value)||'';
-
-    if(q) users=users.filter(function(u){return [u.name,u.firstName,u.lastName,u.phone,u.email,u.uid,u.id].join(' ').toLowerCase().indexOf(q)>=0;});
-    if(rf) users=users.filter(function(u){return (u.role||'viewer')===rf;});
-    if(vf) users=users.filter(function(u){return vf==='verified' ? !!u.emailVerified : !u.emailVerified;});
-
-    if(!users.length){
-      list.innerHTML='<div class="person-row">در این لحظه کاربری برای نمایش پیدا نشد. فیلترها را پاک کنید و «خواندن دوباره users» را بزنید.</div>';
-      return;
-    }
-
-    var canAdmin=(window.firebaseRole==='admin'||window.accessRole==='admin');
-    var rows=users.map(function(u){
-      var uid=esc(u.uid||u.id||'');
-      var role=u.role||'viewer';
-      var approved=!!u.adminApproved || u.status==='approved' || role==='admin';
-      var verified=!!u.emailVerified;
-      var roleControl=canAdmin
-        ? '<select class="auth-role-select" onchange="changeAuthUserRole(this.dataset.uid,this.value)" data-uid="'+uid+'"><option value="viewer" '+(role==='viewer'?'selected':'')+'>نمایشگر</option><option value="editor" '+(role==='editor'?'selected':'')+'>✏️ ویرایشگر</option><option value="admin" '+(role==='admin'?'selected':'')+'>مدیر</option></select>'
-        : '<span class="auth-badge '+esc(role)+'">'+roleLabel(role)+'</span>';
-      var approveBtn=canAdmin ? (approved?'<span class="auth-badge verified">تأیید شده</span>':'<button class="btn" onclick="approveAuthUser(\''+uid+'\')" type="button">✓ تأیید کنم</button>') : (approved?'<span class="auth-badge verified">تأیید شده</span>':'<span class="auth-badge unverified">منتظر مدیر</span>');
-      var verifyBtn=canAdmin && !verified ? '<button class="btn blue-btn" onclick="verifyAuthUserEmail(\''+uid+'\')" type="button">تأیید ایمیل</button>' : '';
-      var resetBtn=u.email ? '<button class="btn blue-btn" onclick="sendResetForAuthUser('+JSON.stringify(String(u.email||''))+')" type="button">بازیابی رمز</button>' : '<span class="auth-badge unverified">بدون ایمیل</span>';
-      return '<tr><td><b>'+esc([u.firstName,u.lastName].filter(Boolean).join(' ')||u.name||'کاربر')+'</b><br><small>'+esc(uid||'-')+'</small><br><small>منبع: '+esc(u.registrySource||'users')+'</small></td><td>'+esc(u.phone||'-')+'</td><td dir="ltr">'+esc(u.email||'-')+'</td><td>'+(verified?'<span class="auth-badge verified">تأییدشده</span>':'<span class="auth-badge unverified">تأییدنشده</span>')+'</td><td>'+roleControl+'</td><td><div class="auth-actions">'+approveBtn+verifyBtn+resetBtn+'</div></td></tr>';
-    }).join('');
-
-    list.innerHTML='<div class="auth-user-table"><table><thead><tr><th>کاربر</th><th>شماره تلفن</th><th>ایمیل</th><th>وضعیت ایمیل</th><th>نقش</th><th>عملیات واقعی</th></tr></thead><tbody>'+rows+'</tbody></table></div><div class="auth-lock-note">V177: منبع احراز از Firestore users + کاربر فعلی REST خوانده می‌شود.</div>';
-  };
-
-  window.refreshAuthDashboard = async function(){
-    var status=$('authDashboardStatus'), total=$('authTotalUsers'), verified=$('authVerifiedUsers'), signed=$('authSignedState'), roleEl=$('authRoleState'), remember=$('authRememberState'), fbstate=$('authFirebaseState'), hint=$('authAdminHint'), panel=$('authMissingUserPanel');
-    var cu=restUser();
-    var role=window.firebaseRole || window.accessRole || (cu && ADMIN.indexOf(lower(cu.email))>=0 ? 'admin' : 'guest');
-    if(cu && ADMIN.indexOf(lower(cu.email))>=0){ role='admin'; window.firebaseRole='admin'; window.accessRole='admin'; }
-
-    if(signed) signed.innerText=cu?'فعال':'خیر';
-    if(roleEl) roleEl.innerText=role;
-    if(remember) remember.innerText=(localStorage.getItem('family_manual_auth_ok')==='yes'||localStorage.getItem('family_v88_remember')==='yes')?'فعال':'خاموش';
-    if(fbstate) fbstate.innerText=cu?'فعال':'نیاز به ورود';
-    if(hint) hint.style.display=(role==='admin')?'none':'block';
-    if(panel) panel.style.display=(role==='admin')?'block':'none';
-    if(status) status.innerText='V177: در حال خواندن users...';
-
-    clearAuthFilters();
-
-    var users=[], restOk=false, detail='';
+  function showApp(role,em,uid,token,emailVerified){
+    window.firebaseAuthUser={uid:uid,email:em,emailVerified:!!emailVerified,getIdToken:function(){return Promise.resolve(token)}};
+    window.firebaseRole=role||'viewer';
+    window.accessRole=window.firebaseRole;
     try{
-      users = await listUsersRest();
-      restOk=true;
-      detail='Firestore REST خوانده شد';
+      localStorage.setItem('family_manual_auth_ok','yes');
+      sessionStorage.setItem('family_manual_auth_ok','yes');
+      localStorage.setItem('family_v81_last_email',em);
+      localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));
+      localStorage.setItem('family_v174_rest_token_time',String(Date.now()));
+      localStorage.setItem('family_v174_rest_uid',uid);
+    }catch(_e){}
+    var l=$('login'), app=$('app');
+    if(l){l.style.display='none';l.style.visibility='hidden';l.style.pointerEvents='none';}
+    if(app){app.style.display='block';app.classList.remove('v81-blurred');}
+    try{ if(typeof applyAccessControl==='function') applyAccessControl(); }catch(_e){}
+    try{ if(typeof renderAccessPanel==='function') renderAccessPanel(); }catch(_e){}
+    try{ if(typeof render==='function') render(); }catch(_e){}
+    try{ if(typeof window.ftpStartAutoCloudSync==='function') window.ftpStartAutoCloudSync('v174-rest-login'); }catch(_e){}
+    say('',true);
+  }
+  async function v174Login(ev){
+    try{ if(ev&&ev.preventDefault) ev.preventDefault(); if(ev&&ev.stopPropagation) ev.stopPropagation(); }catch(_e){}
+    var btn=$('loginBtn'); if(btn&&btn.dataset.busy==='1') return false;
+    var em=mail($('loginUser')&&$('loginUser').value), pass=($('loginPass')&&$('loginPass').value)||'';
+    if(!em||!pass){say('ایمیل و رمز را وارد کنید.',false);return false;}
+    if(btn){btn.dataset.busy='1';btn.disabled=true;btn.textContent='در حال ورود...';}
+    try{
+      say('در حال ورود مستقیم موبایل...',true);
+      var a=await restSignIn(em,pass);
+      var uid=a.localId, token=a.idToken, isAdmin=ADMIN.indexOf(em)>=0;
+      var doc=await getUserDoc(uid,token) || {};
+      var approved=isAdmin || doc.adminApproved===true || doc.status==='approved';
+      var role=isAdmin?'admin':(doc.role||'viewer');
+      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V174 Mobile REST Final'}); }catch(_e){}
+      if(!approved){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
+      showApp(role,em,uid,token,a.emailVerified);
+      return true;
     }catch(e){
-      users = [];
-      detail='خواندن Firestore REST انجام نشد: '+(e.message||e);
-    }
-
-    var merged = mergeUsers(users.concat(localUsers()));
-    if(!merged.length && currentUserRecord()) merged=[currentUserRecord()];
-    window.authUsersCache = merged;
-
-    if(total) total.innerText=String(merged.length);
-    if(verified) verified.innerText=String(merged.filter(function(u){return !!u.emailVerified;}).length)+' / '+String(merged.length);
-    window.renderAuthUsersTable();
-
-    if(status) status.innerText='V177: پنل احراز آماده است. '+detail+'. تعداد نمایش: '+merged.length;
-    return merged;
-  };
-
-  window.approveAuthUser = async function(uid){
-    if((window.firebaseRole||window.accessRole)!=='admin'){ alert('فقط مدیر می‌تواند کاربر را تأیید کند.'); return; }
-    if(!uid){ alert('شناسه کاربر پیدا نشد.'); return; }
-    try{
-      await patchUserRest(uid,{adminApproved:true,status:'approved',approvedAt:nowIso(),approvedBy:(restUser()&&restUser().email)||'',updatedAt:nowIso(),approvedVia:'v177-clean-auth-dashboard'});
-      var u=(window.authUsersCache||[]).find(function(x){return String(x.uid||x.id)===String(uid);});
-      if(u){u.adminApproved=true;u.status='approved';}
-      window.renderAuthUsersTable();
-      var st=$('authDashboardStatus'); if(st) st.innerText='V177: کاربر تأیید شد.';
-    }catch(e){ alert('تأیید کاربر ناموفق: '+(e.message||e)); }
-  };
-
-  window.verifyAuthUserEmail = async function(uid){
-    if((window.firebaseRole||window.accessRole)!=='admin'){ alert('فقط مدیر می‌تواند ایمیل را تأیید کند.'); return; }
-    try{
-      await patchUserRest(uid,{emailVerified:true,emailVerifiedAt:nowIso(),emailVerifiedBy:(restUser()&&restUser().email)||'',updatedAt:nowIso()});
-      var u=(window.authUsersCache||[]).find(function(x){return String(x.uid||x.id)===String(uid);});
-      if(u) u.emailVerified=true;
-      window.renderAuthUsersTable();
-    }catch(e){ alert('تأیید ایمیل ناموفق: '+(e.message||e)); }
-  };
-
-  window.changeAuthUserRole = async function(uid,role){
-    if((window.firebaseRole||window.accessRole)!=='admin'){ alert('فقط مدیر می‌تواند نقش کاربران را تغییر دهد.'); return; }
-    if(!uid || ['admin','editor','viewer'].indexOf(role)<0){ alert('نقش معتبر نیست.'); return; }
-    try{
-      await patchUserRest(uid,{role:role,updatedAt:nowIso(),updatedBy:(restUser()&&restUser().email)||''});
-      await patchRoleRest(uid,role).catch(function(){});
-      var u=(window.authUsersCache||[]).find(function(x){return String(x.uid||x.id)===String(uid);});
-      if(u) u.role=role;
-      window.renderAuthUsersTable();
-    }catch(e){ alert('تغییر نقش ناموفق: '+(e.message||e)); }
-  };
-
-  var oldShowView = window.showView;
-  if(typeof oldShowView === 'function' && !oldShowView.__v177AuthWrapped){
-    window.showView = function(name){
-      var r = oldShowView.apply(this, arguments);
-      if(name === 'auth') setTimeout(function(){ try{ window.refreshAuthDashboard(); }catch(e){} }, 120);
-      return r;
-    };
-    window.showView.__v177AuthWrapped = true;
-  }
-
-  function boot(){
-    if((window.firebaseRole||window.accessRole)==='admin' && $('view-auth') && $('view-auth').classList.contains('active')){
-      window.refreshAuthDashboard();
+      console.error('V174 REST login failed',e);
+      say('ورود ناموفق: '+mapErr(e),false);
+      return false;
+    }finally{
+      if(btn){btn.dataset.busy='0';btn.disabled=false;btn.textContent='ورود امن';}
     }
   }
-  document.addEventListener('DOMContentLoaded',function(){setTimeout(boot,300);setTimeout(boot,1200);});
-  window.addEventListener('load',function(){setTimeout(boot,600);setTimeout(boot,1800);});
+  v174Login.__v174Rest=true;
+  function install(){
+    if(window.login && !window.login.__v174Rest) oldLogin=window.login;
+    window.login=v174Login;
+    var btn=$('loginBtn');
+    if(btn && btn.dataset.v174!=='1'){
+      btn.dataset.v174='1';
+      btn.onclick=v174Login;
+      btn.addEventListener('click',v174Login,true);
+      btn.addEventListener('touchend',v174Login,true);
+    }
+    var h=document.querySelector('#login h2');
+    if(h) h.innerHTML='🔐 FamilyTreePro V174<br>Mobile REST Final';
+  }
+  install();
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
+  window.addEventListener('load',function(){setTimeout(install,50);setTimeout(install,600);setTimeout(install,1800);setTimeout(install,3500);});
+  setTimeout(install,500); setTimeout(install,1500); setTimeout(install,3000); setTimeout(install,6000);
 })();
 </script>
 
