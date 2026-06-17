@@ -1,5 +1,5 @@
-// FamilyTreePro V176 Clean Mobile Auth
-const CACHE_NAME='familytreepro-v176-clean-mobile-auth';
+// FamilyTreePro V177 Clean Auth Dashboard Repair
+const CACHE_NAME='familytreepro-v177-clean-auth-dashboard';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});

@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V176 Clean Mobile Auth",
+  "name": "FamilyTreePro V177 Clean Auth Dashboard Repair",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=176-clean-mobile-auth",
+  "start_url": "./index.html?v=177-clean-auth-dashboard",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V176 clean mobile login and auth admin dashboard",
+  "description": "FamilyTreePro V177 clean fix for mobile auth dashboard after REST login",
   "scope": "./",
   "icons": []
 }
