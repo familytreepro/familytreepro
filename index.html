@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V180 Guard Clean</title> <style>  
+<title>FamilyTreePro V181 Scientific Guard Clean</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=180-guard-clean" rel="manifest"/>
+<link href="./manifest.json?v=181-scientific-guard-clean" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -3589,9 +3589,23 @@ const V90_TRASH_KEY="family_v90_recycle_bin";
 const V90_AUTOBACKUP_EVERY_MS=10*60*1000;
 function v90NowLabel(){try{return new Date().toLocaleString("fa-IR");}catch(e){return new Date().toISOString();}}
 function v90GetBackups(){try{return JSON.parse(localStorage.getItem(V90_BACKUP_KEY)||"[]");}catch(e){return [];}}
-function v90SetBackups(list){localStorage.setItem(V90_BACKUP_KEY,JSON.stringify((list||[]).slice(0,8)));}
+function v90SetBackups(list){
+  list=(list||[]);
+  for(var n of [3,2,1,0]){
+    try{localStorage.setItem(V90_BACKUP_KEY,JSON.stringify(list.slice(0,n)));return;}catch(e){
+      if(!(e && (e.name==='QuotaExceededError' || String(e).indexOf('QuotaExceeded')>=0))) return;
+    }
+  }
+}
 function v90GetTrash(){try{return JSON.parse(localStorage.getItem(V90_TRASH_KEY)||"[]");}catch(e){return [];}}
-function v90SetTrash(list){localStorage.setItem(V90_TRASH_KEY,JSON.stringify((list||[]).slice(0,80)));}
+function v90SetTrash(list){
+  list=(list||[]);
+  for(var n of [40,20,10,0]){
+    try{localStorage.setItem(V90_TRASH_KEY,JSON.stringify(list.slice(0,n)));return;}catch(e){
+      if(!(e && (e.name==='QuotaExceededError' || String(e).indexOf('QuotaExceeded')>=0))) return;
+    }
+  }
+}
 function v90BuildBackup(reason){
   return {app:"FamilyTreePro",version:"FamilyTreePro V163 Mobile Auth Retry",reason:reason||"manual",createdAt:new Date().toISOString(),people:people,settings:{dark:localStorage.getItem("family_dark")||"no",hideWomen:localStorage.getItem("family_hide_women")||"no"},access:{editorKey:typeof approvedEditorKey!=="undefined"?approvedEditorKey:"",role:typeof currentRole!=="undefined"?currentRole:"admin"}};
 }
@@ -5005,14 +5019,14 @@ window.sendResetForCurrentUser = async function(){
 onAuthStateChanged(auth, async user=>{
   // V161: Do not sign out a restored Firebase user just because sessionStorage was cleared on mobile.
   if(!user){
-    const restUser = window.firebaseAuthUser;
-    if(restUser && localStorage.getItem('family_manual_auth_ok')==='yes'){
-      await applyFirebaseRole(restUser);
+    const restUser = (typeof ftpV178CurrentUser==='function' && ftpV178CurrentUser()) || window.firebaseAuthUser || null;
+    if(restUser){
       const loginBox=document.getElementById("login");
       const appBox=document.getElementById("app");
-      if(loginBox){ loginBox.style.display="none"; loginBox.style.visibility="hidden"; loginBox.style.pointerEvents="none"; }
+      if(loginBox){loginBox.style.display="none";loginBox.style.pointerEvents="none";}
       if(appBox) appBox.style.display="block";
-      try{ v137ClearBlockingLayers(); }catch(_e){}
+      try{ if(typeof render==="function") render(); }catch(_e){}
+      try{ if(typeof window.refreshAuthDashboard==='function') setTimeout(window.refreshAuthDashboard,300); }catch(_e){}
       return;
     }
     try{ if(user) await signOut(auth); }catch(e){}
@@ -5075,11 +5089,12 @@ setInterval(async function(){
     const appBox=document.getElementById('app');
     const loginBox=document.getElementById('login');
     if(!appBox || appBox.style.display!=='block') return;
-    const user=auth.currentUser || window.firebaseAuthUser;
-    // V180: accept the already-approved REST mobile user too; do not reopen login over the app.
+    const user=(auth && auth.currentUser) || (typeof ftpV178CurrentUser==='function' && ftpV178CurrentUser()) || window.firebaseAuthUser || null;
+    // V181: REST mobile login is also a valid session source; do not bounce it back to login.
     if(!user){
       appBox.style.display='none'; if(loginBox) loginBox.style.display='flex'; return;
     }
+    if(user && !(auth && auth.currentUser) && window.firebaseAuthUser){ return; }
     const gate=await v125CanEnterApp(user);
     if(!gate.ok){
       try{ await signOut(auth); }catch(e){}
@@ -5214,7 +5229,17 @@ setInterval(async function(){
     try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch(e){ return fallback; }
   }
   function safeSet(key, value){
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch(e){}
+    try { localStorage.setItem(key, JSON.stringify(value)); return true; }
+    catch(e){
+      if(!(e && (e.name==='QuotaExceededError' || String(e).indexOf('QuotaExceeded')>=0))) return false;
+      if(Array.isArray(value)){
+        var limits = (key===QUEUE_KEY) ? [10,5,3,1,0] : [5,3,2,1,0];
+        for(var i=0;i<limits.length;i++){
+          try{ localStorage.setItem(key, JSON.stringify(value.slice(0,limits[i]))); return true; }catch(_e){}
+        }
+      }
+      return false;
+    }
   }
   function nowISO(){ return new Date().toISOString(); }
   function faTime(iso){ try { return new Date(iso).toLocaleString('fa-IR'); } catch(e){ return iso || '-'; } }
@@ -5254,8 +5279,8 @@ setInterval(async function(){
   function saveLocalBackup(backup){
     const list = safeParse(BACKUP_KEY, []);
     list.unshift(backup);
-    safeSet(BACKUP_KEY, list.slice(0, 10));
-    localStorage.setItem(LAST_KEY, backup.createdAt);
+    safeSet(BACKUP_KEY, list.slice(0, 5));
+    try{localStorage.setItem(LAST_KEY, backup.createdAt);}catch(e){}
     try {
       const oldList = JSON.parse(localStorage.getItem('family_v90_backups') || '[]');
       oldList.unshift(backup);
@@ -5269,7 +5294,7 @@ setInterval(async function(){
     if(!backup.id) backup.id = 'bkp_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
     const exists = q.some(x => x.id === backup.id);
     if(!exists) q.unshift({id: backup.id, backup, tries: 0, lastError: '', queuedAt: nowISO()});
-    safeSet(QUEUE_KEY, q.slice(0, 20));
+    safeSet(QUEUE_KEY, q.slice(0, 8));
     renderSecurityBackupBox();
   }
   async function sendOne(item){
@@ -5302,7 +5327,7 @@ setInterval(async function(){
         try{ await sendOne(item); sent++; }
         catch(e){ item.tries=(item.tries||0)+1; item.lastError=e.message || String(e); item.lastTryAt=nowISO(); remaining.push(item); }
       }
-      safeSet(QUEUE_KEY, remaining.slice(0,20));
+      safeSet(QUEUE_KEY, remaining.slice(0,8));
       if(sent) addLog('sync', sent + ' بکاپ با موفقیت به Firebase ارسال شد.', true);
       if(remaining.length) addLog('sync_error', 'ارسال برخی بکاپ‌ها انجام نشد؛ در صف باقی ماند. ' + (remaining[0].lastError||''), false);
       renderSecurityBackupBox();
@@ -5479,7 +5504,18 @@ async function runHomeUpdateRepair(){
   var syncing=false;
 
   function parse(key, fallback){try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback));}catch(e){return fallback;}}
-  function setJson(key, val){try{localStorage.setItem(key, JSON.stringify(val));}catch(e){}}
+  function setJson(key, val){
+    try{localStorage.setItem(key, JSON.stringify(val));return true;}catch(e){
+      if(!(e && (e.name==='QuotaExceededError' || String(e).indexOf('QuotaExceeded')>=0))) return false;
+      if(Array.isArray(val)){
+        var limits=(key===QUEUE_KEY)?[10,5,3,1,0]:[5,3,2,1,0];
+        for(var i=0;i<limits.length;i++){
+          try{localStorage.setItem(key, JSON.stringify(val.slice(0,limits[i])));return true;}catch(_e){}
+        }
+      }
+      return false;
+    }
+  }
   function now(){return new Date().toISOString();}
   function peopleRaw(){try{return localStorage.getItem('family_people_')||'[]';}catch(e){return '[]';}}
   function people(){try{return JSON.parse(peopleRaw())||[];}catch(e){return [];}}
@@ -5507,14 +5543,14 @@ async function runHomeUpdateRepair(){
     };
   }
   function saveLocal(b){
-    var list=parse(BACKUP_KEY,[]); list.unshift(b); setJson(BACKUP_KEY,list.slice(0,15));
+    var list=parse(BACKUP_KEY,[]); list.unshift(b); setJson(BACKUP_KEY,list.slice(0,5));
     try{localStorage.setItem(LAST_KEY,b.createdAt);localStorage.setItem(AUTO_KEY,String(Date.now()));localStorage.setItem(HASH_KEY,hash());}catch(e){}
-    try{var old=parse('family_v90_backups',[]);old.unshift(b);setJson('family_v90_backups',old.slice(0,10));localStorage.setItem('family_v90_last_backup',b.createdAt);}catch(e){}
+    try{var old=parse('family_v90_backups',[]);old.unshift(b);setJson('family_v90_backups',old.slice(0,3));localStorage.setItem('family_v90_last_backup',b.createdAt);}catch(e){}
   }
   function enqueue(b){
     var q=parse(QUEUE_KEY,[]); if(!b.id) b.id='bkp_'+Date.now()+'_'+Math.random().toString(36).slice(2,8);
     if(!q.some(function(x){return x.id===b.id;})) q.unshift({id:b.id,backup:b,tries:0,lastError:'',queuedAt:now()});
-    setJson(QUEUE_KEY,q.slice(0,30));
+    setJson(QUEUE_KEY,q.slice(0,8));
   }
   function make(reason, force){
     var h=hash(); var lastH=localStorage.getItem(HASH_KEY)||''; var lastT=Number(localStorage.getItem(AUTO_KEY)||'0');
@@ -5547,7 +5583,7 @@ async function runHomeUpdateRepair(){
         try{await send(item); sent++;}
         catch(e){item.tries=(item.tries||0)+1;item.lastError=(e&&e.message)||String(e);item.lastTryAt=now();rest.push(item);}
       }
-      setJson(QUEUE_KEY,rest.slice(0,30));
+      setJson(QUEUE_KEY,rest.slice(0,8));
       if(sent) log('auto_cloud',sent+' بکاپ خودکار به Firebase ارسال شد.',true);
       if(rest.length) log('auto_cloud_wait','بکاپ ابری هنوز در صف است: '+(rest[0].lastError||''),false);
     }finally{syncing=false; try{if(typeof window.v144RenderBackupStatus==='function')window.v144RenderBackupStatus();}catch(e){}}
@@ -5568,7 +5604,16 @@ async function runHomeUpdateRepair(){
   try{
     if(!Storage.prototype.setItem.__v145Wrapped){
       var oldSet=Storage.prototype.setItem;
-      Storage.prototype.setItem=function(k,v){var r=oldSet.apply(this,arguments); if(k==='family_people_') schedule('people-storage-change',true); return r;};
+      Storage.prototype.setItem=function(k,v){
+        try{
+          var r=oldSet.apply(this,arguments);
+          if(k==='family_people_') schedule('people-storage-change',true);
+          return r;
+        }catch(e){
+          if(e && (e.name==='QuotaExceededError' || String(e).indexOf('QuotaExceeded')>=0) && /^family_v(90|144|145)_/.test(String(k))){return;}
+          throw e;
+        }
+      };
       Storage.prototype.setItem.__v145Wrapped=true;
     }
   }catch(e){}
@@ -7590,7 +7635,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       btn.addEventListener('touchend',v174Login,true);
     }
     var h=document.querySelector('#login h2');
-    if(h) h.innerHTML='🔐 FamilyTreePro V180<br>Guard Clean';
+    if(h) h.innerHTML='🔐 FamilyTreePro V181<br>Scientific Guard Clean';
   }
   install();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);

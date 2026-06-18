@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V180 Guard Clean",
+  "name": "FamilyTreePro V181 Scientific Guard Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=180-guard-clean",
+  "start_url": "./index.html?v=181-scientific-guard-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V180 guard clean: REST login accepted by existing guards",
+  "description": "FamilyTreePro V181 scientific guard clean: REST session guard and backup quota stabilization",
   "scope": "./",
   "icons": []
 }
