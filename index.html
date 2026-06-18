@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V182 Mobile Role Read Fix</title> <style>  
+<title>FamilyTreePro V183 Auth Users Super Engine</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=182-mobile-role-read-fix" rel="manifest"/>
+<link href="./manifest.json?v=181-scientific-guard-clean" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -7571,13 +7571,6 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       return fsToJs(d.fields||{});
     }catch(e){return null;}
   }
-  async function getRoleDoc(uid,token){
-    try{
-      var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/roles/'+encodeURIComponent(uid);
-      var d=await jfetch(u,{headers:{Authorization:'Bearer '+token}},22000);
-      return fsToJs(d.fields||{});
-    }catch(e){return null;}
-  }
   async function patchUserDoc(uid,token,data){
     var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
     var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+'?'+masks;
@@ -7594,7 +7587,6 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));
       localStorage.setItem('family_v174_rest_token_time',String(Date.now()));
       localStorage.setItem('family_v174_rest_uid',uid);
-      localStorage.setItem('family_last_auth_role',window.firebaseRole);
     }catch(_e){}
     var l=$('login'), app=$('app');
     if(l){l.style.display='none';l.style.visibility='hidden';l.style.pointerEvents='none';}
@@ -7617,11 +7609,9 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       var a=await restSignIn(em,pass);
       var uid=a.localId, token=a.idToken, isAdmin=ADMIN.indexOf(em)>=0;
       var doc=await getUserDoc(uid,token) || {};
-      var roleDoc=await getRoleDoc(uid,token) || {};
-      var role=isAdmin?'admin':(roleDoc.role || doc.role || 'viewer');
-      if(role==='admin') isAdmin=true;
       var approved=isAdmin || doc.adminApproved===true || doc.status==='approved';
-      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V182 Mobile Role Read Fix'}); }catch(_e){}
+      var role=isAdmin?'admin':(doc.role||'viewer');
+      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V179 GitHub Clean Auth'}); }catch(_e){}
       if(!approved){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
       showApp(role,em,uid,token,a.emailVerified);
       return true;
@@ -7645,7 +7635,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       btn.addEventListener('touchend',v174Login,true);
     }
     var h=document.querySelector('#login h2');
-    if(h) h.innerHTML='🔐 FamilyTreePro V182<br>Mobile Role Read Fix';
+    if(h) h.innerHTML='🔐 FamilyTreePro V183<br>Auth Users Super Engine';
   }
   install();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
@@ -7685,6 +7675,215 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
     if(/احراز|users دوباره|بروزرسانی آمار|ثبت در لیست احراز/i.test(txt)) refreshSoon();
   }, true);
   window.addEventListener('load', function(){ setTimeout(refreshSoon, 1200); });
+})();
+</script>
+
+
+
+<script id="v183-auth-users-super-engine">
+/* V183 Auth Users Super Engine
+   Purpose: one stable reader for Auth Dashboard on desktop + mobile REST login.
+   It does not change tree/photo/dashboard data. It only replaces the old auth users refresh path. */
+(function(){
+  'use strict';
+  if(window.__FTP_V183_AUTH_USERS_SUPER_ENGINE__) return;
+  window.__FTP_V183_AUTH_USERS_SUPER_ENGINE__ = true;
+  var VERSION='V183 Auth Users Super Engine';
+  var running=false, seq=0, lastGood=[];
+
+  function $(id){return document.getElementById(id);} 
+  function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
+  function safeLower(v){return String(v||'').trim().toLowerCase();}
+  function isAdminEmail(email){
+    try{ return Array.isArray(window.ADMIN_EMAILS) && window.ADMIN_EMAILS.map(safeLower).indexOf(safeLower(email))>=0; }catch(_e){}
+    return ['alibahripor33@gmail.com'].indexOf(safeLower(email))>=0;
+  }
+  function currentUser(){
+    try{return window.firebaseAuthUser || (window.familyFirebase&&window.familyFirebase.auth&&window.familyFirebase.auth.currentUser) || null;}catch(_e){return window.firebaseAuthUser||null;}
+  }
+  async function idToken(){
+    var u=currentUser();
+    if(u && typeof u.getIdToken==='function') return await u.getIdToken();
+    return '';
+  }
+  function projectId(){
+    try{return (window.familyFirebase&&window.familyFirebase.config&&window.familyFirebase.config.projectId) || (window.familyFirebase&&window.familyFirebase.app&&window.familyFirebase.app.options&&window.familyFirebase.app.options.projectId) || (window.firebaseConfig&&window.firebaseConfig.projectId) || 'familytree-2025';}catch(_e){return 'familytree-2025';}
+  }
+  function fsVal(v){
+    if(!v) return '';
+    if('stringValue' in v) return v.stringValue;
+    if('booleanValue' in v) return !!v.booleanValue;
+    if('integerValue' in v) return Number(v.integerValue);
+    if('doubleValue' in v) return Number(v.doubleValue);
+    if('timestampValue' in v) return v.timestampValue;
+    if('nullValue' in v) return null;
+    if('arrayValue' in v) return (v.arrayValue.values||[]).map(fsVal);
+    if('mapValue' in v){var o={}; Object.keys((v.mapValue.fields||{})).forEach(function(k){o[k]=fsVal(v.mapValue.fields[k]);}); return o;}
+    return '';
+  }
+  function docToObj(d,source){
+    var o={};
+    Object.keys((d&&d.fields)||{}).forEach(function(k){o[k]=fsVal(d.fields[k]);});
+    var name=String((d&&d.name)||'');
+    var id=name.split('/').pop();
+    o.uid=o.uid||o.id||id||''; o.id=o.id||o.uid; o.registrySource=o.registrySource||source||'unknown';
+    return normalize(o.uid,o,source);
+  }
+  function normalize(id,u,source){
+    u=Object.assign({},u||{});
+    if(id && !u.id) u.id=id;
+    if(!u.uid && id && !String(id).startsWith('email:')) u.uid=id;
+    if(u.email) u.email=safeLower(u.email);
+    u.name=u.name||u.displayName||u.firstName||u.email||'کاربر';
+    u.phone=u.phone||u.mobile||'-';
+    u.role=u.role||'viewer';
+    u.emailVerified=!!u.emailVerified;
+    u.adminApproved=!!u.adminApproved || u.role==='admin' || String(u.status||'')==='approved';
+    u.status=u.status || (u.adminApproved?'approved':'pending');
+    u.registrySource=u.registrySource||source||'unknown';
+    return u;
+  }
+  function merge(list){
+    var byUid=new Map(), byEmail=new Map();
+    (list||[]).forEach(function(raw){
+      var u=normalize(raw.id||raw.uid,raw,raw.registrySource);
+      var uid=String(u.uid||u.id||'').trim();
+      var email=safeLower(u.email);
+      var key=uid || (email?'email:'+email:'');
+      if(!key) return;
+      var old=(uid&&byUid.get(uid)) || (email&&byEmail.get(email)) || null;
+      var m=old?Object.assign({},old,u):u;
+      if(old && old.registrySource && old.registrySource!==u.registrySource) m.registrySource=old.registrySource+' + '+u.registrySource;
+      if(uid) byUid.set(uid,m); if(email) byEmail.set(email,m);
+    });
+    var seen=new Set(), out=[];
+    byUid.forEach(function(u,k){seen.add(k); out.push(u);});
+    byEmail.forEach(function(u,k){var uid=String(u.uid||u.id||'').trim(); if(uid && seen.has(uid)) return; out.push(u);});
+    return out.sort(function(a,b){return String(b.createdAt||b.updatedAt||'').localeCompare(String(a.createdAt||a.updatedAt||''));});
+  }
+  function localUsers(){
+    var out=[];
+    try{out=JSON.parse(localStorage.getItem('family_v88_registered_users')||'[]')||[];}catch(_e){out=[];}
+    return out.map(function(u){return normalize(u.uid||u.id,u,'local-register-cache');});
+  }
+  async function readRoleRest(uid,token){
+    if(!uid||!token) return '';
+    try{
+      var url='https://firestore.googleapis.com/v1/projects/'+encodeURIComponent(projectId())+'/databases/(default)/documents/roles/'+encodeURIComponent(uid);
+      var r=await fetch(url,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
+      if(!r.ok) return '';
+      var d=await r.json(); var o=docToObj(d,'role-rest');
+      return ['admin','editor','viewer'].indexOf(o.role)>=0 ? o.role : '';
+    }catch(_e){return '';}
+  }
+  async function syncRole(){
+    var u=currentUser(); if(!u) return 'guest';
+    var email=safeLower(u.email);
+    if(isAdminEmail(email)){window.firebaseRole='admin'; window.accessRole='admin'; return 'admin';}
+    var role='';
+    try{
+      var fb=window.familyFirebase;
+      if(fb&&fb.auth&&fb.auth.currentUser&&fb.getDoc&&fb.doc&&fb.db){
+        var snap=await fb.getDoc(fb.doc(fb.db,'roles',u.uid));
+        if(snap&&snap.exists()) role=(snap.data()||{}).role||'';
+      }
+    }catch(_e){}
+    if(!role){try{role=await readRoleRest(u.uid,await idToken());}catch(_e){}}
+    if(['admin','editor','viewer'].indexOf(role)<0) role=window.firebaseRole||'viewer';
+    window.firebaseRole=role; window.accessRole=role;
+    try{localStorage.setItem('family_last_auth_role',role);}catch(_e){}
+    return role;
+  }
+  async function readUsersSdk(){
+    var fb=window.familyFirebase;
+    if(!(fb&&fb.auth&&fb.auth.currentUser&&fb.getDocs&&fb.collection&&fb.db)) throw new Error('SDK_AUTH_NOT_READY');
+    var users=[];
+    try{
+      var q=(fb.query&&fb.orderBy&&fb.limit)?fb.query(fb.collection(fb.db,'users'),fb.orderBy('createdAt','desc'),fb.limit(500)):fb.collection(fb.db,'users');
+      var snap=await fb.getDocs(q); snap.forEach(function(d){users.push(normalize(d.id,d.data(),'firestore-users-sdk'));});
+    }catch(e1){
+      var snap2=await fb.getDocs(fb.collection(fb.db,'users')); snap2.forEach(function(d){users.push(normalize(d.id,d.data(),'firestore-users-sdk-no-order'));});
+    }
+    return users;
+  }
+  async function readUsersRestList(token){
+    if(!token) throw new Error('NO_REST_TOKEN');
+    var url='https://firestore.googleapis.com/v1/projects/'+encodeURIComponent(projectId())+'/databases/(default)/documents/users?pageSize=500';
+    var r=await fetch(url,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
+    var t=await r.text(), data={}; try{data=t?JSON.parse(t):{};}catch(_e){data={raw:t};}
+    if(!r.ok) throw new Error('REST_LIST_'+((data.error&&(data.error.message||data.error.status))||r.status));
+    return (data.documents||[]).map(function(d){return docToObj(d,'firestore-users-rest-list');});
+  }
+  async function readUsersRestRunQuery(token){
+    if(!token) throw new Error('NO_REST_TOKEN');
+    var url='https://firestore.googleapis.com/v1/projects/'+encodeURIComponent(projectId())+'/databases/(default)/documents:runQuery';
+    var body={structuredQuery:{from:[{collectionId:'users'}],limit:500}};
+    var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(body),cache:'no-store'});
+    var t=await r.text(), data=[]; try{data=t?JSON.parse(t):[];}catch(_e){data=[];}
+    if(!r.ok) throw new Error('REST_QUERY_'+r.status);
+    return (Array.isArray(data)?data:[]).filter(function(x){return x.document;}).map(function(x){return docToObj(x.document,'firestore-users-rest-query');});
+  }
+  function setText(id,t){var e=$(id); if(e) e.innerText=t;}
+  function status(t){setText('authDashboardStatus',t);}
+
+  async function superRefresh(){
+    var my=++seq;
+    if(running){setTimeout(superRefresh,250); return;}
+    running=true;
+    try{
+      var u=currentUser();
+      var role=await syncRole();
+      setText('authSignedState',u?'فعال':'خیر');
+      setText('authRoleState',role||'guest');
+      setText('authRememberState',(localStorage.getItem('family_v88_remember')==='yes')?'فعال':'خاموش');
+      var fbstate=$('authFirebaseState'); if(fbstate) fbstate.innerText=(navigator.onLine?'آنلاین':'آفلاین')+' / '+(window.familyFirebase?'Firebase آماده':'Firebase نامشخص');
+      var hint=$('authAdminHint'); if(hint) hint.style.display=role==='admin'?'none':'block';
+      var importPanel=$('authMissingUserPanel'); if(importPanel) importPanel.style.display=role==='admin'?'block':'none';
+      status('در حال خواندن حرفه‌ای کاربران از Firebase users...');
+      var sources=[], errors=[];
+      var all=[];
+      var lu=localUsers();
+      if(u && !lu.some(function(x){return String(x.uid||x.id)===String(u.uid)||safeLower(x.email)===safeLower(u.email);})){lu.unshift(normalize(u.uid,{uid:u.uid,email:u.email,name:u.displayName||u.email||'کاربر فعلی',role:role,emailVerified:!!u.emailVerified,adminApproved:role==='admin',status:role==='admin'?'approved':'approved'},'current-auth-user'));}
+      try{var sdk=await readUsersSdk(); if(sdk.length){all=all.concat(sdk); sources.push('SDK:'+sdk.length);}}catch(e){errors.push(e.message||String(e));}
+      var token=''; try{token=await idToken();}catch(e){errors.push('TOKEN:'+(e.message||e));}
+      if(token){
+        try{var rest=await readUsersRestList(token); if(rest.length){all=all.concat(rest); sources.push('REST-LIST:'+rest.length);}}catch(e){errors.push(e.message||String(e));
+          try{var rq=await readUsersRestRunQuery(token); if(rq.length){all=all.concat(rq); sources.push('REST-QUERY:'+rq.length);}}catch(e2){errors.push(e2.message||String(e2));}
+        }
+      }
+      all=all.concat(lu);
+      var merged=merge(all);
+      if(my!==seq) return;
+      window.authUsersCache=merged;
+      if(merged.length) lastGood=merged.slice();
+      setText('authTotalUsers',String(merged.length));
+      setText('authVerifiedUsers',String(merged.filter(function(x){return x.emailVerified;}).length)+' / '+String(merged.length));
+      try{if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();}catch(e){errors.push('RENDER:'+(e.message||e));}
+      status(VERSION+' فعال شد. منبع‌ها: '+(sources.join('، ')||'فقط کش/کاربر فعلی')+'. نمایش: '+merged.length+' کاربر.'+(errors.length?' خطاهای کنترل‌شده: '+errors.slice(0,2).join(' | '):''));
+    }catch(e){
+      var fallback=lastGood.length?lastGood:localUsers();
+      window.authUsersCache=fallback;
+      setText('authTotalUsers',String(fallback.length));
+      setText('authVerifiedUsers',String(fallback.filter(function(x){return x.emailVerified;}).length)+' / '+String(fallback.length));
+      try{if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();}catch(_e){}
+      status(VERSION+' خطای کنترل‌شده: '+(e&&e.message||e)+'. آخرین داده سالم/کش نمایش داده شد.');
+    }finally{running=false;}
+  }
+  var old=window.refreshAuthDashboard;
+  window.refreshAuthDashboard=function(){return superRefresh();};
+  window.refreshAuthDashboard.__v183SuperEngine=true;
+  function installHooks(){
+    try{
+      var oldShow=window.showView;
+      if(typeof oldShow==='function' && !oldShow.__v183AuthUsersSuper){
+        window.showView=function(name){var r=oldShow.apply(this,arguments); if(String(name)==='auth') setTimeout(superRefresh,120); return r;};
+        window.showView.__v183AuthUsersSuper=true;
+      }
+    }catch(_e){}
+    document.addEventListener('click',function(e){var t=e.target; if(!t) return; var txt=(t.innerText||t.textContent||''); if(/احراز|users|بروزرسانی آمار|سیستم احراز/i.test(txt)) setTimeout(superRefresh,150);},true);
+  }
+  installHooks();
+  window.addEventListener('load',function(){setTimeout(superRefresh,900);setTimeout(superRefresh,2200);});
 })();
 </script>
 
