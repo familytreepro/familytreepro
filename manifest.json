@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V181 Scientific Guard Clean",
+  "name": "FamilyTreePro V182 Mobile Role Read Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=181-scientific-guard-clean",
+  "start_url": "./index.html?v=182-mobile-role-read-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V181 scientific guard clean: REST session guard and backup quota stabilization",
+  "description": "FamilyTreePro V182 mobile role read fix: REST mobile login reads roles/{uid} like desktop auth",
   "scope": "./",
   "icons": []
 }

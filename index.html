@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V181 Scientific Guard Clean</title> <style>  
+<title>FamilyTreePro V182 Mobile Role Read Fix</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=181-scientific-guard-clean" rel="manifest"/>
+<link href="./manifest.json?v=182-mobile-role-read-fix" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -7571,6 +7571,13 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       return fsToJs(d.fields||{});
     }catch(e){return null;}
   }
+  async function getRoleDoc(uid,token){
+    try{
+      var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/roles/'+encodeURIComponent(uid);
+      var d=await jfetch(u,{headers:{Authorization:'Bearer '+token}},22000);
+      return fsToJs(d.fields||{});
+    }catch(e){return null;}
+  }
   async function patchUserDoc(uid,token,data){
     var masks=Object.keys(data).map(function(k){return 'updateMask.fieldPaths='+encodeURIComponent(k)}).join('&');
     var u='https://firestore.googleapis.com/v1/projects/'+CFG.projectId+'/databases/(default)/documents/users/'+encodeURIComponent(uid)+'?'+masks;
@@ -7587,6 +7594,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       localStorage.setItem('family_v81_session_until',String(Date.now()+7*24*60*60*1000));
       localStorage.setItem('family_v174_rest_token_time',String(Date.now()));
       localStorage.setItem('family_v174_rest_uid',uid);
+      localStorage.setItem('family_last_auth_role',window.firebaseRole);
     }catch(_e){}
     var l=$('login'), app=$('app');
     if(l){l.style.display='none';l.style.visibility='hidden';l.style.pointerEvents='none';}
@@ -7609,9 +7617,11 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       var a=await restSignIn(em,pass);
       var uid=a.localId, token=a.idToken, isAdmin=ADMIN.indexOf(em)>=0;
       var doc=await getUserDoc(uid,token) || {};
+      var roleDoc=await getRoleDoc(uid,token) || {};
+      var role=isAdmin?'admin':(roleDoc.role || doc.role || 'viewer');
+      if(role==='admin') isAdmin=true;
       var approved=isAdmin || doc.adminApproved===true || doc.status==='approved';
-      var role=isAdmin?'admin':(doc.role||'viewer');
-      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V179 GitHub Clean Auth'}); }catch(_e){}
+      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V182 Mobile Role Read Fix'}); }catch(_e){}
       if(!approved){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
       showApp(role,em,uid,token,a.emailVerified);
       return true;
@@ -7635,7 +7645,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       btn.addEventListener('touchend',v174Login,true);
     }
     var h=document.querySelector('#login h2');
-    if(h) h.innerHTML='🔐 FamilyTreePro V181<br>Scientific Guard Clean';
+    if(h) h.innerHTML='🔐 FamilyTreePro V182<br>Mobile Role Read Fix';
   }
   install();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
