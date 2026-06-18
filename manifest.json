@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V179 GitHub Clean Auth",
+  "name": "FamilyTreePro V180 Guard Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=179-github-clean-auth",
+  "start_url": "./index.html?v=180-guard-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V179 clean GitHub package: mobile REST login with auth dashboard refresh",
+  "description": "FamilyTreePro V180 guard clean: REST login accepted by existing guards",
   "scope": "./",
   "icons": []
 }

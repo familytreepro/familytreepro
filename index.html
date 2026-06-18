@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V179 GitHub Clean Auth</title> <style>  
+<title>FamilyTreePro V180 Guard Clean</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=168-auth-registry-repair" rel="manifest"/>
+<link href="./manifest.json?v=180-guard-clean" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -5005,6 +5005,16 @@ window.sendResetForCurrentUser = async function(){
 onAuthStateChanged(auth, async user=>{
   // V161: Do not sign out a restored Firebase user just because sessionStorage was cleared on mobile.
   if(!user){
+    const restUser = window.firebaseAuthUser;
+    if(restUser && localStorage.getItem('family_manual_auth_ok')==='yes'){
+      await applyFirebaseRole(restUser);
+      const loginBox=document.getElementById("login");
+      const appBox=document.getElementById("app");
+      if(loginBox){ loginBox.style.display="none"; loginBox.style.visibility="hidden"; loginBox.style.pointerEvents="none"; }
+      if(appBox) appBox.style.display="block";
+      try{ v137ClearBlockingLayers(); }catch(_e){}
+      return;
+    }
     try{ if(user) await signOut(auth); }catch(e){}
     await applyFirebaseRole(null);
     const loginBox=document.getElementById("login");
@@ -5065,8 +5075,8 @@ setInterval(async function(){
     const appBox=document.getElementById('app');
     const loginBox=document.getElementById('login');
     if(!appBox || appBox.style.display!=='block') return;
-    const user=auth.currentUser;
-    // V161: Firebase Auth persistence is the source of truth on mobile.
+    const user=auth.currentUser || window.firebaseAuthUser;
+    // V180: accept the already-approved REST mobile user too; do not reopen login over the app.
     if(!user){
       appBox.style.display='none'; if(loginBox) loginBox.style.display='flex'; return;
     }
@@ -7580,7 +7590,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       btn.addEventListener('touchend',v174Login,true);
     }
     var h=document.querySelector('#login h2');
-    if(h) h.innerHTML='🔐 FamilyTreePro V179<br>GitHub Clean Auth';
+    if(h) h.innerHTML='🔐 FamilyTreePro V180<br>Guard Clean';
   }
   install();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
