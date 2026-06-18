@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V178 Clean Auth Dashboard",
+  "name": "FamilyTreePro V179 GitHub Clean Auth",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=178-clean-auth-dashboard",
+  "start_url": "./index.html?v=179-github-clean-auth",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V178 clean auth dashboard REST/SDK unified current user fix",
+  "description": "FamilyTreePro V179 clean GitHub package: mobile REST login with auth dashboard refresh",
   "scope": "./",
   "icons": []
 }

@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V174 Mobile REST Final</title> <style>  
+<title>FamilyTreePro V179 GitHub Clean Auth</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -7465,7 +7465,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 
 
 <script id="v174-mobile-rest-final-lock">
-/* FamilyTreePro V174 Mobile REST Final
+/* FamilyTreePro V179 GitHub Clean Auth
    Fix: V173 was overwritten by the async Firebase module after load. This layer re-installs
    the REST login after module completion and prevents the old mobile SDK path from hijacking login. */
 (function(){
@@ -7539,6 +7539,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
     try{ if(typeof applyAccessControl==='function') applyAccessControl(); }catch(_e){}
     try{ if(typeof renderAccessPanel==='function') renderAccessPanel(); }catch(_e){}
     try{ if(typeof render==='function') render(); }catch(_e){}
+    try{ if(typeof window.refreshAuthDashboard==='function') setTimeout(function(){window.refreshAuthDashboard();},300); }catch(_e){}
     try{ if(typeof window.ftpStartAutoCloudSync==='function') window.ftpStartAutoCloudSync('v174-rest-login'); }catch(_e){}
     say('',true);
   }
@@ -7555,7 +7556,7 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       var doc=await getUserDoc(uid,token) || {};
       var approved=isAdmin || doc.adminApproved===true || doc.status==='approved';
       var role=isAdmin?'admin':(doc.role||'viewer');
-      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V174 Mobile REST Final'}); }catch(_e){}
+      try{ await patchUserDoc(uid,token,{uid:uid,email:em,role:role,adminApproved:approved,status:approved?'approved':'pending',lastLoginAt:new Date().toISOString(),updatedAt:new Date().toISOString(),lastAuthVersion:'V179 GitHub Clean Auth'}); }catch(_e){}
       if(!approved){say('حساب شما ساخته شده ولی هنوز مدیر تأیید نکرده است.',false);return false;}
       showApp(role,em,uid,token,a.emailVerified);
       return true;
@@ -7579,12 +7580,46 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
       btn.addEventListener('touchend',v174Login,true);
     }
     var h=document.querySelector('#login h2');
-    if(h) h.innerHTML='🔐 FamilyTreePro V174<br>Mobile REST Final';
+    if(h) h.innerHTML='🔐 FamilyTreePro V179<br>GitHub Clean Auth';
   }
   install();
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',install); else setTimeout(install,0);
   window.addEventListener('load',function(){setTimeout(install,50);setTimeout(install,600);setTimeout(install,1800);setTimeout(install,3500);});
   setTimeout(install,500); setTimeout(install,1500); setTimeout(install,3000); setTimeout(install,6000);
+})();
+</script>
+
+
+<script id="v179-github-clean-auth-refresh">
+/* V179 GitHub Clean Auth: no duplicate module; only refresh auth dashboard after REST mobile login/view open */
+(function(){
+  'use strict';
+  if(window.__FTP_V179_AUTH_REFRESH__) return;
+  window.__FTP_V179_AUTH_REFRESH__ = true;
+  function refreshSoon(){
+    try{
+      if(typeof window.refreshAuthDashboard === 'function'){
+        setTimeout(function(){ try{ window.refreshAuthDashboard(); }catch(e){ console.warn('V179 auth refresh failed', e); } }, 120);
+        setTimeout(function(){ try{ window.refreshAuthDashboard(); }catch(e){} }, 900);
+      }
+    }catch(e){}
+  }
+  var oldShow = window.showView;
+  if(typeof oldShow === 'function' && !oldShow.__v179AuthRefresh){
+    window.showView = function(name){
+      var r = oldShow.apply(this, arguments);
+      if(String(name) === 'auth') refreshSoon();
+      return r;
+    };
+    window.showView.__v179AuthRefresh = true;
+  }
+  document.addEventListener('click', function(e){
+    var t=e.target;
+    if(!t) return;
+    var txt=(t.innerText||t.textContent||'');
+    if(/احراز|users دوباره|بروزرسانی آمار|ثبت در لیست احراز/i.test(txt)) refreshSoon();
+  }, true);
+  window.addEventListener('load', function(){ setTimeout(refreshSoon, 1200); });
 })();
 </script>
 
