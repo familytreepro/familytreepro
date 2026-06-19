@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V183 Auth Users Super Engine",
+  "name": "FamilyTreePro V186 Auth Users Real Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=183-auth-users-super-engine",
+  "start_url": "./index.html?v=186-auth-users-real-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V183 professional auth users reader for mobile and desktop Firebase users dashboard",
+  "description": "FamilyTreePro V186: keep V184 mobile login and fix auth users reader only",
   "scope": "./",
   "icons": []
 }
