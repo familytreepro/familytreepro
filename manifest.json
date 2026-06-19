@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V187 Auth Users Readable Engine",
+  "name": "FamilyTreePro V188 Unified Auth Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=187-auth-users-readable-engine",
+  "start_url": "./index.html?v=188-unified-auth-engine",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V187: V184 mobile login untouched; single auth users reader for REST mobile and SDK desktop",
+  "description": "FamilyTreePro V188: single unified auth/login/users engine replacing stacked old auth guards",
   "scope": "./",
   "icons": []
 }
