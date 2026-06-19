@@ -35,7 +35,7 @@
 <meta content="no-cache, no-store, must-revalidate" http-equiv="Cache-Control"/>
 <meta content="no-cache" http-equiv="Pragma"/>
 <meta content="0" http-equiv="Expires"/>
-<title>FamilyTreePro V186 Auth Users Real Fix</title> <style>  
+<title>FamilyTreePro V187 Auth Users Readable Engine</title> <style>  
 *{box-sizing:border-box}  
 :root{--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--navy:#071b35;--blue:#2563eb;--green:#16a34a;--pink:#db2777;--red:#ef4444;--line:#e5eaf2}  
 body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}  
@@ -397,7 +397,7 @@ body.low-net .heritage-stage, body.low-net .memory-grid{background:rgba(148,163,
 body.dark .net-log{background:rgba(255,255,255,.04)}
 @media(max-width:700px){.network-status-card{grid-template-columns:1fr}.network-chip{text-align:right}}
 </style>
-<link href="./manifest.json?v=186-auth-users-real-fix" rel="manifest"/>
+<link href="./manifest.json?v=184-restore-mobile-login" rel="manifest"/>
 <meta content="#2563eb" name="theme-color"/>
 <style id="auth-styles">
 .login-security-note{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:10px;margin-top:10px;color:#475569;font-size:12px;line-height:1.8}
@@ -7689,152 +7689,218 @@ window.addEventListener('beforeinstallprompt',function(e){try{e.preventDefault()
 </script>
 
 
-<script id="v186-auth-users-real-fix">
-/* V186 Auth Users Real Fix
-   Base: V184 mobile login remains unchanged.
-   Scope: only refresh/read auth users dashboard. No login/register/tree/photo code is changed. */
+
+<script id="v187-auth-users-readable-engine">
+/* FamilyTreePro V187 Auth Users Readable Engine
+   Base: V184 mobile login untouched. This module only replaces the auth dashboard reader.
+   Goal: same users table on mobile REST and desktop SDK, with exact error diagnostics. */
 (function(){
   'use strict';
-  if(window.__FTP_V186_AUTH_USERS_REAL_FIX__) return;
-  window.__FTP_V186_AUTH_USERS_REAL_FIX__ = true;
+  if(window.__FTP_V187_AUTH_USERS_ENGINE__) return;
+  window.__FTP_V187_AUTH_USERS_ENGINE__ = true;
 
-  function el(id){return document.getElementById(id);}
+  var VERSION='V187';
+  var PROJECT_ID=(window.firebaseConfig && window.firebaseConfig.projectId) || 'family-tree-pro-a661d';
+  function $(id){ return document.getElementById(id); }
+  function text(id,val){ var e=$(id); if(e) e.innerText=String(val==null?'':val); }
+  function status(msg){ var e=$('authDashboardStatus'); if(e) e.innerText=msg; }
+  function safeJson(key, fallback){ try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback));}catch(_){return fallback;} }
   function currentUser(){
-    try{
-      if(typeof ftpV178CurrentUser==='function') return ftpV178CurrentUser();
-      return window.firebaseAuthUser || (window.familyFirebase && window.familyFirebase.auth && window.familyFirebase.auth.currentUser) || null;
-    }catch(e){return window.firebaseAuthUser || null;}
+    try{ if(window.firebaseAuthUser && window.firebaseAuthUser.uid) return window.firebaseAuthUser; }catch(_){ }
+    try{ if(typeof auth!=='undefined' && auth && auth.currentUser) return auth.currentUser; }catch(_){ }
+    return null;
   }
-  function role(){return window.firebaseRole || window.accessRole || localStorage.getItem('family_last_auth_role') || 'guest';}
-  function normalize(id,u,source){
-    try{ if(typeof v168NormalizeUser==='function') return v168NormalizeUser(id,u,source); }catch(e){}
+  async function idToken(){
+    var u=currentUser();
+    if(u && typeof u.getIdToken==='function') return await u.getIdToken();
+    return '';
+  }
+  function fsValue(v){
+    if(!v) return '';
+    if('stringValue' in v) return v.stringValue;
+    if('booleanValue' in v) return !!v.booleanValue;
+    if('integerValue' in v) return Number(v.integerValue||0);
+    if('doubleValue' in v) return Number(v.doubleValue||0);
+    if('timestampValue' in v) return v.timestampValue;
+    if('nullValue' in v) return null;
+    if('arrayValue' in v) return (v.arrayValue.values||[]).map(fsValue);
+    if('mapValue' in v){ var o={}; Object.keys(v.mapValue.fields||{}).forEach(function(k){o[k]=fsValue(v.mapValue.fields[k]);}); return o; }
+    return '';
+  }
+  function docToJs(d, collectionName){
+    var out={};
+    Object.keys((d&&d.fields)||{}).forEach(function(k){ out[k]=fsValue(d.fields[k]); });
+    var name=String((d&&d.name)||'');
+    var id=name.split('/').pop() || out.uid || out.id || '';
+    out.id=out.id||id;
+    if(collectionName==='users') out.uid=out.uid||id;
+    return out;
+  }
+  function normalizeUser(id,u,src){
     u=Object.assign({},u||{});
+    id=String(id || u.uid || u.id || '').trim();
     if(id && !u.id) u.id=id;
-    if(!u.uid && id && !String(id).startsWith('email:')) u.uid=id;
-    if(u.email) u.email=String(u.email).trim().toLowerCase();
-    u.name=u.name || u.displayName || u.email || 'کاربر';
-    u.phone=u.phone || u.mobile || '-';
-    u.role=u.role || 'viewer';
+    if(id && !String(id).startsWith('email:') && !u.uid) u.uid=id;
+    u.email=String(u.email||'').trim().toLowerCase();
+    u.name=u.name || u.displayName || [u.firstName,u.lastName].filter(Boolean).join(' ') || (u.email?u.email.split('@')[0]:'کاربر');
+    u.phone=u.phone || '-';
+    u.role=String(u.role||'viewer');
     u.emailVerified=!!u.emailVerified;
     u.adminApproved=!!u.adminApproved || u.role==='admin' || String(u.status||'')==='approved';
-    u.status=u.status || (u.adminApproved?'approved':'pending');
-    u.registrySource=u.registrySource || source || 'unknown';
+    u.status=u.adminApproved?'approved':(u.status||'pending');
+    u.registrySource=u.registrySource||src||'unknown';
     return u;
   }
-  function merge(list){
-    try{ if(typeof v168MergeUsers==='function') return v168MergeUsers(list); }catch(e){}
+  function mergeUsers(list){
     var map=new Map();
-    (list||[]).forEach(function(x){
-      var u=normalize(x.uid||x.id,x,x.registrySource);
-      var key=String(u.uid||u.id||'').trim() || ('email:'+String(u.email||'').toLowerCase());
-      if(!key || key==='email:') return;
-      map.set(key, Object.assign({}, map.get(key)||{}, u));
+    (list||[]).forEach(function(raw){
+      var u=normalizeUser(raw.uid||raw.id, raw, raw.registrySource);
+      var uid=String(u.uid||u.id||'').trim();
+      var email=String(u.email||'').trim().toLowerCase();
+      var key=uid || (email?'email:'+email:'');
+      if(!key) return;
+      var old=map.get(key) || (email && map.get('email:'+email)) || {};
+      var m=Object.assign({}, old, u);
+      m.emailVerified=!!(old.emailVerified||u.emailVerified);
+      m.adminApproved=!!(old.adminApproved||u.adminApproved||m.role==='admin');
+      m.status=m.adminApproved?'approved':(m.status||'pending');
+      map.set(key,m);
+      if(uid) map.set(uid,m);
+      if(email) map.set('email:'+email,m);
     });
-    return Array.from(map.values());
+    var seen=new Set(), out=[];
+    Array.from(map.values()).forEach(function(u){ var k=(u.uid||u.id||u.email||JSON.stringify(u)); if(seen.has(k)) return; seen.add(k); out.push(u); });
+    return out;
+  }
+  async function restListCollection(coll){
+    var token=await idToken();
+    if(!token) throw new Error('REST_TOKEN_EMPTY');
+    var out=[], page='';
+    for(var guard=0; guard<5; guard++){
+      var url='https://firestore.googleapis.com/v1/projects/'+encodeURIComponent(PROJECT_ID)+'/databases/(default)/documents/'+encodeURIComponent(coll)+'?pageSize=500'+(page?'&pageToken='+encodeURIComponent(page):'');
+      var r=await fetch(url,{headers:{Authorization:'Bearer '+token},cache:'no-store'});
+      var tx=await r.text(), data={};
+      try{data=tx?JSON.parse(tx):{};}catch(_){data={raw:tx};}
+      if(!r.ok) throw new Error('REST_LIST_'+coll+': '+((data.error&&(data.error.message||data.error.status))||r.statusText||r.status));
+      (data.documents||[]).forEach(function(d){out.push(docToJs(d,coll));});
+      page=data.nextPageToken||'';
+      if(!page) break;
+    }
+    return out;
+  }
+  async function restRunQueryUsers(){
+    var token=await idToken();
+    if(!token) throw new Error('REST_TOKEN_EMPTY');
+    var url='https://firestore.googleapis.com/v1/projects/'+encodeURIComponent(PROJECT_ID)+'/databases/(default)/documents:runQuery';
+    var body={structuredQuery:{from:[{collectionId:'users'}],limit:500}};
+    var r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify(body),cache:'no-store'});
+    var tx=await r.text(), data=[];
+    try{data=tx?JSON.parse(tx):[];}catch(_){data=[];}
+    if(!r.ok) throw new Error('REST_QUERY_users: '+((data.error&&(data.error.message||data.error.status))||r.statusText||r.status));
+    var out=[]; (Array.isArray(data)?data:[]).forEach(function(row){ if(row.document) out.push(docToJs(row.document,'users')); });
+    return out;
+  }
+  async function sdkListUsers(){
+    if(!(typeof db!=='undefined' && db && typeof collection==='function' && typeof getDocs==='function')) throw new Error('SDK_NOT_READY');
+    var out=[]; var snap=await getDocs(collection(db,'users'));
+    snap.forEach(function(d){ out.push(Object.assign({id:d.id,uid:d.id}, d.data()||{}, {registrySource:'firestore-users-sdk'})); });
+    return out;
+  }
+  async function readRoles(){
+    var roles={};
+    try{
+      var arr=await restListCollection('roles');
+      arr.forEach(function(r){ var id=String(r.uid||r.id||'').trim(); if(id) roles[id]=r.role||roles[id]; });
+    }catch(_){
+      try{
+        if(typeof db!=='undefined' && db && typeof collection==='function' && typeof getDocs==='function'){
+          var snap=await getDocs(collection(db,'roles'));
+          snap.forEach(function(d){ roles[d.id]=(d.data()||{}).role||roles[d.id]; });
+        }
+      }catch(__){}
+    }
+    return roles;
   }
   function localUsers(){
-    var out=[];
-    try{out=out.concat(JSON.parse(localStorage.getItem('family_v88_registered_users')||'[]')||[]);}catch(e){}
-    try{out=out.concat(JSON.parse(localStorage.getItem('family_auth_users_cache')||'[]')||[]);}catch(e){}
-    return out.map(function(u){return normalize(u.uid||u.id,u,u.registrySource||'local-register-cache');});
+    var a=safeJson('family_v88_registered_users',[]);
+    return (Array.isArray(a)?a:[]).map(function(u){ return normalizeUser(u.uid||u.id,u,'local-register-cache'); });
   }
   function addCurrent(list){
     var u=currentUser(); if(!u) return list;
-    var uid=String(u.uid||'');
-    var email=String(u.email||'').toLowerCase();
-    var found=(list||[]).some(function(x){return String(x.uid||x.id||'')===uid || String(x.email||'').toLowerCase()===email;});
-    if(!found) list.unshift(normalize(uid,{uid:uid,email:email,name:u.displayName||email||'کاربر فعلی',role:role(),emailVerified:!!u.emailVerified,adminApproved:role()==='admin',status:role()==='admin'?'approved':'pending'},'current-auth-user'));
+    list.unshift(normalizeUser(u.uid,{uid:u.uid,email:u.email,name:u.displayName||'کاربر فعلی',phone:'-',role:window.firebaseRole||'viewer',emailVerified:!!u.emailVerified,adminApproved:String(window.firebaseRole)==='admin'},'current-auth-user'));
     return list;
   }
-  async function readSdkUsers(){
-    var fb=window.familyFirebase||{};
-    if(!(fb.db && fb.collection && fb.getDocs)) throw new Error('SDK_NOT_READY');
-    var out=[];
-    var col=fb.collection(fb.db,'users');
-    try{
-      var q=(fb.query && fb.orderBy && fb.limit) ? fb.query(col, fb.orderBy('createdAt','desc'), fb.limit(500)) : col;
-      var snap=await fb.getDocs(q);
-      snap.forEach(function(d){out.push(normalize(d.id,d.data(),'firestore-users-sdk-v186'));});
-    }catch(e){ throw e; }
-    return out;
-  }
-  async function readRestUsers(){
-    if(typeof ftpV178ReadUsersRest==='function'){
-      var arr=await ftpV178ReadUsersRest();
-      return (arr||[]).map(function(u){return normalize(u.uid||u.id,u,'firestore-users-rest-v186');});
-    }
-    throw new Error('REST_READER_NOT_FOUND');
-  }
-  async function readAllUsers(){
+  async function readUsersAllWays(){
     var errors=[], users=[];
-    try{ users=users.concat(await readSdkUsers()); }catch(e){ errors.push('SDK '+(e.code||e.message||e)); }
-    /* Mobile REST is always attempted if SDK failed/empty, or when SDK currentUser is missing. */
+    // 1) Desktop SDK path, when SDK Auth has a live user.
     try{
-      var sdkCurrent=false; try{sdkCurrent=!!(window.familyFirebase&&window.familyFirebase.auth&&window.familyFirebase.auth.currentUser);}catch(e){}
-      if(!users.length || !sdkCurrent) users=users.concat(await readRestUsers());
-    }catch(e){ errors.push('REST '+(e.code||e.message||e)); }
-    users=addCurrent(users.concat(localUsers()));
-    return {users:merge(users), errors:errors};
+      if(typeof auth!=='undefined' && auth && auth.currentUser){
+        users=await sdkListUsers();
+        if(users.length) return {users:users, source:'sdk-users', errors:errors};
+      }
+    }catch(e){ errors.push(e.message||String(e)); }
+    // 2) Mobile REST list documents.
+    try{
+      users=await restListCollection('users');
+      users=users.map(function(u){u.registrySource='firestore-users-rest-list'; return u;});
+      if(users.length) return {users:users, source:'rest-list-users', errors:errors};
+    }catch(e){ errors.push(e.message||String(e)); }
+    // 3) Mobile REST runQuery fallback.
+    try{
+      users=await restRunQueryUsers();
+      users=users.map(function(u){u.registrySource='firestore-users-rest-query'; return u;});
+      if(users.length) return {users:users, source:'rest-query-users', errors:errors};
+    }catch(e){ errors.push(e.message||String(e)); }
+    // 4) If SDK available despite REST login, try SDK as unauthenticated diagnostic fallback.
+    try{
+      users=await sdkListUsers();
+      users=users.map(function(u){u.registrySource='firestore-users-sdk-fallback'; return u;});
+      if(users.length) return {users:users, source:'sdk-fallback-users', errors:errors};
+    }catch(e){ errors.push(e.message||String(e)); }
+    return {users:[], source:'none', errors:errors};
   }
-
   window.refreshAuthDashboard = async function(){
-    var status=el('authDashboardStatus');
-    var total=el('authTotalUsers');
-    var verified=el('authVerifiedUsers');
-    var signed=el('authSignedState');
-    var roleEl=el('authRoleState');
-    var remember=el('authRememberState');
-    var fbstate=el('authFirebaseState');
-    var hint=el('authAdminHint');
-    var importPanel=el('authMissingUserPanel');
     var u=currentUser();
-    if(signed) signed.innerText=u?'فعال':'خیر';
-    if(roleEl) roleEl.innerText=role();
-    if(remember) remember.innerText=localStorage.getItem('family_v88_remember')==='yes'?'فعال':'خاموش';
-    if(fbstate) fbstate.innerText=(navigator.onLine?'آنلاین':'آفلاین')+' / '+(u?'Auth OK':'Auth -');
-    if(hint) hint.style.display=role()==='admin'?'none':'block';
-    if(importPanel) importPanel.style.display=role()==='admin'?'block':'none';
-    if(status) status.innerText='V186: در حال خواندن users از Firestore...';
-    try{
-      var res=await readAllUsers();
-      window.authUsersCache=res.users;
-      try{localStorage.setItem('family_auth_users_cache',JSON.stringify(window.authUsersCache.slice(0,500)));}catch(e){}
-      if(total) total.innerText=String(window.authUsersCache.length);
-      if(verified) verified.innerText=String(window.authUsersCache.filter(function(x){return !!x.emailVerified;}).length)+' / '+String(window.authUsersCache.length);
-      if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();
-      if(status) status.innerText = window.authUsersCache.length>1
-        ? 'V186: users خوانده شد. تعداد نمایش: '+window.authUsersCache.length+' کاربر.'
-        : 'V186: فقط کاربر فعلی/کش دیده شد. خطاها: '+(res.errors.join(' | ')||'بدون خطا؛ مجموعه users خالی است یا Rules اجازه لیست نمی‌دهد.');
-    }catch(e){
-      window.authUsersCache=addCurrent(localUsers());
-      if(total) total.innerText=String(window.authUsersCache.length);
-      if(verified) verified.innerText=String(window.authUsersCache.filter(function(x){return !!x.emailVerified;}).length)+' / '+String(window.authUsersCache.length);
-      if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();
-      if(status) status.innerText='V186: خواندن users ناموفق بود: '+(e.code||e.message||e);
+    text('authSignedState', u?'فعال':'خیر');
+    text('authRoleState', window.firebaseRole||'guest');
+    text('authRememberState', localStorage.getItem('family_v88_remember')==='yes'?'فعال':'خاموش');
+    try{ text('authFirebaseState', (typeof v88AuthHealthText==='function'?v88AuthHealthText():'فعال')); }catch(_){ text('authFirebaseState','فعال'); }
+    var hint=$('authAdminHint'), imp=$('authMissingUserPanel');
+    if(hint) hint.style.display=window.firebaseRole==='admin'?'none':'block';
+    if(imp) imp.style.display=window.firebaseRole==='admin'?'block':'none';
+    status('V187: در حال خواندن Firestore users با مسیر مشترک موبایل/کامپیوتر...');
+    var result=await readUsersAllWays();
+    var users=result.users||[];
+    var roles=await readRoles();
+    users=users.map(function(x){
+      var id=String(x.uid||x.id||'');
+      if(roles[id] && (!x.role || x.role==='viewer')) x.role=roles[id];
+      return normalizeUser(id,x,x.registrySource||result.source);
+    });
+    users=mergeUsers(addCurrent(users.concat(localUsers())));
+    window.authUsersCache=users;
+    text('authTotalUsers', users.length);
+    text('authVerifiedUsers', users.filter(function(x){return !!x.emailVerified;}).length+' / '+users.length);
+    if(typeof window.renderAuthUsersTable==='function') window.renderAuthUsersTable();
+    if(users.length>1){
+      status('V187: users خوانده شد. منبع: '+result.source+' | تعداد: '+users.length);
+    }else{
+      status('V187: Firestore users روی این دستگاه خوانده نشد و فقط کاربر فعلی/کش نمایش داده شد. خطا: '+(result.errors||[]).slice(0,3).join(' | '));
     }
   };
-
+  function refreshSoon(){ try{ setTimeout(function(){ window.refreshAuthDashboard(); },120); setTimeout(function(){ window.refreshAuthDashboard(); },900); }catch(_){} }
   var oldShow=window.showView;
-  if(typeof oldShow==='function' && !oldShow.__v186AuthUsersRealFix){
-    window.showView=function(name){
-      var r=oldShow.apply(this,arguments);
-      if(String(name)==='auth'){
-        setTimeout(function(){try{window.refreshAuthDashboard();}catch(e){}},120);
-        setTimeout(function(){try{window.refreshAuthDashboard();}catch(e){}},900);
-        setTimeout(function(){try{window.refreshAuthDashboard();}catch(e){}},2200);
-      }
-      return r;
-    };
-    window.showView.__v186AuthUsersRealFix=true;
+  if(typeof oldShow==='function' && !oldShow.__v187AuthUsers){
+    window.showView=function(name){ var r=oldShow.apply(this,arguments); if(String(name)==='auth') refreshSoon(); return r; };
+    window.showView.__v187AuthUsers=true;
   }
   document.addEventListener('click',function(e){
     var t=e.target; if(!t) return;
-    if(/احراز|users|کاربران|بروزرسانی آمار|خواندن دوباره/i.test(String(t.innerText||t.textContent||''))){
-      setTimeout(function(){try{window.refreshAuthDashboard();}catch(err){}},150);
-    }
+    var txt=t.innerText||t.textContent||'';
+    if(/احراز|users دوباره|بروزرسانی آمار|مدیریت کاربران/i.test(txt)) refreshSoon();
   },true);
+  window.addEventListener('load',function(){setTimeout(refreshSoon,1500);});
 })();
 </script>
-
 </body>
 </html>

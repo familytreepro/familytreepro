@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V186 Auth Users Real Fix",
+  "name": "FamilyTreePro V187 Auth Users Readable Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=186-auth-users-real-fix",
+  "start_url": "./index.html?v=187-auth-users-readable-engine",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V186: keep V184 mobile login and fix auth users reader only",
+  "description": "FamilyTreePro V187: V184 mobile login untouched; single auth users reader for REST mobile and SDK desktop",
   "scope": "./",
   "icons": []
 }
