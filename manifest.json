@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V188 Unified Auth Engine",
+  "name": "FamilyTreePro V189 Unified Auth Safe",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=188-unified-auth-engine",
+  "start_url": "./index.html?v=189-unified-auth-safe",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V188: single unified auth/login/users engine replacing stacked old auth guards",
+  "description": "FamilyTreePro V189: unified auth/users engine without changing tree/photo/dashboard modules",
   "scope": "./",
   "icons": []
 }
