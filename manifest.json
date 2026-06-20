@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V188 Unified Auth Engine",
+  "name": "FamilyTreePro V190 Mobile Auth Dashboard Fix",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=188-unified-auth-engine",
+  "start_url": "./index.html?v=190-mobile-auth-dashboard-fix",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V188: single unified auth/login/users engine replacing stacked old auth guards",
+  "description": "FamilyTreePro V190: V173 mobile login preserved, auth dashboard reads Firestore users via active token",
   "scope": "./",
   "icons": []
 }
