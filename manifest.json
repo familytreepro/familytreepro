@@ -1,14 +1,12 @@
 {
-  "name": "FamilyTreePro V188 Unified Auth Engine",
+  "name": "FamilyTreePro V200 Auth Core",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=188-unified-auth-engine",
+  "start_url": "./index.html?v=200-auth-core-real",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V188: single unified auth/login/users engine replacing stacked old auth guards",
-  "scope": "./",
-  "icons": []
+  "description": "FamilyTreePro V200 real Firebase Auth core: login, register, roles, approval"
 }
