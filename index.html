@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=201-users-manager-real" />
-  <title>FamilyTreePro V201 Users Manager Real</title>
+  <link rel="manifest" href="./manifest.json?v=202-notification-center-real" />
+  <title>FamilyTreePro V202 Notification Center Real</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -37,6 +37,9 @@
     .badge{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;border:1px solid var(--line);white-space:nowrap}.badge.admin{background:#dcfce7;color:#166534}.badge.editor{background:#dbeafe;color:#1d4ed8}.badge.viewer{background:#f1f5f9;color:#334155}.badge.pending{background:#fef3c7;color:#92400e}.badge.approved{background:#dcfce7;color:#166534}.badge.blocked{background:#fee2e2;color:#991b1b}
     .toolbar{display:grid;grid-template-columns:1.3fr .8fr .8fr auto;gap:8px;align-items:center;margin:10px 0}
     .waiting{max-width:720px;margin:22px auto}.waiting .card{border-color:#fed7aa;background:#fff7ed}.waiting h2{margin-top:0;color:#9a3412}.legacy-panel{border:1px dashed #bfdbfe;background:#eff6ff;border-radius:16px;padding:12px;margin:12px 0}.legacy-panel textarea{width:100%;min-height:96px;border:1px solid #bfdbfe;border-radius:12px;padding:10px;direction:ltr;text-align:left;resize:vertical}.source-note{display:block;font-size:11px;color:#64748b;margin-top:4px}
+
+    .notif-list{display:grid;gap:10px;margin-top:10px}.notif-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;line-height:1.8}.notif-item.unread{border-color:#bfdbfe;background:#eff6ff}.notif-item b{display:block}.notif-item small{color:var(--muted)}.notif-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+    #notifyBadge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:999px;background:#e11d48;color:white;font-size:12px;margin-right:5px;padding:0 6px}
     @media(max-width:760px){.grid,.grid2,.toolbar{grid-template-columns:1fr}.topbar{align-items:flex-start}.top-actions{width:100%}.top-actions .btn{flex:1}.main{padding:12px}.authbox{padding:20px;margin:8px auto}.table-wrap table{min-width:760px}.hero h1{font-size:22px}}
   </style>
 </head>
@@ -71,16 +74,17 @@
 
   <div id="app" class="hidden">
     <div class="topbar">
-      <div class="brand">FamilyTreePro V201 Users Manager <small id="userLine">در حال بارگذاری...</small></div>
+      <div class="brand">FamilyTreePro V202 Notifications <small id="userLine">در حال بارگذاری...</small></div>
       <div class="top-actions">
+        <button id="notifyBtn" class="btn amber" type="button">📩 اعلان‌ها <span id="notifyBadge">0</span></button>
         <button id="refreshBtn" class="btn blue" type="button">بروزرسانی</button>
         <button id="logoutBtn" class="btn red" type="button">خروج</button>
       </div>
     </div>
     <main class="main">
       <section class="hero">
-        <h1>هسته احراز و کاربران V201</h1>
-        <p>این نسخه احراز واقعی و مدیریت کاربران را از Firestore می‌خواند؛ کاربران قدیمی Auth-only با ورود اول یا بازیابی ایمیلی قابل اتصال هستند.</p>
+        <h1>هسته احراز، کاربران و مرکز اعلان V202</h1>
+        <p>این نسخه احراز واقعی، مدیریت کاربران و مرکز اعلان را از Firestore می‌خواند؛ بدون کش و بدون کاربر تستی.</p>
       </section>
 
       <section id="waitingBox" class="waiting hidden">
@@ -128,6 +132,17 @@ user2@gmail.com"></textarea>
           </div>
           <div id="adminMsg" class="msg"></div>
         </div>
+
+        <div id="notificationPanel" class="card hidden">
+          <h2>مرکز اعلان</h2>
+          <p class="muted">اعلان‌ها از Firestore /notifications خوانده می‌شوند. تایید مدیر و ثبت‌نام جدید از همینجا ثبت می‌شود.</p>
+          <div class="form-actions">
+            <button id="reloadNotifBtn" class="btn blue" type="button">خواندن اعلان‌ها</button>
+            <button id="markAllReadBtn" class="btn gray" type="button">خوانده شد</button>
+          </div>
+          <div id="notifList" class="notif-list"><div class="notif-item">هنوز خوانده نشده است.</div></div>
+          <div id="notifMsg" class="msg"></div>
+        </div>
       </section>
     </main>
   </div>
@@ -135,9 +150,9 @@ user2@gmail.com"></textarea>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
-    import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V201 Users Manager Real';
+    const VERSION = 'V202 Notification Center Real';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
@@ -156,6 +171,7 @@ user2@gmail.com"></textarea>
     let currentUser = null;
     let currentProfile = null;
     let usersCache = [];
+    let notificationsCache = [];
 
     const $ = (id) => document.getElementById(id);
     const val = (id) => String($(id)?.value || '').trim();
@@ -171,6 +187,91 @@ user2@gmail.com"></textarea>
       try{ if(!v) return '-'; if(v.toDate) return v.toDate().toLocaleString('fa-IR'); if(typeof v === 'string') return new Date(v).toLocaleString('fa-IR'); }catch(e){}
       return '-';
     };
+
+
+    const notifMsg = (text, ok=false) => { const el=$('notifMsg'); if(el){ el.className = 'msg ' + (ok?'ok':'bad'); el.textContent = text || ''; } };
+
+    async function createNotification(data){
+      try{
+        await addDoc(collection(db,'notifications'), {
+          title: data.title || 'اعلان',
+          message: data.message || '',
+          type: data.type || 'system',
+          targetUid: data.targetUid || '',
+          targetEmail: lower(data.targetEmail || ''),
+          targetRole: data.targetRole || '',
+          actorUid: currentUser ? currentUser.uid : '',
+          actorEmail: currentUser ? lower(currentUser.email || '') : '',
+          readBy: {},
+          createdAt: serverTimestamp(),
+          source: 'v202-notification-center'
+        });
+      }catch(e){ console.warn('notification-create-failed', e); }
+    }
+
+    async function createSmsQueue(data){
+      try{
+        if(!data.phone) return;
+        await addDoc(collection(db,'sms_queue'), {
+          phone: String(data.phone || '').trim(),
+          message: data.message || '',
+          type: data.type || 'system',
+          status: 'queued',
+          createdAt: serverTimestamp(),
+          source: 'v202-sms-queue'
+        });
+      }catch(e){ console.warn('sms-queue-failed', e); }
+    }
+
+    function canSeeNotification(n){
+      if(!currentUser || !currentProfile) return false;
+      if(!n) return false;
+      const em = lower(currentUser.email || '');
+      if(n.targetUid && n.targetUid === currentUser.uid) return true;
+      if(n.targetEmail && lower(n.targetEmail) === em) return true;
+      if(n.targetRole && n.targetRole === currentProfile.role) return true;
+      if(!n.targetUid && !n.targetEmail && !n.targetRole) return true;
+      return false;
+    }
+
+    async function loadNotifications(){
+      if(!currentUser) return;
+      const listEl = $('notifList');
+      if(listEl) listEl.innerHTML = '<div class="notif-item">در حال خواندن اعلان‌ها...</div>';
+      try{
+        const qs = await getDocs(query(collection(db,'notifications'), orderBy('createdAt','desc')));
+        notificationsCache = qs.docs.map(d => ({id:d.id, ...(d.data()||{})})).filter(canSeeNotification).slice(0,50);
+        renderNotifications();
+      }catch(e){
+        if(listEl) listEl.innerHTML = '<div class="notif-item">خطا در خواندن اعلان‌ها</div>';
+        notifMsg('خطا: ' + (e.code || e.message || e), false);
+      }
+    }
+
+    function isNotifRead(n){
+      try{return !!(n.readBy && currentUser && n.readBy[currentUser.uid]);}catch(e){return false;}
+    }
+    function renderNotifications(){
+      const unread = notificationsCache.filter(n => !isNotifRead(n)).length;
+      if($('notifyBadge')) $('notifyBadge').textContent = unread;
+      if(!$('notifList')) return;
+      if(!notificationsCache.length){ $('notifList').innerHTML = '<div class="notif-item">اعلانی وجود ندارد.</div>'; return; }
+      $('notifList').innerHTML = notificationsCache.map(n => `<div class="notif-item ${isNotifRead(n)?'':'unread'}">
+        <b>${escapeHtml(n.title || 'اعلان')}</b>
+        <div>${escapeHtml(n.message || '')}</div>
+        <small>${escapeHtml(n.type || 'system')} — ${fmt(n.createdAt)}</small>
+      </div>`).join('');
+    }
+    async function markAllNotificationsRead(){
+      try{
+        const uid = currentUser.uid;
+        for(const n of notificationsCache.filter(x=>!isNotifRead(x))){
+          await setDoc(doc(db,'notifications',n.id), {readBy:{[uid]: true}, lastReadAt:serverTimestamp()}, {merge:true});
+        }
+        notifMsg('اعلان‌ها خوانده شد.', true);
+        await loadNotifications();
+      }catch(e){ notifMsg('خطا: '+(e.code||e.message||e), false); }
+    }
 
     function switchTab(mode){
       const reg = mode === 'register';
@@ -229,6 +330,7 @@ user2@gmail.com"></textarea>
       show($('waitingBox'), !allowed);
       show($('dashboard'), allowed);
       show($('adminPanel'), admin);
+      await loadNotifications();
       if(admin) await loadUsers();
     }
 
@@ -295,7 +397,12 @@ user2@gmail.com"></textarea>
     function parseKey(key){ const p=String(key||'').split(':'); return {type:p[0], id:p.slice(1).join(':')}; }
     function refForKey(key){ const k=parseKey(key); return k.type === 'email' ? doc(db,'users_by_email',k.id) : doc(db,'users',k.id); }
     async function approveUserKey(key){
-      try{ await setDoc(refForKey(key), {approved:true, disabled:false, approvedAt:serverTimestamp(), approvedBy:currentUser.uid}, {merge:true}); adminMsg('کاربر/ایمیل تایید شد.', true); await loadUsers(); }
+      try{
+        const k=parseKey(key); const u = usersCache.find(x=>x.docType===k.type && x.id===k.id) || {};
+        await setDoc(refForKey(key), {approved:true, disabled:false, approvedAt:serverTimestamp(), approvedBy:currentUser.uid}, {merge:true});
+        await createNotification({type:'admin_approved', targetUid:k.type==='uid'?k.id:'', targetEmail:u.email||'', title:'حساب شما تایید شد', message:'ورود شما به سامانه شجره‌نامه خانواده تایید شد.'});
+        await createSmsQueue({type:'admin_approved', phone:u.phone||'', message:'ورود شما به سامانه شجره نامه خانواده تایید شد.'});
+        adminMsg('کاربر/ایمیل تایید شد و اعلان ثبت شد.', true); await loadUsers(); await loadNotifications(); }
       catch(e){ adminMsg('خطا در تایید: ' + (e.code || e.message || e), false); }
     }
     async function toggleDisableKey(key){
@@ -325,8 +432,9 @@ user2@gmail.com"></textarea>
           }, {merge:true});
         }
         $('legacyEmails').value='';
+        await createNotification({type:'legacy_import', targetRole:'admin', title:'بازیابی کاربران قدیمی', message:`${emails.length} ایمیل قدیمی در صف اتصال به users/{uid} ثبت شد.`});
         adminMsg(`${emails.length} ایمیل قدیمی ثبت شد. بعد از ورود هر نفر، سند users/{uid} واقعی ساخته می‌شود.`, true);
-        await loadUsers();
+        await loadUsers(); await loadNotifications();
       }catch(e){ adminMsg('خطا در ثبت ایمیل‌های قدیمی: ' + (e.code || e.message || e), false); }
       finally{ $('importLegacyBtn').disabled = false; }
     }
@@ -363,6 +471,9 @@ user2@gmail.com"></textarea>
           lastLogin: serverTimestamp(),
           source: 'v200-register'
         }, {merge:true});
+        if(!admin){
+          await createNotification({type:'new_registration', targetRole:'admin', title:'ثبت‌نام جدید', message:`${name || em} با ایمیل ${em} ثبت‌نام کرد و منتظر تایید است.`});
+        }
         authMsg(admin ? 'ثبت‌نام مدیر انجام شد.' : 'ثبت‌نام انجام شد. منتظر تایید مدیر باشید.', true);
       }catch(e){ authMsg(authError(e)); }
       finally{ $('registerBtn').disabled = false; }
@@ -375,6 +486,9 @@ user2@gmail.com"></textarea>
     $('logoutBtn').onclick = () => signOut(auth);
     $('waitingLogoutBtn').onclick = () => signOut(auth);
     $('refreshBtn').onclick = async () => { if(currentUser) await loadProfile(currentUser); };
+    $('notifyBtn').onclick = async () => { show($('notificationPanel'), $('notificationPanel').classList.contains('hidden')); await loadNotifications(); };
+    $('reloadNotifBtn').onclick = loadNotifications;
+    $('markAllReadBtn').onclick = markAllNotificationsRead;
     ['searchBox','roleFilter','approvalFilter'].forEach(id => $(id).addEventListener('input', renderUsers));
     $('clearFilterBtn').onclick = () => { $('searchBox').value=''; $('roleFilter').value=''; $('approvalFilter').value=''; renderUsers(); };
     $('showPendingBtn').onclick = () => { $('approvalFilter').value='pending'; renderUsers(); };
@@ -405,7 +519,7 @@ user2@gmail.com"></textarea>
       return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
     }
 
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=201-users-manager-real').catch(()=>{}); }
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=202-notification-center-real').catch(()=>{}); }
   </script>
 </body>
 </html>

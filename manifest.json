@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro V201 Users Manager Real",
+  "name": "FamilyTreePro V202 Notification Center Real",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=201-users-manager-real",
+  "start_url": "./index.html?v=202-notification-center-real",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
