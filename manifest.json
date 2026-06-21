@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V207 Users Manager Pro",
+  "name": "FamilyTreePro V208 People Core Pro",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=207-users-manager-pro",
+  "start_url": "./index.html?v=208-people-core-pro",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V207: real unified auth and professional users manager",
+  "description": "FamilyTreePro V208: minimal professional people core with real auth, users and notifications",
   "scope": "./",
   "icons": []
 }
