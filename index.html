@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=209-people-ui-pro" />
-  <title>FamilyTreePro V209 People UI Pro</title>
+  <link rel="manifest" href="./manifest.json?v=210-dashboard-pro" />
+  <title>FamilyTreePro V210 Dashboard Pro</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -51,7 +51,7 @@
 
 
 
-    /* V209 People UI Pro: professional minimal people form, no logic changes */
+    /* V210 Dashboard Pro: professional minimal people form, no logic changes */
     .people-form.pro-card{border-radius:24px;padding:0;overflow:hidden;border-color:#dbeafe;background:linear-gradient(180deg,#ffffff,#f8fbff);box-shadow:0 18px 46px rgba(37,99,235,.10)}
     .people-form-head{padding:16px 16px 12px;background:linear-gradient(135deg,#0f2a55,#2563eb);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
     .people-form-head h3{margin:0;font-size:18px}.people-form-head small{color:#dbeafe;display:block;margin-top:4px;line-height:1.7}.people-form-head .pill{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);color:#fff}
@@ -107,7 +107,7 @@
     <main class="main">
       <section class="hero">
         <h1>مدیریت احراز و کاربران</h1>
-        <p>هسته افراد با طراحی مینیمال حرفه‌ای، آماده مرحله بعد: داشبورد.</p>
+        <p>داشبورد حرفه‌ای، خلاصه کاربران، افراد و اعلان‌ها؛ آماده مرحله بعد: نمایش شجره.</p>
       </section>
 
       <section id="waitingBox" class="waiting hidden">
@@ -128,10 +128,44 @@
           <div class="stat"><small>غیرفعال</small><b id="statDisabledUsers">-</b></div>
         </div>
 
+        <div id="dashboardPro" class="dash-pro">
+          <div class="dash-card">
+            <h2>داشبورد FamilyTreePro</h2>
+            <p>نمای کلی وضعیت سامانه، کاربران، افراد و اعلان‌ها در یک صفحه مینیمال و سریع.</p>
+            <div class="dash-kpis">
+              <div class="dash-kpi"><small>افراد</small><b id="dashPeopleTotal">0</b></div>
+              <div class="dash-kpi"><small>کاربران</small><b id="dashUsersTotal">0</b></div>
+              <div class="dash-kpi"><small>اعلان خوانده‌نشده</small><b id="dashUnreadNotif">0</b></div>
+              <div class="dash-kpi"><small>نیاز به تایید</small><b id="dashPendingUsers">0</b></div>
+            </div>
+            <div class="dash-actions">
+              <button id="dashGoPeople" class="btn blue" type="button">مدیریت افراد</button>
+              <button id="dashGoUsers" class="btn gray" type="button">مدیریت کاربران</button>
+              <button id="dashGoNotif" class="btn amber" type="button">مرکز اعلان</button>
+            </div>
+            <div class="dash-mini">
+              <span class="pill" id="dashRolePill">نقش: -</span>
+              <span class="pill" id="dashFirebasePill">Firebase: فعال</span>
+              <span class="pill">V210 Dashboard Pro</span>
+            </div>
+          </div>
+          <div class="dash-card">
+            <h3>وضعیت سریع</h3>
+            <div class="dash-health">
+              <div class="dash-item health-ok"><b>Auth</b><small id="dashAuthStatus">متصل</small></div>
+              <div class="dash-item" id="dashUsersHealth"><b>Users</b><small id="dashUsersStatus">در حال بررسی</small></div>
+              <div class="dash-item" id="dashPeopleHealth"><b>People</b><small id="dashPeopleStatus">در حال بررسی</small></div>
+            </div>
+            <div class="dash-list" id="dashRecentList">
+              <div class="dash-item"><b>فعالیت اخیر</b><small>بعد از بارگذاری اطلاعات نمایش داده می‌شود.</small></div>
+            </div>
+          </div>
+        </div>
+
         <div id="adminPanel" class="card hidden">
           <div class="admin-head">
             <h2>مدیریت احراز کاربران</h2>
-            <span class="auth-chip">V209 People UI Pro</span>
+            <span class="auth-chip">V210 Dashboard Pro</span>
           </div>
           <div class="pro-stats">
             <div class="pro-stat"><small>Admin</small><b id="roleAdminCount">0</b></div>
@@ -164,7 +198,7 @@
               <h2>هسته افراد حرفه‌ای</h2>
               <p class="muted" style="margin:6px 0 0">ثبت و مدیریت افراد شجره، سبک، مینیمال و آماده اتصال به درخت.</p>
             </div>
-            <span class="pill">V208 People Core</span>
+            <span class="pill">People Core</span>
           </div>
           <div class="grid" style="margin-bottom:12px">
             <div class="stat"><small>کل افراد</small><b id="peopleTotal">0</b></div>
@@ -176,7 +210,7 @@
             <div class="people-form card pro-card" style="margin:0">
               <div class="people-form-head">
                 <div><h3 id="personFormTitle">افزودن فرد</h3><small>فرم سریع، تمیز و آماده اتصال به داشبورد</small></div>
-                <span class="pill">V209</span>
+                <span class="pill">V208</span>
               </div>
               <div class="people-form-body">
                 <input id="personId" type="hidden" />
@@ -250,7 +284,7 @@
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V209 People UI Pro';
+    const VERSION = 'V210 Dashboard Pro';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
@@ -368,6 +402,7 @@
       if(!$('notifList')) return;
       if(!notificationsCache.length){
         $('notifList').innerHTML = '<div class="notif-empty">اعلانی برای این کاربر وجود ندارد. اگر اعلان ثبت‌نام یا تایید باید دیده شود، اول یک ثبت‌نام واقعی انجام بده یا اعلان‌ها را بروزرسانی کن.</div>';
+        renderDashboardPro();
         return;
       }
       $('notifList').innerHTML = notificationsCache.map(n => {
@@ -386,6 +421,7 @@
           <small>شناسه اعلان: ${escapeHtml(n.id || '-')}</small>
         </div>`;
       }).join('');
+      renderDashboardPro();
     }
     async function markAllNotificationsRead(){
       try{
@@ -485,7 +521,7 @@
       if(life) list=list.filter(p=>(p.lifeStatus||'alive')===life);
       const total=peopleCache.length, male=peopleCache.filter(p=>p.gender==='male').length, female=peopleCache.filter(p=>p.gender==='female').length, dead=peopleCache.filter(p=>p.lifeStatus==='dead').length;
       $('peopleTotal').textContent=total; $('peopleMale').textContent=male; $('peopleFemale').textContent=female; $('peopleDead').textContent=dead;
-      if(!list.length){ body.innerHTML='<tr><td colspan="9"><div class="people-empty">هنوز فردی ثبت نشده یا نتیجه‌ای پیدا نشد.</div></td></tr>'; return; }
+      if(!list.length){ body.innerHTML='<tr><td colspan="9"><div class="people-empty">هنوز فردی ثبت نشده یا نتیجه‌ای پیدا نشد.</div></td></tr>'; renderDashboardPro(); return; }
       const editable=canEditPeople();
       body.innerHTML=list.map(p=>{
         const g=p.gender==='male'?'مرد':(p.gender==='female'?'زن':'نامشخص');
@@ -502,6 +538,7 @@
           <td><div class="row-actions"><button class="btn blue" data-edit-person="${p.id}" ${editable?'':'disabled'}>ویرایش</button><button class="btn red" data-delete-person="${p.id}" ${editable?'':'disabled'}>حذف</button></div></td>
         </tr>`;
       }).join('');
+      renderDashboardPro();
     }
     async function savePerson(){
       if(!canEditPeople()){ peopleMsg('فقط مدیر یا ویرایشگر اجازه ثبت و ویرایش افراد را دارد.', false); return; }
@@ -531,6 +568,27 @@
       if(!confirm('حذف فرد از people انجام شود؟\n'+(p.fullName||id))) return;
       try{ await deleteDoc(doc(db,'people',id)); peopleMsg('فرد حذف شد.', true); await loadPeople(); }
       catch(e){ peopleMsg('خطا در حذف فرد: '+(e.code||e.message||e), false); }
+    }
+
+    function scrollToPanel(id){ const el=$(id); if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); } }
+    function renderDashboardPro(){
+      const peopleTotal = peopleCache.length;
+      const usersTotal = usersCache.length;
+      const pendingUsers = usersCache.filter(u => !approvedYes(u) && !disabledYes(u)).length;
+      const unread = notificationsCache.filter(n => !isNotifRead(n)).length;
+      if($('dashPeopleTotal')) $('dashPeopleTotal').textContent = peopleTotal;
+      if($('dashUsersTotal')) $('dashUsersTotal').textContent = usersTotal || (currentProfile && currentProfile.role !== 'admin' ? '-' : '0');
+      if($('dashUnreadNotif')) $('dashUnreadNotif').textContent = unread;
+      if($('dashPendingUsers')) $('dashPendingUsers').textContent = pendingUsers;
+      if($('dashRolePill')) $('dashRolePill').textContent = 'نقش: ' + ((currentProfile && currentProfile.role) || '-');
+      if($('dashUsersHealth')) $('dashUsersHealth').className = 'dash-item ' + (currentProfile && currentProfile.role === 'admin' ? (usersTotal ? 'health-ok':'health-warn') : 'health-ok');
+      if($('dashUsersStatus')) $('dashUsersStatus').textContent = currentProfile && currentProfile.role === 'admin' ? (usersTotal ? usersTotal + ' کاربر خوانده شد' : 'کاربری خوانده نشد') : 'برای مدیر نمایش داده می‌شود';
+      if($('dashPeopleHealth')) $('dashPeopleHealth').className = 'dash-item ' + (peopleTotal ? 'health-ok':'health-warn');
+      if($('dashPeopleStatus')) $('dashPeopleStatus').textContent = peopleTotal ? peopleTotal + ' فرد ثبت شده' : 'هنوز فردی ثبت نشده';
+      const recentPeople = peopleCache.slice(0,3).map(p => `<div class="dash-item"><b>${escapeHtml(p.fullName||'بدون نام')}</b><small>وضعیت: ${p.lifeStatus==='dead'?'فوت‌شده':'زنده'} — جنسیت: ${p.gender==='female'?'زن':(p.gender==='male'?'مرد':'نامشخص')}</small></div>`);
+      const recentNotif = notificationsCache.slice(0,2).map(n => `<div class="dash-item"><b>${escapeHtml(n.title||'اعلان')}</b><small>${escapeHtml(String(n.message||'').slice(0,90))}</small></div>`);
+      const items = recentNotif.concat(recentPeople);
+      if($('dashRecentList')) $('dashRecentList').innerHTML = items.length ? items.join('') : '<div class="dash-item"><b>فعالیت اخیر</b><small>هنوز اطلاعاتی برای نمایش وجود ندارد.</small></div>';
     }
 
     async function loadProfile(user){
@@ -619,6 +677,7 @@
       document.querySelectorAll('[data-role]').forEach(sel => sel.onchange = () => changeRoleKey(sel.dataset.role, sel.value));
       document.querySelectorAll('[data-reset]').forEach(btn => btn.onclick = () => sendResetForKey(btn.dataset.reset));
       document.querySelectorAll('[data-delete]').forEach(btn => btn.onclick = () => deleteUserDocKey(btn.dataset.delete));
+      renderDashboardPro();
     }
 
     function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
@@ -725,6 +784,11 @@
     $('refreshPeopleBtn').onclick = loadPeople;
     $('savePersonBtn').onclick = savePerson;
     $('resetPersonBtn').onclick = resetPersonForm;
+
+    if($('dashGoPeople')) $('dashGoPeople').onclick = () => scrollToPanel('peoplePanel');
+    if($('dashGoUsers')) $('dashGoUsers').onclick = () => scrollToPanel('adminPanel');
+    if($('dashGoNotif')) $('dashGoNotif').onclick = openNotifications;
+
     document.addEventListener('click', (e) => {
       const editId = e.target && e.target.getAttribute && e.target.getAttribute('data-edit-person');
       const delId = e.target && e.target.getAttribute && e.target.getAttribute('data-delete-person');
@@ -757,7 +821,7 @@
       return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
     }
 
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=208-people-core-pro').catch(()=>{}); }
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=210-dashboard-pro').catch(()=>{}); }
   </script>
 </body>
 </html>
