@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=208-people-core-pro" />
-  <title>FamilyTreePro V208 People Core Pro</title>
+  <link rel="manifest" href="./manifest.json?v=209-people-ui-pro" />
+  <title>FamilyTreePro V209 People UI Pro</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -48,6 +48,19 @@
     .people-shell{display:grid;grid-template-columns:360px 1fr;gap:14px;align-items:start}.people-form{position:sticky;top:14px}.people-form .mini-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.people-form label{font-size:12px;color:var(--muted);display:block;margin-top:6px}.people-form textarea{width:100%;min-height:82px;border:1px solid #d7deea;border-radius:12px;padding:10px;resize:vertical;font-family:tahoma,Arial}.people-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.people-actions .btn{flex:1 1 110px}.people-toolbar{display:grid;grid-template-columns:1.5fr .8fr .8fr auto;gap:8px;align-items:center;margin-bottom:10px}.people-toolbar input,.people-toolbar select{margin:0}.people-table table{min-width:980px}.people-name{font-weight:800}.date-muted{font-size:12px;color:var(--muted)}.person-note{font-size:11px;color:var(--muted);display:block;margin-top:3px}.gender-male{background:#dbeafe;color:#1d4ed8}.gender-female{background:#fce7f3;color:#be185d}.life-alive{background:#dcfce7;color:#166534}.life-dead{background:#f1f5f9;color:#334155}.people-empty{border:1px dashed var(--line);border-radius:16px;padding:14px;color:var(--muted);background:#fff}.soft-divider{height:1px;background:var(--line);margin:10px 0}
     @media(max-width:980px){.people-shell{grid-template-columns:1fr}.people-form{position:static}.people-toolbar{grid-template-columns:1fr}.people-form .mini-grid{grid-template-columns:1fr 1fr 1fr}}
     @media(max-width:560px){.people-form .mini-grid{grid-template-columns:1fr}.people-table table{min-width:860px}}
+
+
+
+    /* V209 People UI Pro: professional minimal people form, no logic changes */
+    .people-form.pro-card{border-radius:24px;padding:0;overflow:hidden;border-color:#dbeafe;background:linear-gradient(180deg,#ffffff,#f8fbff);box-shadow:0 18px 46px rgba(37,99,235,.10)}
+    .people-form-head{padding:16px 16px 12px;background:linear-gradient(135deg,#0f2a55,#2563eb);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+    .people-form-head h3{margin:0;font-size:18px}.people-form-head small{color:#dbeafe;display:block;margin-top:4px;line-height:1.7}.people-form-head .pill{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);color:#fff}
+    .people-form-body{padding:14px}.field-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:10px;margin:9px 0}.field-card label{margin:0 0 4px!important;font-weight:700;color:#475569!important}.field-card input,.field-card select,.field-card textarea{margin:0!important;background:#fff}
+    .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice-grid .field-card{margin:0}.date-box{border:1px solid var(--line);background:#fff;border-radius:18px;padding:10px;margin:10px 0}.date-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;color:#475569;font-size:12px;font-weight:800}.date-title span:last-child{font-weight:400;color:var(--muted)}
+    .date-box .mini-grid input{text-align:center;font-weight:700}.relation-grid{display:grid;grid-template-columns:1fr;gap:8px}.relation-grid .field-card{margin:0}.people-form .soft-divider{margin:12px 0;background:#dbeafe}.people-actions.sticky-actions{position:sticky;bottom:0;background:rgba(248,251,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 14px;margin:0 -14px -14px;z-index:3}.people-form .btn{font-weight:800}.people-toolbar.pro-toolbar{background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 10px 26px rgba(15,23,42,.05)}
+    @media(min-width:981px){.people-shell{grid-template-columns:390px 1fr}.people-form{top:18px}}
+    @media(max-width:760px){.people-form.pro-card{border-radius:22px}.people-form-head{padding:14px}.people-form-body{padding:12px}.choice-grid{grid-template-columns:1fr 1fr}.date-box .mini-grid{grid-template-columns:1.1fr .9fr .9fr!important;gap:7px}.relation-grid{grid-template-columns:1fr}.field-card{padding:9px}.people-actions.sticky-actions .btn{flex:1 1 100%}.hero p{font-size:13px}.section-title .pill{width:100%;text-align:center}}
+    @media(max-width:430px){.choice-grid{grid-template-columns:1fr}.date-box .mini-grid{grid-template-columns:1fr 1fr 1fr!important}.date-title{display:block}.date-title span{display:block;margin-top:3px}.people-toolbar.pro-toolbar{padding:8px}}
 
     @media(max-width:760px){#notificationPanel{top:70px;left:8px;right:8px;max-height:82vh}.notif-meta{grid-template-columns:1fr}.mini-toolbar{grid-template-columns:1fr}.table-wrap.clean table{min-width:980px}}
     #notifyBadge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:999px;background:#e11d48;color:white;font-size:12px;margin-right:5px;padding:0 6px}
@@ -94,7 +107,7 @@
     <main class="main">
       <section class="hero">
         <h1>مدیریت احراز و کاربران</h1>
-        <p>هسته واقعی احراز، کاربران، اعلان‌ها و افراد با یک موتور تمیز مدیریت می‌شود.</p>
+        <p>هسته افراد با طراحی مینیمال حرفه‌ای، آماده مرحله بعد: داشبورد.</p>
       </section>
 
       <section id="waitingBox" class="waiting hidden">
@@ -118,7 +131,7 @@
         <div id="adminPanel" class="card hidden">
           <div class="admin-head">
             <h2>مدیریت احراز کاربران</h2>
-            <span class="auth-chip">V208 People Core Pro</span>
+            <span class="auth-chip">V209 People UI Pro</span>
           </div>
           <div class="pro-stats">
             <div class="pro-stat"><small>Admin</small><b id="roleAdminCount">0</b></div>
@@ -148,7 +161,7 @@
         <div id="peoplePanel" class="card hidden">
           <div class="section-title">
             <div>
-              <h2>هسته افراد</h2>
+              <h2>هسته افراد حرفه‌ای</h2>
               <p class="muted" style="margin:6px 0 0">ثبت و مدیریت افراد شجره، سبک، مینیمال و آماده اتصال به درخت.</p>
             </div>
             <span class="pill">V208 People Core</span>
@@ -160,32 +173,44 @@
             <div class="stat"><small>فوت‌شده</small><b id="peopleDead">0</b></div>
           </div>
           <div class="people-shell">
-            <div class="people-form card" style="margin:0">
-              <h3 style="margin:0 0 8px" id="personFormTitle">افزودن فرد</h3>
-              <input id="personId" type="hidden" />
-              <label>نام کامل</label>
-              <input id="personName" type="text" placeholder="نام و نام خانوادگی" />
-              <div class="grid2">
-                <div><label>جنسیت</label><select id="personGender"><option value="male">مرد</option><option value="female">زن</option><option value="unknown">نامشخص</option></select></div>
-                <div><label>وضعیت</label><select id="personLife"><option value="alive">زنده</option><option value="dead">فوت‌شده</option></select></div>
+            <div class="people-form card pro-card" style="margin:0">
+              <div class="people-form-head">
+                <div><h3 id="personFormTitle">افزودن فرد</h3><small>فرم سریع، تمیز و آماده اتصال به داشبورد</small></div>
+                <span class="pill">V209</span>
               </div>
-              <label>تاریخ تولد اختیاری</label>
-              <div class="mini-grid"><input id="birthYear" inputmode="numeric" placeholder="سال" /><input id="birthMonth" inputmode="numeric" placeholder="ماه" /><input id="birthDay" inputmode="numeric" placeholder="روز" /></div>
-              <label>تاریخ فوت اختیاری</label>
-              <div class="mini-grid"><input id="deathYear" inputmode="numeric" placeholder="سال" /><input id="deathMonth" inputmode="numeric" placeholder="ماه" /><input id="deathDay" inputmode="numeric" placeholder="روز" /></div>
-              <div class="soft-divider"></div>
-              <label>پدر</label><select id="fatherId"><option value="">انتخاب نشده</option></select>
-              <label>مادر</label><select id="motherId"><option value="">انتخاب نشده</option></select>
-              <label>همسر</label><select id="spouseId"><option value="">انتخاب نشده</option></select>
-              <label>یادداشت</label><textarea id="personNotes" placeholder="توضیحات اختیاری"></textarea>
-              <div class="people-actions">
-                <button id="savePersonBtn" class="btn blue" type="button">ذخیره فرد</button>
-                <button id="resetPersonBtn" class="btn gray" type="button">فرم جدید</button>
+              <div class="people-form-body">
+                <input id="personId" type="hidden" />
+                <div class="field-card">
+                  <label>نام کامل</label>
+                  <input id="personName" type="text" placeholder="نام و نام خانوادگی" />
+                </div>
+                <div class="choice-grid">
+                  <div class="field-card"><label>جنسیت</label><select id="personGender"><option value="male">مرد</option><option value="female">زن</option><option value="unknown">نامشخص</option></select></div>
+                  <div class="field-card"><label>وضعیت</label><select id="personLife"><option value="alive">زنده</option><option value="dead">فوت‌شده</option></select></div>
+                </div>
+                <div class="date-box">
+                  <div class="date-title"><span>تاریخ تولد اختیاری</span><span>سال / ماه / روز</span></div>
+                  <div class="mini-grid"><input id="birthYear" inputmode="numeric" placeholder="سال" /><input id="birthMonth" inputmode="numeric" placeholder="ماه" /><input id="birthDay" inputmode="numeric" placeholder="روز" /></div>
+                </div>
+                <div class="date-box">
+                  <div class="date-title"><span>تاریخ فوت اختیاری</span><span>بدون اجبار</span></div>
+                  <div class="mini-grid"><input id="deathYear" inputmode="numeric" placeholder="سال" /><input id="deathMonth" inputmode="numeric" placeholder="ماه" /><input id="deathDay" inputmode="numeric" placeholder="روز" /></div>
+                </div>
+                <div class="relation-grid">
+                  <div class="field-card"><label>پدر</label><select id="fatherId"><option value="">انتخاب نشده</option></select></div>
+                  <div class="field-card"><label>مادر</label><select id="motherId"><option value="">انتخاب نشده</option></select></div>
+                  <div class="field-card"><label>همسر</label><select id="spouseId"><option value="">انتخاب نشده</option></select></div>
+                </div>
+                <div class="field-card"><label>یادداشت</label><textarea id="personNotes" placeholder="توضیحات اختیاری"></textarea></div>
+                <div class="people-actions sticky-actions">
+                  <button id="savePersonBtn" class="btn blue" type="button">ذخیره فرد</button>
+                  <button id="resetPersonBtn" class="btn gray" type="button">فرم جدید</button>
+                </div>
+                <div id="peopleMsg" class="msg"></div>
               </div>
-              <div id="peopleMsg" class="msg"></div>
             </div>
             <div>
-              <div class="people-toolbar">
+              <div class="people-toolbar pro-toolbar">
                 <input id="peopleSearch" type="search" placeholder="جستجو نام، پدر، مادر، همسر" />
                 <select id="peopleGenderFilter"><option value="">همه جنسیت‌ها</option><option value="male">مرد</option><option value="female">زن</option><option value="unknown">نامشخص</option></select>
                 <select id="peopleLifeFilter"><option value="">همه وضعیت‌ها</option><option value="alive">زنده</option><option value="dead">فوت‌شده</option></select>
@@ -225,7 +250,7 @@
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V208 People Core Pro';
+    const VERSION = 'V209 People UI Pro';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",

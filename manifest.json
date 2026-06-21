@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V208 People Core Pro",
+  "name": "FamilyTreePro V209 People UI Pro",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=208-people-core-pro",
+  "start_url": "./index.html?v=209-people-ui-pro",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V208: minimal professional people core with real auth, users and notifications",
+  "description": "FamilyTreePro V209: minimal professional people core with real auth, users and notifications",
   "scope": "./",
   "icons": []
 }
