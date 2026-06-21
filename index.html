@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=200-auth-core-real" />
-  <title>FamilyTreePro V200 Auth Core Real</title>
+  <link rel="manifest" href="./manifest.json?v=201-users-manager-real" />
+  <title>FamilyTreePro V201 Users Manager Real</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -36,7 +36,7 @@
     table{width:100%;border-collapse:collapse;min-width:820px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}.table-wrap th,.table-wrap td{border-bottom:1px solid var(--line);padding:10px;text-align:center;vertical-align:middle;line-height:1.7}.table-wrap th{background:#f8fafc;color:var(--muted);position:sticky;top:0}.table-wrap tr:last-child td{border-bottom:0}
     .badge{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;border:1px solid var(--line);white-space:nowrap}.badge.admin{background:#dcfce7;color:#166534}.badge.editor{background:#dbeafe;color:#1d4ed8}.badge.viewer{background:#f1f5f9;color:#334155}.badge.pending{background:#fef3c7;color:#92400e}.badge.approved{background:#dcfce7;color:#166534}.badge.blocked{background:#fee2e2;color:#991b1b}
     .toolbar{display:grid;grid-template-columns:1.3fr .8fr .8fr auto;gap:8px;align-items:center;margin:10px 0}
-    .waiting{max-width:720px;margin:22px auto}.waiting .card{border-color:#fed7aa;background:#fff7ed}.waiting h2{margin-top:0;color:#9a3412}
+    .waiting{max-width:720px;margin:22px auto}.waiting .card{border-color:#fed7aa;background:#fff7ed}.waiting h2{margin-top:0;color:#9a3412}.legacy-panel{border:1px dashed #bfdbfe;background:#eff6ff;border-radius:16px;padding:12px;margin:12px 0}.legacy-panel textarea{width:100%;min-height:96px;border:1px solid #bfdbfe;border-radius:12px;padding:10px;direction:ltr;text-align:left;resize:vertical}.source-note{display:block;font-size:11px;color:#64748b;margin-top:4px}
     @media(max-width:760px){.grid,.grid2,.toolbar{grid-template-columns:1fr}.topbar{align-items:flex-start}.top-actions{width:100%}.top-actions .btn{flex:1}.main{padding:12px}.authbox{padding:20px;margin:8px auto}.table-wrap table{min-width:760px}.hero h1{font-size:22px}}
   </style>
 </head>
@@ -71,7 +71,7 @@
 
   <div id="app" class="hidden">
     <div class="topbar">
-      <div class="brand">FamilyTreePro V200 Auth Core <small id="userLine">در حال بارگذاری...</small></div>
+      <div class="brand">FamilyTreePro V201 Users Manager <small id="userLine">در حال بارگذاری...</small></div>
       <div class="top-actions">
         <button id="refreshBtn" class="btn blue" type="button">بروزرسانی</button>
         <button id="logoutBtn" class="btn red" type="button">خروج</button>
@@ -79,8 +79,8 @@
     </div>
     <main class="main">
       <section class="hero">
-        <h1>هسته احراز V200</h1>
-        <p>این نسخه فقط برای احراز واقعی ساخته شده: ورود، ثبت‌نام، تایید مدیر، نقش‌ها و بازیابی رمز.</p>
+        <h1>هسته احراز و کاربران V201</h1>
+        <p>این نسخه احراز واقعی و مدیریت کاربران را از Firestore می‌خواند؛ کاربران قدیمی Auth-only با ورود اول یا بازیابی ایمیلی قابل اتصال هستند.</p>
       </section>
 
       <section id="waitingBox" class="waiting hidden">
@@ -108,6 +108,18 @@
             <select id="approvalFilter"><option value="">همه وضعیت‌ها</option><option value="approved">تایید شده</option><option value="pending">در انتظار</option><option value="disabled">غیرفعال</option></select>
             <button id="clearFilterBtn" class="btn gray" type="button">پاک‌سازی</button>
           </div>
+
+          <div class="legacy-panel">
+            <b>بازیابی کاربران قدیمی که در Authentication هستند ولی در users نیستند</b>
+            <p class="muted">اگر ۱۱ کاربر در Firebase Authentication داری ولی فقط ۶ سند در Firestore users دیده می‌شود، آن ۵ نفر تا وقتی یک بار وارد V201 نشوند UID آنها مشخص نمی‌شود. این بخش ایمیل آنها را ذخیره می‌کند؛ وقتی با همان ایمیل وارد شوند، پروفایل واقعی users/{uid} ساخته می‌شود و تایید/نقش از اینجا منتقل می‌شود.</p>
+            <textarea id="legacyEmails" placeholder="هر خط یک ایمیل، مثال:
+user1@gmail.com
+user2@gmail.com"></textarea>
+            <div class="form-actions">
+              <button id="importLegacyBtn" class="btn blue" type="button">ثبت ایمیل‌های قدیمی در صف واقعی</button>
+              <button id="showPendingBtn" class="btn amber" type="button">نمایش فقط در انتظارها</button>
+            </div>
+          </div>
           <div class="table-wrap">
             <table>
               <thead><tr><th>نام</th><th>ایمیل</th><th>موبایل</th><th>نقش</th><th>تایید</th><th>آخرین ورود</th><th>عملیات</th></tr></thead>
@@ -125,7 +137,7 @@
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V200 Auth Core Real';
+    const VERSION = 'V201 Users Manager Real';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
@@ -149,6 +161,9 @@
     const val = (id) => String($(id)?.value || '').trim();
     const lower = (s) => String(s || '').trim().toLowerCase();
     const isMainAdmin = (email) => lower(email) === lower(ADMIN_EMAIL);
+    const emailKey = (email) => encodeURIComponent(lower(email || ''));
+    const approvedYes = (u) => u && (u.approved === true || u.approved === 'true' || u.status === 'approved');
+    const disabledYes = (u) => u && (u.disabled === true || u.disabled === 'true' || u.status === 'disabled');
     const show = (el, yes=true) => el.classList.toggle('hidden', !yes);
     const authMsg = (text, ok=false) => { $('authMsg').className = 'msg ' + (ok?'ok':'bad'); $('authMsg').textContent = text || ''; };
     const adminMsg = (text, ok=false) => { $('adminMsg').className = 'msg ' + (ok?'ok':'bad'); $('adminMsg').textContent = text || ''; };
@@ -170,24 +185,33 @@
       const ref = doc(db, 'users', user.uid);
       const snap = await getDoc(ref);
       const admin = isMainAdmin(user.email);
+      const em = lower(user.email || '');
+      let legacy = null;
+      try{
+        const legacySnap = await getDoc(doc(db, 'users_by_email', emailKey(em)));
+        if(legacySnap.exists()) legacy = legacySnap.data() || null;
+      }catch(_e){}
       if(!snap.exists()){
         const data = {
           uid: user.uid,
-          email: lower(user.email),
-          displayName: user.displayName || '',
-          phone: '',
-          role: admin ? 'admin' : 'viewer',
-          approved: admin,
-          disabled: false,
+          email: em,
+          displayName: (legacy && legacy.displayName) || user.displayName || '',
+          phone: (legacy && legacy.phone) || '',
+          role: admin ? 'admin' : ((legacy && legacy.role) || 'viewer'),
+          approved: admin ? true : approvedYes(legacy),
+          disabled: admin ? false : disabledYes(legacy),
           createdAt: serverTimestamp(),
           lastLogin: serverTimestamp(),
-          source: 'v200-auth-core'
+          source: legacy ? 'v201-login-from-users_by_email' : 'v201-auth-core'
         };
         await setDoc(ref, data, {merge:true});
+        if(legacy){
+          await setDoc(doc(db,'users_by_email',emailKey(em)), {linkedUid:user.uid, linkedAt:serverTimestamp(), lastLogin:serverTimestamp()}, {merge:true});
+        }
         return {...data, createdAt:new Date(), lastLogin:new Date()};
       }
       const existing = snap.data() || {};
-      const patch = {lastLogin: serverTimestamp(), email: lower(user.email || existing.email || '')};
+      const patch = {lastLogin: serverTimestamp(), email: em};
       if(admin && (existing.role !== 'admin' || existing.approved !== true || existing.disabled === true)){
         patch.role = 'admin'; patch.approved = true; patch.disabled = false;
       }
@@ -213,8 +237,16 @@
       $('usersBody').innerHTML = '<tr><td colspan="7">در حال خواندن از Firestore...</td></tr>';
       try{
         const qs = await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'desc')));
-        usersCache = qs.docs.map(d => ({id:d.id, ...(d.data()||{})}));
+        const realUsers = qs.docs.map(d => ({id:d.id, docType:'uid', ...(d.data()||{})}));
+        let emailOnly = [];
+        try{
+          const es = await getDocs(collection(db, 'users_by_email'));
+          emailOnly = es.docs.map(d => ({id:d.id, docType:'email', email:decodeURIComponent(d.id), ...(d.data()||{})}))
+            .filter(x => !x.linkedUid);
+        }catch(_e){ emailOnly = []; }
+        usersCache = realUsers.concat(emailOnly);
         renderUsers();
+        adminMsg(`خوانده شد: ${realUsers.length} کاربر واقعی + ${emailOnly.length} ایمیل قدیمی در انتظار ورود اول`, true);
       }catch(e){
         $('usersBody').innerHTML = '<tr><td colspan="7">خطا در خواندن users از Firestore</td></tr>';
         adminMsg('خطا: ' + (e.code || e.message || e), false);
@@ -226,50 +258,77 @@
       const role = val('roleFilter');
       const approval = val('approvalFilter');
       let list = usersCache.slice();
-      if(search){ list = list.filter(u => [u.displayName,u.email,u.phone,u.role].some(x => lower(x).includes(search))); }
-      if(role){ list = list.filter(u => u.role === role); }
-      if(approval === 'approved') list = list.filter(u => u.approved === true && u.disabled !== true);
-      if(approval === 'pending') list = list.filter(u => u.approved !== true && u.disabled !== true);
-      if(approval === 'disabled') list = list.filter(u => u.disabled === true);
-      $('statUsers').textContent = usersCache.length;
-      $('statPending').textContent = usersCache.filter(u => u.approved !== true && u.disabled !== true).length;
+      if(search){ list = list.filter(u => [u.displayName,u.email,u.phone,u.role,u.docType].some(x => lower(x).includes(search))); }
+      if(role){ list = list.filter(u => (u.role || 'viewer') === role); }
+      if(approval === 'approved') list = list.filter(u => approvedYes(u) && !disabledYes(u));
+      if(approval === 'pending') list = list.filter(u => !approvedYes(u) && !disabledYes(u));
+      if(approval === 'disabled') list = list.filter(u => disabledYes(u));
+      $('statUsers').textContent = usersCache.filter(u => u.docType === 'uid').length;
+      $('statPending').textContent = usersCache.filter(u => !approvedYes(u) && !disabledYes(u)).length;
       if(!list.length){ $('usersBody').innerHTML = '<tr><td colspan="7">کاربری یافت نشد</td></tr>'; return; }
       $('usersBody').innerHTML = list.map(u => {
         const role = u.role || 'viewer';
-        const status = u.disabled ? '<span class="badge blocked">غیرفعال</span>' : (u.approved ? '<span class="badge approved">تایید شده</span>' : '<span class="badge pending">در انتظار</span>');
-        const self = u.id === currentUser.uid;
+        const status = disabledYes(u) ? '<span class="badge blocked">غیرفعال</span>' : (approvedYes(u) ? '<span class="badge approved">تایید شده</span>' : '<span class="badge pending">در انتظار</span>');
+        const self = u.docType === 'uid' && u.id === currentUser.uid;
+        const src = u.docType === 'email' ? '<span class="source-note">منبع: users_by_email؛ بعد از ورود اول به users/{uid} وصل می‌شود</span>' : '<span class="source-note">منبع: users/{uid}</span>';
+        const key = u.docType + ':' + u.id;
         return `<tr>
-          <td>${escapeHtml(u.displayName || '-')}</td>
+          <td>${escapeHtml(u.displayName || '-')} ${src}</td>
           <td class="ltr">${escapeHtml(u.email || '-')}</td>
           <td class="ltr">${escapeHtml(u.phone || '-')}</td>
-          <td><select data-role="${u.id}" ${self?'disabled':''}><option value="viewer" ${role==='viewer'?'selected':''}>viewer</option><option value="editor" ${role==='editor'?'selected':''}>editor</option><option value="admin" ${role==='admin'?'selected':''}>admin</option></select></td>
+          <td><select data-role="${key}" ${self?'disabled':''}><option value="viewer" ${role==='viewer'?'selected':''}>viewer</option><option value="editor" ${role==='editor'?'selected':''}>editor</option><option value="admin" ${role==='admin'?'selected':''}>admin</option></select></td>
           <td>${status}</td>
-          <td>${fmt(u.lastLogin)}</td>
+          <td>${fmt(u.lastLogin || u.createdAt)}</td>
           <td>
-            <button class="btn blue" data-approve="${u.id}" ${u.approved||u.disabled?'disabled':''}>تایید</button>
-            <button class="btn amber" data-disable="${u.id}" ${self?'disabled':''}>${u.disabled?'فعال':'غیرفعال'}</button>
+            <button class="btn blue" data-approve="${key}" ${approvedYes(u)||disabledYes(u)?'disabled':''}>تایید</button>
+            <button class="btn amber" data-disable="${key}" ${self?'disabled':''}>${disabledYes(u)?'فعال':'غیرفعال'}</button>
           </td>
         </tr>`;
       }).join('');
-      document.querySelectorAll('[data-approve]').forEach(btn => btn.onclick = () => approveUser(btn.dataset.approve));
-      document.querySelectorAll('[data-disable]').forEach(btn => btn.onclick = () => toggleDisable(btn.dataset.disable));
-      document.querySelectorAll('[data-role]').forEach(sel => sel.onchange = () => changeRole(sel.dataset.role, sel.value));
+      document.querySelectorAll('[data-approve]').forEach(btn => btn.onclick = () => approveUserKey(btn.dataset.approve));
+      document.querySelectorAll('[data-disable]').forEach(btn => btn.onclick = () => toggleDisableKey(btn.dataset.disable));
+      document.querySelectorAll('[data-role]').forEach(sel => sel.onchange = () => changeRoleKey(sel.dataset.role, sel.value));
     }
 
     function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-    async function approveUser(uid){
-      try{ await updateDoc(doc(db,'users',uid), {approved:true, disabled:false, approvedAt:serverTimestamp(), approvedBy:currentUser.uid}); adminMsg('کاربر تایید شد.', true); await loadUsers(); }
+    function parseKey(key){ const p=String(key||'').split(':'); return {type:p[0], id:p.slice(1).join(':')}; }
+    function refForKey(key){ const k=parseKey(key); return k.type === 'email' ? doc(db,'users_by_email',k.id) : doc(db,'users',k.id); }
+    async function approveUserKey(key){
+      try{ await setDoc(refForKey(key), {approved:true, disabled:false, approvedAt:serverTimestamp(), approvedBy:currentUser.uid}, {merge:true}); adminMsg('کاربر/ایمیل تایید شد.', true); await loadUsers(); }
       catch(e){ adminMsg('خطا در تایید: ' + (e.code || e.message || e), false); }
     }
-    async function toggleDisable(uid){
-      const u = usersCache.find(x=>x.id===uid); if(!u) return;
-      try{ await updateDoc(doc(db,'users',uid), {disabled:!u.disabled, disabledAt:serverTimestamp(), disabledBy:currentUser.uid}); adminMsg('وضعیت کاربر تغییر کرد.', true); await loadUsers(); }
+    async function toggleDisableKey(key){
+      const k=parseKey(key); const u = usersCache.find(x=>x.docType===k.type && x.id===k.id); if(!u) return;
+      try{ await setDoc(refForKey(key), {disabled:!disabledYes(u), disabledAt:serverTimestamp(), disabledBy:currentUser.uid}, {merge:true}); adminMsg('وضعیت تغییر کرد.', true); await loadUsers(); }
       catch(e){ adminMsg('خطا: ' + (e.code || e.message || e), false); }
     }
-    async function changeRole(uid, role){
-      try{ await updateDoc(doc(db,'users',uid), {role, roleUpdatedAt:serverTimestamp(), roleUpdatedBy:currentUser.uid}); adminMsg('نقش تغییر کرد.', true); await loadUsers(); }
+    async function changeRoleKey(key, role){
+      try{ await setDoc(refForKey(key), {role, roleUpdatedAt:serverTimestamp(), roleUpdatedBy:currentUser.uid}, {merge:true}); adminMsg('نقش تغییر کرد.', true); await loadUsers(); }
       catch(e){ adminMsg('خطا در تغییر نقش: ' + (e.code || e.message || e), false); await loadUsers(); }
+    }
+
+    async function importLegacyEmails(){
+      try{
+        const lines = String($('legacyEmails').value || '').split(/[\n,;]+/).map(x=>lower(x)).filter(Boolean);
+        const emails = Array.from(new Set(lines.filter(x => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(x))));
+        if(!emails.length) throw new Error('ایمیل معتبری وارد نشده است.');
+        $('importLegacyBtn').disabled = true;
+        for(const em of emails){
+          await setDoc(doc(db,'users_by_email',emailKey(em)), {
+            email: em,
+            role: isMainAdmin(em) ? 'admin' : 'viewer',
+            approved: isMainAdmin(em),
+            disabled: false,
+            createdAt: serverTimestamp(),
+            source: 'v201-admin-email-recovery'
+          }, {merge:true});
+        }
+        $('legacyEmails').value='';
+        adminMsg(`${emails.length} ایمیل قدیمی ثبت شد. بعد از ورود هر نفر، سند users/{uid} واقعی ساخته می‌شود.`, true);
+        await loadUsers();
+      }catch(e){ adminMsg('خطا در ثبت ایمیل‌های قدیمی: ' + (e.code || e.message || e), false); }
+      finally{ $('importLegacyBtn').disabled = false; }
     }
 
     $('loginBtn').onclick = async () => {
@@ -318,6 +377,8 @@
     $('refreshBtn').onclick = async () => { if(currentUser) await loadProfile(currentUser); };
     ['searchBox','roleFilter','approvalFilter'].forEach(id => $(id).addEventListener('input', renderUsers));
     $('clearFilterBtn').onclick = () => { $('searchBox').value=''; $('roleFilter').value=''; $('approvalFilter').value=''; renderUsers(); };
+    $('showPendingBtn').onclick = () => { $('approvalFilter').value='pending'; renderUsers(); };
+    $('importLegacyBtn').onclick = importLegacyEmails;
 
     onAuthStateChanged(auth, async (user) => {
       currentUser = user;
@@ -344,7 +405,7 @@
       return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
     }
 
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=200-auth-core-real').catch(()=>{}); }
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=201-users-manager-real').catch(()=>{}); }
   </script>
 </body>
 </html>
