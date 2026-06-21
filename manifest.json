@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V202 Notification Center Real",
+  "name": "FamilyTreePro V203 Auth Auto Sync Final",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=202-notification-center-real",
+  "start_url": "./index.html?v=203-auth-autosync-final",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V201: real auth core plus Firestore users manager and legacy email recovery",
+  "description": "FamilyTreePro V203: real Firebase Auth with automatic users/{uid} creation on successful login",
   "scope": "./",
   "icons": []
 }

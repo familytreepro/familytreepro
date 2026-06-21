@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=202-notification-center-real" />
-  <title>FamilyTreePro V202 Notification Center Real</title>
+  <link rel="manifest" href="./manifest.json?v=203-auth-autosync-final" />
+  <title>FamilyTreePro V203 Auth Auto Sync Final</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -115,7 +115,7 @@
 
           <div class="legacy-panel">
             <b>بازیابی کاربران قدیمی که در Authentication هستند ولی در users نیستند</b>
-            <p class="muted">اگر ۱۱ کاربر در Firebase Authentication داری ولی فقط ۶ سند در Firestore users دیده می‌شود، آن ۵ نفر تا وقتی یک بار وارد V201 نشوند UID آنها مشخص نمی‌شود. این بخش ایمیل آنها را ذخیره می‌کند؛ وقتی با همان ایمیل وارد شوند، پروفایل واقعی users/{uid} ساخته می‌شود و تایید/نقش از اینجا منتقل می‌شود.</p>
+            <p class="muted">قانون نهایی V203: مرجع پنل احراز فقط Firestore users/{uid} است. هر کاربر Firebase Auth که با موفقیت وارد شود، اگر سند users/{uid} نداشته باشد، سیستم همان لحظه خودش سند واقعی می‌سازد. این بخش فقط برای ایمیل‌های قدیمی اختیاری است تا قبل از اولین ورود، نقش/تاییدشان آماده شود.</p>
             <textarea id="legacyEmails" placeholder="هر خط یک ایمیل، مثال:
 user1@gmail.com
 user2@gmail.com"></textarea>
@@ -152,7 +152,7 @@ user2@gmail.com"></textarea>
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V202 Notification Center Real';
+    const VERSION = 'V203 Auth Auto Sync Final';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
@@ -303,7 +303,7 @@ user2@gmail.com"></textarea>
           disabled: admin ? false : disabledYes(legacy),
           createdAt: serverTimestamp(),
           lastLogin: serverTimestamp(),
-          source: legacy ? 'v201-login-from-users_by_email' : 'v201-auth-core'
+          source: legacy ? 'v203-login-auto-users-sync' : 'v203-login-auto-users-sync'
         };
         await setDoc(ref, data, {merge:true});
         if(legacy){
@@ -428,12 +428,12 @@ user2@gmail.com"></textarea>
             approved: isMainAdmin(em),
             disabled: false,
             createdAt: serverTimestamp(),
-            source: 'v201-admin-email-recovery'
+            source: 'v203-admin-email-recovery-optional'
           }, {merge:true});
         }
         $('legacyEmails').value='';
         await createNotification({type:'legacy_import', targetRole:'admin', title:'بازیابی کاربران قدیمی', message:`${emails.length} ایمیل قدیمی در صف اتصال به users/{uid} ثبت شد.`});
-        adminMsg(`${emails.length} ایمیل قدیمی ثبت شد. بعد از ورود هر نفر، سند users/{uid} واقعی ساخته می‌شود.`, true);
+        adminMsg(`${emails.length} ایمیل قدیمی ثبت شد. بعد از اولین ورود هر نفر، سند users/{uid} به صورت خودکار و واقعی ساخته می‌شود.`, true);
         await loadUsers(); await loadNotifications();
       }catch(e){ adminMsg('خطا در ثبت ایمیل‌های قدیمی: ' + (e.code || e.message || e), false); }
       finally{ $('importLegacyBtn').disabled = false; }
@@ -469,7 +469,7 @@ user2@gmail.com"></textarea>
           disabled: false,
           createdAt: serverTimestamp(),
           lastLogin: serverTimestamp(),
-          source: 'v200-register'
+          source: 'v203-register'
         }, {merge:true});
         if(!admin){
           await createNotification({type:'new_registration', targetRole:'admin', title:'ثبت‌نام جدید', message:`${name || em} با ایمیل ${em} ثبت‌نام کرد و منتظر تایید است.`});
@@ -519,7 +519,7 @@ user2@gmail.com"></textarea>
       return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
     }
 
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=202-notification-center-real').catch(()=>{}); }
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=203-auth-autosync-final').catch(()=>{}); }
   </script>
 </body>
 </html>
