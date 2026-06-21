@@ -46,8 +46,8 @@
 <body>
   <section id="authScreen">
     <div class="authbox">
-      <h2>FamilyTreePro V200</h2>
-      <p class="muted">هسته احراز واقعی؛ بدون وصله، بدون کاربر تستی، فقط Firebase Auth و Firestore.</p>
+      <h2>FamilyTreePro V203</h2>
+      <p class="muted">هسته احراز واقعی با Auto Sync؛ هر ورود موفق اگر سند users/{uid} نداشته باشد، خودش آن را می‌سازد.</p>
       <div class="tabs">
         <button id="tabLogin" class="active" type="button">ورود</button>
         <button id="tabRegister" type="button">ثبت‌نام</button>
@@ -74,7 +74,7 @@
 
   <div id="app" class="hidden">
     <div class="topbar">
-      <div class="brand">FamilyTreePro V202 Notifications <small id="userLine">در حال بارگذاری...</small></div>
+      <div class="brand">FamilyTreePro V203 Auth Auto Sync <small id="userLine">در حال بارگذاری...</small></div>
       <div class="top-actions">
         <button id="notifyBtn" class="btn amber" type="button">📩 اعلان‌ها <span id="notifyBadge">0</span></button>
         <button id="refreshBtn" class="btn blue" type="button">بروزرسانی</button>
@@ -83,8 +83,8 @@
     </div>
     <main class="main">
       <section class="hero">
-        <h1>هسته احراز، کاربران و مرکز اعلان V202</h1>
-        <p>این نسخه احراز واقعی، مدیریت کاربران و مرکز اعلان را از Firestore می‌خواند؛ بدون کش و بدون کاربر تستی.</p>
+        <h1>هسته احراز و همگام‌سازی خودکار کاربران V203</h1>
+        <p>این نسخه فقط یک منبع کاربران دارد: Firestore users/{uid}. هر کاربر Firebase Auth بعد از اولین ورود، خودکار به users منتقل می‌شود؛ بدون ورود REST و بدون وصله‌های قدیمی.</p>
       </section>
 
       <section id="waitingBox" class="waiting hidden">
@@ -114,13 +114,9 @@
           </div>
 
           <div class="legacy-panel">
-            <b>بازیابی کاربران قدیمی که در Authentication هستند ولی در users نیستند</b>
-            <p class="muted">قانون نهایی V203: مرجع پنل احراز فقط Firestore users/{uid} است. هر کاربر Firebase Auth که با موفقیت وارد شود، اگر سند users/{uid} نداشته باشد، سیستم همان لحظه خودش سند واقعی می‌سازد. این بخش فقط برای ایمیل‌های قدیمی اختیاری است تا قبل از اولین ورود، نقش/تاییدشان آماده شود.</p>
-            <textarea id="legacyEmails" placeholder="هر خط یک ایمیل، مثال:
-user1@gmail.com
-user2@gmail.com"></textarea>
+            <b>همگام‌سازی خودکار کاربران Auth → users</b>
+            <p class="muted">در V203 دیگر ایمیل قدیمی دستی وارد نمی‌شود. هر کاربری که در Firebase Authentication وجود داشته باشد، بعد از اولین ورود موفق اگر سند <span class="ltr">users/{uid}</span> نداشته باشد، سیستم همان لحظه سند واقعی برایش می‌سازد. مدیر بعد از آن می‌تواند نقش و تایید را از همین جدول مدیریت کند.</p>
             <div class="form-actions">
-              <button id="importLegacyBtn" class="btn blue" type="button">ثبت ایمیل‌های قدیمی در صف واقعی</button>
               <button id="showPendingBtn" class="btn amber" type="button">نمایش فقط در انتظارها</button>
             </div>
           </div>
@@ -135,7 +131,7 @@ user2@gmail.com"></textarea>
 
         <div id="notificationPanel" class="card hidden">
           <h2>مرکز اعلان</h2>
-          <p class="muted">اعلان‌ها از Firestore /notifications خوانده می‌شوند. تایید مدیر و ثبت‌نام جدید از همینجا ثبت می‌شود.</p>
+          <p class="muted">اعلان‌ها از Firestore /notifications خوانده می‌شوند. تایید مدیر و ثبت‌نام جدید همینجا ثبت می‌شود.</p>
           <div class="form-actions">
             <button id="reloadNotifBtn" class="btn blue" type="button">خواندن اعلان‌ها</button>
             <button id="markAllReadBtn" class="btn gray" type="button">خوانده شد</button>
@@ -303,7 +299,7 @@ user2@gmail.com"></textarea>
           disabled: admin ? false : disabledYes(legacy),
           createdAt: serverTimestamp(),
           lastLogin: serverTimestamp(),
-          source: legacy ? 'v203-login-auto-users-sync' : 'v203-login-auto-users-sync'
+          source: legacy ? 'v203-login-from-users_by_email' : 'v203-auth-autosync'
         };
         await setDoc(ref, data, {merge:true});
         if(legacy){
@@ -336,19 +332,12 @@ user2@gmail.com"></textarea>
 
     async function loadUsers(){
       if(!currentProfile || currentProfile.role !== 'admin') return;
-      $('usersBody').innerHTML = '<tr><td colspan="7">در حال خواندن از Firestore...</td></tr>';
+      $('usersBody').innerHTML = '<tr><td colspan="7">در حال خواندن users/{uid} از Firestore...</td></tr>';
       try{
         const qs = await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'desc')));
-        const realUsers = qs.docs.map(d => ({id:d.id, docType:'uid', ...(d.data()||{})}));
-        let emailOnly = [];
-        try{
-          const es = await getDocs(collection(db, 'users_by_email'));
-          emailOnly = es.docs.map(d => ({id:d.id, docType:'email', email:decodeURIComponent(d.id), ...(d.data()||{})}))
-            .filter(x => !x.linkedUid);
-        }catch(_e){ emailOnly = []; }
-        usersCache = realUsers.concat(emailOnly);
+        usersCache = qs.docs.map(d => ({id:d.id, docType:'uid', ...(d.data()||{})}));
         renderUsers();
-        adminMsg(`خوانده شد: ${realUsers.length} کاربر واقعی + ${emailOnly.length} ایمیل قدیمی در انتظار ورود اول`, true);
+        adminMsg(`خوانده شد: ${usersCache.length} کاربر واقعی از users/{uid}. کاربران Auth بدون سند، بعد از اولین ورود خودکار ساخته می‌شوند.`, true);
       }catch(e){
         $('usersBody').innerHTML = '<tr><td colspan="7">خطا در خواندن users از Firestore</td></tr>';
         adminMsg('خطا: ' + (e.code || e.message || e), false);
@@ -372,7 +361,7 @@ user2@gmail.com"></textarea>
         const role = u.role || 'viewer';
         const status = disabledYes(u) ? '<span class="badge blocked">غیرفعال</span>' : (approvedYes(u) ? '<span class="badge approved">تایید شده</span>' : '<span class="badge pending">در انتظار</span>');
         const self = u.docType === 'uid' && u.id === currentUser.uid;
-        const src = u.docType === 'email' ? '<span class="source-note">منبع: users_by_email؛ بعد از ورود اول به users/{uid} وصل می‌شود</span>' : '<span class="source-note">منبع: users/{uid}</span>';
+        const src = '<span class="source-note">منبع: users/{uid}</span>';
         const key = u.docType + ':' + u.id;
         return `<tr>
           <td>${escapeHtml(u.displayName || '-')} ${src}</td>
@@ -428,12 +417,12 @@ user2@gmail.com"></textarea>
             approved: isMainAdmin(em),
             disabled: false,
             createdAt: serverTimestamp(),
-            source: 'v203-admin-email-recovery-optional'
+            source: 'v201-admin-email-recovery'
           }, {merge:true});
         }
         $('legacyEmails').value='';
         await createNotification({type:'legacy_import', targetRole:'admin', title:'بازیابی کاربران قدیمی', message:`${emails.length} ایمیل قدیمی در صف اتصال به users/{uid} ثبت شد.`});
-        adminMsg(`${emails.length} ایمیل قدیمی ثبت شد. بعد از اولین ورود هر نفر، سند users/{uid} به صورت خودکار و واقعی ساخته می‌شود.`, true);
+        adminMsg(`${emails.length} ایمیل قدیمی ثبت شد. بعد از ورود هر نفر، سند users/{uid} واقعی ساخته می‌شود.`, true);
         await loadUsers(); await loadNotifications();
       }catch(e){ adminMsg('خطا در ثبت ایمیل‌های قدیمی: ' + (e.code || e.message || e), false); }
       finally{ $('importLegacyBtn').disabled = false; }
@@ -491,8 +480,7 @@ user2@gmail.com"></textarea>
     $('markAllReadBtn').onclick = markAllNotificationsRead;
     ['searchBox','roleFilter','approvalFilter'].forEach(id => $(id).addEventListener('input', renderUsers));
     $('clearFilterBtn').onclick = () => { $('searchBox').value=''; $('roleFilter').value=''; $('approvalFilter').value=''; renderUsers(); };
-    $('showPendingBtn').onclick = () => { $('approvalFilter').value='pending'; renderUsers(); };
-    $('importLegacyBtn').onclick = importLegacyEmails;
+    if($('showPendingBtn')) $('showPendingBtn').onclick = () => { $('approvalFilter').value='pending'; renderUsers(); };
 
     onAuthStateChanged(auth, async (user) => {
       currentUser = user;
