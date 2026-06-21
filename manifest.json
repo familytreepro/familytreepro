@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V206 Clean Auth UI",
+  "name": "FamilyTreePro V207 Users Manager Pro",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=206-clean-auth-ui",
+  "start_url": "./index.html?v=207-users-manager-pro",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V205: notification close modal and professional minimal auth users table",
+  "description": "FamilyTreePro V207: real unified auth and professional users manager",
   "scope": "./",
   "icons": []
 }
