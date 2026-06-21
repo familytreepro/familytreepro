@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro V203 Auth Auto Sync Final",
+  "name": "FamilyTreePro V204 Notification Details",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=203-auth-autosync-final",
+  "start_url": "./index.html?v=204-notification-details",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
