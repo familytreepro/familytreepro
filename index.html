@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=205-auth-ui-notification-close" />
-  <title>FamilyTreePro V205 Auth UI Clean</title>
+  <link rel="manifest" href="./manifest.json?v=206-clean-auth-ui" />
+  <title>FamilyTreePro V206 Clean Auth UI</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -51,8 +51,7 @@
 <body>
   <section id="authScreen">
     <div class="authbox">
-      <h2>FamilyTreePro V204</h2>
-      <p class="muted">هسته احراز واقعی با Auto Sync؛ هر ورود موفق اگر سند users/{uid} نداشته باشد، خودش آن را می‌سازد.</p>
+      <h2>FamilyTreePro</h2>
       <div class="tabs">
         <button id="tabLogin" class="active" type="button">ورود</button>
         <button id="tabRegister" type="button">ثبت‌نام</button>
@@ -79,7 +78,7 @@
 
   <div id="app" class="hidden">
     <div class="topbar">
-      <div class="brand">FamilyTreePro V205 Auth UI Clean <small id="userLine">در حال بارگذاری...</small></div>
+      <div class="brand">FamilyTreePro <small id="userLine">در حال بارگذاری...</small></div>
       <div class="top-actions">
         <button id="notifyBtn" class="btn amber" type="button">📩 اعلان‌ها <span id="notifyBadge">0</span></button>
         <button id="refreshBtn" class="btn blue" type="button">بروزرسانی</button>
@@ -88,8 +87,8 @@
     </div>
     <main class="main">
       <section class="hero">
-        <h1>هسته احراز و مرکز اعلان V205</h1>
-        <p>این نسخه فقط یک منبع کاربران دارد: Firestore users/{uid}. هر کاربر Firebase Auth بعد از اولین ورود، خودکار به users منتقل می‌شود؛ بدون ورود REST و بدون وصله‌های قدیمی.</p>
+        <h1>مدیریت احراز و اعلان‌ها</h1>
+        <p>ورود، تایید کاربران، نقش‌ها و اعلان‌ها در یک پنل تمیز مدیریت می‌شود.</p>
       </section>
 
       <section id="waitingBox" class="waiting hidden">
@@ -111,9 +110,9 @@
         <div id="adminPanel" class="card hidden">
           <div class="admin-head">
             <h2>مدیریت احراز کاربران</h2>
-            <span class="auth-chip">منبع واقعی: Firestore /users</span>
+            <span class="auth-chip">پنل کاربران</span>
           </div>
-          <p class="muted admin-sub">جدول احراز مینیمال و مرتب؛ بدون کش محلی و بدون خواندن مستقیم Firebase Authentication.</p>
+          
           <div class="mini-toolbar">
             <input id="searchBox" type="search" placeholder="جستجو نام، ایمیل، موبایل" />
             <select id="roleFilter"><option value="">همه نقش‌ها</option><option value="admin">admin</option><option value="editor">editor</option><option value="viewer">viewer</option></select>
@@ -121,12 +120,8 @@
             <button id="clearFilterBtn" class="btn gray" type="button">پاک‌سازی</button>
           </div>
 
-          <div class="legacy-panel">
-            <b>همگام‌سازی خودکار کاربران Auth → users</b>
-            <p class="muted">در V203 دیگر ایمیل قدیمی دستی وارد نمی‌شود. هر کاربری که در Firebase Authentication وجود داشته باشد، بعد از اولین ورود موفق اگر سند <span class="ltr">users/{uid}</span> نداشته باشد، سیستم همان لحظه سند واقعی برایش می‌سازد. مدیر بعد از آن می‌تواند نقش و تایید را از همین جدول مدیریت کند.</p>
-            <div class="form-actions">
-              <button id="showPendingBtn" class="btn amber" type="button">نمایش فقط در انتظارها</button>
-            </div>
+          <div class="form-actions" style="justify-content:flex-start;margin:10px 0">
+            <button id="showPendingBtn" class="btn amber" type="button">نمایش در انتظارها</button>
           </div>
           <div class="table-wrap clean">
             <table>
@@ -144,7 +139,6 @@
             <button id="closeNotifBtn" class="notif-close" type="button" aria-label="بستن اعلان‌ها">×</button>
           </div>
           <div class="notif-body">
-            <p class="muted">اعلان‌ها با جزئیات کامل از Firestore /notifications خوانده می‌شوند؛ نوع اعلان، پیام، فرستنده، گیرنده و زمان نمایش داده می‌شود.</p>
             <div class="form-actions">
               <button id="reloadNotifBtn" class="btn blue" type="button">خواندن اعلان‌ها</button>
               <button id="markAllReadBtn" class="btn gray" type="button">خوانده شد</button>
@@ -162,7 +156,7 @@
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V205 Auth UI Clean';
+    const VERSION = 'V206 Clean Auth UI';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
@@ -214,7 +208,7 @@
           actorEmail: currentUser ? lower(currentUser.email || '') : '',
           readBy: {},
           createdAt: serverTimestamp(),
-          source: 'v204-notification-details'
+          source: 'v206-clean-auth-ui'
         });
       }catch(e){ console.warn('notification-create-failed', e); }
     }
@@ -529,7 +523,7 @@
       return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
     }
 
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=205-auth-ui-notification-close').catch(()=>{}); }
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=206-clean-auth-ui').catch(()=>{}); }
   </script>
 </body>
 </html>

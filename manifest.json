@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro V205 Auth UI Clean",
+  "name": "FamilyTreePro V206 Clean Auth UI",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=205-auth-ui-notification-close",
+  "start_url": "./index.html?v=206-clean-auth-ui",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
