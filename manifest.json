@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V204 Notification Details",
+  "name": "FamilyTreePro V205 Auth UI Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=204-notification-details",
+  "start_url": "./index.html?v=205-auth-ui-notification-close",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V203: real Firebase Auth with automatic Auth-to-Firestore users sync",
+  "description": "FamilyTreePro V205: notification close modal and professional minimal auth users table",
   "scope": "./",
   "icons": []
 }
