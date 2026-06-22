@@ -1,14 +1,1 @@
-{
-  "name": "FamilyTreePro V224 Backup Import Engine",
-  "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=224-backup-import-engine",
-  "display": "standalone",
-  "background_color": "#f7f7ff",
-  "theme_color": "#111827",
-  "orientation": "portrait",
-  "lang": "fa",
-  "dir": "rtl",
-  "description": "FamilyTreePro V224: backup import engine, children rows, profile navigation",
-  "scope": "./",
-  "icons": []
-}
+{"name":"FamilyTreePro V225 People List Accordion","short_name":"FamilyTreePro","start_url":"./index.html?v=225-people-list-accordion","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V225: accordion people list under search, backup import preserved","scope":"./","icons":[]}

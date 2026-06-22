@@ -1,5 +1,5 @@
-// FamilyTreePro V224 Backup Import Engine
-const CACHE_NAME='familytreepro-v224-backup-import-engine';
+// FamilyTreePro V225 People List Accordion
+const CACHE_NAME='familytreepro-v225-people-list-accordion';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
