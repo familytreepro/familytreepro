@@ -1,14 +1,1 @@
-{
-  "name": "FamilyTreePro V230 Tree Grid Print Pro",
-  "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=230-tree-grid-print-pro",
-  "display": "standalone",
-  "background_color": "#f7f7ff",
-  "theme_color": "#111827",
-  "orientation": "portrait",
-  "lang": "fa",
-  "dir": "rtl",
-  "description": "FamilyTreePro V230: fast tree print engine with photo toggle, ancestors, descendants, generations, PNG/print",
-  "scope": "./",
-  "icons": []
-}
+{"name":"FamilyTreePro V231 Tree Print Pro","short_name":"FamilyTreePro","start_url":"./index.html?v=231-tree-print-pro","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V231: tree grid print pro, clickable generation table, PDF/PNG export","scope":"./","icons":[]}
