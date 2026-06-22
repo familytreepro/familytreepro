@@ -1,1 +1,14 @@
-{"name":"FamilyTreePro V222 Children Spouse Manager","short_name":"FamilyTreePro","start_url":"./index.html?v=222-person-profile-edit-nav","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V222: children and spouse manager on unified engine","scope":"./","icons":[]}
+{
+  "name": "FamilyTreePro V223 Children Rows Restore",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=223-children-rows-restore",
+  "display": "standalone",
+  "background_color": "#f7f7ff",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V223: restore children rows manager and person profile navigation",
+  "scope": "./",
+  "icons": []
+}
