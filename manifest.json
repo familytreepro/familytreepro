@@ -1,13 +1,14 @@
 {
-  "name":"FamilyTreePro V216 Drawer Home Stats Clean",
-  "short_name":"FamilyTreePro",
-  "start_url":"./index.html?v=216-drawer-home-stats-clean",
-  "display":"standalone",
-  "background_color":"#f5f7fb",
-  "theme_color":"#0b1220",
-  "orientation":"portrait",
-  "lang":"fa",
-  "dir":"rtl",
-  "description":"FamilyTreePro V216: clean drawer dashboard with people stats home",
-  "icons":[]
+  "name": "FamilyTreePro V217 Unified Header Home",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=217-unified-header-home",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#0b1220",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V217: unified header, home dashboard, single engine",
+  "scope": "./",
+  "icons": []
 }
