@@ -1,5 +1,5 @@
-// FamilyTreePro V226 People Master Accordion
-const CACHE_NAME='familytreepro-v226-people-master-accordion';
+// FamilyTreePro V227 Smart Relation Engine
+const CACHE_NAME='familytreepro-v227-smart-relation-engine';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
