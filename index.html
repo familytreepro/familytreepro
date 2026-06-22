@@ -6,38 +6,22 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>FamilyTreePro V215</title>
-  <link rel="manifest" href="./manifest.json?v=215-mobile-header-fix">
+  <title>FamilyTreePro V216</title>
+  <link rel="manifest" href="./manifest.json?v=216-drawer-dashboard-clean">
   <meta name="theme-color" content="#0b1220">
   <style>
     :root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#64748b;--line:#e5e7eb;--navy:#0b1220;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--purple:#7c3aed;--shadow:0 14px 36px rgba(15,23,42,.08);--r:18px}
     *{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden;font-family:tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font-family:inherit}button{cursor:pointer}.hidden{display:none!important}
     .login{min-height:100vh;background:linear-gradient(160deg,#061429,#123b80);display:flex;align-items:center;justify-content:center;padding:18px}.login-card{width:min(420px,94vw);background:#fff;border-radius:28px;padding:24px;box-shadow:0 26px 80px rgba(0,0,0,.25);text-align:center}.login-card h1{font-size:28px;margin:4px 0 18px;line-height:1.4}.field{width:100%;border:1px solid #dbe3ef;background:#fff;border-radius:16px;min-height:52px;padding:13px 14px;margin:7px 0;font-size:16px;color:#111827}.field.ltr{direction:ltr;text-align:left}.btn{border:0;border-radius:14px;min-height:46px;padding:11px 16px;font-weight:700;color:#fff;background:var(--blue);margin:4px}.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.gray{background:#64748b}.btn.ghost{background:#eef4ff;color:#1d4ed8;border:1px solid #bfdbfe}.btn.warn{background:var(--amber)}.btn.small{min-height:34px;padding:7px 10px;font-size:12px;border-radius:10px}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.msg{margin:10px 0;color:#ef4444;line-height:1.8;font-size:13px}.ok{color:var(--green)}
-    #app{min-height:100vh;display:flex;flex-direction:column}.topbar{height:auto;min-height:64px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:8px;font-weight:800}.nav{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.nav button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.09);color:#fff;border-radius:12px;padding:9px 11px}.nav button.active{background:#fff;color:#0b1220}.user-chip{display:flex;align-items:center;gap:7px;font-size:12px;color:#dbeafe}.main{width:min(1180px,100%);margin:0 auto;padding:18px}.version{position:fixed;left:10px;bottom:10px;z-index:50;background:rgba(15,23,42,.85);color:#fff;border-radius:999px;padding:7px 10px;font-size:11px;pointer-events:none}
+    #app{min-height:100vh;display:flex;flex-direction:column}.topbar{height:62px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 14px;position:sticky;top:0;z-index:30}.brand{display:flex;align-items:center;gap:8px;font-weight:800}.menu-btn{border:0;background:rgba(255,255,255,.12);color:#fff;border-radius:14px;width:44px;height:42px;font-size:22px}.user-chip{display:flex;align-items:center;gap:7px;font-size:12px;color:#dbeafe}.main{width:min(1180px,100%);margin:0 auto;padding:18px}.drawer-back{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:70;display:none}.drawer-back.open{display:block}.drawer{position:fixed;top:0;bottom:0;right:0;width:min(320px,86vw);background:#fff;z-index:80;transform:translateX(105%);transition:.22s ease;box-shadow:-18px 0 50px rgba(15,23,42,.22);display:flex;flex-direction:column}.drawer.open{transform:translateX(0)}.drawer-head{background:var(--navy);color:#fff;padding:16px;display:flex;align-items:center;justify-content:space-between}.drawer-close{border:0;background:rgba(255,255,255,.14);color:#fff;border-radius:12px;padding:8px 11px}.nav{padding:12px;display:grid;gap:8px}.nav button{border:1px solid var(--line);background:#f8fafc;color:#111827;border-radius:14px;padding:13px;text-align:right;font-weight:800}.nav button.active{background:var(--blue);color:#fff;border-color:var(--blue)}.version{position:fixed;left:8px;bottom:8px;z-index:50;background:rgba(15,23,42,.78);color:#fff;border-radius:999px;padding:5px 8px;font-size:10px;pointer-events:none}
     .hero{background:linear-gradient(135deg,#0b1220,#2563eb);color:#fff;border-radius:26px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}.hero h2{margin:0 0 6px}.hero p{margin:0;color:#dbeafe;line-height:1.9}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,1fr)}.two{grid-template-columns:1fr 1fr}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}.stat{display:flex;align-items:center;justify-content:space-between}.stat .num{font-size:28px;font-weight:900;margin-top:8px}.stat small{color:var(--muted)}.icon{font-size:30px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.toolbar .field{margin:0;min-height:44px;flex:1;min-width:160px}.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#f8fafc;font-size:12px;color:#334155;margin:2px}.pill.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}.pill.bad{background:#fef2f2;color:#991b1b;border-color:#fecaca}.pill.blue{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.pill.gray{background:#f8fafc;color:#475569}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:center;vertical-align:middle;line-height:1.7}.table th{background:#f8fafc;color:#64748b;font-size:13px}.actions{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:18px;line-height:1.9}.form-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr repeat(3,.45fr);gap:8px}.form-grid .field{margin:0}.list{display:grid;gap:8px}.item{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fff;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.item b{display:block;margin-bottom:4px}.item small{color:var(--muted)}.modal-back{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}.modal-back.open{display:flex}.modal{width:min(520px,94vw);background:#fff;border-radius:22px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,.32)}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.close{border:0;background:#f1f5f9;border-radius:12px;padding:8px 11px;color:#111827}
-    @media(max-width:800px){.topbar{align-items:flex-start}.nav{order:3;width:100%;display:grid;grid-template-columns:repeat(4,1fr)}.nav button{font-size:12px;padding:9px 5px}.user-chip{font-size:11px}.main{padding:12px}.stats,.two{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}.form-grid .name{grid-column:1/-1}.table{min-width:660px}.hero{padding:18px;border-radius:20px}.version{font-size:10px;left:6px;bottom:6px}}
-
-
-    /* V215 Mobile Header Fix - responsive only; single #app + #mainView router untouched */
-    .topbar>*{min-width:0}.brand{min-width:0;white-space:normal}.user-chip{min-width:0;max-width:100%;flex-wrap:wrap;justify-content:flex-end}.user-chip span{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left}.nav button{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.main{overflow-x:hidden}.card,.hero,.login-card{max-width:100%}.table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-    @media(max-width:800px){
-      .topbar{display:grid;grid-template-columns:1fr;align-items:stretch;gap:8px;padding:8px 10px;overflow:hidden}
-      .brand{width:100%;justify-content:center;text-align:center;font-size:14px;line-height:1.7}
-      .nav{order:2;width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;overflow:hidden}
-      .nav button{width:100%;font-size:12px;padding:9px 6px;border-radius:11px}
-      .user-chip{order:3;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;font-size:11px;background:rgba(255,255,255,.06);border-radius:12px;padding:6px 7px}
-      .user-chip .btn{margin:0;min-height:32px;padding:6px 9px}
-      .main{width:100%;padding:10px;overflow-x:hidden}
-      .toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.toolbar .field,.toolbar .btn{width:100%;min-width:0;margin:0}
-      .form-grid{grid-template-columns:1fr}.form-grid .name{grid-column:auto}.form-grid[style]{grid-template-columns:1fr!important}
-      .version{font-size:9px;padding:5px 7px;left:6px;bottom:6px;max-width:calc(100vw - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    }
+    @media(max-width:800px){.topbar{height:58px;padding:0 10px}.brand{font-size:13px}.user-chip{font-size:10px}.user-chip #userInfo{display:none}.main{padding:12px}.stats,.two{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}.form-grid .name{grid-column:1/-1}.table{min-width:660px}.hero{padding:18px;border-radius:20px}.version{font-size:9px;left:6px;bottom:6px}}
   </style>
 </head>
 <body>
   <section id="login" class="login">
     <div class="login-card">
-      <h1>FamilyTreePro V215 🔐</h1>
+      <h1>FamilyTreePro V216 🔐</h1>
       <input id="loginEmail" class="field ltr" autocomplete="email" placeholder="ایمیل">
       <input id="loginPass" class="field ltr" type="password" autocomplete="current-password" placeholder="رمز عبور">
       <button id="loginBtn" class="btn green" type="button">ورود</button>
@@ -57,27 +41,32 @@
 
   <section id="app" class="hidden">
     <header class="topbar">
+      <button id="openDrawerBtn" class="menu-btn" type="button">☰</button>
       <div class="brand">🌳 سامانه شجره‌نامه خانواده</div>
-      <nav class="nav" id="mainNav">
-        <button data-route="dashboard" type="button">داشبورد</button>
-        <button data-route="users" type="button">احراز</button>
-        <button data-route="people" type="button">افراد</button>
-        <button data-route="notifications" type="button">اعلان‌ها</button>
-      </nav>
       <div class="user-chip"><span id="userInfo">-</span><button id="logoutBtn" class="btn small gray" type="button">خروج</button></div>
     </header>
+    <div id="drawerBack" class="drawer-back"></div>
+    <aside id="dashboardDrawer" class="drawer">
+      <div class="drawer-head"><b>داشبورد</b><button id="closeDrawerBtn" class="drawer-close" type="button">×</button></div>
+      <nav class="nav" id="mainNav">
+        <button data-route="dashboard" type="button">🏠 صفحه اصلی</button>
+        <button data-route="users" type="button">🔐 احراز و کاربران</button>
+        <button data-route="people" type="button">🌳 افراد</button>
+        <button data-route="notifications" type="button">✉️ اعلان‌ها</button>
+      </nav>
+    </aside>
     <main id="mainView" class="main"></main>
   </section>
 
   <div id="modalBack" class="modal-back"><div class="modal"><div class="modal-head"><b id="modalTitle">جزئیات</b><button id="modalClose" class="close" type="button">×</button></div><div id="modalBody" style="line-height:2;margin-top:12px"></div></div></div>
-  <div class="version">index V215 | manifest V215 | sw V215</div>
+  <div class="version">index V216 | manifest V216 | sw V216</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION='V215 Mobile Header Fix';
+    const VERSION='V216 Drawer Dashboard Clean';
     const ADMIN_EMAIL='alibahripor33@gmail.com';
     const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};
     const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
@@ -91,10 +80,31 @@
     async function loadPeople(){const s=await getDocs(collection(db,'people'));peopleCache=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.fullName||'').localeCompare(String(b.fullName||''),'fa'));}
     async function loadNotifications(){const qy=query(collection(db,'notifications'),orderBy('createdAt','desc'));const s=await getDocs(qy).catch(()=>({docs:[]}));notificationsCache=s.docs.map(d=>({id:d.id,...d.data()})).filter(n=>isAdmin()||!n.userId||n.userId===currentUser?.uid).slice(0,80);}
     async function loadAll(){await Promise.all([loadUsers(),loadPeople(),loadNotifications()]);}
-    function setRoute(route){currentRoute=route;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.dataset.route===route));render();}
+    function setRoute(route){currentRoute=route;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.dataset.route===route));closeDrawer();render();}
     window.setRoute=setRoute;
     function render(){if(!$('mainView'))return; $('mainView').replaceChildren(); const box=document.createElement('div'); $('mainView').appendChild(box); if(currentRoute==='users')box.innerHTML=usersView(); else if(currentRoute==='people')box.innerHTML=peopleView(); else if(currentRoute==='notifications')box.innerHTML=notificationsView(); else box.innerHTML=dashboardView(); bindRouteEvents();}
-    function dashboardView(){const approved=usersCache.filter(u=>u.approved).length,pending=usersCache.filter(u=>!u.approved).length,dead=peopleCache.filter(p=>p.lifeStatus==='dead').length,unread=notificationsCache.filter(n=>!n.read).length;return `<div class="hero"><h2>داشبورد V214</h2><p>موتور تک‌صفحه‌ای: فقط یک #app و فقط یک #mainView. هیچ صفحه‌ای روی صفحه دیگر رندر نمی‌شود.</p></div><div class="grid stats"><div class="card stat"><div><small>کاربران</small><div class="num">${usersCache.length}</div></div><div class="icon">👥</div></div><div class="card stat"><div><small>تایید شده</small><div class="num">${approved}</div></div><div class="icon">✅</div></div><div class="card stat"><div><small>افراد</small><div class="num">${peopleCache.length}</div></div><div class="icon">🌳</div></div><div class="card stat"><div><small>اعلان خوانده نشده</small><div class="num">${unread}</div></div><div class="icon">✉️</div></div></div><div class="grid two"><div class="card"><b>وضعیت سیستم</b><p><span class="pill ok">Auth فعال</span><span class="pill ok">Users ${usersCache.length}</span><span class="pill ok">People ${peopleCache.length}</span><span class="pill blue">${VERSION}</span></p></div><div class="card"><b>دسترسی سریع</b><div class="toolbar"><button class="btn" data-route-go="users">احراز کاربران</button><button class="btn green" data-route-go="people">مدیریت افراد</button><button class="btn gray" data-route-go="notifications">اعلان‌ها</button></div></div></div>`}
+    function countGenerations(){
+      if(!peopleCache.length)return 0;
+      const byId=new Map(peopleCache.map(p=>[p.id,p]));
+      const memo=new Map();
+      function gen(id,seen=new Set()){
+        if(!id||!byId.has(id)||seen.has(id))return 0;
+        if(memo.has(id))return memo.get(id);
+        seen.add(id);
+        const p=byId.get(id);
+        const parent=Math.max(gen(p.fatherId,seen),gen(p.motherId,seen));
+        const g=parent+1;
+        memo.set(id,g);
+        return g;
+      }
+      return Math.max(1,...peopleCache.map(p=>gen(p.id,new Set())));
+    }
+    function dashboardView(){
+      const male=peopleCache.filter(p=>p.gender==='male').length;
+      const female=peopleCache.filter(p=>p.gender==='female').length;
+      const dead=peopleCache.filter(p=>p.lifeStatus==='dead').length;
+      const generations=countGenerations();
+      return `<div class="grid stats"><div class="card stat"><div><small>کل افراد ثبت‌شده</small><div class="num">${peopleCache.length}</div></div><div class="icon">🌳</div></div><div class="card stat"><div><small>مردان</small><div class="num">${male}</div></div><div class="icon">👨</div></div><div class="card stat"><div><small>زنان</small><div class="num">${female}</div></div><div class="icon">👩</div></div><div class="card stat"><div><small>فوت‌شده‌ها</small><div class="num">${dead}</div></div><div class="icon">🪦</div></div></div><div class="grid stats" style="grid-template-columns:1fr"><div class="card stat"><div><small>نسل‌ها</small><div class="num">${generations}</div></div><div class="icon">🧬</div></div></div>`}
     function usersView(){if(!isAdmin())return `<div class="card empty">فقط مدیر به احراز کاربران دسترسی دارد.</div>`;const admins=usersCache.filter(u=>u.role==='admin').length,editors=usersCache.filter(u=>u.role==='editor').length,viewers=usersCache.filter(u=>u.role==='viewer').length,pending=usersCache.filter(u=>!u.approved).length;return `<div class="hero"><h2>احراز و کاربران</h2><p>مدیریت واقعی users/{uid} با یک موتور واحد.</p></div><div class="grid stats"><div class="card stat"><div><small>کل</small><div class="num">${usersCache.length}</div></div><div class="icon">👥</div></div><div class="card stat"><div><small>مدیر</small><div class="num">${admins}</div></div><div class="icon">🛡️</div></div><div class="card stat"><div><small>ویرایشگر</small><div class="num">${editors}</div></div><div class="icon">✏️</div></div><div class="card stat"><div><small>در انتظار</small><div class="num">${pending}</div></div><div class="icon">⏳</div></div></div><div class="card"><div class="toolbar"><input id="userSearch" class="field" placeholder="جستجوی ایمیل"><select id="roleFilter" class="field"><option value="">همه نقش‌ها</option><option value="admin">admin</option><option value="editor">editor</option><option value="viewer">viewer</option></select><select id="approveFilter" class="field"><option value="">همه وضعیت‌ها</option><option value="approved">تایید شده</option><option value="pending">در انتظار</option></select><button id="reloadUsersBtn" class="btn blue">بروزرسانی</button></div><div id="usersTable">${usersTable(usersCache)}</div></div>`}
     function usersTable(list){return `<div class="table-wrap"><table class="table"><thead><tr><th>ایمیل</th><th>نقش</th><th>وضعیت</th><th>آخرین ورود</th><th>عملیات</th></tr></thead><tbody>${list.map(u=>`<tr><td>${esc(u.email||'-')}</td><td><select class="field roleChange" data-uid="${esc(u.id)}"><option value="viewer" ${u.role==='viewer'?'selected':''}>viewer</option><option value="editor" ${u.role==='editor'?'selected':''}>editor</option><option value="admin" ${u.role==='admin'?'selected':''}>admin</option></select></td><td>${u.approved?'<span class="pill ok">تایید شده</span>':'<span class="pill bad">در انتظار</span>'}${u.disabled?'<span class="pill bad">غیرفعال</span>':''}</td><td>${stamp(u.lastLogin)||'-'}</td><td><div class="actions"><button class="btn small green approveUser" data-uid="${esc(u.id)}">تایید</button><button class="btn small warn disableUser" data-uid="${esc(u.id)}">تغییر فعال</button><button class="btn small gray resetUser" data-email="${esc(u.email||'')}">رمز</button><button class="btn small red deleteUser" data-uid="${esc(u.id)}">حذف users</button></div></td></tr>`).join('')||`<tr><td colspan="5" class="empty">کاربری نیست</td></tr>`}</tbody></table></div>`}
     function peopleView(){const male=peopleCache.filter(p=>p.gender==='male').length,female=peopleCache.filter(p=>p.gender==='female').length,dead=peopleCache.filter(p=>p.lifeStatus==='dead').length;return `<div class="hero"><h2>افراد</h2><p>هسته افراد با تاریخ اختیاری سال/ماه/روز.</p></div><div class="grid stats"><div class="card stat"><div><small>کل افراد</small><div class="num">${peopleCache.length}</div></div><div class="icon">🌳</div></div><div class="card stat"><div><small>مردان</small><div class="num">${male}</div></div><div class="icon">👨</div></div><div class="card stat"><div><small>زنان</small><div class="num">${female}</div></div><div class="icon">👩</div></div><div class="card stat"><div><small>فوت‌شده</small><div class="num">${dead}</div></div><div class="icon">🪦</div></div></div><div class="card"><b id="personFormTitle">افزودن فرد</b><div class="form-grid" style="margin-top:10px"><input id="personName" class="field name" placeholder="نام کامل"><select id="personGender" class="field"><option value="male">مرد</option><option value="female">زن</option></select><select id="personLife" class="field"><option value="alive">زنده</option><option value="dead">فوت شده</option></select><input id="birthYear" class="field" placeholder="سال"><input id="birthMonth" class="field" placeholder="ماه"><input id="birthDay" class="field" placeholder="روز"></div><div class="form-grid" style="grid-template-columns:repeat(3,1fr);margin-top:8px"><select id="fatherId" class="field"><option value="">پدر</option>${personOptions('male')}</select><select id="motherId" class="field"><option value="">مادر</option>${personOptions('female')}</select><select id="spouseId" class="field"><option value="">همسر</option>${personOptions('')}</select></div><input id="editingPersonId" type="hidden"><div class="toolbar"><button id="savePersonBtn" class="btn green">ذخیره فرد</button><button id="clearPersonBtn" class="btn gray">پاک‌کردن فرم</button></div><div id="peopleMsg" class="msg"></div></div><div class="card"><div class="toolbar"><input id="peopleSearch" class="field" placeholder="جستجوی فرد"><button id="reloadPeopleBtn" class="btn blue">بروزرسانی</button></div><div id="peopleList">${peopleList(peopleCache)}</div></div>`}
@@ -109,10 +119,10 @@
     function fillPerson(id){const p=peopleCache.find(x=>x.id===id);if(!p)return;['editingPersonId','personName','birthYear','birthMonth','birthDay','fatherId','motherId','spouseId'].forEach(k=>{});$('editingPersonId').value=p.id;$('personName').value=p.fullName||'';$('personGender').value=p.gender||'male';$('personLife').value=p.lifeStatus||'alive';$('birthYear').value=p.birthYear||'';$('birthMonth').value=p.birthMonth||'';$('birthDay').value=p.birthDay||'';$('fatherId').value=p.fatherId||'';$('motherId').value=p.motherId||'';$('spouseId').value=p.spouseId||'';window.scrollTo({top:0,behavior:'smooth'})}
     function openNotif(id){const n=notificationsCache.find(x=>x.id===id);if(!n)return;$('modalTitle').textContent=n.title||'اعلان';$('modalBody').innerHTML=`<p>${esc(n.message||'')}</p><p><span class="pill blue">${esc(n.type||'-')}</span><span class="pill gray">${stamp(n.createdAt)||'-'}</span></p>`;$('modalBack').classList.add('open')}
     $('modalClose').onclick=()=>$('modalBack').classList.remove('open');$('modalBack').onclick=e=>{if(e.target===$('modalBack'))$('modalBack').classList.remove('open')};
-    $('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('logoutBtn').onclick=()=>signOut(auth);
+    function openDrawer(){$('dashboardDrawer').classList.add('open');$('drawerBack').classList.add('open')}function closeDrawer(){$('dashboardDrawer').classList.remove('open');$('drawerBack').classList.remove('open')}$('openDrawerBtn').onclick=openDrawer;$('closeDrawerBtn').onclick=closeDrawer;$('drawerBack').onclick=closeDrawer;$('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('logoutBtn').onclick=()=>signOut(auth);
     $('showRegisterBtn').onclick=()=>$('registerBox').classList.toggle('hidden');$('resetBtn').onclick=async()=>{const email=val('loginEmail');if(!email)return msg('ایمیل را وارد کن');await sendPasswordResetEmail(auth,email).then(()=>msg('ایمیل بازیابی ارسال شد',true)).catch(e=>msg(e.message))};$('loginBtn').onclick=async()=>{msg('');await signInWithEmailAndPassword(auth,val('loginEmail'),val('loginPass')).catch(e=>msg('خطا: '+e.message))};$('registerBtn').onclick=async()=>{msg('');await createUserWithEmailAndPassword(auth,val('regEmail'),val('regPass')).then(async cred=>{await ensureUserDoc(cred.user);msg('ثبت‌نام انجام شد. منتظر تایید مدیر باشید.',true)}).catch(e=>msg('خطا: '+e.message))};
     onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){showLogin(true);return}try{currentProfile=await ensureUserDoc(user);if(currentProfile.disabled){msg('حساب غیرفعال است');await signOut(auth);return}if(!currentProfile.approved){showLogin(true);msg('حساب شما در انتظار تایید مدیر است.');return}showLogin(false);$('userInfo').textContent=`${currentProfile.email||user.email} | ${currentProfile.role}`;await loadAll();setRoute(currentRoute||'dashboard')}catch(e){showLogin(true);msg('خطای Firebase: '+e.message)}});
-    if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js?v=215-mobile-header-fix').catch(()=>{})}
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js?v=216-drawer-dashboard-clean').catch(()=>{})}
   </script>
 </body>
 </html>

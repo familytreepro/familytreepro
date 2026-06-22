@@ -1,13 +1,13 @@
 {
-  "name":"FamilyTreePro V215 Mobile Header Fix",
+  "name":"FamilyTreePro V216 Drawer Home Stats Clean",
   "short_name":"FamilyTreePro",
-  "start_url":"./index.html?v=215-mobile-header-fix",
+  "start_url":"./index.html?v=216-drawer-home-stats-clean",
   "display":"standalone",
   "background_color":"#f5f7fb",
   "theme_color":"#0b1220",
   "orientation":"portrait",
   "lang":"fa",
   "dir":"rtl",
-  "description":"FamilyTreePro V215: Pure V200 single #app and #mainView router",
+  "description":"FamilyTreePro V216: clean drawer dashboard with people stats home",
   "icons":[]
 }
