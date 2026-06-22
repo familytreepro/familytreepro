@@ -1,1 +1,14 @@
-{"name":"FamilyTreePro V232 Professional Tree Print","short_name":"FamilyTreePro","start_url":"./index.html?v=232-professional-tree-print","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V232: professional generation grid tree, clean print, scalable layout","scope":"./","icons":[]}
+{
+  "name": "FamilyTreePro V233 Dual Tree Engine",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=233-dual-tree-engine",
+  "display": "standalone",
+  "background_color": "#f7f7ff",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V233: dual tree engine, professional print grid and optimized V188 classic branch",
+  "scope": "./",
+  "icons": []
+}
