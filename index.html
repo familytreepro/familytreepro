@@ -6,8 +6,8 @@
   <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>FamilyTreePro V214</title>
-  <link rel="manifest" href="./manifest.json?v=214-pure-v200-single-view-router">
+  <title>FamilyTreePro V215</title>
+  <link rel="manifest" href="./manifest.json?v=215-mobile-header-fix">
   <meta name="theme-color" content="#0b1220">
   <style>
     :root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#64748b;--line:#e5e7eb;--navy:#0b1220;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--purple:#7c3aed;--shadow:0 14px 36px rgba(15,23,42,.08);--r:18px}
@@ -16,12 +16,28 @@
     #app{min-height:100vh;display:flex;flex-direction:column}.topbar{height:auto;min-height:64px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:8px;font-weight:800}.nav{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.nav button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.09);color:#fff;border-radius:12px;padding:9px 11px}.nav button.active{background:#fff;color:#0b1220}.user-chip{display:flex;align-items:center;gap:7px;font-size:12px;color:#dbeafe}.main{width:min(1180px,100%);margin:0 auto;padding:18px}.version{position:fixed;left:10px;bottom:10px;z-index:50;background:rgba(15,23,42,.85);color:#fff;border-radius:999px;padding:7px 10px;font-size:11px;pointer-events:none}
     .hero{background:linear-gradient(135deg,#0b1220,#2563eb);color:#fff;border-radius:26px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}.hero h2{margin:0 0 6px}.hero p{margin:0;color:#dbeafe;line-height:1.9}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,1fr)}.two{grid-template-columns:1fr 1fr}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}.stat{display:flex;align-items:center;justify-content:space-between}.stat .num{font-size:28px;font-weight:900;margin-top:8px}.stat small{color:var(--muted)}.icon{font-size:30px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.toolbar .field{margin:0;min-height:44px;flex:1;min-width:160px}.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#f8fafc;font-size:12px;color:#334155;margin:2px}.pill.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}.pill.bad{background:#fef2f2;color:#991b1b;border-color:#fecaca}.pill.blue{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.pill.gray{background:#f8fafc;color:#475569}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:center;vertical-align:middle;line-height:1.7}.table th{background:#f8fafc;color:#64748b;font-size:13px}.actions{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:18px;line-height:1.9}.form-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr repeat(3,.45fr);gap:8px}.form-grid .field{margin:0}.list{display:grid;gap:8px}.item{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fff;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.item b{display:block;margin-bottom:4px}.item small{color:var(--muted)}.modal-back{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}.modal-back.open{display:flex}.modal{width:min(520px,94vw);background:#fff;border-radius:22px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,.32)}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.close{border:0;background:#f1f5f9;border-radius:12px;padding:8px 11px;color:#111827}
     @media(max-width:800px){.topbar{align-items:flex-start}.nav{order:3;width:100%;display:grid;grid-template-columns:repeat(4,1fr)}.nav button{font-size:12px;padding:9px 5px}.user-chip{font-size:11px}.main{padding:12px}.stats,.two{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}.form-grid .name{grid-column:1/-1}.table{min-width:660px}.hero{padding:18px;border-radius:20px}.version{font-size:10px;left:6px;bottom:6px}}
+
+
+    /* V215 Mobile Header Fix - responsive only; single #app + #mainView router untouched */
+    .topbar>*{min-width:0}.brand{min-width:0;white-space:normal}.user-chip{min-width:0;max-width:100%;flex-wrap:wrap;justify-content:flex-end}.user-chip span{min-width:0;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:left}.nav button{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.main{overflow-x:hidden}.card,.hero,.login-card{max-width:100%}.table-wrap{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+    @media(max-width:800px){
+      .topbar{display:grid;grid-template-columns:1fr;align-items:stretch;gap:8px;padding:8px 10px;overflow:hidden}
+      .brand{width:100%;justify-content:center;text-align:center;font-size:14px;line-height:1.7}
+      .nav{order:2;width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;overflow:hidden}
+      .nav button{width:100%;font-size:12px;padding:9px 6px;border-radius:11px}
+      .user-chip{order:3;width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;font-size:11px;background:rgba(255,255,255,.06);border-radius:12px;padding:6px 7px}
+      .user-chip .btn{margin:0;min-height:32px;padding:6px 9px}
+      .main{width:100%;padding:10px;overflow-x:hidden}
+      .toolbar{display:grid;grid-template-columns:1fr;align-items:stretch}.toolbar .field,.toolbar .btn{width:100%;min-width:0;margin:0}
+      .form-grid{grid-template-columns:1fr}.form-grid .name{grid-column:auto}.form-grid[style]{grid-template-columns:1fr!important}
+      .version{font-size:9px;padding:5px 7px;left:6px;bottom:6px;max-width:calc(100vw - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    }
   </style>
 </head>
 <body>
   <section id="login" class="login">
     <div class="login-card">
-      <h1>FamilyTreePro V214 🔐</h1>
+      <h1>FamilyTreePro V215 🔐</h1>
       <input id="loginEmail" class="field ltr" autocomplete="email" placeholder="ایمیل">
       <input id="loginPass" class="field ltr" type="password" autocomplete="current-password" placeholder="رمز عبور">
       <button id="loginBtn" class="btn green" type="button">ورود</button>
@@ -54,14 +70,14 @@
   </section>
 
   <div id="modalBack" class="modal-back"><div class="modal"><div class="modal-head"><b id="modalTitle">جزئیات</b><button id="modalClose" class="close" type="button">×</button></div><div id="modalBody" style="line-height:2;margin-top:12px"></div></div></div>
-  <div class="version">index V214 | manifest V214 | sw V214</div>
+  <div class="version">index V215 | manifest V215 | sw V215</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION='V214 Pure V200 Single View Router';
+    const VERSION='V215 Mobile Header Fix';
     const ADMIN_EMAIL='alibahripor33@gmail.com';
     const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};
     const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
@@ -96,7 +112,7 @@
     $('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('logoutBtn').onclick=()=>signOut(auth);
     $('showRegisterBtn').onclick=()=>$('registerBox').classList.toggle('hidden');$('resetBtn').onclick=async()=>{const email=val('loginEmail');if(!email)return msg('ایمیل را وارد کن');await sendPasswordResetEmail(auth,email).then(()=>msg('ایمیل بازیابی ارسال شد',true)).catch(e=>msg(e.message))};$('loginBtn').onclick=async()=>{msg('');await signInWithEmailAndPassword(auth,val('loginEmail'),val('loginPass')).catch(e=>msg('خطا: '+e.message))};$('registerBtn').onclick=async()=>{msg('');await createUserWithEmailAndPassword(auth,val('regEmail'),val('regPass')).then(async cred=>{await ensureUserDoc(cred.user);msg('ثبت‌نام انجام شد. منتظر تایید مدیر باشید.',true)}).catch(e=>msg('خطا: '+e.message))};
     onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){showLogin(true);return}try{currentProfile=await ensureUserDoc(user);if(currentProfile.disabled){msg('حساب غیرفعال است');await signOut(auth);return}if(!currentProfile.approved){showLogin(true);msg('حساب شما در انتظار تایید مدیر است.');return}showLogin(false);$('userInfo').textContent=`${currentProfile.email||user.email} | ${currentProfile.role}`;await loadAll();setRoute(currentRoute||'dashboard')}catch(e){showLogin(true);msg('خطای Firebase: '+e.message)}});
-    if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js?v=214-pure-v200-single-view-router').catch(()=>{})}
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js?v=215-mobile-header-fix').catch(()=>{})}
   </script>
 </body>
 </html>
