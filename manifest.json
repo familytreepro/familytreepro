@@ -1,1 +1,14 @@
-{"name":"FamilyTreePro V228 Fast Tree Export","short_name":"FamilyTreePro","start_url":"./index.html?v=228-fast-tree-export","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V228: accordion people list under search, backup import preserved","scope":"./","icons":[]}
+{
+  "name": "FamilyTreePro V223 Children Rows Restore",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=223-children-rows-restore",
+  "display": "standalone",
+  "background_color": "#f7f7ff",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V223: restore children rows manager and person profile navigation",
+  "scope": "./",
+  "icons": []
+}
