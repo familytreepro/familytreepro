@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V223 Children Rows Restore",
+  "name": "FamilyTreePro V224 Backup Import Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=223-children-rows-restore",
+  "start_url": "./index.html?v=224-backup-import-engine",
   "display": "standalone",
   "background_color": "#f7f7ff",
   "theme_color": "#111827",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V223: restore children rows manager and person profile navigation",
+  "description": "FamilyTreePro V224: backup import engine, children rows, profile navigation",
   "scope": "./",
   "icons": []
 }
