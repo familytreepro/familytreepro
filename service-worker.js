@@ -1,5 +1,5 @@
-// FamilyTreePro V217 Unified Header Home
-const CACHE_NAME='familytreepro-v217-unified-header-home';
+// FamilyTreePro V218 Final Home UI
+const CACHE_NAME='familytreepro-v218-final-home-ui';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});

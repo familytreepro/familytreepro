@@ -1,14 +1,1 @@
-{
-  "name": "FamilyTreePro V217 Unified Header Home",
-  "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=217-unified-header-home",
-  "display": "standalone",
-  "background_color": "#f5f7fb",
-  "theme_color": "#0b1220",
-  "orientation": "portrait",
-  "lang": "fa",
-  "dir": "rtl",
-  "description": "FamilyTreePro V217: unified header, home dashboard, single engine",
-  "scope": "./",
-  "icons": []
-}
+{"name":"FamilyTreePro V218 Final Home UI","short_name":"FamilyTreePro","start_url":"./index.html?v=218-final-home-ui","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V218: final home UI, single router, clean header","scope":"./","icons":[]}
