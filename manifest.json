@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V223 Children Rows Restore",
+  "name": "FamilyTreePro V229 Tree Print Photo Pro",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=223-children-rows-restore",
+  "start_url": "./index.html?v=229-tree-print-photo-pro",
   "display": "standalone",
   "background_color": "#f7f7ff",
   "theme_color": "#111827",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V223: restore children rows manager and person profile navigation",
+  "description": "FamilyTreePro V229: fast tree print engine with photo toggle, ancestors, descendants, generations, PNG/print",
   "scope": "./",
   "icons": []
 }
