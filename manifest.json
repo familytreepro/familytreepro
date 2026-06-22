@@ -1,14 +1,13 @@
 {
-  "name": "FamilyTreePro V211 Drawer Dashboard Pro",
-  "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=211-drawer-dashboard-pro",
-  "display": "standalone",
-  "background_color": "#071b35",
-  "theme_color": "#2563eb",
-  "orientation": "portrait",
-  "lang": "fa",
-  "dir": "rtl",
-  "description": "FamilyTreePro V210: minimal professional people core with real auth, users and notifications",
-  "scope": "./",
-  "icons": []
+  "name":"FamilyTreePro V214 Pure Router",
+  "short_name":"FamilyTreePro",
+  "start_url":"./index.html?v=214-pure-v200-single-view-router",
+  "display":"standalone",
+  "background_color":"#f5f7fb",
+  "theme_color":"#0b1220",
+  "orientation":"portrait",
+  "lang":"fa",
+  "dir":"rtl",
+  "description":"FamilyTreePro V214: Pure V200 single #app and #mainView router",
+  "icons":[]
 }

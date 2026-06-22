@@ -1,907 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-  <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=211-drawer-dashboard-pro" />
-  <title>FamilyTreePro V211 Drawer Dashboard Pro</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>FamilyTreePro V214</title>
+  <link rel="manifest" href="./manifest.json?v=214-pure-v200-single-view-router">
+  <meta name="theme-color" content="#0b1220">
   <style>
-    *{box-sizing:border-box}
-    :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
-    body{margin:0;font-family:tahoma,Arial;background:var(--bg);color:var(--text)}
-    button,input,select{font-family:tahoma,Arial;font-size:15px}
-    .hidden{display:none!important}
-    .topbar{min-height:64px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;flex-wrap:wrap}
-    .brand{font-weight:800}.brand small{display:block;color:#bfdbfe;font-weight:400;margin-top:4px}
-    .top-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .main{max-width:1120px;margin:auto;padding:18px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:0 10px 28px rgba(15,23,42,.07);margin-bottom:16px}
-    .hero{background:linear-gradient(135deg,#071b35,#2563eb);color:#fff;border-radius:22px;padding:22px;margin-bottom:16px}
-    .hero h1{margin:0 0 8px}.hero p{margin:0;color:#dbeafe;line-height:1.9}
-    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    .stat{padding:16px;border-radius:16px;border:1px solid var(--line);background:#fff}.stat b{display:block;font-size:26px;margin-top:7px}.stat small{color:var(--muted)}
-    .btn{border:0;border-radius:12px;padding:11px 15px;color:white;background:var(--green);cursor:pointer;min-height:44px}.blue{background:var(--blue)}.red{background:var(--red)}.gray{background:#64748b}.amber{background:var(--amber)}
-    .btn:disabled{opacity:.55;cursor:not-allowed}
-    input,select{width:100%;min-height:46px;border:1px solid #d7deea;border-radius:12px;padding:11px;background:#fff;color:#111827;outline:none;margin:6px 0}
-    input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.14)}
-    .ltr{direction:ltr;text-align:left;unicode-bidi:plaintext}.muted{color:var(--muted);line-height:1.8}.msg{white-space:pre-line;line-height:1.8;margin-top:10px;font-size:13px}.ok{color:var(--green)}.bad{color:var(--red)}
-    #authScreen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:flex-start;justify-content:center;padding:18px;overflow:auto;z-index:1000}
-    .authbox{width:min(94vw,430px);background:#fff;color:#172033;border-radius:24px;padding:24px;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.28);margin:22px auto}
-    .tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.tabs button{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;border-radius:12px;padding:11px;font-weight:700;cursor:pointer}.tabs button.active{background:var(--blue);color:#fff}
-    .form-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:8px}.form-actions .btn{flex:1 1 130px}
-    table{width:100%;border-collapse:collapse;min-width:820px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}.table-wrap th,.table-wrap td{border-bottom:1px solid var(--line);padding:10px;text-align:center;vertical-align:middle;line-height:1.7}.table-wrap th{background:#f8fafc;color:var(--muted);position:sticky;top:0}.table-wrap tr:last-child td{border-bottom:0}
-    .badge{display:inline-block;border-radius:999px;padding:5px 10px;font-size:12px;border:1px solid var(--line);white-space:nowrap}.badge.admin{background:#dcfce7;color:#166534}.badge.editor{background:#dbeafe;color:#1d4ed8}.badge.viewer{background:#f1f5f9;color:#334155}.badge.pending{background:#fef3c7;color:#92400e}.badge.approved{background:#dcfce7;color:#166534}.badge.blocked{background:#fee2e2;color:#991b1b}
-    .toolbar{display:grid;grid-template-columns:1.3fr .8fr .8fr auto;gap:8px;align-items:center;margin:10px 0}
-    .waiting{max-width:720px;margin:22px auto}.waiting .card{border-color:#fed7aa;background:#fff7ed}.waiting h2{margin-top:0;color:#9a3412}.legacy-panel{border:1px dashed #bfdbfe;background:#eff6ff;border-radius:16px;padding:12px;margin:12px 0}.legacy-panel textarea{width:100%;min-height:96px;border:1px solid #bfdbfe;border-radius:12px;padding:10px;direction:ltr;text-align:left;resize:vertical}.source-note{display:block;font-size:11px;color:#64748b;margin-top:4px}
-
-    .admin-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:6px}.admin-head h2{margin:0}.admin-sub{margin-top:0}.table-wrap.clean{border-radius:20px;overflow:auto;background:#fff;box-shadow:0 10px 28px rgba(15,23,42,.06)}.table-wrap.clean table{min-width:1080px}.table-wrap.clean th{font-size:12px;font-weight:700;background:#f8fafc}.table-wrap.clean td{font-size:13px}.table-wrap.clean select{min-height:38px;margin:0;border-radius:10px}.table-wrap.clean .btn{min-height:36px;padding:7px 10px;border-radius:10px;font-size:12px}.table-wrap.clean tr:hover td{background:#f8fbff}.mini-toolbar{display:grid;grid-template-columns:1.4fr .8fr .8fr auto;gap:8px;align-items:center;margin:12px 0}.mini-toolbar input,.mini-toolbar select{margin:0;min-height:42px}.auth-chip-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.auth-chip{border:1px solid var(--line);border-radius:999px;background:#fff;padding:8px 12px;font-size:12px;color:#475569}.pro-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(125px,1fr));gap:8px;margin:10px 0}.pro-stat{border:1px solid var(--line);border-radius:14px;background:#f8fafc;padding:10px}.pro-stat small{display:block;color:var(--muted);font-size:11px}.pro-stat b{display:block;font-size:20px;margin-top:4px}.row-actions{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.row-actions .btn{min-width:64px}
-    #notifBackdrop{position:fixed;inset:0;background:rgba(15,23,42,.42);z-index:940;backdrop-filter:blur(2px)}
-    #notificationPanel{position:fixed;top:76px;left:12px;right:12px;max-width:760px;margin:auto;max-height:78vh;overflow:auto;z-index:950;border:1px solid #bfdbfe;box-shadow:0 30px 90px rgba(15,23,42,.28);padding:0}
-    .notif-head{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 16px;z-index:2;border-radius:18px 18px 0 0}.notif-head h2{margin:0;font-size:18px}.notif-close{border:0;background:#fee2e2;color:#991b1b;border-radius:12px;min-width:42px;min-height:40px;cursor:pointer;font-size:20px;line-height:1}.notif-body{padding:14px 16px 16px}
-    .notif-list{display:grid;gap:10px;margin-top:10px}.notif-item{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff;line-height:1.8}.notif-item.unread{border-color:#bfdbfe;background:#eff6ff}.notif-item b{display:block}.notif-item small{color:var(--muted)}.notif-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.notif-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px;font-size:12px;color:#475569}.notif-meta div{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:7px}.notif-empty{border:1px dashed var(--line);border-radius:14px;padding:14px;background:#fff;color:var(--muted)}
-
-    .section-title{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:12px}.section-title h2{margin:0}.pill{border:1px solid var(--line);border-radius:999px;background:#f8fafc;color:#475569;padding:7px 11px;font-size:12px}
-    .people-shell{display:grid;grid-template-columns:360px 1fr;gap:14px;align-items:start}.people-form{position:sticky;top:14px}.people-form .mini-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px}.people-form label{font-size:12px;color:var(--muted);display:block;margin-top:6px}.people-form textarea{width:100%;min-height:82px;border:1px solid #d7deea;border-radius:12px;padding:10px;resize:vertical;font-family:tahoma,Arial}.people-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.people-actions .btn{flex:1 1 110px}.people-toolbar{display:grid;grid-template-columns:1.5fr .8fr .8fr auto;gap:8px;align-items:center;margin-bottom:10px}.people-toolbar input,.people-toolbar select{margin:0}.people-table table{min-width:980px}.people-name{font-weight:800}.date-muted{font-size:12px;color:var(--muted)}.person-note{font-size:11px;color:var(--muted);display:block;margin-top:3px}.gender-male{background:#dbeafe;color:#1d4ed8}.gender-female{background:#fce7f3;color:#be185d}.life-alive{background:#dcfce7;color:#166534}.life-dead{background:#f1f5f9;color:#334155}.people-empty{border:1px dashed var(--line);border-radius:16px;padding:14px;color:var(--muted);background:#fff}.soft-divider{height:1px;background:var(--line);margin:10px 0}
-    @media(max-width:980px){.people-shell{grid-template-columns:1fr}.people-form{position:static}.people-toolbar{grid-template-columns:1fr}.people-form .mini-grid{grid-template-columns:1fr 1fr 1fr}}
-    @media(max-width:560px){.people-form .mini-grid{grid-template-columns:1fr}.people-table table{min-width:860px}}
-
-
-
-    /* V211 Drawer Pro: professional minimal people form, no logic changes */
-    .people-form.pro-card{border-radius:24px;padding:0;overflow:hidden;border-color:#dbeafe;background:linear-gradient(180deg,#ffffff,#f8fbff);box-shadow:0 18px 46px rgba(37,99,235,.10)}
-    .people-form-head{padding:16px 16px 12px;background:linear-gradient(135deg,#0f2a55,#2563eb);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-    .people-form-head h3{margin:0;font-size:18px}.people-form-head small{color:#dbeafe;display:block;margin-top:4px;line-height:1.7}.people-form-head .pill{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);color:#fff}
-    .people-form-body{padding:14px}.field-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:10px;margin:9px 0}.field-card label{margin:0 0 4px!important;font-weight:700;color:#475569!important}.field-card input,.field-card select,.field-card textarea{margin:0!important;background:#fff}
-    .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice-grid .field-card{margin:0}.date-box{border:1px solid var(--line);background:#fff;border-radius:18px;padding:10px;margin:10px 0}.date-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;color:#475569;font-size:12px;font-weight:800}.date-title span:last-child{font-weight:400;color:var(--muted)}
-    .date-box .mini-grid input{text-align:center;font-weight:700}.relation-grid{display:grid;grid-template-columns:1fr;gap:8px}.relation-grid .field-card{margin:0}.people-form .soft-divider{margin:12px 0;background:#dbeafe}.people-actions.sticky-actions{position:sticky;bottom:0;background:rgba(248,251,255,.96);backdrop-filter:blur(8px);border-top:1px solid var(--line);padding:10px 14px;margin:0 -14px -14px;z-index:3}.people-form .btn{font-weight:800}.people-toolbar.pro-toolbar{background:#fff;border:1px solid var(--line);border-radius:18px;padding:10px;box-shadow:0 10px 26px rgba(15,23,42,.05)}
-    @media(min-width:981px){.people-shell{grid-template-columns:390px 1fr}.people-form{top:18px}}
-    @media(max-width:760px){.people-form.pro-card{border-radius:22px}.people-form-head{padding:14px}.people-form-body{padding:12px}.choice-grid{grid-template-columns:1fr 1fr}.date-box .mini-grid{grid-template-columns:1.1fr .9fr .9fr!important;gap:7px}.relation-grid{grid-template-columns:1fr}.field-card{padding:9px}.people-actions.sticky-actions .btn{flex:1 1 100%}.hero p{font-size:13px}.section-title .pill{width:100%;text-align:center}}
-    @media(max-width:430px){.choice-grid{grid-template-columns:1fr}.date-box .mini-grid{grid-template-columns:1fr 1fr 1fr!important}.date-title{display:block}.date-title span{display:block;margin-top:3px}.people-toolbar.pro-toolbar{padding:8px}}
-
-    @media(max-width:760px){#notificationPanel{top:70px;left:8px;right:8px;max-height:82vh}.notif-meta{grid-template-columns:1fr}.mini-toolbar{grid-template-columns:1fr}.table-wrap.clean table{min-width:980px}}
-    #notifyBadge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:999px;background:#e11d48;color:white;font-size:12px;margin-right:5px;padding:0 6px}
-    @media(max-width:760px){.grid,.grid2,.toolbar{grid-template-columns:1fr}.topbar{align-items:flex-start}.top-actions{width:100%}.top-actions .btn{flex:1}.main{padding:12px}.authbox{padding:20px;margin:8px auto}.table-wrap table{min-width:760px}.hero h1{font-size:22px}}
-  
-    /* V211 Drawer Dashboard Pro - inspired by V188 drawer, clean single-engine UI */
-    .drawer-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;z-index:90;transition:.22s ease}
-    .drawer-backdrop.open{opacity:1;pointer-events:auto}
-    .drawer{position:fixed;top:0;bottom:0;right:0;width:min(390px,94vw);background:var(--card);color:var(--text);z-index:100;box-shadow:0 25px 80px rgba(0,0,0,.28);transform:translateX(105%);transition:.25s ease;display:flex;flex-direction:column;overflow:hidden}
-    .drawer.open{transform:translateX(0)}
-    .drawer-head{background:linear-gradient(135deg,#071b35,#2563eb);color:white;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
-    .drawer-head b{font-size:17px}.drawer-close{border:0;background:rgba(255,255,255,.15);color:white;border-radius:12px;padding:8px 11px;cursor:pointer;font-size:18px}
-    .drawer-body{padding:14px;overflow:auto;-webkit-overflow-scrolling:touch}.drawer-profile{text-align:center;padding:8px 0 14px;border-bottom:1px solid var(--line);margin-bottom:12px}.drawer-avatar{width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#eef2ff;margin:0 auto 8px;font-size:36px}.drawer-profile h3{margin:6px 0 3px}.drawer-online{font-size:12px;color:#16a34a}
-    .drawer-search{position:sticky;top:0;background:var(--card);z-index:2;padding-bottom:10px}.drawer-search input{margin:0;background:#f8fafc}
-    .drawer-group{border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:10px 0;background:rgba(148,163,184,.05)}
-    .drawer-group-title{width:100%;border:0;background:rgba(7,27,53,.055);color:var(--text);padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-weight:800}
-    .drawer-group-body{padding:8px;display:block}.drawer-group.closed .drawer-group-body{display:none}.drawer-group.closed .chev{transform:rotate(90deg)}.chev{transition:.2s}
-    .drawer-tool{width:100%;border:1px solid var(--line);border-radius:13px;background:rgba(37,99,235,.07);color:var(--text);padding:12px 14px;margin:6px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;text-align:right;font-weight:700}.drawer-tool:hover,.drawer-tool.active{background:var(--blue);color:white}.drawer-tool.hidden-by-search,.drawer-group.hidden-by-search{display:none!important}
-    .drawer-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.drawer-mini-stat{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;text-align:center}.drawer-mini-stat small{display:block;color:var(--muted);font-size:11px}.drawer-mini-stat b{font-size:18px}.drawer-empty{display:none;border:1px dashed var(--line);border-radius:14px;color:var(--muted);padding:12px;text-align:center;margin-top:10px}.drawer-empty.show{display:block}
-    .top-actions .drawer-open-btn{background:rgba(255,255,255,.14)}
-    @media(max-width:700px){.drawer{width:94vw}.drawer-mini-grid{grid-template-columns:1fr 1fr}.topbar{align-items:flex-start}.brand{width:100%}}
-
+    :root{--bg:#f5f7fb;--card:#fff;--text:#111827;--muted:#64748b;--line:#e5e7eb;--navy:#0b1220;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--purple:#7c3aed;--shadow:0 14px 36px rgba(15,23,42,.08);--r:18px}
+    *{box-sizing:border-box}html,body{margin:0;max-width:100%;overflow-x:hidden;font-family:tahoma,Arial,sans-serif;background:var(--bg);color:var(--text)}button,input,select,textarea{font-family:inherit}button{cursor:pointer}.hidden{display:none!important}
+    .login{min-height:100vh;background:linear-gradient(160deg,#061429,#123b80);display:flex;align-items:center;justify-content:center;padding:18px}.login-card{width:min(420px,94vw);background:#fff;border-radius:28px;padding:24px;box-shadow:0 26px 80px rgba(0,0,0,.25);text-align:center}.login-card h1{font-size:28px;margin:4px 0 18px;line-height:1.4}.field{width:100%;border:1px solid #dbe3ef;background:#fff;border-radius:16px;min-height:52px;padding:13px 14px;margin:7px 0;font-size:16px;color:#111827}.field.ltr{direction:ltr;text-align:left}.btn{border:0;border-radius:14px;min-height:46px;padding:11px 16px;font-weight:700;color:#fff;background:var(--blue);margin:4px}.btn.green{background:var(--green)}.btn.red{background:var(--red)}.btn.gray{background:#64748b}.btn.ghost{background:#eef4ff;color:#1d4ed8;border:1px solid #bfdbfe}.btn.warn{background:var(--amber)}.btn.small{min-height:34px;padding:7px 10px;font-size:12px;border-radius:10px}.switch{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.msg{margin:10px 0;color:#ef4444;line-height:1.8;font-size:13px}.ok{color:var(--green)}
+    #app{min-height:100vh;display:flex;flex-direction:column}.topbar{height:auto;min-height:64px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;position:sticky;top:0;z-index:20}.brand{display:flex;align-items:center;gap:8px;font-weight:800}.nav{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}.nav button{border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.09);color:#fff;border-radius:12px;padding:9px 11px}.nav button.active{background:#fff;color:#0b1220}.user-chip{display:flex;align-items:center;gap:7px;font-size:12px;color:#dbeafe}.main{width:min(1180px,100%);margin:0 auto;padding:18px}.version{position:fixed;left:10px;bottom:10px;z-index:50;background:rgba(15,23,42,.85);color:#fff;border-radius:999px;padding:7px 10px;font-size:11px;pointer-events:none}
+    .hero{background:linear-gradient(135deg,#0b1220,#2563eb);color:#fff;border-radius:26px;padding:22px;margin-bottom:16px;box-shadow:var(--shadow)}.hero h2{margin:0 0 6px}.hero p{margin:0;color:#dbeafe;line-height:1.9}.grid{display:grid;gap:14px}.stats{grid-template-columns:repeat(4,1fr)}.two{grid-template-columns:1fr 1fr}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);margin-bottom:14px}.stat{display:flex;align-items:center;justify-content:space-between}.stat .num{font-size:28px;font-weight:900;margin-top:8px}.stat small{color:var(--muted)}.icon{font-size:30px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0}.toolbar .field{margin:0;min-height:44px;flex:1;min-width:160px}.pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:5px 10px;background:#f8fafc;font-size:12px;color:#334155;margin:2px}.pill.ok{background:#ecfdf5;color:#166534;border-color:#bbf7d0}.pill.bad{background:#fef2f2;color:#991b1b;border-color:#fecaca}.pill.blue{background:#eff6ff;color:#1d4ed8;border-color:#bfdbfe}.pill.gray{background:#f8fafc;color:#475569}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px;background:#fff}.table{width:100%;border-collapse:collapse;min-width:720px}.table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:center;vertical-align:middle;line-height:1.7}.table th{background:#f8fafc;color:#64748b;font-size:13px}.actions{display:flex;gap:5px;justify-content:center;flex-wrap:wrap}.empty{text-align:center;color:var(--muted);padding:18px;line-height:1.9}.form-grid{display:grid;grid-template-columns:1.3fr .7fr .7fr repeat(3,.45fr);gap:8px}.form-grid .field{margin:0}.list{display:grid;gap:8px}.item{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fff;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.item b{display:block;margin-bottom:4px}.item small{color:var(--muted)}.modal-back{position:fixed;inset:0;background:rgba(15,23,42,.45);z-index:60;display:none;align-items:center;justify-content:center;padding:16px}.modal-back.open{display:flex}.modal{width:min(520px,94vw);background:#fff;border-radius:22px;padding:18px;box-shadow:0 30px 90px rgba(0,0,0,.32)}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.close{border:0;background:#f1f5f9;border-radius:12px;padding:8px 11px;color:#111827}
+    @media(max-width:800px){.topbar{align-items:flex-start}.nav{order:3;width:100%;display:grid;grid-template-columns:repeat(4,1fr)}.nav button{font-size:12px;padding:9px 5px}.user-chip{font-size:11px}.main{padding:12px}.stats,.two{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr 1fr}.form-grid .name{grid-column:1/-1}.table{min-width:660px}.hero{padding:18px;border-radius:20px}.version{font-size:10px;left:6px;bottom:6px}}
   </style>
 </head>
 <body>
-  <section id="authScreen">
-    <div class="authbox">
-      <h2>FamilyTreePro</h2>
-      <div class="tabs">
-        <button id="tabLogin" class="active" type="button">ورود</button>
-        <button id="tabRegister" type="button">ثبت‌نام</button>
+  <section id="login" class="login">
+    <div class="login-card">
+      <h1>FamilyTreePro V214 🔐</h1>
+      <input id="loginEmail" class="field ltr" autocomplete="email" placeholder="ایمیل">
+      <input id="loginPass" class="field ltr" type="password" autocomplete="current-password" placeholder="رمز عبور">
+      <button id="loginBtn" class="btn green" type="button">ورود</button>
+      <div class="switch">
+        <button id="showRegisterBtn" class="btn ghost" type="button">ثبت‌نام</button>
+        <button id="resetBtn" class="btn ghost" type="button">فراموشی رمز</button>
       </div>
-      <div id="loginPanel">
-        <input id="loginEmail" class="ltr" autocomplete="username" type="email" placeholder="ایمیل" />
-        <input id="loginPassword" class="ltr" autocomplete="current-password" type="password" placeholder="رمز عبور" />
-        <div class="form-actions">
-          <button id="loginBtn" class="btn" type="button">ورود</button>
-          <button id="forgotBtn" class="btn blue" type="button">بازیابی رمز</button>
-        </div>
+      <div id="registerBox" class="hidden">
+        <input id="regName" class="field" placeholder="نام نمایشی">
+        <input id="regEmail" class="field ltr" placeholder="ایمیل ثبت‌نام">
+        <input id="regPass" class="field ltr" type="password" placeholder="رمز حداقل ۶ کاراکتر">
+        <button id="registerBtn" class="btn" type="button">ثبت‌نام واقعی</button>
       </div>
-      <div id="registerPanel" class="hidden">
-        <input id="regName" type="text" placeholder="نام و نام خانوادگی" />
-        <input id="regPhone" class="ltr" type="tel" placeholder="شماره موبایل اختیاری" />
-        <input id="regEmail" class="ltr" autocomplete="username" type="email" placeholder="ایمیل" />
-        <input id="regPassword" class="ltr" autocomplete="new-password" type="password" placeholder="رمز عبور حداقل ۶ کاراکتر" />
-        <button id="registerBtn" class="btn blue" type="button" style="width:100%">ثبت‌نام واقعی</button>
-        <p class="muted">بعد از ثبت‌نام، حساب باید توسط مدیر تایید شود.</p>
-      </div>
-      <div id="authMsg" class="msg"></div>
+      <div id="loginMsg" class="msg"></div>
     </div>
   </section>
 
-  <div id="app" class="hidden">
-    <div class="topbar">
-      <div class="brand">FamilyTreePro <small id="userLine">در حال بارگذاری...</small></div>
-      <div class="top-actions">
-        <button id="drawerOpenBtn" class="btn gray drawer-open-btn" type="button">☰ داشبورد</button>
-        <button id="notifyBtn" class="btn amber" type="button">📩 اعلان‌ها <span id="notifyBadge">0</span></button>
-        <button id="refreshBtn" class="btn blue" type="button">بروزرسانی</button>
-        <button id="logoutBtn" class="btn red" type="button">خروج</button>
-      </div>
-    </div>
-    <div id="drawerBackdrop" class="drawer-backdrop"></div>
-    <aside id="dashboardDrawer" class="drawer" aria-label="داشبورد کشویی">
-      <div class="drawer-head"><b>داشبورد کشویی</b><button id="drawerCloseBtn" class="drawer-close" type="button">×</button></div>
-      <div class="drawer-body">
-        <div class="drawer-profile">
-          <div class="drawer-avatar">👤</div>
-          <h3 id="drawerUserName">مدیر سیستم</h3>
-          <div class="drawer-online">● آنلاین</div>
-        </div>
-        <div class="drawer-search"><input id="drawerSearch" type="search" placeholder="جستجوی ابزار داشبورد..." /></div>
-        <div class="drawer-mini-grid">
-          <div class="drawer-mini-stat"><small>کاربران</small><b id="drawerUsersCount">0</b></div>
-          <div class="drawer-mini-stat"><small>افراد</small><b id="drawerPeopleCount">0</b></div>
-        </div>
-        <div class="drawer-group" data-group="main">
-          <button class="drawer-group-title" type="button">اصلی <span class="chev">⌄</span></button>
-          <div class="drawer-group-body">
-            <button class="drawer-tool active" data-keywords="خانه dashboard داشبورد" data-target="dashboardPro" type="button">داشبورد <span>🏠</span></button>
-            <button class="drawer-tool" data-keywords="احراز کاربران مدیریت نقش تایید auth users" data-target="adminPanel" type="button">احراز و کاربران <span>🔑</span></button>
-            <button class="drawer-tool" data-keywords="افراد شجره پدر مادر همسر people" data-target="peoplePanel" type="button">افراد <span>👤</span></button>
-            <button class="drawer-tool" data-keywords="اعلان پیام notification" data-action="notifications" type="button">اعلان‌ها <span>✉️</span></button>
-          </div>
-        </div>
-        <div class="drawer-group" data-group="soon">
-          <button class="drawer-group-title" type="button">مراحل بعد <span class="chev">⌄</span></button>
-          <div class="drawer-group-body">
-            <button class="drawer-tool" data-keywords="درخت شجره نمایش tree" type="button" disabled>شجره <span>🌳</span></button>
-            <button class="drawer-tool" data-keywords="عکس photo storage" type="button" disabled>عکس‌ها <span>🖼️</span></button>
-            <button class="drawer-tool" data-keywords="بکاپ backup json" type="button" disabled>بکاپ <span>📦</span></button>
-          </div>
-        </div>
-        <div id="drawerNoResult" class="drawer-empty">ابزاری پیدا نشد.</div>
-      </div>
-    </aside>
-    <main class="main">
-      <section class="hero">
-        <h1>داشبورد کشویی FamilyTreePro</h1>
-        <p>داشبورد کشویی سبک V188 با موتور تمیز V211؛ احراز و افراد داخل داشبورد قرار گرفتند.</p>
-      </section>
+  <section id="app" class="hidden">
+    <header class="topbar">
+      <div class="brand">🌳 سامانه شجره‌نامه خانواده</div>
+      <nav class="nav" id="mainNav">
+        <button data-route="dashboard" type="button">داشبورد</button>
+        <button data-route="users" type="button">احراز</button>
+        <button data-route="people" type="button">افراد</button>
+        <button data-route="notifications" type="button">اعلان‌ها</button>
+      </nav>
+      <div class="user-chip"><span id="userInfo">-</span><button id="logoutBtn" class="btn small gray" type="button">خروج</button></div>
+    </header>
+    <main id="mainView" class="main"></main>
+  </section>
 
-      <section id="waitingBox" class="waiting hidden">
-        <div class="card">
-          <h2>حساب شما در انتظار تایید مدیر است</h2>
-          <p class="muted">ورود شما موفق بود، اما تا تایید مدیر، دسترسی به برنامه فعال نمی‌شود.</p>
-          <button id="waitingLogoutBtn" class="btn red" type="button">خروج</button>
-        </div>
-      </section>
-
-      <section id="dashboard">
-        <div class="grid">
-          <div class="stat"><small>وضعیت حساب</small><b id="statApproved">-</b></div>
-          <div class="stat"><small>نقش من</small><b id="statRole">-</b></div>
-          <div class="stat"><small>کل کاربران</small><b id="statUsers">-</b></div>
-          <div class="stat"><small>در انتظار</small><b id="statPending">-</b></div>
-          <div class="stat"><small>تایید شده</small><b id="statApprovedUsers">-</b></div>
-          <div class="stat"><small>غیرفعال</small><b id="statDisabledUsers">-</b></div>
-        </div>
-
-        <div id="dashboardPro" class="dash-pro">
-          <div class="dash-card">
-            <h2>داشبورد FamilyTreePro</h2>
-            <p>نمای کلی وضعیت سامانه، کاربران، افراد و اعلان‌ها در یک صفحه مینیمال و سریع.</p>
-            <div class="dash-kpis">
-              <div class="dash-kpi"><small>افراد</small><b id="dashPeopleTotal">0</b></div>
-              <div class="dash-kpi"><small>کاربران</small><b id="dashUsersTotal">0</b></div>
-              <div class="dash-kpi"><small>اعلان خوانده‌نشده</small><b id="dashUnreadNotif">0</b></div>
-              <div class="dash-kpi"><small>نیاز به تایید</small><b id="dashPendingUsers">0</b></div>
-            </div>
-            <div class="dash-actions">
-              <button id="dashGoPeople" class="btn blue" type="button">مدیریت افراد</button>
-              <button id="dashGoUsers" class="btn gray" type="button">مدیریت کاربران</button>
-              <button id="dashGoNotif" class="btn amber" type="button">مرکز اعلان</button>
-            </div>
-            <div class="dash-mini">
-              <span class="pill" id="dashRolePill">نقش: -</span>
-              <span class="pill" id="dashFirebasePill">Firebase: فعال</span>
-              <span class="pill">V211 Drawer Pro</span>
-            </div>
-          </div>
-          <div class="dash-card">
-            <h3>وضعیت سریع</h3>
-            <div class="dash-health">
-              <div class="dash-item health-ok"><b>Auth</b><small id="dashAuthStatus">متصل</small></div>
-              <div class="dash-item" id="dashUsersHealth"><b>Users</b><small id="dashUsersStatus">در حال بررسی</small></div>
-              <div class="dash-item" id="dashPeopleHealth"><b>People</b><small id="dashPeopleStatus">در حال بررسی</small></div>
-            </div>
-            <div class="dash-list" id="dashRecentList">
-              <div class="dash-item"><b>فعالیت اخیر</b><small>بعد از بارگذاری اطلاعات نمایش داده می‌شود.</small></div>
-            </div>
-          </div>
-        </div>
-
-        <div id="adminPanel" class="card hidden">
-          <div class="admin-head">
-            <h2>مدیریت احراز کاربران</h2>
-            <span class="auth-chip">V211 Drawer Pro</span>
-          </div>
-          <div class="pro-stats">
-            <div class="pro-stat"><small>Admin</small><b id="roleAdminCount">0</b></div>
-            <div class="pro-stat"><small>Editor</small><b id="roleEditorCount">0</b></div>
-            <div class="pro-stat"><small>Viewer</small><b id="roleViewerCount">0</b></div>
-            <div class="pro-stat"><small>Firestore users</small><b id="realUsersCount">0</b></div>
-          </div>
-          <div class="mini-toolbar">
-            <input id="searchBox" type="search" placeholder="جستجو نام، ایمیل، موبایل" />
-            <select id="roleFilter"><option value="">همه نقش‌ها</option><option value="admin">admin</option><option value="editor">editor</option><option value="viewer">viewer</option></select>
-            <select id="approvalFilter"><option value="">همه وضعیت‌ها</option><option value="approved">تایید شده</option><option value="pending">در انتظار</option><option value="disabled">غیرفعال</option></select>
-            <button id="clearFilterBtn" class="btn gray" type="button">پاک‌سازی</button>
-          </div>
-
-          <div class="form-actions" style="justify-content:flex-start;margin:10px 0">
-            <button id="showPendingBtn" class="btn amber" type="button">نمایش در انتظارها</button>
-          </div>
-          <div class="table-wrap clean">
-            <table>
-              <thead><tr><th>نام</th><th>ایمیل</th><th>موبایل</th><th>نقش</th><th>وضعیت</th><th>ثبت‌نام</th><th>آخرین ورود</th><th>منبع</th><th>عملیات</th></tr></thead>
-              <tbody id="usersBody"><tr><td colspan="9">در حال بارگذاری...</td></tr></tbody>
-            </table>
-          </div>
-          <div id="adminMsg" class="msg"></div>
-        </div>
-
-        <div id="peoplePanel" class="card hidden">
-          <div class="section-title">
-            <div>
-              <h2>هسته افراد حرفه‌ای</h2>
-              <p class="muted" style="margin:6px 0 0">ثبت و مدیریت افراد شجره، سبک، مینیمال و آماده اتصال به درخت.</p>
-            </div>
-            <span class="pill">People Core</span>
-          </div>
-          <div class="grid" style="margin-bottom:12px">
-            <div class="stat"><small>کل افراد</small><b id="peopleTotal">0</b></div>
-            <div class="stat"><small>مرد</small><b id="peopleMale">0</b></div>
-            <div class="stat"><small>زن</small><b id="peopleFemale">0</b></div>
-            <div class="stat"><small>فوت‌شده</small><b id="peopleDead">0</b></div>
-          </div>
-          <div class="people-shell">
-            <div class="people-form card pro-card" style="margin:0">
-              <div class="people-form-head">
-                <div><h3 id="personFormTitle">افزودن فرد</h3><small>فرم سریع، تمیز و آماده اتصال به داشبورد</small></div>
-                <span class="pill">V208</span>
-              </div>
-              <div class="people-form-body">
-                <input id="personId" type="hidden" />
-                <div class="field-card">
-                  <label>نام کامل</label>
-                  <input id="personName" type="text" placeholder="نام و نام خانوادگی" />
-                </div>
-                <div class="choice-grid">
-                  <div class="field-card"><label>جنسیت</label><select id="personGender"><option value="male">مرد</option><option value="female">زن</option><option value="unknown">نامشخص</option></select></div>
-                  <div class="field-card"><label>وضعیت</label><select id="personLife"><option value="alive">زنده</option><option value="dead">فوت‌شده</option></select></div>
-                </div>
-                <div class="date-box">
-                  <div class="date-title"><span>تاریخ تولد اختیاری</span><span>سال / ماه / روز</span></div>
-                  <div class="mini-grid"><input id="birthYear" inputmode="numeric" placeholder="سال" /><input id="birthMonth" inputmode="numeric" placeholder="ماه" /><input id="birthDay" inputmode="numeric" placeholder="روز" /></div>
-                </div>
-                <div class="date-box">
-                  <div class="date-title"><span>تاریخ فوت اختیاری</span><span>بدون اجبار</span></div>
-                  <div class="mini-grid"><input id="deathYear" inputmode="numeric" placeholder="سال" /><input id="deathMonth" inputmode="numeric" placeholder="ماه" /><input id="deathDay" inputmode="numeric" placeholder="روز" /></div>
-                </div>
-                <div class="relation-grid">
-                  <div class="field-card"><label>پدر</label><select id="fatherId"><option value="">انتخاب نشده</option></select></div>
-                  <div class="field-card"><label>مادر</label><select id="motherId"><option value="">انتخاب نشده</option></select></div>
-                  <div class="field-card"><label>همسر</label><select id="spouseId"><option value="">انتخاب نشده</option></select></div>
-                </div>
-                <div class="field-card"><label>یادداشت</label><textarea id="personNotes" placeholder="توضیحات اختیاری"></textarea></div>
-                <div class="people-actions sticky-actions">
-                  <button id="savePersonBtn" class="btn blue" type="button">ذخیره فرد</button>
-                  <button id="resetPersonBtn" class="btn gray" type="button">فرم جدید</button>
-                </div>
-                <div id="peopleMsg" class="msg"></div>
-              </div>
-            </div>
-            <div>
-              <div class="people-toolbar pro-toolbar">
-                <input id="peopleSearch" type="search" placeholder="جستجو نام، پدر، مادر، همسر" />
-                <select id="peopleGenderFilter"><option value="">همه جنسیت‌ها</option><option value="male">مرد</option><option value="female">زن</option><option value="unknown">نامشخص</option></select>
-                <select id="peopleLifeFilter"><option value="">همه وضعیت‌ها</option><option value="alive">زنده</option><option value="dead">فوت‌شده</option></select>
-                <button id="refreshPeopleBtn" class="btn blue" type="button">بروزرسانی</button>
-              </div>
-              <div class="table-wrap clean people-table">
-                <table>
-                  <thead><tr><th>نام</th><th>جنسیت</th><th>وضعیت</th><th>تولد</th><th>فوت</th><th>پدر</th><th>مادر</th><th>همسر</th><th>عملیات</th></tr></thead>
-                  <tbody id="peopleBody"><tr><td colspan="9">در حال بارگذاری...</td></tr></tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div id="notifBackdrop" class="hidden"></div>
-        <div id="notificationPanel" class="card hidden" role="dialog" aria-modal="true" aria-labelledby="notifTitle">
-          <div class="notif-head">
-            <h2 id="notifTitle">مرکز اعلان</h2>
-            <button id="closeNotifBtn" class="notif-close" type="button" aria-label="بستن اعلان‌ها">×</button>
-          </div>
-          <div class="notif-body">
-            <div class="form-actions">
-              <button id="reloadNotifBtn" class="btn blue" type="button">خواندن اعلان‌ها</button>
-              <button id="markAllReadBtn" class="btn gray" type="button">خوانده شد</button>
-            </div>
-            <div id="notifList" class="notif-list"><div class="notif-item">هنوز خوانده نشده است.</div></div>
-            <div id="notifMsg" class="msg"></div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
+  <div id="modalBack" class="modal-back"><div class="modal"><div class="modal-head"><b id="modalTitle">جزئیات</b><button id="modalClose" class="close" type="button">×</button></div><div id="modalBody" style="line-height:2;margin-top:12px"></div></div></div>
+  <div class="version">index V214 | manifest V214 | sw V214</div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V211 Drawer Dashboard Pro';
-    const ADMIN_EMAIL = 'alibahripor33@gmail.com';
-    const firebaseConfig = {
-      apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
-      authDomain: "family-tree-pro-a661d.firebaseapp.com",
-      projectId: "family-tree-pro-a661d",
-      storageBucket: "family-tree-pro-a661d.firebasestorage.app",
-      messagingSenderId: "634237399841",
-      appId: "1:634237399841:web:7ad2813dbbc3697ab6c460"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    await setPersistence(auth, browserLocalPersistence);
-
-    let currentUser = null;
-    let currentProfile = null;
-    let usersCache = [];
-    let notificationsCache = [];
-    let peopleCache = [];
-
-    const $ = (id) => document.getElementById(id);
-    const val = (id) => String($(id)?.value || '').trim();
-    const lower = (s) => String(s || '').trim().toLowerCase();
-    const isMainAdmin = (email) => lower(email) === lower(ADMIN_EMAIL);
-    const emailKey = (email) => encodeURIComponent(lower(email || ''));
-    const approvedYes = (u) => u && (u.approved === true || u.approved === 'true' || u.status === 'approved');
-    const disabledYes = (u) => u && (u.disabled === true || u.disabled === 'true' || u.status === 'disabled');
-    const show = (el, yes=true) => el.classList.toggle('hidden', !yes);
-    const authMsg = (text, ok=false) => { $('authMsg').className = 'msg ' + (ok?'ok':'bad'); $('authMsg').textContent = text || ''; };
-    const adminMsg = (text, ok=false) => { $('adminMsg').className = 'msg ' + (ok?'ok':'bad'); $('adminMsg').textContent = text || ''; };
-    const fmt = (v) => {
-      try{ if(!v) return '-'; if(v.toDate) return v.toDate().toLocaleString('fa-IR'); if(typeof v === 'string') return new Date(v).toLocaleString('fa-IR'); }catch(e){}
-      return '-';
-    };
-
-
-    function openDrawer(){ const d=$('dashboardDrawer'), b=$('drawerBackdrop'); if(d) d.classList.add('open'); if(b) b.classList.add('open'); }
-    function closeDrawer(){ const d=$('dashboardDrawer'), b=$('drawerBackdrop'); if(d) d.classList.remove('open'); if(b) b.classList.remove('open'); }
-    function scrollToTarget(id){ const el=$(id); if(el){ el.classList.remove('hidden'); el.scrollIntoView({behavior:'smooth', block:'start'}); } closeDrawer(); }
-    function setDrawerActive(target){ document.querySelectorAll('.drawer-tool[data-target]').forEach(x=>x.classList.toggle('active', x.dataset.target===target)); }
-    function updateDrawerMini(){
-      const name = currentProfile?.displayName || currentProfile?.name || currentUser?.email || 'مدیر سیستم';
-      if($('drawerUserName')) $('drawerUserName').textContent = name;
-      if($('drawerUsersCount')) $('drawerUsersCount').textContent = usersCache.length || 0;
-      if($('drawerPeopleCount')) $('drawerPeopleCount').textContent = peopleCache.length || 0;
-    }
-    function filterDrawerTools(){
-      const q = lower(val('drawerSearch'));
-      let any=false;
-      document.querySelectorAll('.drawer-tool').forEach(btn=>{
-        const txt = lower((btn.textContent||'') + ' ' + (btn.dataset.keywords||''));
-        const hit = !q || txt.includes(q);
-        btn.classList.toggle('hidden-by-search', !hit);
-        if(hit && !btn.disabled) any=true;
-      });
-      document.querySelectorAll('.drawer-group').forEach(g=>{
-        const visible = Array.from(g.querySelectorAll('.drawer-tool')).some(x=>!x.classList.contains('hidden-by-search'));
-        g.classList.toggle('hidden-by-search', !visible);
-      });
-      if($('drawerNoResult')) $('drawerNoResult').classList.toggle('show', !any);
-    }
-
-
-    const notifMsg = (text, ok=false) => { const el=$('notifMsg'); if(el){ el.className = 'msg ' + (ok?'ok':'bad'); el.textContent = text || ''; } };
-
-    async function createNotification(data){
-      try{
-        await addDoc(collection(db,'notifications'), {
-          title: data.title || 'اعلان',
-          message: data.message || '',
-          type: data.type || 'system',
-          targetUid: data.targetUid || '',
-          targetEmail: lower(data.targetEmail || ''),
-          targetRole: data.targetRole || '',
-          actorUid: currentUser ? currentUser.uid : '',
-          actorEmail: currentUser ? lower(currentUser.email || '') : '',
-          readBy: {},
-          createdAt: serverTimestamp(),
-          source: 'v208-people-core-pro'
-        });
-      }catch(e){ console.warn('notification-create-failed', e); }
-    }
-
-    async function createSmsQueue(data){
-      try{
-        if(!data.phone) return;
-        await addDoc(collection(db,'sms_queue'), {
-          phone: String(data.phone || '').trim(),
-          message: data.message || '',
-          type: data.type || 'system',
-          status: 'queued',
-          createdAt: serverTimestamp(),
-          source: 'v204-sms-queue'
-        });
-      }catch(e){ console.warn('sms-queue-failed', e); }
-    }
-
-    function canSeeNotification(n){
-      if(!currentUser || !currentProfile) return false;
-      if(!n) return false;
-      const em = lower(currentUser.email || '');
-      if(n.targetUid && n.targetUid === currentUser.uid) return true;
-      if(n.targetEmail && lower(n.targetEmail) === em) return true;
-      if(n.targetRole && n.targetRole === currentProfile.role) return true;
-      if(!n.targetUid && !n.targetEmail && !n.targetRole) return true;
-      return false;
-    }
-
-    async function loadNotifications(){
-      if(!currentUser) return;
-      const listEl = $('notifList');
-      if(listEl) listEl.innerHTML = '<div class="notif-item">در حال خواندن اعلان‌ها...</div>';
-      try{
-        const qs = await getDocs(query(collection(db,'notifications'), orderBy('createdAt','desc')));
-        notificationsCache = qs.docs.map(d => ({id:d.id, ...(d.data()||{})})).filter(canSeeNotification).slice(0,50);
-        renderNotifications();
-      }catch(e){
-        if(listEl) listEl.innerHTML = '<div class="notif-item">خطا در خواندن اعلان‌ها</div>';
-        notifMsg('خطا: ' + (e.code || e.message || e), false);
-      }
-    }
-
-    function isNotifRead(n){
-      try{return !!(n.readBy && currentUser && n.readBy[currentUser.uid]);}catch(e){return false;}
-    }
-    function notificationTypeLabel(type){
-      const t = String(type || 'system');
-      const map = {
-        new_registration: 'ثبت‌نام جدید',
-        admin_approved: 'تایید حساب',
-        birthday: 'تولد',
-        death_anniversary: 'سالگرد فوت',
-        backup_completed: 'بکاپ',
-        system: 'پیام سیستمی'
-      };
-      return map[t] || t;
-    }
-    function renderNotifications(){
-      const unread = notificationsCache.filter(n => !isNotifRead(n)).length;
-      if($('notifyBadge')) $('notifyBadge').textContent = unread;
-      if(!$('notifList')) return;
-      if(!notificationsCache.length){
-        $('notifList').innerHTML = '<div class="notif-empty">اعلانی برای این کاربر وجود ندارد. اگر اعلان ثبت‌نام یا تایید باید دیده شود، اول یک ثبت‌نام واقعی انجام بده یا اعلان‌ها را بروزرسانی کن.</div>';
-        renderDashboardPro();
-        return;
-      }
-      $('notifList').innerHTML = notificationsCache.map(n => {
-        const read = isNotifRead(n);
-        const target = n.targetEmail || n.targetUid || n.targetRole || 'همه کاربران مجاز';
-        const actor = n.actorEmail || n.actorUid || '-';
-        return `<div class="notif-item ${read?'':'unread'}">
-          <b>${read?'✅':'🔔'} ${escapeHtml(n.title || 'اعلان')}</b>
-          <div>${escapeHtml(n.message || 'بدون متن')}</div>
-          <div class="notif-meta">
-            <div><b>نوع</b>${escapeHtml(notificationTypeLabel(n.type))}</div>
-            <div><b>زمان</b>${fmt(n.createdAt)}</div>
-            <div><b>گیرنده</b>${escapeHtml(target)}</div>
-            <div><b>ثبت‌کننده</b>${escapeHtml(actor)}</div>
-          </div>
-          <small>شناسه اعلان: ${escapeHtml(n.id || '-')}</small>
-        </div>`;
-      }).join('');
-      renderDashboardPro();
-    }
-    async function markAllNotificationsRead(){
-      try{
-        const uid = currentUser.uid;
-        for(const n of notificationsCache.filter(x=>!isNotifRead(x))){
-          await setDoc(doc(db,'notifications',n.id), {readBy:{[uid]: true}, lastReadAt:serverTimestamp()}, {merge:true});
-        }
-        notifMsg('اعلان‌ها خوانده شد.', true);
-        await loadNotifications();
-      }catch(e){ notifMsg('خطا: '+(e.code||e.message||e), false); }
-    }
-
-    function switchTab(mode){
-      const reg = mode === 'register';
-      show($('registerPanel'), reg); show($('loginPanel'), !reg);
-      $('tabRegister').classList.toggle('active', reg); $('tabLogin').classList.toggle('active', !reg);
-      authMsg('');
-    }
-    $('tabLogin').onclick = () => switchTab('login');
-    $('tabRegister').onclick = () => switchTab('register');
-
-    async function ensureUserDocument(user){
-      const ref = doc(db, 'users', user.uid);
-      const snap = await getDoc(ref);
-      const admin = isMainAdmin(user.email);
-      const em = lower(user.email || '');
-      let legacy = null;
-      try{
-        const legacySnap = await getDoc(doc(db, 'users_by_email', emailKey(em)));
-        if(legacySnap.exists()) legacy = legacySnap.data() || null;
-      }catch(_e){}
-      if(!snap.exists()){
-        const data = {
-          uid: user.uid,
-          email: em,
-          displayName: (legacy && legacy.displayName) || user.displayName || '',
-          phone: (legacy && legacy.phone) || '',
-          role: admin ? 'admin' : ((legacy && legacy.role) || 'viewer'),
-          approved: admin ? true : approvedYes(legacy),
-          disabled: admin ? false : disabledYes(legacy),
-          createdAt: serverTimestamp(),
-          lastLogin: serverTimestamp(),
-          source: legacy ? 'v207-login-from-users_by_email' : 'v207-auth-autosync'
-        };
-        await setDoc(ref, data, {merge:true});
-        if(legacy){
-          await setDoc(doc(db,'users_by_email',emailKey(em)), {linkedUid:user.uid, linkedAt:serverTimestamp(), lastLogin:serverTimestamp()}, {merge:true});
-        }
-        return {...data, createdAt:new Date(), lastLogin:new Date()};
-      }
-      const existing = snap.data() || {};
-      const patch = {lastLogin: serverTimestamp(), email: em};
-      if(admin && (existing.role !== 'admin' || existing.approved !== true || existing.disabled === true)){
-        patch.role = 'admin'; patch.approved = true; patch.disabled = false;
-      }
-      await setDoc(ref, patch, {merge:true});
-      return {...existing, ...patch, uid:user.uid};
-    }
-
-
-
-    const peopleMsg = (text, ok=false) => { const el=$('peopleMsg'); if(el){ el.className = 'msg ' + (ok?'ok':'bad'); el.textContent = text || ''; } };
-    const canEditPeople = () => currentProfile && currentProfile.approved === true && currentProfile.disabled !== true && ['admin','editor'].includes(currentProfile.role || 'viewer');
-    function cleanNum(x,min,max){ if(x===null || x==='') return null; const n=Number(x); if(!Number.isFinite(n)) return null; if(min && n<min) return null; if(max && n>max) return null; return n; }
-    function makePartialDate(prefix){
-      const year = cleanNum($(prefix+'Year').value, 1, 9999);
-      const month = cleanNum($(prefix+'Month').value, 1, 12);
-      const day = cleanNum($(prefix+'Day').value, 1, 31);
-      return {year, month, day, precision: day&&month&&year ? 'day' : (month&&year ? 'month' : (year ? 'year' : 'none'))};
-    }
-    function fmtPartialDate(d){ if(!d || !d.year) return '-'; return [d.year, d.month?String(d.month).padStart(2,'0'):null, d.day?String(d.day).padStart(2,'0'):null].filter(Boolean).join('/'); }
-    function personNameById(id){ if(!id) return '-'; const p=peopleCache.find(x=>x.id===id); return p ? (p.fullName || '-') : '-'; }
-    function fillPeopleSelects(){
-      const opts = '<option value="">انتخاب نشده</option>' + peopleCache.slice().sort((a,b)=>String(a.fullName||'').localeCompare(String(b.fullName||''),'fa')).map(p=>`<option value="${p.id}">${escapeHtml(p.fullName||'بدون نام')}</option>`).join('');
-      ['fatherId','motherId','spouseId'].forEach(id=>{ const old=$(id).value; $(id).innerHTML=opts; if(old) $(id).value=old; });
-    }
-    function resetPersonForm(){
-      ['personId','personName','birthYear','birthMonth','birthDay','deathYear','deathMonth','deathDay','personNotes'].forEach(id=>$(id).value='');
-      $('personGender').value='male'; $('personLife').value='alive'; $('fatherId').value=''; $('motherId').value=''; $('spouseId').value='';
-      $('personFormTitle').textContent='افزودن فرد'; peopleMsg('');
-    }
-    async function loadPeople(){
-      const body=$('peopleBody'); if(!body) return;
-      body.innerHTML='<tr><td colspan="9">در حال خواندن افراد از Firestore...</td></tr>';
-      try{
-        const qs = await getDocs(query(collection(db,'people'), orderBy('createdAt','desc')));
-        peopleCache = qs.docs.map(d=>({id:d.id, ...(d.data()||{})}));
-        fillPeopleSelects(); renderPeople(); updateDrawerMini();
-      }catch(e){ body.innerHTML='<tr><td colspan="9">خطا در خواندن people</td></tr>'; peopleMsg('خطا در خواندن افراد: '+(e.code||e.message||e), false); }
-    }
-    function renderPeople(){
-      const body=$('peopleBody'); if(!body) return;
-      const search=lower(val('peopleSearch')), gender=val('peopleGenderFilter'), life=val('peopleLifeFilter');
-      let list=peopleCache.slice();
-      if(search){ list=list.filter(p=>[p.fullName,personNameById(p.fatherId),personNameById(p.motherId),personNameById(p.spouseId),p.notes].some(x=>lower(x).includes(search))); }
-      if(gender) list=list.filter(p=>(p.gender||'unknown')===gender);
-      if(life) list=list.filter(p=>(p.lifeStatus||'alive')===life);
-      const total=peopleCache.length, male=peopleCache.filter(p=>p.gender==='male').length, female=peopleCache.filter(p=>p.gender==='female').length, dead=peopleCache.filter(p=>p.lifeStatus==='dead').length;
-      $('peopleTotal').textContent=total; $('peopleMale').textContent=male; $('peopleFemale').textContent=female; $('peopleDead').textContent=dead;
-      if(!list.length){ body.innerHTML='<tr><td colspan="9"><div class="people-empty">هنوز فردی ثبت نشده یا نتیجه‌ای پیدا نشد.</div></td></tr>'; renderDashboardPro(); return; }
-      const editable=canEditPeople();
-      body.innerHTML=list.map(p=>{
-        const g=p.gender==='male'?'مرد':(p.gender==='female'?'زن':'نامشخص');
-        const l=p.lifeStatus==='dead'?'فوت‌شده':'زنده';
-        return `<tr>
-          <td><span class="people-name">${escapeHtml(p.fullName||'-')}</span>${p.notes?`<span class="person-note">${escapeHtml(String(p.notes).slice(0,80))}</span>`:''}</td>
-          <td><span class="badge ${p.gender==='female'?'gender-female':(p.gender==='male'?'gender-male':'viewer')}">${g}</span></td>
-          <td><span class="badge ${p.lifeStatus==='dead'?'life-dead':'life-alive'}">${l}</span></td>
-          <td><span class="date-muted">${fmtPartialDate(p.birthDate)}</span></td>
-          <td><span class="date-muted">${fmtPartialDate(p.deathDate)}</span></td>
-          <td>${escapeHtml(personNameById(p.fatherId))}</td>
-          <td>${escapeHtml(personNameById(p.motherId))}</td>
-          <td>${escapeHtml(personNameById(p.spouseId))}</td>
-          <td><div class="row-actions"><button class="btn blue" data-edit-person="${p.id}" ${editable?'':'disabled'}>ویرایش</button><button class="btn red" data-delete-person="${p.id}" ${editable?'':'disabled'}>حذف</button></div></td>
-        </tr>`;
-      }).join('');
-      renderDashboardPro();
-    }
-    async function savePerson(){
-      if(!canEditPeople()){ peopleMsg('فقط مدیر یا ویرایشگر اجازه ثبت و ویرایش افراد را دارد.', false); return; }
-      const fullName=val('personName'); if(!fullName){ peopleMsg('نام فرد را وارد کن.', false); return; }
-      const id=val('personId');
-      const data={
-        fullName, gender:val('personGender')||'unknown', lifeStatus:val('personLife')||'alive',
-        birthDate:makePartialDate('birth'), deathDate:makePartialDate('death'),
-        fatherId:val('fatherId'), motherId:val('motherId'), spouseId:val('spouseId'), notes:val('personNotes'),
-        updatedAt:serverTimestamp(), updatedBy:currentUser.uid, source:'v208-people-core'
-      };
-      try{
-        if(id){ await setDoc(doc(db,'people',id), data, {merge:true}); peopleMsg('فرد با موفقیت ویرایش شد.', true); }
-        else{ await addDoc(collection(db,'people'), {...data, createdAt:serverTimestamp(), createdBy:currentUser.uid}); peopleMsg('فرد با موفقیت ثبت شد.', true); }
-        resetPersonForm(); await loadPeople();
-      }catch(e){ peopleMsg('خطا در ذخیره فرد: '+(e.code||e.message||e), false); }
-    }
-    function editPerson(id){
-      const p=peopleCache.find(x=>x.id===id); if(!p) return;
-      $('personId').value=p.id; $('personName').value=p.fullName||''; $('personGender').value=p.gender||'unknown'; $('personLife').value=p.lifeStatus||'alive';
-      $('birthYear').value=p.birthDate&&p.birthDate.year?p.birthDate.year:''; $('birthMonth').value=p.birthDate&&p.birthDate.month?p.birthDate.month:''; $('birthDay').value=p.birthDate&&p.birthDate.day?p.birthDate.day:'';
-      $('deathYear').value=p.deathDate&&p.deathDate.year?p.deathDate.year:''; $('deathMonth').value=p.deathDate&&p.deathDate.month?p.deathDate.month:''; $('deathDay').value=p.deathDate&&p.deathDate.day?p.deathDate.day:'';
-      $('fatherId').value=p.fatherId||''; $('motherId').value=p.motherId||''; $('spouseId').value=p.spouseId||''; $('personNotes').value=p.notes||''; $('personFormTitle').textContent='ویرایش فرد'; peopleMsg(''); $('personName').focus();
-    }
-    async function deletePerson(id){
-      if(!canEditPeople()) return; const p=peopleCache.find(x=>x.id===id)||{};
-      if(!confirm('حذف فرد از people انجام شود؟\n'+(p.fullName||id))) return;
-      try{ await deleteDoc(doc(db,'people',id)); peopleMsg('فرد حذف شد.', true); await loadPeople(); }
-      catch(e){ peopleMsg('خطا در حذف فرد: '+(e.code||e.message||e), false); }
-    }
-
-    function scrollToPanel(id){ const el=$(id); if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); } }
-    function renderDashboardPro(){
-      const peopleTotal = peopleCache.length;
-      const usersTotal = usersCache.length;
-      const pendingUsers = usersCache.filter(u => !approvedYes(u) && !disabledYes(u)).length;
-      const unread = notificationsCache.filter(n => !isNotifRead(n)).length;
-      if($('dashPeopleTotal')) $('dashPeopleTotal').textContent = peopleTotal;
-      if($('dashUsersTotal')) $('dashUsersTotal').textContent = usersTotal || (currentProfile && currentProfile.role !== 'admin' ? '-' : '0');
-      if($('dashUnreadNotif')) $('dashUnreadNotif').textContent = unread;
-      if($('dashPendingUsers')) $('dashPendingUsers').textContent = pendingUsers;
-      if($('dashRolePill')) $('dashRolePill').textContent = 'نقش: ' + ((currentProfile && currentProfile.role) || '-');
-      if($('dashUsersHealth')) $('dashUsersHealth').className = 'dash-item ' + (currentProfile && currentProfile.role === 'admin' ? (usersTotal ? 'health-ok':'health-warn') : 'health-ok');
-      if($('dashUsersStatus')) $('dashUsersStatus').textContent = currentProfile && currentProfile.role === 'admin' ? (usersTotal ? usersTotal + ' کاربر خوانده شد' : 'کاربری خوانده نشد') : 'برای مدیر نمایش داده می‌شود';
-      if($('dashPeopleHealth')) $('dashPeopleHealth').className = 'dash-item ' + (peopleTotal ? 'health-ok':'health-warn');
-      if($('dashPeopleStatus')) $('dashPeopleStatus').textContent = peopleTotal ? peopleTotal + ' فرد ثبت شده' : 'هنوز فردی ثبت نشده';
-      const recentPeople = peopleCache.slice(0,3).map(p => `<div class="dash-item"><b>${escapeHtml(p.fullName||'بدون نام')}</b><small>وضعیت: ${p.lifeStatus==='dead'?'فوت‌شده':'زنده'} — جنسیت: ${p.gender==='female'?'زن':(p.gender==='male'?'مرد':'نامشخص')}</small></div>`);
-      const recentNotif = notificationsCache.slice(0,2).map(n => `<div class="dash-item"><b>${escapeHtml(n.title||'اعلان')}</b><small>${escapeHtml(String(n.message||'').slice(0,90))}</small></div>`);
-      const items = recentNotif.concat(recentPeople);
-      if($('dashRecentList')) $('dashRecentList').innerHTML = items.length ? items.join('') : '<div class="dash-item"><b>فعالیت اخیر</b><small>هنوز اطلاعاتی برای نمایش وجود ندارد.</small></div>';
-    }
-
-    async function loadProfile(user){
-      currentProfile = await ensureUserDocument(user);
-      $('userLine').textContent = `${user.email} — ${currentProfile.role || 'viewer'}`;
-      $('statApproved').textContent = currentProfile.disabled ? 'غیرفعال' : (currentProfile.approved ? 'تایید شده' : 'در انتظار');
-      $('statRole').textContent = currentProfile.role || 'viewer';
-      const allowed = currentProfile.approved === true && currentProfile.disabled !== true;
-      const admin = allowed && currentProfile.role === 'admin';
-      show($('waitingBox'), !allowed);
-      show($('dashboard'), allowed);
-      show($('adminPanel'), admin);
-      show($('peoplePanel'), allowed);
-      await loadNotifications();
-      if(admin) await loadUsers();
-      if(allowed) await loadPeople();
-    }
-
-    async function loadUsers(){
-      if(!currentProfile || currentProfile.role !== 'admin') return;
-      $('usersBody').innerHTML = '<tr><td colspan="9">در حال خواندن users/{uid} از Firestore...</td></tr>';
-      try{
-        const qs = await getDocs(query(collection(db, 'users'), orderBy('createdAt', 'desc')));
-        usersCache = qs.docs.map(d => ({id:d.id, docType:'uid', ...(d.data()||{})}));
-        renderUsers(); updateDrawerMini();
-        adminMsg(`خوانده شد: ${usersCache.length} کاربر واقعی از users/{uid}. مدیریت نقش، تایید، غیرفعال‌سازی و بازیابی رمز آماده است.`, true);
-      }catch(e){
-        $('usersBody').innerHTML = '<tr><td colspan="9">خطا در خواندن users از Firestore</td></tr>';
-        adminMsg('خطا: ' + (e.code || e.message || e), false);
-      }
-    }
-
-    function renderUsers(){
-      const search = lower(val('searchBox'));
-      const role = val('roleFilter');
-      const approval = val('approvalFilter');
-      let list = usersCache.slice();
-      if(search){ list = list.filter(u => [u.displayName,u.email,u.phone,u.role,u.docType,u.source].some(x => lower(x).includes(search))); }
-      if(role){ list = list.filter(u => (u.role || 'viewer') === role); }
-      if(approval === 'approved') list = list.filter(u => approvedYes(u) && !disabledYes(u));
-      if(approval === 'pending') list = list.filter(u => !approvedYes(u) && !disabledYes(u));
-      if(approval === 'disabled') list = list.filter(u => disabledYes(u));
-
-      const total = usersCache.filter(u => u.docType === 'uid').length;
-      const pending = usersCache.filter(u => !approvedYes(u) && !disabledYes(u)).length;
-      const approved = usersCache.filter(u => approvedYes(u) && !disabledYes(u)).length;
-      const disabled = usersCache.filter(u => disabledYes(u)).length;
-      const admins = usersCache.filter(u => (u.role || 'viewer') === 'admin').length;
-      const editors = usersCache.filter(u => (u.role || 'viewer') === 'editor').length;
-      const viewers = usersCache.filter(u => (u.role || 'viewer') === 'viewer').length;
-      $('statUsers').textContent = total;
-      $('statPending').textContent = pending;
-      if($('statApprovedUsers')) $('statApprovedUsers').textContent = approved;
-      if($('statDisabledUsers')) $('statDisabledUsers').textContent = disabled;
-      if($('roleAdminCount')) $('roleAdminCount').textContent = admins;
-      if($('roleEditorCount')) $('roleEditorCount').textContent = editors;
-      if($('roleViewerCount')) $('roleViewerCount').textContent = viewers;
-      if($('realUsersCount')) $('realUsersCount').textContent = total;
-
-      if(!list.length){ $('usersBody').innerHTML = '<tr><td colspan="9">کاربری یافت نشد</td></tr>'; return; }
-      $('usersBody').innerHTML = list.map(u => {
-        const role = u.role || 'viewer';
-        const status = disabledYes(u) ? '<span class="badge blocked">غیرفعال</span>' : (approvedYes(u) ? '<span class="badge approved">تایید شده</span>' : '<span class="badge pending">در انتظار</span>');
-        const self = u.docType === 'uid' && u.id === currentUser.uid;
-        const source = u.source || 'users/{uid}';
-        const key = u.docType + ':' + u.id;
-        return `<tr>
-          <td>${escapeHtml(u.displayName || '-')}</td>
-          <td class="ltr">${escapeHtml(u.email || '-')}</td>
-          <td class="ltr">${escapeHtml(u.phone || '-')}</td>
-          <td><select data-role="${key}" ${self?'disabled':''}><option value="viewer" ${role==='viewer'?'selected':''}>viewer</option><option value="editor" ${role==='editor'?'selected':''}>editor</option><option value="admin" ${role==='admin'?'selected':''}>admin</option></select></td>
-          <td>${status}</td>
-          <td>${fmt(u.createdAt)}</td>
-          <td>${fmt(u.lastLogin || u.createdAt)}</td>
-          <td><span class="source-note">${escapeHtml(source)}</span></td>
-          <td><div class="row-actions">
-            <button class="btn blue" data-approve="${key}" ${approvedYes(u)||disabledYes(u)?'disabled':''}>تایید</button>
-            <button class="btn amber" data-disable="${key}" ${self?'disabled':''}>${disabledYes(u)?'فعال':'غیرفعال'}</button>
-            <button class="btn gray" data-reset="${key}" ${u.email?'':'disabled'}>رمز</button>
-            <button class="btn red" data-delete="${key}" ${self?'disabled':''}>حذف users</button>
-          </div></td>
-        </tr>`;
-      }).join('');
-      document.querySelectorAll('[data-approve]').forEach(btn => btn.onclick = () => approveUserKey(btn.dataset.approve));
-      document.querySelectorAll('[data-disable]').forEach(btn => btn.onclick = () => toggleDisableKey(btn.dataset.disable));
-      document.querySelectorAll('[data-role]').forEach(sel => sel.onchange = () => changeRoleKey(sel.dataset.role, sel.value));
-      document.querySelectorAll('[data-reset]').forEach(btn => btn.onclick = () => sendResetForKey(btn.dataset.reset));
-      document.querySelectorAll('[data-delete]').forEach(btn => btn.onclick = () => deleteUserDocKey(btn.dataset.delete));
-      renderDashboardPro();
-    }
-
-    function escapeHtml(s){ return String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
-
-    function parseKey(key){ const p=String(key||'').split(':'); return {type:p[0], id:p.slice(1).join(':')}; }
-    function refForKey(key){ const k=parseKey(key); return k.type === 'email' ? doc(db,'users_by_email',k.id) : doc(db,'users',k.id); }
-    async function approveUserKey(key){
-      try{
-        const k=parseKey(key); const u = usersCache.find(x=>x.docType===k.type && x.id===k.id) || {};
-        await setDoc(refForKey(key), {approved:true, disabled:false, approvedAt:serverTimestamp(), approvedBy:currentUser.uid}, {merge:true});
-        await createNotification({type:'admin_approved', targetUid:k.type==='uid'?k.id:'', targetEmail:u.email||'', title:'حساب شما تایید شد', message:'ورود شما به سامانه شجره‌نامه خانواده تایید شد.'});
-        await createSmsQueue({type:'admin_approved', phone:u.phone||'', message:'ورود شما به سامانه شجره نامه خانواده تایید شد.'});
-        adminMsg('کاربر/ایمیل تایید شد و اعلان ثبت شد.', true); await loadUsers(); await loadNotifications(); }
-      catch(e){ adminMsg('خطا در تایید: ' + (e.code || e.message || e), false); }
-    }
-    async function toggleDisableKey(key){
-      const k=parseKey(key); const u = usersCache.find(x=>x.docType===k.type && x.id===k.id); if(!u) return;
-      try{ await setDoc(refForKey(key), {disabled:!disabledYes(u), disabledAt:serverTimestamp(), disabledBy:currentUser.uid}, {merge:true}); adminMsg('وضعیت تغییر کرد.', true); await loadUsers(); }
-      catch(e){ adminMsg('خطا: ' + (e.code || e.message || e), false); }
-    }
-    async function changeRoleKey(key, role){
-      try{ await setDoc(refForKey(key), {role, roleUpdatedAt:serverTimestamp(), roleUpdatedBy:currentUser.uid}, {merge:true}); adminMsg('نقش تغییر کرد.', true); await loadUsers(); }
-      catch(e){ adminMsg('خطا در تغییر نقش: ' + (e.code || e.message || e), false); await loadUsers(); }
-    }
-
-
-    async function sendResetForKey(key){
-      const k=parseKey(key); const u = usersCache.find(x=>x.docType===k.type && x.id===k.id) || {};
-      const em = lower(u.email || '');
-      if(!em){ adminMsg('این کاربر ایمیل ندارد.', false); return; }
-      try{ await sendPasswordResetEmail(auth, em); adminMsg('ایمیل بازیابی رمز برای ' + em + ' ارسال شد.', true); }
-      catch(e){ adminMsg('خطا در ارسال بازیابی رمز: ' + (e.code || e.message || e), false); }
-    }
-    async function deleteUserDocKey(key){
-      const k=parseKey(key); const u = usersCache.find(x=>x.docType===k.type && x.id===k.id) || {};
-      if(k.type !== 'uid'){ adminMsg('حذف فقط برای users/{uid} فعال است.', false); return; }
-      if(k.id === currentUser.uid){ adminMsg('مدیر نمی‌تواند سند خودش را حذف کند.', false); return; }
-      const ok = confirm('فقط سند Firestore users حذف می‌شود، حساب Firebase Auth حذف نمی‌شود. حذف شود؟\n' + (u.email || k.id));
-      if(!ok) return;
-      try{ await deleteDoc(doc(db,'users',k.id)); adminMsg('سند users حذف شد. حساب Auth باقی می‌ماند.', true); await loadUsers(); }
-      catch(e){ adminMsg('خطا در حذف users: ' + (e.code || e.message || e), false); }
-    }
-
-
-    $('loginBtn').onclick = async () => {
-      authMsg('');
-      try{
-        const em = lower(val('loginEmail')), pw = val('loginPassword');
-        if(!em || !pw) throw new Error('ایمیل و رمز را وارد کن.');
-        $('loginBtn').disabled = true;
-        await signInWithEmailAndPassword(auth, em, pw);
-      }catch(e){ authMsg(authError(e)); }
-      finally{ $('loginBtn').disabled = false; }
-    };
-
-    $('registerBtn').onclick = async () => {
-      authMsg('');
-      try{
-        const name = val('regName'), phone = val('regPhone'), em = lower(val('regEmail')), pw = val('regPassword');
-        if(!em || !pw) throw new Error('ایمیل و رمز را وارد کن.');
-        if(pw.length < 6) throw new Error('رمز باید حداقل ۶ کاراکتر باشد.');
-        $('registerBtn').disabled = true;
-        const cred = await createUserWithEmailAndPassword(auth, em, pw);
-        const admin = isMainAdmin(em);
-        await setDoc(doc(db,'users',cred.user.uid), {
-          uid: cred.user.uid,
-          email: em,
-          displayName: name,
-          phone,
-          role: admin ? 'admin' : 'viewer',
-          approved: admin,
-          disabled: false,
-          createdAt: serverTimestamp(),
-          lastLogin: serverTimestamp(),
-          source: 'v207-register'
-        }, {merge:true});
-        if(!admin){
-          await createNotification({type:'new_registration', targetRole:'admin', title:'ثبت‌نام جدید', message:`${name || em} با ایمیل ${em} ثبت‌نام کرد و منتظر تایید است.`});
-        }
-        authMsg(admin ? 'ثبت‌نام مدیر انجام شد.' : 'ثبت‌نام انجام شد. منتظر تایید مدیر باشید.', true);
-      }catch(e){ authMsg(authError(e)); }
-      finally{ $('registerBtn').disabled = false; }
-    };
-
-    $('forgotBtn').onclick = async () => {
-      try{ const em = lower(val('loginEmail')); if(!em) throw new Error('اول ایمیل را وارد کن.'); await sendPasswordResetEmail(auth, em); authMsg('ایمیل بازیابی رمز ارسال شد.', true); }
-      catch(e){ authMsg(authError(e)); }
-    };
-    $('logoutBtn').onclick = () => signOut(auth);
-    $('waitingLogoutBtn').onclick = () => signOut(auth);
-    $('refreshBtn').onclick = async () => { if(currentUser) await loadProfile(currentUser); };
-    function closeNotifications(){ show($('notificationPanel'), false); if($('notifBackdrop')) show($('notifBackdrop'), false); }
-    async function openNotifications(){ show($('notifBackdrop'), true); show($('notificationPanel'), true); await loadNotifications(); }
-    $('notifyBtn').onclick = async () => { const p=$('notificationPanel'); if(p.classList.contains('hidden')) await openNotifications(); else closeNotifications(); };
-    if($('closeNotifBtn')) $('closeNotifBtn').onclick = closeNotifications;
-    if($('notifBackdrop')) $('notifBackdrop').onclick = closeNotifications;
-    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeNotifications(); });
-    $('reloadNotifBtn').onclick = loadNotifications;
-    $('markAllReadBtn').onclick = markAllNotificationsRead;
-    ['searchBox','roleFilter','approvalFilter'].forEach(id => $(id).addEventListener('input', renderUsers));
-    $('clearFilterBtn').onclick = () => { $('searchBox').value=''; $('roleFilter').value=''; $('approvalFilter').value=''; renderUsers(); };
-    if($('showPendingBtn')) $('showPendingBtn').onclick = () => { $('approvalFilter').value='pending'; renderUsers(); };
-    ['peopleSearch','peopleGenderFilter','peopleLifeFilter'].forEach(id => $(id).addEventListener('input', renderPeople));
-    $('refreshPeopleBtn').onclick = loadPeople;
-    $('savePersonBtn').onclick = savePerson;
-    $('resetPersonBtn').onclick = resetPersonForm;
-
-    if($('dashGoPeople')) $('dashGoPeople').onclick = () => scrollToPanel('peoplePanel');
-    if($('dashGoUsers')) $('dashGoUsers').onclick = () => scrollToPanel('adminPanel');
-    if($('dashGoNotif')) $('dashGoNotif').onclick = openNotifications;
-
-    document.addEventListener('click', (e) => {
-      const editId = e.target && e.target.getAttribute && e.target.getAttribute('data-edit-person');
-      const delId = e.target && e.target.getAttribute && e.target.getAttribute('data-delete-person');
-      if(editId) editPerson(editId);
-      if(delId) deletePerson(delId);
-    });
-
-    onAuthStateChanged(auth, async (user) => {
-      currentUser = user;
-      currentProfile = null;
-      if(!user){
-        show($('authScreen'), true); show($('app'), false); authMsg(''); return;
-      }
-      show($('authScreen'), false); show($('app'), true);
-      try{ await loadProfile(user); }
-      catch(e){
-        show($('authScreen'), true); show($('app'), false);
-        authMsg('ورود انجام شد اما خواندن پروفایل Firestore خطا داد:\n' + (e.code || e.message || e), false);
-      }
-    });
-
-    function authError(e){
-      const code = e && e.code ? e.code : '';
-      if(code === 'auth/invalid-credential' || code === 'auth/wrong-password') return 'ایمیل یا رمز اشتباه است.';
-      if(code === 'auth/user-not-found') return 'کاربری با این ایمیل پیدا نشد.';
-      if(code === 'auth/email-already-in-use') return 'این ایمیل قبلاً ثبت شده است.';
-      if(code === 'auth/weak-password') return 'رمز عبور ضعیف است.';
-      if(code === 'auth/network-request-failed') return 'خطای شبکه یا دسترسی به Firebase.';
-      if(code === 'permission-denied') return 'دسترسی Firestore رد شد. Rules باید اجازه users/{uid} را بدهد.';
-      return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
-    }
-
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=210-dashboard-pro').catch(()=>{}); }
+    const VERSION='V214 Pure V200 Single View Router';
+    const ADMIN_EMAIL='alibahripor33@gmail.com';
+    const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};
+    const app=initializeApp(firebaseConfig);const auth=getAuth(app);const db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
+    let currentUser=null,currentProfile=null,currentRoute='dashboard';let usersCache=[],peopleCache=[],notificationsCache=[];
+    const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m]));const val=id=>String($(id)?.value||'').trim();
+    const isAdmin=()=>currentProfile?.role==='admin'; const stamp=v=>v?.toDate?v.toDate().toLocaleString('fa-IR'):'';
+    function msg(t,ok=false){$('loginMsg').textContent=t||'';$('loginMsg').className=ok?'msg ok':'msg'}
+    function showLogin(show){$('login').classList.toggle('hidden',!show);$('app').classList.toggle('hidden',show)}
+    async function ensureUserDoc(user){const ref=doc(db,'users',user.uid);const snap=await getDoc(ref);const email=(user.email||'').toLowerCase();const admin=email===ADMIN_EMAIL.toLowerCase();if(!snap.exists()){await setDoc(ref,{uid:user.uid,email:user.email||'',displayName:user.displayName||'',role:admin?'admin':'viewer',approved:admin,disabled:false,createdAt:serverTimestamp(),lastLogin:serverTimestamp(),source:'v214-login-autosync'});}else{await updateDoc(ref,{lastLogin:serverTimestamp(),email:user.email||snap.data().email||''}).catch(()=>{});}const fresh=await getDoc(ref);return {id:fresh.id,...fresh.data()};}
+    async function loadUsers(){const s=await getDocs(collection(db,'users'));usersCache=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.email||'').localeCompare(String(b.email||'')));}
+    async function loadPeople(){const s=await getDocs(collection(db,'people'));peopleCache=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.fullName||'').localeCompare(String(b.fullName||''),'fa'));}
+    async function loadNotifications(){const qy=query(collection(db,'notifications'),orderBy('createdAt','desc'));const s=await getDocs(qy).catch(()=>({docs:[]}));notificationsCache=s.docs.map(d=>({id:d.id,...d.data()})).filter(n=>isAdmin()||!n.userId||n.userId===currentUser?.uid).slice(0,80);}
+    async function loadAll(){await Promise.all([loadUsers(),loadPeople(),loadNotifications()]);}
+    function setRoute(route){currentRoute=route;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.dataset.route===route));render();}
+    window.setRoute=setRoute;
+    function render(){if(!$('mainView'))return; $('mainView').replaceChildren(); const box=document.createElement('div'); $('mainView').appendChild(box); if(currentRoute==='users')box.innerHTML=usersView(); else if(currentRoute==='people')box.innerHTML=peopleView(); else if(currentRoute==='notifications')box.innerHTML=notificationsView(); else box.innerHTML=dashboardView(); bindRouteEvents();}
+    function dashboardView(){const approved=usersCache.filter(u=>u.approved).length,pending=usersCache.filter(u=>!u.approved).length,dead=peopleCache.filter(p=>p.lifeStatus==='dead').length,unread=notificationsCache.filter(n=>!n.read).length;return `<div class="hero"><h2>داشبورد V214</h2><p>موتور تک‌صفحه‌ای: فقط یک #app و فقط یک #mainView. هیچ صفحه‌ای روی صفحه دیگر رندر نمی‌شود.</p></div><div class="grid stats"><div class="card stat"><div><small>کاربران</small><div class="num">${usersCache.length}</div></div><div class="icon">👥</div></div><div class="card stat"><div><small>تایید شده</small><div class="num">${approved}</div></div><div class="icon">✅</div></div><div class="card stat"><div><small>افراد</small><div class="num">${peopleCache.length}</div></div><div class="icon">🌳</div></div><div class="card stat"><div><small>اعلان خوانده نشده</small><div class="num">${unread}</div></div><div class="icon">✉️</div></div></div><div class="grid two"><div class="card"><b>وضعیت سیستم</b><p><span class="pill ok">Auth فعال</span><span class="pill ok">Users ${usersCache.length}</span><span class="pill ok">People ${peopleCache.length}</span><span class="pill blue">${VERSION}</span></p></div><div class="card"><b>دسترسی سریع</b><div class="toolbar"><button class="btn" data-route-go="users">احراز کاربران</button><button class="btn green" data-route-go="people">مدیریت افراد</button><button class="btn gray" data-route-go="notifications">اعلان‌ها</button></div></div></div>`}
+    function usersView(){if(!isAdmin())return `<div class="card empty">فقط مدیر به احراز کاربران دسترسی دارد.</div>`;const admins=usersCache.filter(u=>u.role==='admin').length,editors=usersCache.filter(u=>u.role==='editor').length,viewers=usersCache.filter(u=>u.role==='viewer').length,pending=usersCache.filter(u=>!u.approved).length;return `<div class="hero"><h2>احراز و کاربران</h2><p>مدیریت واقعی users/{uid} با یک موتور واحد.</p></div><div class="grid stats"><div class="card stat"><div><small>کل</small><div class="num">${usersCache.length}</div></div><div class="icon">👥</div></div><div class="card stat"><div><small>مدیر</small><div class="num">${admins}</div></div><div class="icon">🛡️</div></div><div class="card stat"><div><small>ویرایشگر</small><div class="num">${editors}</div></div><div class="icon">✏️</div></div><div class="card stat"><div><small>در انتظار</small><div class="num">${pending}</div></div><div class="icon">⏳</div></div></div><div class="card"><div class="toolbar"><input id="userSearch" class="field" placeholder="جستجوی ایمیل"><select id="roleFilter" class="field"><option value="">همه نقش‌ها</option><option value="admin">admin</option><option value="editor">editor</option><option value="viewer">viewer</option></select><select id="approveFilter" class="field"><option value="">همه وضعیت‌ها</option><option value="approved">تایید شده</option><option value="pending">در انتظار</option></select><button id="reloadUsersBtn" class="btn blue">بروزرسانی</button></div><div id="usersTable">${usersTable(usersCache)}</div></div>`}
+    function usersTable(list){return `<div class="table-wrap"><table class="table"><thead><tr><th>ایمیل</th><th>نقش</th><th>وضعیت</th><th>آخرین ورود</th><th>عملیات</th></tr></thead><tbody>${list.map(u=>`<tr><td>${esc(u.email||'-')}</td><td><select class="field roleChange" data-uid="${esc(u.id)}"><option value="viewer" ${u.role==='viewer'?'selected':''}>viewer</option><option value="editor" ${u.role==='editor'?'selected':''}>editor</option><option value="admin" ${u.role==='admin'?'selected':''}>admin</option></select></td><td>${u.approved?'<span class="pill ok">تایید شده</span>':'<span class="pill bad">در انتظار</span>'}${u.disabled?'<span class="pill bad">غیرفعال</span>':''}</td><td>${stamp(u.lastLogin)||'-'}</td><td><div class="actions"><button class="btn small green approveUser" data-uid="${esc(u.id)}">تایید</button><button class="btn small warn disableUser" data-uid="${esc(u.id)}">تغییر فعال</button><button class="btn small gray resetUser" data-email="${esc(u.email||'')}">رمز</button><button class="btn small red deleteUser" data-uid="${esc(u.id)}">حذف users</button></div></td></tr>`).join('')||`<tr><td colspan="5" class="empty">کاربری نیست</td></tr>`}</tbody></table></div>`}
+    function peopleView(){const male=peopleCache.filter(p=>p.gender==='male').length,female=peopleCache.filter(p=>p.gender==='female').length,dead=peopleCache.filter(p=>p.lifeStatus==='dead').length;return `<div class="hero"><h2>افراد</h2><p>هسته افراد با تاریخ اختیاری سال/ماه/روز.</p></div><div class="grid stats"><div class="card stat"><div><small>کل افراد</small><div class="num">${peopleCache.length}</div></div><div class="icon">🌳</div></div><div class="card stat"><div><small>مردان</small><div class="num">${male}</div></div><div class="icon">👨</div></div><div class="card stat"><div><small>زنان</small><div class="num">${female}</div></div><div class="icon">👩</div></div><div class="card stat"><div><small>فوت‌شده</small><div class="num">${dead}</div></div><div class="icon">🪦</div></div></div><div class="card"><b id="personFormTitle">افزودن فرد</b><div class="form-grid" style="margin-top:10px"><input id="personName" class="field name" placeholder="نام کامل"><select id="personGender" class="field"><option value="male">مرد</option><option value="female">زن</option></select><select id="personLife" class="field"><option value="alive">زنده</option><option value="dead">فوت شده</option></select><input id="birthYear" class="field" placeholder="سال"><input id="birthMonth" class="field" placeholder="ماه"><input id="birthDay" class="field" placeholder="روز"></div><div class="form-grid" style="grid-template-columns:repeat(3,1fr);margin-top:8px"><select id="fatherId" class="field"><option value="">پدر</option>${personOptions('male')}</select><select id="motherId" class="field"><option value="">مادر</option>${personOptions('female')}</select><select id="spouseId" class="field"><option value="">همسر</option>${personOptions('')}</select></div><input id="editingPersonId" type="hidden"><div class="toolbar"><button id="savePersonBtn" class="btn green">ذخیره فرد</button><button id="clearPersonBtn" class="btn gray">پاک‌کردن فرم</button></div><div id="peopleMsg" class="msg"></div></div><div class="card"><div class="toolbar"><input id="peopleSearch" class="field" placeholder="جستجوی فرد"><button id="reloadPeopleBtn" class="btn blue">بروزرسانی</button></div><div id="peopleList">${peopleList(peopleCache)}</div></div>`}
+    function personOptions(g){return peopleCache.filter(p=>!g||p.gender===g).map(p=>`<option value="${esc(p.id)}">${esc(p.fullName||'بدون نام')}</option>`).join('')}
+    function peopleList(list){return `<div class="list">${list.map(p=>`<div class="item"><div><b>${esc(p.fullName||'بدون نام')}</b><small>${p.gender==='female'?'زن':'مرد'} | ${p.lifeStatus==='dead'?'فوت‌شده':'زنده'} | تولد: ${esc([p.birthYear,p.birthMonth,p.birthDay].filter(Boolean).join('/')||'-')}</small></div><div class="actions"><button class="btn small blue editPerson" data-id="${esc(p.id)}">ویرایش</button><button class="btn small red deletePerson" data-id="${esc(p.id)}">حذف</button></div></div>`).join('')||'<div class="empty">هنوز فردی ثبت نشده است.</div>'}</div>`}
+    function notificationsView(){return `<div class="hero"><h2>اعلان‌ها</h2><p>مرکز اعلان واقعی از Firestore.</p></div><div class="card"><div class="toolbar"><button id="reloadNotifBtn" class="btn blue">خواندن اعلان‌ها</button><button id="markAllReadBtn" class="btn gray">خوانده شد</button></div><div class="list">${notificationsCache.map(n=>`<div class="item"><div><b>${esc(n.title||'اعلان')}</b><small>${esc(n.type||'-')} | ${stamp(n.createdAt)||'-'}</small></div><button class="btn small blue notifOpen" data-id="${esc(n.id)}">جزئیات</button></div>`).join('')||'<div class="empty">اعلانی وجود ندارد.</div>'}</div></div>`}
+    function bindRouteEvents(){document.querySelectorAll('[data-route-go]').forEach(b=>b.onclick=()=>setRoute(b.dataset.routeGo));$('reloadUsersBtn')&&( $('reloadUsersBtn').onclick=async()=>{await loadUsers();render()} );$('reloadPeopleBtn')&&( $('reloadPeopleBtn').onclick=async()=>{await loadPeople();render()} );$('reloadNotifBtn')&&( $('reloadNotifBtn').onclick=async()=>{await loadNotifications();render()} );$('userSearch')&&( $('userSearch').oninput=filterUsers,$('roleFilter').onchange=filterUsers,$('approveFilter').onchange=filterUsers );$('peopleSearch')&&( $('peopleSearch').oninput=filterPeople );$('savePersonBtn')&&( $('savePersonBtn').onclick=savePerson );$('clearPersonBtn')&&( $('clearPersonBtn').onclick=clearPersonForm );document.querySelectorAll('.approveUser').forEach(b=>b.onclick=async()=>{await updateDoc(doc(db,'users',b.dataset.uid),{approved:true,disabled:false});await loadUsers();render()});document.querySelectorAll('.disableUser').forEach(b=>b.onclick=async()=>{const u=usersCache.find(x=>x.id===b.dataset.uid);await updateDoc(doc(db,'users',b.dataset.uid),{disabled:!u?.disabled});await loadUsers();render()});document.querySelectorAll('.deleteUser').forEach(b=>b.onclick=async()=>{if(confirm('فقط سند users حذف شود؟')){await deleteDoc(doc(db,'users',b.dataset.uid));await loadUsers();render()}});document.querySelectorAll('.roleChange').forEach(s=>s.onchange=async()=>{await updateDoc(doc(db,'users',s.dataset.uid),{role:s.value});await loadUsers();render()});document.querySelectorAll('.resetUser').forEach(b=>b.onclick=async()=>{if(b.dataset.email)await sendPasswordResetEmail(auth,b.dataset.email).then(()=>alert('ارسال شد')).catch(e=>alert(e.message))});document.querySelectorAll('.editPerson').forEach(b=>b.onclick=()=>fillPerson(b.dataset.id));document.querySelectorAll('.deletePerson').forEach(b=>b.onclick=async()=>{if(confirm('حذف فرد؟')){await deleteDoc(doc(db,'people',b.dataset.id));await loadPeople();render()}});document.querySelectorAll('.notifOpen').forEach(b=>b.onclick=()=>openNotif(b.dataset.id));$('markAllReadBtn')&&($('markAllReadBtn').onclick=async()=>{await Promise.all(notificationsCache.map(n=>updateDoc(doc(db,'notifications',n.id),{read:true}).catch(()=>{})));await loadNotifications();render()})}
+    function filterUsers(){const q=val('userSearch').toLowerCase(),r=val('roleFilter'),a=val('approveFilter');let list=usersCache.filter(u=>(!q||String(u.email||'').toLowerCase().includes(q))&&(!r||u.role===r)&&(!a||(a==='approved'?u.approved:!u.approved)));$('usersTable').innerHTML=usersTable(list);bindRouteEvents()}
+    function filterPeople(){const q=val('peopleSearch').toLowerCase();$('peopleList').innerHTML=peopleList(peopleCache.filter(p=>String(p.fullName||'').toLowerCase().includes(q)));bindRouteEvents()}
+    async function savePerson(){const id=val('editingPersonId');const data={fullName:val('personName'),gender:val('personGender'),lifeStatus:val('personLife'),birthYear:val('birthYear'),birthMonth:val('birthMonth'),birthDay:val('birthDay'),fatherId:val('fatherId'),motherId:val('motherId'),spouseId:val('spouseId'),updatedAt:serverTimestamp()};if(!data.fullName){$('peopleMsg').textContent='نام را وارد کن';return} if(id)await updateDoc(doc(db,'people',id),data);else await addDoc(collection(db,'people'),{...data,createdAt:serverTimestamp()});clearPersonForm();await loadPeople();render()}
+    function clearPersonForm(){['editingPersonId','personName','birthYear','birthMonth','birthDay','fatherId','motherId','spouseId'].forEach(id=>$(id)&&($(id).value=''));$('personGender')&&($('personGender').value='male');$('personLife')&&($('personLife').value='alive')}
+    function fillPerson(id){const p=peopleCache.find(x=>x.id===id);if(!p)return;['editingPersonId','personName','birthYear','birthMonth','birthDay','fatherId','motherId','spouseId'].forEach(k=>{});$('editingPersonId').value=p.id;$('personName').value=p.fullName||'';$('personGender').value=p.gender||'male';$('personLife').value=p.lifeStatus||'alive';$('birthYear').value=p.birthYear||'';$('birthMonth').value=p.birthMonth||'';$('birthDay').value=p.birthDay||'';$('fatherId').value=p.fatherId||'';$('motherId').value=p.motherId||'';$('spouseId').value=p.spouseId||'';window.scrollTo({top:0,behavior:'smooth'})}
+    function openNotif(id){const n=notificationsCache.find(x=>x.id===id);if(!n)return;$('modalTitle').textContent=n.title||'اعلان';$('modalBody').innerHTML=`<p>${esc(n.message||'')}</p><p><span class="pill blue">${esc(n.type||'-')}</span><span class="pill gray">${stamp(n.createdAt)||'-'}</span></p>`;$('modalBack').classList.add('open')}
+    $('modalClose').onclick=()=>$('modalBack').classList.remove('open');$('modalBack').onclick=e=>{if(e.target===$('modalBack'))$('modalBack').classList.remove('open')};
+    $('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('logoutBtn').onclick=()=>signOut(auth);
+    $('showRegisterBtn').onclick=()=>$('registerBox').classList.toggle('hidden');$('resetBtn').onclick=async()=>{const email=val('loginEmail');if(!email)return msg('ایمیل را وارد کن');await sendPasswordResetEmail(auth,email).then(()=>msg('ایمیل بازیابی ارسال شد',true)).catch(e=>msg(e.message))};$('loginBtn').onclick=async()=>{msg('');await signInWithEmailAndPassword(auth,val('loginEmail'),val('loginPass')).catch(e=>msg('خطا: '+e.message))};$('registerBtn').onclick=async()=>{msg('');await createUserWithEmailAndPassword(auth,val('regEmail'),val('regPass')).then(async cred=>{await ensureUserDoc(cred.user);msg('ثبت‌نام انجام شد. منتظر تایید مدیر باشید.',true)}).catch(e=>msg('خطا: '+e.message))};
+    onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){showLogin(true);return}try{currentProfile=await ensureUserDoc(user);if(currentProfile.disabled){msg('حساب غیرفعال است');await signOut(auth);return}if(!currentProfile.approved){showLogin(true);msg('حساب شما در انتظار تایید مدیر است.');return}showLogin(false);$('userInfo').textContent=`${currentProfile.email||user.email} | ${currentProfile.role}`;await loadAll();setRoute(currentRoute||'dashboard')}catch(e){showLogin(true);msg('خطای Firebase: '+e.message)}});
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('./service-worker.js?v=214-pure-v200-single-view-router').catch(()=>{})}
   </script>
 </body>
 </html>
