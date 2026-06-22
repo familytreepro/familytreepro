@@ -7,8 +7,8 @@
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
   <meta name="theme-color" content="#2563eb" />
-  <link rel="manifest" href="./manifest.json?v=211-drawer-dashboard-pro" />
-  <title>FamilyTreePro V211 Drawer Dashboard Pro</title>
+  <link rel="manifest" href="./manifest.json?v=212-mobile-drawer-clean" />
+  <title>FamilyTreePro V212 Mobile Drawer Clean</title>
   <style>
     *{box-sizing:border-box}
     :root{--navy:#071b35;--blue:#2563eb;--green:#16a34a;--red:#ef4444;--amber:#f59e0b;--bg:#f3f6fb;--card:#fff;--text:#172033;--muted:#64748b;--line:#e5eaf2}
@@ -51,7 +51,7 @@
 
 
 
-    /* V211 Drawer Pro: professional minimal people form, no logic changes */
+    /* V212: professional minimal people form, no logic changes */
     .people-form.pro-card{border-radius:24px;padding:0;overflow:hidden;border-color:#dbeafe;background:linear-gradient(180deg,#ffffff,#f8fbff);box-shadow:0 18px 46px rgba(37,99,235,.10)}
     .people-form-head{padding:16px 16px 12px;background:linear-gradient(135deg,#0f2a55,#2563eb);color:#fff;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
     .people-form-head h3{margin:0;font-size:18px}.people-form-head small{color:#dbeafe;display:block;margin-top:4px;line-height:1.7}.people-form-head .pill{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.25);color:#fff}
@@ -66,10 +66,10 @@
     #notifyBadge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;border-radius:999px;background:#e11d48;color:white;font-size:12px;margin-right:5px;padding:0 6px}
     @media(max-width:760px){.grid,.grid2,.toolbar{grid-template-columns:1fr}.topbar{align-items:flex-start}.top-actions{width:100%}.top-actions .btn{flex:1}.main{padding:12px}.authbox{padding:20px;margin:8px auto}.table-wrap table{min-width:760px}.hero h1{font-size:22px}}
   
-    /* V211 Drawer Dashboard Pro - inspired by V188 drawer, clean single-engine UI */
-    .drawer-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.45);opacity:0;pointer-events:none;z-index:90;transition:.22s ease}
-    .drawer-backdrop.open{opacity:1;pointer-events:auto}
-    .drawer{position:fixed;top:0;bottom:0;right:0;width:min(390px,94vw);background:var(--card);color:var(--text);z-index:100;box-shadow:0 25px 80px rgba(0,0,0,.28);transform:translateX(105%);transition:.25s ease;display:flex;flex-direction:column;overflow:hidden}
+    /* V212 Mobile Drawer Clean - inspired by V188 drawer, clean single-engine UI */
+    .drawer-backdrop{position:fixed;inset:0;background:rgba(15,23,42,.35);opacity:0;visibility:hidden;pointer-events:none;z-index:900;transition:opacity .18s ease,visibility .18s ease}
+    .drawer-backdrop.open{opacity:1;visibility:visible;pointer-events:auto}
+    .drawer{position:fixed;top:0;bottom:0;right:0;width:320px;max-width:86vw;background:var(--card);color:var(--text);z-index:910;box-shadow:-18px 0 60px rgba(0,0,0,.22);transform:translateX(110%);transition:transform .22s ease;display:flex;flex-direction:column;overflow:hidden;will-change:transform}
     .drawer.open{transform:translateX(0)}
     .drawer-head{background:linear-gradient(135deg,#071b35,#2563eb);color:white;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
     .drawer-head b{font-size:17px}.drawer-close{border:0;background:rgba(255,255,255,.15);color:white;border-radius:12px;padding:8px 11px;cursor:pointer;font-size:18px}
@@ -81,7 +81,8 @@
     .drawer-tool{width:100%;border:1px solid var(--line);border-radius:13px;background:rgba(37,99,235,.07);color:var(--text);padding:12px 14px;margin:6px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;text-align:right;font-weight:700}.drawer-tool:hover,.drawer-tool.active{background:var(--blue);color:white}.drawer-tool.hidden-by-search,.drawer-group.hidden-by-search{display:none!important}
     .drawer-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.drawer-mini-stat{border:1px solid var(--line);border-radius:14px;padding:10px;background:#fff;text-align:center}.drawer-mini-stat small{display:block;color:var(--muted);font-size:11px}.drawer-mini-stat b{font-size:18px}.drawer-empty{display:none;border:1px dashed var(--line);border-radius:14px;color:var(--muted);padding:12px;text-align:center;margin-top:10px}.drawer-empty.show{display:block}
     .top-actions .drawer-open-btn{background:rgba(255,255,255,.14)}
-    @media(max-width:700px){.drawer{width:94vw}.drawer-mini-grid{grid-template-columns:1fr 1fr}.topbar{align-items:flex-start}.brand{width:100%}}
+    @media(max-width:700px){.drawer{width:280px;max-width:84vw}.drawer-mini-grid{grid-template-columns:1fr 1fr}.topbar{align-items:flex-start}.brand{width:100%}.compact-hero{padding:16px 18px}.compact-hero h1{font-size:22px}}
+    .load-version{position:fixed;left:10px;bottom:10px;z-index:2000;background:rgba(15,23,42,.86);color:white;border-radius:999px;padding:7px 10px;font-size:11px;direction:ltr;box-shadow:0 10px 30px rgba(0,0,0,.18);pointer-events:none}
 
   </style>
 </head>
@@ -125,7 +126,7 @@
     </div>
     <div id="drawerBackdrop" class="drawer-backdrop"></div>
     <aside id="dashboardDrawer" class="drawer" aria-label="داشبورد کشویی">
-      <div class="drawer-head"><b>داشبورد کشویی</b><button id="drawerCloseBtn" class="drawer-close" type="button">×</button></div>
+      <div class="drawer-head"><b>داشبورد</b><button id="drawerCloseBtn" class="drawer-close" type="button">×</button></div>
       <div class="drawer-body">
         <div class="drawer-profile">
           <div class="drawer-avatar">👤</div>
@@ -158,10 +159,7 @@
       </div>
     </aside>
     <main class="main">
-      <section class="hero">
-        <h1>داشبورد کشویی FamilyTreePro</h1>
-        <p>داشبورد کشویی سبک V188 با موتور تمیز V211؛ احراز و افراد داخل داشبورد قرار گرفتند.</p>
-      </section>
+      <section class="hero compact-hero"><h1>FamilyTreePro</h1><p>داشبورد، احراز، افراد و اعلان‌ها</p></section>
 
       <section id="waitingBox" class="waiting hidden">
         <div class="card">
@@ -199,7 +197,7 @@
             <div class="dash-mini">
               <span class="pill" id="dashRolePill">نقش: -</span>
               <span class="pill" id="dashFirebasePill">Firebase: فعال</span>
-              <span class="pill">V211 Drawer Pro</span>
+              <span class="pill">V212</span>
             </div>
           </div>
           <div class="dash-card">
@@ -218,7 +216,7 @@
         <div id="adminPanel" class="card hidden">
           <div class="admin-head">
             <h2>مدیریت احراز کاربران</h2>
-            <span class="auth-chip">V211 Drawer Pro</span>
+            <span class="auth-chip">V212</span>
           </div>
           <div class="pro-stats">
             <div class="pro-stat"><small>Admin</small><b id="roleAdminCount">0</b></div>
@@ -313,7 +311,8 @@
           </div>
         </div>
 
-        <div id="notifBackdrop" class="hidden"></div>
+        <div id="loadVersion" class="load-version">index V212 | manifest V212 | sw V212</div>
+    <div id="notifBackdrop" class="hidden"></div>
         <div id="notificationPanel" class="card hidden" role="dialog" aria-modal="true" aria-labelledby="notifTitle">
           <div class="notif-head">
             <h2 id="notifTitle">مرکز اعلان</h2>
@@ -337,7 +336,7 @@
     import { getAuth, setPersistence, browserLocalPersistence, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection, getDocs, addDoc, serverTimestamp, query, orderBy } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-    const VERSION = 'V211 Drawer Dashboard Pro';
+    const VERSION = 'V212 Mobile Drawer Clean';
     const ADMIN_EMAIL = 'alibahripor33@gmail.com';
     const firebaseConfig = {
       apiKey: "AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",
@@ -375,9 +374,23 @@
     };
 
 
-    function openDrawer(){ const d=$('dashboardDrawer'), b=$('drawerBackdrop'); if(d) d.classList.add('open'); if(b) b.classList.add('open'); }
-    function closeDrawer(){ const d=$('dashboardDrawer'), b=$('drawerBackdrop'); if(d) d.classList.remove('open'); if(b) b.classList.remove('open'); }
-    function scrollToTarget(id){ const el=$(id); if(el){ el.classList.remove('hidden'); el.scrollIntoView({behavior:'smooth', block:'start'}); } closeDrawer(); }
+    function openDrawer(){
+      const d=$('dashboardDrawer'), b=$('drawerBackdrop');
+      if(d) d.classList.add('open');
+      if(b) b.classList.add('open');
+      document.body.classList.add('drawer-is-open');
+    }
+    function closeDrawer(){
+      const d=$('dashboardDrawer'), b=$('drawerBackdrop');
+      if(d) d.classList.remove('open');
+      if(b) b.classList.remove('open');
+      document.body.classList.remove('drawer-is-open');
+    }
+    function scrollToTarget(id){
+      const el=$(id);
+      if(el){ el.classList.remove('hidden'); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      closeDrawer();
+    }
     function setDrawerActive(target){ document.querySelectorAll('.drawer-tool[data-target]').forEach(x=>x.classList.toggle('active', x.dataset.target===target)); }
     function updateDrawerMini(){
       const name = currentProfile?.displayName || currentProfile?.name || currentUser?.email || 'مدیر سیستم';
@@ -417,7 +430,7 @@
           actorEmail: currentUser ? lower(currentUser.email || '') : '',
           readBy: {},
           createdAt: serverTimestamp(),
-          source: 'v208-people-core-pro'
+          source: 'v212-mobile-drawer-clean'
         });
       }catch(e){ console.warn('notification-create-failed', e); }
     }
@@ -832,7 +845,7 @@
           disabled: false,
           createdAt: serverTimestamp(),
           lastLogin: serverTimestamp(),
-          source: 'v207-register'
+          source: 'v212-register'
         }, {merge:true});
         if(!admin){
           await createNotification({type:'new_registration', targetRole:'admin', title:'ثبت‌نام جدید', message:`${name || em} با ایمیل ${em} ثبت‌نام کرد و منتظر تایید است.`});
@@ -857,6 +870,20 @@
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeNotifications(); });
     $('reloadNotifBtn').onclick = loadNotifications;
     $('markAllReadBtn').onclick = markAllNotificationsRead;
+
+    if($('drawerOpenBtn')) $('drawerOpenBtn').onclick = openDrawer;
+    if($('drawerCloseBtn')) $('drawerCloseBtn').onclick = closeDrawer;
+    if($('drawerBackdrop')) $('drawerBackdrop').onclick = closeDrawer;
+    if($('drawerSearch')) $('drawerSearch').addEventListener('input', filterDrawerTools);
+    document.querySelectorAll('.drawer-group-title').forEach(btn => btn.addEventListener('click', () => btn.closest('.drawer-group')?.classList.toggle('closed')));
+    document.querySelectorAll('.drawer-tool').forEach(btn => btn.addEventListener('click', async () => {
+      if(btn.disabled) return;
+      const target = btn.dataset.target;
+      const action = btn.dataset.action;
+      if(target){ setDrawerActive(target); scrollToTarget(target); }
+      if(action === 'notifications'){ closeDrawer(); await openNotifications(); }
+    }));
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeDrawer(); });
     ['searchBox','roleFilter','approvalFilter'].forEach(id => $(id).addEventListener('input', renderUsers));
     $('clearFilterBtn').onclick = () => { $('searchBox').value=''; $('roleFilter').value=''; $('approvalFilter').value=''; renderUsers(); };
     if($('showPendingBtn')) $('showPendingBtn').onclick = () => { $('approvalFilter').value='pending'; renderUsers(); };
@@ -901,7 +928,8 @@
       return (e && (e.message || e.code)) ? String(e.message || e.code) : String(e);
     }
 
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=210-dashboard-pro').catch(()=>{}); }
+    if($('loadVersion')) $('loadVersion').textContent = 'index V212 | manifest V212 | sw V212';
+    if('serviceWorker' in navigator){ navigator.serviceWorker.register('./service-worker.js?v=212-mobile-drawer-clean').catch(()=>{}); }
   </script>
 </body>
 </html>

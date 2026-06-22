@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V211 Drawer Dashboard Pro",
+  "name": "FamilyTreePro V212 Mobile Drawer Clean",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=211-drawer-dashboard-pro",
+  "start_url": "./index.html?v=212-mobile-drawer-clean",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V210: minimal professional people core with real auth, users and notifications",
+  "description": "FamilyTreePro V212: clean single-engine mobile drawer with auth, users, notifications and people",
   "scope": "./",
   "icons": []
 }
