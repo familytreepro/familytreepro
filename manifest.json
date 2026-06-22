@@ -1,7 +1,7 @@
 {
-  "name": "FamilyTreePro V210 Dashboard Pro",
+  "name": "FamilyTreePro V211 Drawer Dashboard Pro",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=210-dashboard-pro",
+  "start_url": "./index.html?v=211-drawer-dashboard-pro",
   "display": "standalone",
   "background_color": "#071b35",
   "theme_color": "#2563eb",
