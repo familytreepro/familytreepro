@@ -1,5 +1,5 @@
-// FamilyTreePro V234 Classic Tree Single Engine
-const CACHE_NAME='familytreepro-v234-classic-tree-single-engine';
+// FamilyTreePro V235 Tree Photo UI Single Engine
+const CACHE_NAME='familytreepro-v235-tree-photo-ui-single-engine';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
