@@ -1,14 +1,14 @@
 {
-  "name": "FamilyTreePro V233 Dual Tree Engine",
+  "name": "FamilyTreePro V234 Classic Tree Single Engine",
   "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=233-dual-tree-engine",
+  "start_url": "./index.html?v=234-classic-tree-single-engine",
   "display": "standalone",
   "background_color": "#f7f7ff",
   "theme_color": "#111827",
   "orientation": "portrait",
   "lang": "fa",
   "dir": "rtl",
-  "description": "FamilyTreePro V233: dual tree engine, professional print grid and optimized V188 classic branch",
+  "description": "FamilyTreePro V234: classic single tree engine, professional print grid and optimized V188 classic branch",
   "scope": "./",
   "icons": []
 }
