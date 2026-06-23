@@ -1,1 +1,14 @@
-{"name":"FamilyTreePro V242 Tree Print Pro","short_name":"FamilyTreePro","start_url":"./index.html?v=242-tree-print-pro","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V242: print pro only tree no margin","scope":"./","icons":[]}
+{
+  "name": "FamilyTreePro V244 AI Photo Cleaner",
+  "short_name": "FamilyTreePro",
+  "start_url": "./index.html?v=244-ai-photo-cleaner",
+  "display": "standalone",
+  "background_color": "#f7f7ff",
+  "theme_color": "#111827",
+  "orientation": "portrait",
+  "lang": "fa",
+  "dir": "rtl",
+  "description": "FamilyTreePro V244: AI-style client photo cleaner, compressor, profile photos, stable tree print",
+  "scope": "./",
+  "icons": []
+}
