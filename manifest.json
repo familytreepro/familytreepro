@@ -1,14 +1,1 @@
-{
-  "name": "FamilyTreePro V246 Global Search Smart Nav",
-  "short_name": "FamilyTreePro",
-  "start_url": "./index.html?v=246-global-search-smart-nav",
-  "display": "standalone",
-  "background_color": "#071b35",
-  "theme_color": "#2563eb",
-  "orientation": "portrait",
-  "lang": "fa",
-  "dir": "rtl",
-  "description": "FamilyTreePro V246: global search across people, relations, pages, tree and smart navigation",
-  "scope": "./",
-  "icons": []
-}
+{"name":"FamilyTreePro V235 Tree Photo UI Single Engine","short_name":"FamilyTreePro","start_url":"./index.html?v=235-tree-photo-ui-single-engine","display":"standalone","background_color":"#f7f7ff","theme_color":"#111827","orientation":"portrait","lang":"fa","dir":"rtl","description":"FamilyTreePro V235: classic tree photo UI single engine","scope":"./","icons":[]}
