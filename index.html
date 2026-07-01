@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<title>FamilyTreePro V255 Viewer Share SAFE</title>
-<link rel="manifest" href="./manifest.json?v=255-viewer-share-safe">
+<title>FamilyTreePro V257 Secure Viewer SAFE</title>
+<link rel="manifest" href="./manifest.json?v=257-secure-viewer-safe">
 <meta name="theme-color" content="#111827">
 <style>
 :root{--bg:#f7f7ff;--card:#fff;--text:#111827;--muted:#64748b;--line:#e8ecf7;--navy:#111827;--blue:#2563eb;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--purple:#8b5cf6;--pink:#ec4899;--shadow:0 16px 40px rgba(17,24,39,.09);--r:20px}
@@ -154,7 +154,7 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
 <div id="globalSearchOverlay" class="search-overlay"><div class="search-panel"><div class="search-head"><input id="globalSearchInput" placeholder="جستجو در افراد، پدر، مادر، همسر، فرزندان، صفحات و اعلان‌ها..." autocomplete="off"><button id="globalSearchClose" class="search-close" type="button">×</button></div><div id="globalSearchResults" class="search-results"><div class="search-empty">برای جستجو تایپ کن...</div></div></div></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";import{getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,signOut}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";import{getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,collection,getDocs,addDoc,serverTimestamp,query,orderBy}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-const VERSION='V253 Occasions Safe',ADMIN_EMAIL='alibahripor33@gmail.com';const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
+const VERSION='V257 Secure Viewer Safe',ADMIN_EMAIL='alibahripor33@gmail.com';const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
 let currentUser=null,currentProfile=null,currentRoute='dashboard',selectedPersonId='',usersCache=[],peopleCache=[],notificationsCache=[],changeLogsCache=[];const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m])),val=id=>String($(id)?.value||'').trim(),isAdmin=()=>currentProfile?.role==='admin',stamp=v=>v?.toDate?v.toDate().toLocaleString('fa-IR'):'';
 function msg(t,ok=false){$('loginMsg').textContent=t||'';$('loginMsg').className=ok?'msg ok':'msg'}function showLogin(show){$('login').classList.toggle('hidden',!show);$('app').classList.toggle('hidden',show)}
 async function ensureUserDoc(user){const ref=doc(db,'users',user.uid),snap=await getDoc(ref),email=(user.email||'').toLowerCase(),admin=email===ADMIN_EMAIL.toLowerCase();if(!snap.exists())await setDoc(ref,{uid:user.uid,email:user.email||'',displayName:user.displayName||'',role:admin?'admin':'viewer',approved:admin,disabled:false,createdAt:serverTimestamp(),lastLogin:serverTimestamp(),source:'v251-clean'});else await updateDoc(ref,{lastLogin:serverTimestamp(),email:user.email||snap.data().email||''}).catch(()=>{});const fresh=await getDoc(ref);return{id:fresh.id,...fresh.data()}}
@@ -422,7 +422,7 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
   var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
   var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
   function cleanBase(){return location.origin+location.pathname;}
-  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=257-secure-viewer-safe';}
   function copyText(text){
     if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
     var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
@@ -480,6 +480,65 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
   new MutationObserver(function(){applyViewerMode()}).observe(document.documentElement,{childList:true,subtree:true});
 })();
 </script>
+
+<style id="v257-secure-viewer-styles">
+/* V257 Secure Viewer SAFE: no Auth/Login changes. Browser cannot block real phone screenshots; this adds deterrence and blocks copy/print/save for editor/viewer. */
+body.secure-nonadmin{user-select:none!important;-webkit-user-select:none!important;-webkit-touch-callout:none!important}
+body.secure-nonadmin img{-webkit-user-drag:none!important;user-drag:none!important;pointer-events:auto}
+body.secure-nonadmin .no-secure,body.secure-nonadmin .download-btn,body.secure-nonadmin .export-btn{display:none!important}
+.secure-watermark-layer{position:fixed;inset:-20vh -20vw;z-index:2147482000;pointer-events:none;opacity:.075;display:none;transform:rotate(-25deg);font-weight:950;color:#0f172a;font-size:18px;line-height:3;white-space:pre;letter-spacing:.5px;text-align:center}
+body.secure-nonadmin .secure-watermark-layer{display:block}
+.secure-warning{position:fixed;right:12px;bottom:12px;z-index:2147482500;background:rgba(15,23,42,.92);color:#fff;border-radius:16px;padding:10px 13px;box-shadow:0 20px 60px rgba(0,0,0,.25);font-size:12px;font-weight:900;line-height:1.8;max-width:min(360px,92vw)}
+.secure-blur{filter:blur(7px)!important}
+@media print{body.secure-nonadmin *{display:none!important}body.secure-nonadmin:before{content:'چاپ برای این نقش مجاز نیست';display:block!important;font:18px Tahoma;color:#111;padding:30px;text-align:center}}
+</style>
+<script id="v257-secure-viewer-safe">
+/* V257 Secure Viewer SAFE: blocks copy/print/save/right-click for non-admin; does not touch Firebase Auth/Login. */
+(function(){
+  'use strict';
+  if(window.__V257_SECURE_VIEWER_SAFE__)return; window.__V257_SECURE_VIEWER_SAFE__=true;
+  function role(){try{return (window.currentProfile&&window.currentProfile.role)||''}catch(e){return ''}}
+  function isNonAdmin(){var r=String(role()).toLowerCase();return r==='viewer'||r==='editor'||document.body.classList.contains('viewer-readonly')||new URLSearchParams(location.search||'').get('mode')==='viewer'}
+  function userLabel(){try{return ((window.currentProfile&&(window.currentProfile.email||window.currentProfile.displayName))||(window.currentUser&&window.currentUser.email)||'نمایشگر')+''}catch(e){return 'نمایشگر'}}
+  function ensureLayer(){
+    if(!document.getElementById('secureWatermarkLayer')){
+      var d=document.createElement('div');d.id='secureWatermarkLayer';d.className='secure-watermark-layer';document.body.appendChild(d);
+    }
+    if(!document.getElementById('secureWarning')){
+      var w=document.createElement('div');w.id='secureWarning';w.className='secure-warning';w.textContent='🔒 حالت امن: کپی، چاپ، ذخیره و خروجی برای غیرمدیر بسته است. اسکرین‌شات واقعی گوشی در وب ۱۰۰٪ قابل جلوگیری نیست.';document.body.appendChild(w);
+    }
+  }
+  function applySecure(){
+    if(!document.body)return;
+    if(isNonAdmin()){
+      document.body.classList.add('secure-nonadmin');ensureLayer();
+      var label='FamilyTreePro • '+userLabel()+' • '+new Date().toLocaleString('fa-IR')+'     ';
+      var layer=document.getElementById('secureWatermarkLayer'); if(layer)layer.textContent=(label.repeat(8)+'\n').repeat(18);
+      var warn=document.getElementById('secureWarning'); if(warn)warn.style.display='block';
+      document.querySelectorAll('button,a').forEach(function(el){
+        var txt=(el.textContent||'')+' '+(el.title||'')+' '+(el.id||'')+' '+(el.className||'');
+        if(/چاپ|PDF|PNG|دانلود|خروجی|ذخیره تصویر|Share Tree|ارسال شجره|shareTree|print|download|export/i.test(txt)) el.classList.add('no-secure');
+      });
+    }else{
+      document.body.classList.remove('secure-nonadmin');
+      var warn=document.getElementById('secureWarning'); if(warn)warn.style.display='none';
+    }
+  }
+  function block(e,msg){if(!isNonAdmin())return; e.preventDefault(); e.stopImmediatePropagation(); if(msg) try{alert(msg)}catch(_){}}
+  ['copy','cut','paste','contextmenu','dragstart'].forEach(function(ev){document.addEventListener(ev,function(e){block(e,'این عمل برای نمایشگر/ویرایشگر بسته است.')},true)});
+  document.addEventListener('keydown',function(e){
+    if(!isNonAdmin())return;
+    var k=String(e.key||'').toLowerCase();
+    if((e.ctrlKey||e.metaKey)&&(k==='p'||k==='s'||k==='u'||k==='c'||k==='x'||k==='a'||k==='i'||k==='j')) block(e,'این میانبر برای نمایشگر/ویرایشگر بسته است.');
+    if(k==='printscreen') block(e,'اسکرین‌شات در وب کامل قابل کنترل نیست؛ واترمارک فعال است.');
+  },true);
+  window.addEventListener('beforeprint',function(){if(isNonAdmin()){document.body.classList.add('secure-blur');setTimeout(function(){document.body.classList.remove('secure-blur')},1500)}});
+  document.addEventListener('visibilitychange',function(){if(isNonAdmin()){document.body.classList.toggle('secure-blur',document.hidden); if(!document.hidden)setTimeout(function(){document.body.classList.remove('secure-blur')},700)}});
+  document.addEventListener('DOMContentLoaded',function(){applySecure();setTimeout(applySecure,600);setTimeout(applySecure,1800)});
+  new MutationObserver(function(){applySecure()}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+})();
+</script>
+
 </body></html>`);win.document.close();}
 function exportTreePng(){const content=currentTreeContent();if(!content){alert('اول شجره را نمایش بده');return}const win=window.open('','_blank');if(!win){alert('برای خروجی تصویری، اول از چاپ/PDF استفاده کن.');return}win.document.write(`<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>خروجی شجره</title><style>body{font-family:Tahoma,Arial,sans-serif;background:white;margin:0;padding:14px}.tree-board{text-align:center}.tree-row{border:1px solid #e5e7eb;border-radius:12px;margin:8px;padding:8px}.tree-row-grid{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.tree-card{display:inline-block;border:1px solid #dbe3ef;background:#f8fafc;border-radius:10px;padding:6px 8px;margin:2px;font-weight:900}.tree-card small{display:block;color:#64748b;font-size:10px}.female{background:#fdf2f8!important}.dead{opacity:.7;border-style:dashed!important}.classic-tree-wrap{direction:ltr;text-align:center;width:max-content;min-width:max-content;background:#fff}.tree-board-title{direction:rtl;font-size:18px;font-weight:900;margin:0 0 10px}.classic-note{display:none}.full-tree-forest{direction:ltr;display:flex;align-items:flex-start;justify-content:center;gap:10px;flex-wrap:nowrap}.classic-tree{display:inline-block;text-align:center;min-width:max-content}.classic-tree ul{padding-top:28px;position:relative;display:flex;justify-content:center;margin:0}.classic-tree li{list-style:none;text-align:center;position:relative;padding:28px 4px 0}.classic-tree li::before,.classic-tree li::after{content:'';position:absolute;top:0;width:50%;height:28px;border-top:1px solid #111}.classic-tree li::before{right:50%;border-right:1px solid #111}.classic-tree li::after{left:50%;border-left:1px solid #111}.classic-tree li:only-child::before,.classic-tree li:only-child::after{display:none}.classic-tree li:only-child{padding-top:0}.classic-tree li:first-child::before,.classic-tree li:last-child::after{border-top:0}.classic-tree ul ul::before{content:'';position:absolute;top:0;left:50%;height:28px;border-left:1px solid #111}.classic-node{direction:rtl;display:inline-flex;align-items:center;justify-content:center;min-width:86px;max-width:124px;min-height:38px;background:#fff;border:1px solid #111;border-radius:8px;padding:4px 6px;font-weight:800;font-size:10px;line-height:1.5;color:#111;text-align:right}.classic-node small{display:block;color:#555;font-weight:500;font-size:8px}.person-avatar{display:none!important}.classic-node.female{border-color:#111}.classic-node.dead{border-style:dashed}.classic-node.root{background:#f3f4f6}
 
@@ -523,7 +582,7 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
   var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
   var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
   function cleanBase(){return location.origin+location.pathname;}
-  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=257-secure-viewer-safe';}
   function copyText(text){
     if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
     var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
@@ -935,7 +994,7 @@ function openModal(title,body){$('modalTitle').textContent=title;$('modalBody').
 function openDrawer(){$('dashboardDrawer').classList.add('open');$('drawerBack').classList.add('open')}function closeDrawer(){$('dashboardDrawer').classList.remove('open');$('drawerBack').classList.remove('open')}$('openDrawerBtn').onclick=openDrawer;$('closeDrawerBtn').onclick=closeDrawer;$('drawerBack').onclick=closeDrawer;$('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('homeBtn').onclick=()=>setRoute('dashboard');$('notifTopBtn').onclick=()=>setRoute('notifications');$('globalSearchBtn').onclick=openGlobalSearch;$('quickRefreshBtn')&&($('quickRefreshBtn').onclick=quickRefreshAll);$('quickHealthBtn')&&($('quickHealthBtn').onclick=openHealthCheck);$('globalSearchClose').onclick=closeGlobalSearch;$('globalSearchInput').oninput=globalSearchRender;$('globalSearchOverlay').onclick=e=>{if(e.target===$('globalSearchOverlay'))closeGlobalSearch()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGlobalSearch();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openGlobalSearch()}});$('logoutBtn').onclick=()=>signOut(auth);
 $('showRegisterBtn').onclick=()=>$('registerBox').classList.toggle('hidden');$('resetBtn').onclick=async()=>{const email=val('loginEmail');if(!email)return msg('ایمیل را وارد کن');await sendPasswordResetEmail(auth,email).then(()=>msg('ایمیل بازیابی ارسال شد',true)).catch(e=>msg(e.message))};$('loginBtn').onclick=async()=>{msg('');await signInWithEmailAndPassword(auth,val('loginEmail'),val('loginPass')).catch(e=>msg('خطا: '+e.message))};$('registerBtn').onclick=async()=>{msg('');await createUserWithEmailAndPassword(auth,val('regEmail'),val('regPass')).then(async cred=>{await ensureUserDoc(cred.user);msg('ثبت‌نام انجام شد. منتظر تایید مدیر باشید.',true)}).catch(e=>msg('خطا: '+e.message))};
 onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){showLogin(true);return}try{currentProfile=await ensureUserDoc(user);if(currentProfile.disabled){msg('حساب غیرفعال است');await signOut(auth);return}if(!currentProfile.approved){showLogin(true);msg('حساب شما در انتظار تایید مدیر است.');return}showLogin(false);await loadAll();setRoute(currentRoute||'dashboard')}catch(e){showLogin(true);msg('خطای Firebase: '+e.message)}});
-if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js?v=255-viewer-share-safe').catch(()=>{})}
+if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js?v=257-secure-viewer-safe').catch(()=>{})}
 </script>
 
 <script id="v254-share-tree-safe">
@@ -978,7 +1037,7 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
   var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
   var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
   function cleanBase(){return location.origin+location.pathname;}
-  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=257-secure-viewer-safe';}
   function copyText(text){
     if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
     var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
@@ -1088,7 +1147,7 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
   var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
   var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
   function cleanBase(){return location.origin+location.pathname;}
-  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=257-secure-viewer-safe';}
   function copyText(text){
     if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
     var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
