@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<title>FamilyTreePro</title>
-<link rel="manifest" href="./manifest.json?v=245-data-guard">
+<title>FamilyTreePro V254 Share Tree SAFE</title>
+<link rel="manifest" href="./manifest.json?v=254-share-tree-safe">
 <meta name="theme-color" content="#111827">
 <style>
 :root{--bg:#f7f7ff;--card:#fff;--text:#111827;--muted:#64748b;--line:#e8ecf7;--navy:#111827;--blue:#2563eb;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--purple:#8b5cf6;--pink:#ec4899;--shadow:0 16px 40px rgba(17,24,39,.09);--r:20px}
@@ -777,7 +777,74 @@ function openModal(title,body){$('modalTitle').textContent=title;$('modalBody').
 function openDrawer(){$('dashboardDrawer').classList.add('open');$('drawerBack').classList.add('open')}function closeDrawer(){$('dashboardDrawer').classList.remove('open');$('drawerBack').classList.remove('open')}$('openDrawerBtn').onclick=openDrawer;$('closeDrawerBtn').onclick=closeDrawer;$('drawerBack').onclick=closeDrawer;$('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('homeBtn').onclick=()=>setRoute('dashboard');$('notifTopBtn').onclick=()=>setRoute('notifications');$('globalSearchBtn').onclick=openGlobalSearch;$('quickRefreshBtn')&&($('quickRefreshBtn').onclick=quickRefreshAll);$('quickHealthBtn')&&($('quickHealthBtn').onclick=openHealthCheck);$('globalSearchClose').onclick=closeGlobalSearch;$('globalSearchInput').oninput=globalSearchRender;$('globalSearchOverlay').onclick=e=>{if(e.target===$('globalSearchOverlay'))closeGlobalSearch()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGlobalSearch();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openGlobalSearch()}});$('logoutBtn').onclick=()=>signOut(auth);
 $('showRegisterBtn').onclick=()=>$('registerBox').classList.toggle('hidden');$('resetBtn').onclick=async()=>{const email=val('loginEmail');if(!email)return msg('ایمیل را وارد کن');await sendPasswordResetEmail(auth,email).then(()=>msg('ایمیل بازیابی ارسال شد',true)).catch(e=>msg(e.message))};$('loginBtn').onclick=async()=>{msg('');await signInWithEmailAndPassword(auth,val('loginEmail'),val('loginPass')).catch(e=>msg('خطا: '+e.message))};$('registerBtn').onclick=async()=>{msg('');await createUserWithEmailAndPassword(auth,val('regEmail'),val('regPass')).then(async cred=>{await ensureUserDoc(cred.user);msg('ثبت‌نام انجام شد. منتظر تایید مدیر باشید.',true)}).catch(e=>msg('خطا: '+e.message))};
 onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){showLogin(true);return}try{currentProfile=await ensureUserDoc(user);if(currentProfile.disabled){msg('حساب غیرفعال است');await signOut(auth);return}if(!currentProfile.approved){showLogin(true);msg('حساب شما در انتظار تایید مدیر است.');return}showLogin(false);await loadAll();setRoute(currentRoute||'dashboard')}catch(e){showLogin(true);msg('خطای Firebase: '+e.message)}});
-if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js?v=253-occasions-safe').catch(()=>{})}
+if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js?v=254-share-tree-safe').catch(()=>{})}
 </script>
+
+<script id="v254-share-tree-safe">
+/* V254 Share Tree SAFE: adds sharing only; login/auth/Firebase untouched */
+(function(){
+  'use strict';
+  if(window.__FTP_V254_SHARE_TREE_SAFE__) return;
+  window.__FTP_V254_SHARE_TREE_SAFE__ = true;
+  function text(el){return (el && (el.innerText || el.textContent) || '').replace(/\s+/g,' ').trim();}
+  function treeTitle(){
+    var h=document.querySelector('#mainView .hero h2') || document.querySelector('.tree-board-title') || document.querySelector('.classic-note');
+    var t=text(h);
+    return t || 'شجره‌نامه خانواده';
+  }
+  function buildShareText(){
+    var title=treeTitle();
+    var count=(document.querySelectorAll('.classic-node,.tree-card,.tree-grid-person').length)||0;
+    var url=location.href.split('#')[0];
+    return title + (count?('\nتعداد گره‌های شجره: '+count):'') + '\n' + url;
+  }
+  function buildStandaloneTreeHtml(){
+    var tree=document.querySelector('.tree-shell') || document.querySelector('.classic-tree-wrap') || document.querySelector('#mainView');
+    var styles=Array.from(document.querySelectorAll('style')).map(function(s){return s.textContent||'';}).join('\n');
+    var title=treeTitle();
+    var body=tree?tree.outerHTML:'<p>شجره در این صفحه پیدا نشد.</p>';
+    return '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title.replace(/[<>&]/g,'')+'</title><style>'+styles+' body{background:#fff!important;padding:12px}.topbar,.drawer,.drawer-back,.tree-toolbar,.hero button,.no-share{display:none!important}</style></head><body><h2 style="text-align:center">'+title.replace(/[<>&]/g,'')+'</h2>'+body+'</body></html>';
+  }
+  async function shareTree(){
+    var shareText=buildShareText();
+    try{
+      if(navigator.share){
+        var html=buildStandaloneTreeHtml();
+        var file=new File([html],'FamilyTreePro-Tree.html',{type:'text/html'});
+        if(navigator.canShare && navigator.canShare({files:[file]})){
+          await navigator.share({title:'شجره‌نامه خانواده',text:'فایل شجره‌نامه خانواده',files:[file]});
+          return;
+        }
+        await navigator.share({title:'شجره‌نامه خانواده',text:shareText,url:location.href.split('#')[0]});
+        return;
+      }
+    }catch(e){
+      if(String(e && e.name || '')==='AbortError') return;
+    }
+    var wa='https://wa.me/?text='+encodeURIComponent(shareText);
+    window.open(wa,'_blank');
+  }
+  function addButton(){
+    var toolbar=document.querySelector('#mainView .tree-toolbar') || document.querySelector('#mainView .toolbar');
+    var main=document.querySelector('#mainView');
+    if(!toolbar || !main) return;
+    var looksLikeTree=main.textContent.indexOf('شجره')>-1 || main.querySelector('.classic-tree,.tree-shell,.tree-board,.tree-stage');
+    if(!looksLikeTree) return;
+    if(document.getElementById('shareTreeBtn')) return;
+    var btn=document.createElement('button');
+    btn.id='shareTreeBtn';
+    btn.type='button';
+    btn.className='btn green small no-print no-share';
+    btn.textContent='📤 ارسال شجره';
+    btn.title='ارسال شجره به واتساپ یا برنامه‌های دیگر';
+    btn.onclick=shareTree;
+    toolbar.appendChild(btn);
+  }
+  var mo=new MutationObserver(function(){setTimeout(addButton,60);});
+  document.addEventListener('DOMContentLoaded',function(){addButton();var m=document.getElementById('mainView')||document.body;mo.observe(m,{childList:true,subtree:true});});
+  setInterval(addButton,1500);
+})();
+</script>
+
 </body>
 </html>
