@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate">
-<title>FamilyTreePro V258 Family Book SAFE Fixed</title>
-<link rel="manifest" href="./manifest.json?v=258-family-book-safe-fixed">
+<title>FamilyTreePro V255 Viewer Share SAFE</title>
+<link rel="manifest" href="./manifest.json?v=255-viewer-share-safe">
 <meta name="theme-color" content="#111827">
 <style>
 :root{--bg:#f7f7ff;--card:#fff;--text:#111827;--muted:#64748b;--line:#e8ecf7;--navy:#111827;--blue:#2563eb;--green:#10b981;--red:#ef4444;--amber:#f59e0b;--purple:#8b5cf6;--pink:#ec4899;--shadow:0 16px 40px rgba(17,24,39,.09);--r:20px}
@@ -137,9 +137,6 @@ html,body,button,input,select,textarea,svg,text,.tree-label,.tree-sub,.classic-n
 /* V253 Occasions Safe - no auth changes */
 .occasion-tools{display:grid;grid-template-columns:1.4fr .8fr .8fr auto;gap:8px;align-items:center;margin:10px 0}.occasion-tools .field{margin:0}.occasion-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}.occasion-stat{border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px;box-shadow:var(--shadow);display:flex;justify-content:space-between;align-items:center}.occasion-stat b{font-size:24px}.occasion-list{display:grid;gap:10px}.occasion-item{border:1px solid var(--line);border-radius:18px;background:#fff;padding:12px;display:flex;align-items:center;justify-content:space-between;gap:10px;box-shadow:0 8px 22px rgba(15,23,42,.05)}.occasion-main{display:flex;align-items:center;gap:10px;min-width:0}.occasion-icon{width:44px;height:44px;border-radius:15px;background:#eff6ff;display:flex;align-items:center;justify-content:center;font-size:23px;flex:0 0 44px}.occasion-title{font-weight:950}.occasion-sub{color:#64748b;font-size:12px;line-height:1.8}.occasion-badge{border-radius:999px;padding:5px 10px;font-size:12px;border:1px solid var(--line);white-space:nowrap}.occasion-badge.today{background:#ecfdf5;color:#166534;border-color:#bbf7d0}.occasion-badge.week{background:#fff7ed;color:#9a3412;border-color:#fed7aa}.occasion-badge.later{background:#f8fafc;color:#475569}.occasion-item.death .occasion-icon{background:#fef2f2}.occasion-empty{text-align:center;color:#64748b;padding:24px;line-height:2}@media(max-width:850px){.occasion-tools{grid-template-columns:1fr}.occasion-grid{grid-template-columns:1fr}.occasion-item{display:block}.occasion-main{margin-bottom:10px}.occasion-badge{display:inline-block}}
 
-
-/* V258 Family Book SAFE */
-.family-book-layout{display:grid;grid-template-columns:290px 1fr;gap:14px;align-items:start}.family-book-list{background:#fff;border:1px solid var(--line);border-radius:22px;padding:12px;box-shadow:var(--shadow);max-height:72vh;overflow:auto}.family-book-list button{width:100%;border:1px solid var(--line);background:#f8fafc;border-radius:14px;padding:10px;margin:5px 0;text-align:right;font-weight:900;color:#111827}.family-book-list button.active{background:linear-gradient(135deg,#2563eb,#8b5cf6);color:#fff;border-color:transparent}.family-book-page{background:#fff;border:1px solid var(--line);border-radius:26px;padding:20px;box-shadow:var(--shadow);line-height:2}.family-book-head{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:center;border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:14px}.family-book-photo{width:140px;height:140px;border-radius:28px;background:#eef4ff;border:1px solid #dbeafe;display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:58px;font-weight:950;color:#1d4ed8}.family-book-photo.female{background:#fdf2f8;color:#be185d;border-color:#fbcfe8}.family-book-photo img{width:100%;height:100%;object-fit:cover}.family-book-title{font-size:28px;font-weight:950;margin:0 0 6px}.family-book-section{border:1px solid #eef2f7;background:#fbfcff;border-radius:18px;padding:13px;margin:12px 0}.family-book-section h3{margin:0 0 8px;color:#1d4ed8}.family-book-relations{display:flex;gap:6px;flex-wrap:wrap}.family-book-print-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.family-book-watermark{display:none}.family-book-empty{padding:24px;text-align:center;color:#64748b;line-height:2}@media(max-width:850px){.family-book-layout{grid-template-columns:1fr}.family-book-list{max-height:260px}.family-book-head{grid-template-columns:1fr;text-align:center}.family-book-photo{margin:auto}}@media print{.family-book-list,.family-book-print-actions,.topbar,.drawer,.drawer-back,.hero{display:none!important}.family-book-layout{display:block!important}.family-book-page{box-shadow:none!important;border:0!important}.family-book-watermark{display:block!important;text-align:center;color:#94a3b8;font-size:11px;margin-top:20px}}
 </style>
 
 <style id="v255-viewer-share-styles">
@@ -152,17 +149,17 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
 </head>
 <body>
 <section id="login" class="login"><div class="login-card"><h1>FamilyTreePro 🔐</h1><input id="loginEmail" class="field ltr" autocomplete="email" placeholder="ایمیل"><input id="loginPass" class="field ltr" type="password" autocomplete="current-password" placeholder="رمز عبور"><button id="loginBtn" class="btn green" type="button">ورود</button><div class="switch"><button id="showRegisterBtn" class="btn ghost" type="button">ثبت‌نام</button><button id="resetBtn" class="btn ghost" type="button">فراموشی رمز</button></div><div id="registerBox" class="hidden"><input id="regName" class="field" placeholder="نام نمایشی"><input id="regEmail" class="field ltr" placeholder="ایمیل ثبت‌نام"><input id="regPass" class="field ltr" type="password" placeholder="رمز حداقل ۶ کاراکتر"><button id="registerBtn" class="btn" type="button">ثبت‌نام واقعی</button></div><div id="loginMsg" class="msg"></div></div></section>
-<section id="app" class="hidden"><header class="topbar"><button id="openDrawerBtn" class="menu-btn" type="button">☰</button><div class="brand">🌳 سامانه شجره‌نامه خانواده</div><div class="top-actions"><button id="globalSearchBtn" class="top-btn search-top" type="button" title="جستجوی همه چیز">🔍</button><button id="quickRefreshBtn" class="top-btn search-top" type="button" title="بروزرسانی اطلاعات">🔄</button><button id="homeBtn" class="top-btn hidden" type="button">🏠 خانه</button><button id="notifTopBtn" class="top-btn" type="button">🔔 اعلان‌ها</button><button id="logoutBtn" class="top-btn" type="button">🚪 خروج</button></div></header><div id="drawerBack" class="drawer-back"></div><aside id="dashboardDrawer" class="drawer"><div class="drawer-head"><b>داشبورد</b><button id="closeDrawerBtn" class="drawer-close" type="button">×</button></div><nav class="nav" id="mainNav"><button data-route="dashboard" type="button">🏠 خانه</button><button data-route="users" type="button">🔐 احراز و کاربران</button><button data-route="people" type="button">🌳 افراد</button><button data-route="familybook" type="button">📖 کتاب خانوادگی</button><button data-route="notifications" type="button">✉️ اعلان‌ها</button><button data-route="tree" type="button">🌳 شجره</button><button data-route="relations" type="button">🧠 تشخیص نسبت</button><button data-route="timeline" type="button">📅 تایم‌لاین خانوادگی</button><button data-route="occasions" type="button">🎂 مناسبت‌ها و فوتی‌ها</button><button data-route="print" type="button">🖨️ چاپ حرفه‌ای</button><button data-route="quality" type="button">🛡️ سلامت و بکاپ</button><button data-route="history" type="button">🕒 تاریخچه تغییرات</button><button data-route="photos" type="button">📷 موتور عکس</button><button data-route="import" type="button">📥 ورود بکاپ</button></nav></aside><main id="mainView" class="main"></main></section>
+<section id="app" class="hidden"><header class="topbar"><button id="openDrawerBtn" class="menu-btn" type="button">☰</button><div class="brand">🌳 سامانه شجره‌نامه خانواده</div><div class="top-actions"><button id="globalSearchBtn" class="top-btn search-top" type="button" title="جستجوی همه چیز">🔍</button><button id="quickRefreshBtn" class="top-btn search-top" type="button" title="بروزرسانی اطلاعات">🔄</button><button id="homeBtn" class="top-btn hidden" type="button">🏠 خانه</button><button id="notifTopBtn" class="top-btn" type="button">🔔 اعلان‌ها</button><button id="logoutBtn" class="top-btn" type="button">🚪 خروج</button></div></header><div id="drawerBack" class="drawer-back"></div><aside id="dashboardDrawer" class="drawer"><div class="drawer-head"><b>داشبورد</b><button id="closeDrawerBtn" class="drawer-close" type="button">×</button></div><nav class="nav" id="mainNav"><button data-route="dashboard" type="button">🏠 خانه</button><button data-route="users" type="button">🔐 احراز و کاربران</button><button data-route="people" type="button">🌳 افراد</button><button data-route="notifications" type="button">✉️ اعلان‌ها</button><button data-route="tree" type="button">🌳 شجره</button><button data-route="relations" type="button">🧠 تشخیص نسبت</button><button data-route="timeline" type="button">📅 تایم‌لاین خانوادگی</button><button data-route="occasions" type="button">🎂 مناسبت‌ها و فوتی‌ها</button><button data-route="print" type="button">🖨️ چاپ حرفه‌ای</button><button data-route="quality" type="button">🛡️ سلامت و بکاپ</button><button data-route="history" type="button">🕒 تاریخچه تغییرات</button><button data-route="photos" type="button">📷 موتور عکس</button><button data-route="import" type="button">📥 ورود بکاپ</button></nav></aside><main id="mainView" class="main"></main></section>
 <div id="modalBack" class="modal-back"><div class="modal"><div class="modal-head"><b id="modalTitle">جزئیات</b><button id="modalClose" class="close" type="button">×</button></div><div id="modalBody" style="line-height:2;margin-top:12px"></div></div></div>
 <div id="globalSearchOverlay" class="search-overlay"><div class="search-panel"><div class="search-head"><input id="globalSearchInput" placeholder="جستجو در افراد، پدر، مادر، همسر، فرزندان، صفحات و اعلان‌ها..." autocomplete="off"><button id="globalSearchClose" class="search-close" type="button">×</button></div><div id="globalSearchResults" class="search-results"><div class="search-empty">برای جستجو تایپ کن...</div></div></div></div>
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";import{getAuth,setPersistence,browserLocalPersistence,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,signOut}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";import{getFirestore,doc,getDoc,setDoc,updateDoc,deleteDoc,collection,getDocs,addDoc,serverTimestamp,query,orderBy}from"https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-const VERSION='V257 Secure Viewer Safe',ADMIN_EMAIL='alibahripor33@gmail.com';const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
+const VERSION='V253 Occasions Safe',ADMIN_EMAIL='alibahripor33@gmail.com';const firebaseConfig={apiKey:"AIzaSyDNpNOpFSmJvkyBwpoJnkMEcZBj7tknKB8",authDomain:"family-tree-pro-a661d.firebaseapp.com",projectId:"family-tree-pro-a661d",storageBucket:"family-tree-pro-a661d.firebasestorage.app",messagingSenderId:"634237399841",appId:"1:634237399841:web:7ad2813dbbc3697ab6c460"};const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);await setPersistence(auth,browserLocalPersistence);
 let currentUser=null,currentProfile=null,currentRoute='dashboard',selectedPersonId='',usersCache=[],peopleCache=[],notificationsCache=[],changeLogsCache=[];const $=id=>document.getElementById(id),esc=s=>String(s??'').replace(/[&<>'"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[m])),val=id=>String($(id)?.value||'').trim(),isAdmin=()=>currentProfile?.role==='admin',stamp=v=>v?.toDate?v.toDate().toLocaleString('fa-IR'):'';
 function msg(t,ok=false){$('loginMsg').textContent=t||'';$('loginMsg').className=ok?'msg ok':'msg'}function showLogin(show){$('login').classList.toggle('hidden',!show);$('app').classList.toggle('hidden',show)}
 async function ensureUserDoc(user){const ref=doc(db,'users',user.uid),snap=await getDoc(ref),email=(user.email||'').toLowerCase(),admin=email===ADMIN_EMAIL.toLowerCase();if(!snap.exists())await setDoc(ref,{uid:user.uid,email:user.email||'',displayName:user.displayName||'',role:admin?'admin':'viewer',approved:admin,disabled:false,createdAt:serverTimestamp(),lastLogin:serverTimestamp(),source:'v251-clean'});else await updateDoc(ref,{lastLogin:serverTimestamp(),email:user.email||snap.data().email||''}).catch(()=>{});const fresh=await getDoc(ref);return{id:fresh.id,...fresh.data()}}
 async function loadUsers(){const s=await getDocs(collection(db,'users'));usersCache=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.email||'').localeCompare(String(b.email||'')))}async function loadPeople(){const s=await getDocs(collection(db,'people'));peopleCache=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>String(a.fullName||'').localeCompare(String(b.fullName||''),'fa'))}async function loadNotifications(){const qy=query(collection(db,'notifications'),orderBy('createdAt','desc'));const s=await getDocs(qy).catch(()=>({docs:[]}));notificationsCache=s.docs.map(d=>({id:d.id,...d.data()})).filter(n=>isAdmin()||!n.userId||n.userId===currentUser?.uid).slice(0,80)}async function loadChangeLogs(){if(!isAdmin()){changeLogsCache=[];return}const qy=query(collection(db,'changeLogs'),orderBy('createdAt','desc'));const s=await getDocs(qy).catch(()=>({docs:[]}));changeLogsCache=s.docs.map(d=>({id:d.id,...d.data()})).slice(0,300)}async function loadAll(){await Promise.all([loadUsers(),loadPeople(),loadNotifications(),loadChangeLogs()])}
-function updateHeaderActions(){const isHome=currentRoute==='dashboard';$('homeBtn').classList.toggle('hidden',isHome);$('notifTopBtn').classList.toggle('hidden',!isHome);$('logoutBtn').classList.toggle('hidden',!isHome)}function setRoute(route){currentRoute=route;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.dataset.route===route));updateHeaderActions();closeDrawer();render()}window.setRoute=setRoute;function render(){const main=$('mainView');main.replaceChildren();const box=document.createElement('div');main.appendChild(box);box.innerHTML=currentRoute==='users'?usersView():currentRoute==='people'?peopleView():currentRoute==='profile'?personProfileView():currentRoute==='notifications'?notificationsView():currentRoute==='familybook'?familyBookView():currentRoute==='tree'?treeView():currentRoute==='relations'?relationView():currentRoute==='timeline'?timelineView():currentRoute==='occasions'?occasionsView():currentRoute==='print'?printCenterView():currentRoute==='quality'?qualityView():currentRoute==='photos'?photoEngineView():currentRoute==='history'?historyView():currentRoute==='import'?backupImportView():dashboardView();bindRouteEvents()}
+function updateHeaderActions(){const isHome=currentRoute==='dashboard';$('homeBtn').classList.toggle('hidden',isHome);$('notifTopBtn').classList.toggle('hidden',!isHome);$('logoutBtn').classList.toggle('hidden',!isHome)}function setRoute(route){currentRoute=route;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.dataset.route===route));updateHeaderActions();closeDrawer();render()}window.setRoute=setRoute;function render(){const main=$('mainView');main.replaceChildren();const box=document.createElement('div');main.appendChild(box);box.innerHTML=currentRoute==='users'?usersView():currentRoute==='people'?peopleView():currentRoute==='profile'?personProfileView():currentRoute==='notifications'?notificationsView():currentRoute==='tree'?treeView():currentRoute==='relations'?relationView():currentRoute==='timeline'?timelineView():currentRoute==='occasions'?occasionsView():currentRoute==='print'?printCenterView():currentRoute==='quality'?qualityView():currentRoute==='photos'?photoEngineView():currentRoute==='history'?historyView():currentRoute==='import'?backupImportView():dashboardView();bindRouteEvents()}
 function personById(id){id=String(id||'');return peopleCache.find(p=>String(p.id)===id)||null}function personName(id){const p=personById(id);return p?.fullName||'ثبت نشده'}function childrenOf(id){id=String(id||'');return peopleCache.filter(p=>String(p.fatherId||'')===id||String(p.motherId||'')===id)}function getSpouseIds(p){const ids=new Set();if(p?.spouseId)ids.add(String(p.spouseId));(Array.isArray(p?.spouseIds)?p.spouseIds:[]).forEach(x=>x&&ids.add(String(x)));return [...ids]}function spousesOf(id){id=String(id||'');const ids=new Set();peopleCache.forEach(p=>{if(String(p.id)===id)getSpouseIds(p).forEach(x=>ids.add(String(x)));if(getSpouseIds(p).includes(id))ids.add(String(p.id));});return [...ids].map(personById).filter(Boolean)}function goProfile(id){if(!id||!personById(id))return;selectedPersonId=String(id);setRoute('profile')}window.goProfile=goProfile;
 function generationOf(id,seen=new Set()){if(!id||seen.has(id)||!personById(id))return 0;seen.add(id);const p=personById(id);return Math.max(generationOf(p.fatherId,new Set(seen)),generationOf(p.motherId,new Set(seen)))+1}function countGenerations(){if(!peopleCache.length)return 0;return Math.max(1,...peopleCache.map(p=>generationOf(p.id)))}
 function dependencyInfo(id){const ch=childrenOf(id),sp=spousesOf(id);return{children:ch,spouses:sp,count:ch.length+sp.length}}function parentsOf(id){const p=personById(id);return{father:personById(p?.fatherId),mother:personById(p?.motherId)}}function normalizeName(s){return String(s||'').trim().replace(/\s+/g,' ').toLowerCase()}function duplicatePerson(name,fatherId,exceptId=''){const n=normalizeName(name);return peopleCache.find(p=>p.id!==exceptId&&normalizeName(p.fullName)===n&&String(p.fatherId||'')===String(fatherId||''))}
@@ -174,12 +171,6 @@ function personOptions(g){return peopleCache.filter(p=>!g||p.gender===g).map(p=>
 function peopleList(list,open=false){const openAttr=open?' open':'';return`<details class="family-accordion"${openAttr}><summary><span>👥 افراد خانواده</span><span class="family-count">${list.length} نفر</span><span class="family-arrow">⌄</span></summary><div class="family-body"><div class="list">${list.map(p=>{const children=childrenOf(p.id),sp=spousesOf(p.id),gen=generationOf(p.id)||'-';const title=esc(p.fullName||'بدون نام');const fatherTxt=p.fatherId?`<button class="link-person openProfile" data-id="${esc(p.fatherId)}">${esc(personName(p.fatherId))}</button>`:'ثبت نشده';const motherTxt=p.motherId?`<button class="link-person openProfile" data-id="${esc(p.motherId)}">${esc(personName(p.motherId))}</button>`:'ثبت نشده';const spouseTxt=sp.length?sp.map(x=>`<button class="link-person openProfile" data-id="${esc(x.id)}">${esc(x.fullName)}</button>`).join(' '):(p.spouseId?`<button class="link-person openProfile" data-id="${esc(p.spouseId)}">${esc(personName(p.spouseId))}</button>`:'ثبت نشده');return`<div class="person-accordion" data-id="${esc(p.id)}"><button class="person-summary togglePerson" data-id="${esc(p.id)}" type="button"><span class="person-summary-main">${personListAvatarHtml(p)}<span class="person-title">👤 ${title}</span><span class="compact-badges"><span class="mini-pill">${p.gender==='female'?'زن':'مرد'}</span><span class="mini-pill">فرزند: ${children.length}</span><span class="mini-pill">نسل ${gen}</span></span></span><span class="person-arrow">⌄</span></button><div class="person-details"><div class="person-card-main"><small>پدر: ${fatherTxt} | مادر: ${motherTxt} | همسر: ${spouseTxt}</small><div class="person-meta"><span class="pill ${p.gender==='female'?'pink':'blue'}">${p.gender==='female'?'زن':'مرد'}</span><span class="pill ${p.lifeStatus==='dead'?'bad':'ok'}">${p.lifeStatus==='dead'?'فوت‌شده':'زنده'}</span><span class="pill purple">نسل ${gen}</span><span class="pill">تولد: ${esc([p.birthYear,p.birthMonth,p.birthDay].filter(Boolean).join('/')||'-')}</span></div><div class="children-line"><span class="pill blue">فرزندان: ${children.length} نفر</span><button class="btn small purple showChildren" data-id="${esc(p.id)}">نمایش فرزندان</button><button class="btn small green addChildForParent" data-id="${esc(p.id)}">افزودن فرزند</button></div></div><div class="actions"><button class="btn small blue openProfile" data-id="${esc(p.id)}">پروفایل</button><button class="btn small purple bioPerson" data-id="${esc(p.id)}">بیوگرافی کامل</button><button class="btn small editPerson" data-id="${esc(p.id)}">ویرایش سریع</button><button class="btn small red deletePerson" data-id="${esc(p.id)}">حذف</button></div></div></div>`}).join('')||'<div class="empty">هنوز فردی ثبت نشده است.</div>'}</div></div></details>`}
 
 function relationView(){return`<div class="hero"><h2>نقشه خویشاوندی</h2><p>تشخیص نسبت بین دو نفر همراه با مسیر رنگی و قابل کلیک</p></div><div class="card"><b>انتخاب دو نفر</b><div class="form-grid" style="grid-template-columns:1fr 1fr; margin-top:10px"><select id="relationA" class="field"><option value="">نفر اول</option>${personOptions('')}</select><select id="relationB" class="field"><option value="">نفر دوم</option>${personOptions('')}</select></div><div class="toolbar"><button id="runRelationBtn" class="btn green">🧠 تشخیص نسبت و نمایش مسیر</button><button id="swapRelationBtn" class="btn ghost">⇄ جابه‌جایی دو نفر</button><button id="printRelationBtn" class="btn gray">🖨️ چاپ مسیر</button></div><div class="relation-mini-help">بعد از انتخاب دو نفر، سیستم مسیر پدر، مادر، فرزند و همسر را پیدا می‌کند و به شکل نقشه خویشاوندی نشان می‌دهد.</div><div id="relationResult" class="relation-result-box"><div class="empty">دو نفر را انتخاب کن و دکمه تشخیص را بزن.</div></div></div>`}
-
-
-function familyBookPhotoHtml(p){const src=personPhotoSrc(p);const cls='family-book-photo '+(p.gender==='female'?'female':'');if(src)return `<div class="${cls}"><img src="${esc(src)}" alt=""></div>`;return `<div class="${cls}">${p.gender==='female'?'👩':'👨'}</div>`}
-function familyBookPersonButton(p,activeId){return `<button class="familyBookPerson ${p.id===activeId?'active':''}" data-id="${esc(p.id)}" type="button">${p.gender==='female'?'👩':'👨'} ${esc(p.fullName||'بدون نام')}<br><small>${esc([p.birthYear,p.birthMonth,p.birthDay].filter(Boolean).join('/')||'تولد ثبت نشده')}</small></button>`}
-function familyBookView(){const p=personById(selectedPersonId)||peopleCache[0];if(!p)return `<div class="hero"><h2>کتاب خانوادگی</h2><p>برای ساخت کتاب، ابتدا افراد را ثبت کنید.</p></div><div class="card empty">هنوز فردی ثبت نشده است.</div>`;selectedPersonId=p.id;const children=childrenOf(p.id),sp=spousesOf(p.id),parents=parentsOf(p.id),siblings=peopleCache.filter(x=>x.id!==p.id&&((p.fatherId&&x.fatherId===p.fatherId)||(p.motherId&&x.motherId===p.motherId)));const bdate=[p.birthYear,p.birthMonth,p.birthDay].filter(Boolean).join('/')||'ثبت نشده';const ddate=[p.deathYear,p.deathMonth,p.deathDay].filter(Boolean).join('/')||'ثبت نشده';const admin=isAdmin();return `<div class="hero"><h2>📖 کتاب خانوادگی</h2><p>پرونده مرتب هر شخص با عکس، بیوگرافی، خانواده، تولد و فوت — بدون تغییر ورود و Auth</p></div><div class="family-book-layout"><div class="family-book-list"><b>انتخاب شخص</b><input id="familyBookSearch" class="field" placeholder="جستجوی شخص" style="margin:10px 0"><div id="familyBookPeopleList">${peopleCache.map(x=>familyBookPersonButton(x,p.id)).join('')}</div></div><div class="family-book-page" id="familyBookPage"><div class="family-book-head">${familyBookPhotoHtml(p)}<div><div class="family-book-title">${esc(p.fullName||'بدون نام')}</div><div class="person-meta"><span class="pill ${p.gender==='female'?'pink':'blue'}">${p.gender==='female'?'زن':'مرد'}</span><span class="pill ${p.lifeStatus==='dead'?'bad':'ok'}">${p.lifeStatus==='dead'?'فوت‌شده':'زنده'}</span><span class="pill purple">نسل ${generationOf(p.id)||'-'}</span></div><div class="family-book-print-actions">${admin?'<button id="printFamilyBookBtn" class="btn green">🖨️ چاپ / PDF</button><button id="copyFamilyBookBtn" class="btn purple">📋 کپی خلاصه</button>':'<span class="pill bad">خروجی و چاپ فقط برای مدیر فعال است</span>'}<button class="btn gray" onclick="setRoute('profile')">رفتن به پروفایل</button></div></div></div><div class="family-book-section"><h3>📌 اطلاعات اصلی</h3><table class="bio-table"><tr><th>تولد</th><td>${esc(bdate)}</td></tr><tr><th>فوت</th><td>${p.lifeStatus==='dead'?esc(ddate):'زنده'}</td></tr><tr><th>محل دفن</th><td>${esc(p.burialPlace||'ثبت نشده')}</td></tr><tr><th>شغل</th><td>${esc(p.job||'ثبت نشده')}</td></tr><tr><th>تماس</th><td>${esc(p.phone||'ثبت نشده')}</td></tr></table></div><div class="family-book-section"><h3>👨‍👩‍👧 خانواده</h3><div class="family-book-relations"><b>پدر:</b> ${parents.father?`<button class="link-person openProfile" data-id="${esc(parents.father.id)}">${esc(parents.father.fullName)}</button>`:'ثبت نشده'} <b>مادر:</b> ${parents.mother?`<button class="link-person openProfile" data-id="${esc(parents.mother.id)}">${esc(parents.mother.fullName)}</button>`:'ثبت نشده'}</div><div class="family-book-relations"><b>همسر:</b> ${relationButtons(sp)}</div><div class="family-book-relations"><b>فرزندان:</b> ${relationButtons(children)}</div><div class="family-book-relations"><b>خواهر و برادر:</b> ${relationButtons(siblings)}</div></div><div class="family-book-section"><h3>📖 بیوگرافی و خاطرات</h3><div class="bio-text">${esc(p.notes||p.bio||'بیوگرافی ثبت نشده است.')}</div></div><div class="family-book-watermark">FamilyTreePro — خروجی کتاب خانوادگی</div></div></div>`}
-function familyBookSummaryText(){const p=personById(selectedPersonId);if(!p)return '';const parents=parentsOf(p),children=childrenOf(p.id),sp=spousesOf(p.id);return `کتاب خانوادگی - ${p.fullName||'بدون نام'}\nتولد: ${[p.birthYear,p.birthMonth,p.birthDay].filter(Boolean).join('/')||'-'}\nفوت: ${p.lifeStatus==='dead'?([p.deathYear,p.deathMonth,p.deathDay].filter(Boolean).join('/')||'-'):'زنده'}\nمحل دفن: ${p.burialPlace||'-'}\nپدر: ${parents.father?.fullName||'-'}\nمادر: ${parents.mother?.fullName||'-'}\nهمسر: ${sp.map(x=>x.fullName).join('، ')||'-'}\nفرزندان: ${children.map(x=>x.fullName).join('، ')||'-'}\n\nبیوگرافی:\n${p.notes||p.bio||'-'}`}
 
 function relationButtons(list){return list.length?list.map(p=>`<button class="link-person openProfile" data-id="${esc(p.id)}">${esc(p.fullName||'بدون نام')}</button>`).join(' '):'<span class="pill">ثبت نشده</span>'}
 function profilePersonOptions(g,selected){return `<option value="">انتخاب نشده</option>`+peopleCache.filter(p=>!g||p.gender===g).map(p=>`<option value="${esc(p.id)}" ${p.id===selected?'selected':''}>${esc(p.fullName||'بدون نام')}</option>`).join('')}
@@ -423,65 +414,72 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
 .viewer-link-box{direction:ltr;text-align:left;word-break:break-all;background:#0f172a;color:#e5e7eb;border-radius:14px;padding:10px;margin-top:8px;font-size:12px}
 </style>
 </head><body><div class="print-wrap"><div class="print-title">شجره‌نامه خانواده</div>${content}</div><script>setTimeout(()=>{window.print();setTimeout(()=>window.close(),700)},350)<\/script>
-
-<style id="v257-secure-viewer-styles">
-/* V257 Secure Viewer SAFE: no Auth/Login changes. Browser cannot block real phone screenshots; this adds deterrence and blocks copy/print/save for editor/viewer. */
-body.secure-nonadmin{user-select:none!important;-webkit-user-select:none!important;-webkit-touch-callout:none!important}
-body.secure-nonadmin img{-webkit-user-drag:none!important;user-drag:none!important;pointer-events:auto}
-body.secure-nonadmin .no-secure,body.secure-nonadmin .download-btn,body.secure-nonadmin .export-btn{display:none!important}
-.secure-watermark-layer{position:fixed;inset:-20vh -20vw;z-index:2147482000;pointer-events:none;opacity:.075;display:none;transform:rotate(-25deg);font-weight:950;color:#0f172a;font-size:18px;line-height:3;white-space:pre;letter-spacing:.5px;text-align:center}
-body.secure-nonadmin .secure-watermark-layer{display:block}
-.secure-warning{position:fixed;right:12px;bottom:12px;z-index:2147482500;background:rgba(15,23,42,.92);color:#fff;border-radius:16px;padding:10px 13px;box-shadow:0 20px 60px rgba(0,0,0,.25);font-size:12px;font-weight:900;line-height:1.8;max-width:min(360px,92vw)}
-.secure-blur{filter:blur(7px)!important}
-@media print{body.secure-nonadmin *{display:none!important}body.secure-nonadmin:before{content:'چاپ برای این نقش مجاز نیست';display:block!important;font:18px Tahoma;color:#111;padding:30px;text-align:center}}
-</style>
-<script id="v257-secure-viewer-safe">
-/* V257 Secure Viewer SAFE: blocks copy/print/save/right-click for non-admin; does not touch Firebase Auth/Login. */
+<script id="v255-viewer-share-safe">
+/* V255 Viewer Share SAFE: create read-only links and block editing in shared viewer mode. Login/Auth untouched. */
 (function(){
   'use strict';
-  if(window.__V257_SECURE_VIEWER_SAFE__)return; window.__V257_SECURE_VIEWER_SAFE__=true;
-  function role(){try{return (window.currentProfile&&window.currentProfile.role)||''}catch(e){return ''}}
-  function isNonAdmin(){var r=String(role()).toLowerCase();return r==='viewer'||r==='editor'||document.body.classList.contains('viewer-readonly')||new URLSearchParams(location.search||'').get('mode')==='viewer'}
-  function userLabel(){try{return ((window.currentProfile&&(window.currentProfile.email||window.currentProfile.displayName))||(window.currentUser&&window.currentUser.email)||'نمایشگر')+''}catch(e){return 'نمایشگر'}}
-  function ensureLayer(){
-    if(!document.getElementById('secureWatermarkLayer')){
-      var d=document.createElement('div');d.id='secureWatermarkLayer';d.className='secure-watermark-layer';document.body.appendChild(d);
-    }
-    if(!document.getElementById('secureWarning')){
-      var w=document.createElement('div');w.id='secureWarning';w.className='secure-warning';w.textContent='🔒 حالت امن: کپی، چاپ، ذخیره و خروجی برای غیرمدیر بسته است. اسکرین‌شات واقعی گوشی در وب ۱۰۰٪ قابل جلوگیری نیست.';document.body.appendChild(w);
-    }
+  var qs=new URLSearchParams(location.search||'');
+  var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
+  var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
+  function cleanBase(){return location.origin+location.pathname;}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function copyText(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
   }
-  function applySecure(){
-    if(!document.body)return;
-    if(isNonAdmin()){
-      document.body.classList.add('secure-nonadmin');ensureLayer();
-      var label='FamilyTreePro • '+userLabel()+' • '+new Date().toLocaleString('fa-IR')+'     ';
-      var layer=document.getElementById('secureWatermarkLayer'); if(layer)layer.textContent=(label.repeat(8)+'\n').repeat(18);
-      var warn=document.getElementById('secureWarning'); if(warn)warn.style.display='block';
-      document.querySelectorAll('button,a').forEach(function(el){
-        var txt=(el.textContent||'')+' '+(el.title||'')+' '+(el.id||'')+' '+(el.className||'');
-        if(/چاپ|PDF|PNG|دانلود|خروجی|ذخیره تصویر|Share Tree|ارسال شجره|shareTree|print|download|export/i.test(txt)) el.classList.add('no-secure');
-      });
+  function openViewerSharePanel(){
+    var link=viewerLink((window.currentRoute||'tree'));
+    var msg='این لینک فقط برای نمایش است؛ افزودن، ویرایش، حذف، مدیریت کاربران و بکاپ در آن بسته می‌شود.';
+    if(window.openModal){
+      window.openModal('لینک نمایشگر فقط مشاهده', '<div class="viewer-banner">🔒 '+msg+'</div><div class="viewer-link-box">'+link.replace(/[<>&]/g,'')+'</div><div class="toolbar"><button id="copyViewerLinkBtn" class="btn green">کپی لینک نمایشگر</button><button id="whatsappViewerLinkBtn" class="btn">ارسال واتساپ</button></div>');
+      setTimeout(function(){
+        var c=document.getElementById('copyViewerLinkBtn'); if(c)c.onclick=function(){copyText(link).then(function(){alert('لینک نمایشگر کپی شد')})};
+        var w=document.getElementById('whatsappViewerLinkBtn'); if(w)w.onclick=function(){location.href='https://wa.me/?text='+encodeURIComponent('لینک نمایش شجره‌نامه:
+'+link)};
+      },50);
     }else{
-      document.body.classList.remove('secure-nonadmin');
-      var warn=document.getElementById('secureWarning'); if(warn)warn.style.display='none';
+      copyText(link).then(function(){alert('لینک نمایشگر کپی شد')});
     }
   }
-  function block(e,msg){if(!isNonAdmin())return; e.preventDefault(); e.stopImmediatePropagation(); if(msg) try{alert(msg)}catch(_){}}
-  ['copy','cut','paste','contextmenu','dragstart'].forEach(function(ev){document.addEventListener(ev,function(e){block(e,'این عمل برای نمایشگر/ویرایشگر بسته است.')},true)});
-  document.addEventListener('keydown',function(e){
-    if(!isNonAdmin())return;
-    var k=String(e.key||'').toLowerCase();
-    if((e.ctrlKey||e.metaKey)&&(k==='p'||k==='s'||k==='u'||k==='c'||k==='x'||k==='a'||k==='i'||k==='j')) block(e,'این میانبر برای نمایشگر/ویرایشگر بسته است.');
-    if(k==='printscreen') block(e,'اسکرین‌شات در وب کامل قابل کنترل نیست؛ واترمارک فعال است.');
+  window.openViewerSharePanel=openViewerSharePanel;
+  function addViewerButtons(){
+    var tb=document.querySelector('.tree-toolbar')||document.querySelector('.toolbar');
+    if(tb&&!document.getElementById('viewerShareLinkBtn')){
+      var b=document.createElement('button');b.id='viewerShareLinkBtn';b.type='button';b.className='btn purple small no-print no-share';b.textContent='🔒 لینک نمایشگر';b.title='ساخت لینک فقط مشاهده';b.onclick=openViewerSharePanel;tb.appendChild(b);
+    }
+    var top=document.querySelector('.top-actions');
+    if(top&&!document.getElementById('viewerShareTopBtn')&&!viewerMode){
+      var t=document.createElement('button');t.id='viewerShareTopBtn';t.type='button';t.className='top-btn';t.textContent='🔒 نمایشگر';t.title='ساخت لینک فقط مشاهده';t.onclick=openViewerSharePanel;top.insertBefore(t,top.firstChild);
+    }
+  }
+  function applyViewerMode(){
+    addViewerButtons();
+    if(!viewerMode)return;
+    document.body.classList.add('viewer-readonly');
+    document.querySelectorAll('#mainNav button[data-route]').forEach(function(b){var r=b.getAttribute('data-route'); if(!allowedRoutes[r]) b.classList.add('viewer-hide');});
+    document.querySelectorAll('button').forEach(function(b){
+      var txt=(b.textContent||'').trim();
+      if(/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt)) b.classList.add('viewer-hide');
+    });
+    if(!document.getElementById('viewerReadonlyBanner')){
+      var main=document.getElementById('mainView');
+      if(main){var d=document.createElement('div');d.id='viewerReadonlyBanner';d.className='viewer-banner';d.textContent='🔒 حالت نمایشگر: فقط مشاهده فعال است و امکان تغییر اطلاعات وجود ندارد.';main.prepend(d);}
+    }
+    var route=qs.get('route')||'tree';
+    if(!allowedRoutes[route])route='tree';
+    if(window.setRoute&&window.__v255RouteApplied!==route){window.__v255RouteApplied=route;setTimeout(function(){try{window.setRoute(route)}catch(e){}},120)}
+  }
+  document.addEventListener('click',function(e){
+    if(!viewerMode)return;
+    var b=e.target.closest('button'); if(!b)return;
+    var txt=(b.textContent||'').trim();
+    var danger=b.matches('.editPerson,.deletePerson,.addChildForParent,.approveUser,.disableUser,.deleteUser,.roleChange,.resetUser,#savePersonBtn,#clearPersonBtn,#addChildRowBtn,#saveChildRowsBtn,#clearChildRowsBtn,#saveProfileMain,#saveProfileDates,#saveProfileRelations,#profilePickPhotoBtn,#profileRemovePhotoBtn,#importBackupBtn,#markAllReadBtn')||/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt);
+    if(danger){e.preventDefault();e.stopImmediatePropagation();alert('در حالت نمایشگر فقط مشاهده مجاز است.');}
   },true);
-  window.addEventListener('beforeprint',function(){if(isNonAdmin()){document.body.classList.add('secure-blur');setTimeout(function(){document.body.classList.remove('secure-blur')},1500)}});
-  document.addEventListener('visibilitychange',function(){if(isNonAdmin()){document.body.classList.toggle('secure-blur',document.hidden); if(!document.hidden)setTimeout(function(){document.body.classList.remove('secure-blur')},700)}});
-  document.addEventListener('DOMContentLoaded',function(){applySecure();setTimeout(applySecure,600);setTimeout(applySecure,1800)});
-  new MutationObserver(function(){applySecure()}).observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
+  document.addEventListener('DOMContentLoaded',function(){applyViewerMode();setTimeout(applyViewerMode,500);setTimeout(applyViewerMode,1600)});
+  new MutationObserver(function(){applyViewerMode()}).observe(document.documentElement,{childList:true,subtree:true});
 })();
 </script>
-
 </body></html>`);win.document.close();}
 function exportTreePng(){const content=currentTreeContent();if(!content){alert('اول شجره را نمایش بده');return}const win=window.open('','_blank');if(!win){alert('برای خروجی تصویری، اول از چاپ/PDF استفاده کن.');return}win.document.write(`<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><title>خروجی شجره</title><style>body{font-family:Tahoma,Arial,sans-serif;background:white;margin:0;padding:14px}.tree-board{text-align:center}.tree-row{border:1px solid #e5e7eb;border-radius:12px;margin:8px;padding:8px}.tree-row-grid{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}.tree-card{display:inline-block;border:1px solid #dbe3ef;background:#f8fafc;border-radius:10px;padding:6px 8px;margin:2px;font-weight:900}.tree-card small{display:block;color:#64748b;font-size:10px}.female{background:#fdf2f8!important}.dead{opacity:.7;border-style:dashed!important}.classic-tree-wrap{direction:ltr;text-align:center;width:max-content;min-width:max-content;background:#fff}.tree-board-title{direction:rtl;font-size:18px;font-weight:900;margin:0 0 10px}.classic-note{display:none}.full-tree-forest{direction:ltr;display:flex;align-items:flex-start;justify-content:center;gap:10px;flex-wrap:nowrap}.classic-tree{display:inline-block;text-align:center;min-width:max-content}.classic-tree ul{padding-top:28px;position:relative;display:flex;justify-content:center;margin:0}.classic-tree li{list-style:none;text-align:center;position:relative;padding:28px 4px 0}.classic-tree li::before,.classic-tree li::after{content:'';position:absolute;top:0;width:50%;height:28px;border-top:1px solid #111}.classic-tree li::before{right:50%;border-right:1px solid #111}.classic-tree li::after{left:50%;border-left:1px solid #111}.classic-tree li:only-child::before,.classic-tree li:only-child::after{display:none}.classic-tree li:only-child{padding-top:0}.classic-tree li:first-child::before,.classic-tree li:last-child::after{border-top:0}.classic-tree ul ul::before{content:'';position:absolute;top:0;left:50%;height:28px;border-left:1px solid #111}.classic-node{direction:rtl;display:inline-flex;align-items:center;justify-content:center;min-width:86px;max-width:124px;min-height:38px;background:#fff;border:1px solid #111;border-radius:8px;padding:4px 6px;font-weight:800;font-size:10px;line-height:1.5;color:#111;text-align:right}.classic-node small{display:block;color:#555;font-weight:500;font-size:8px}.person-avatar{display:none!important}.classic-node.female{border-color:#111}.classic-node.dead{border-style:dashed}.classic-node.root{background:#f3f4f6}
 
@@ -517,6 +515,72 @@ body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #m
 .viewer-link-box{direction:ltr;text-align:left;word-break:break-all;background:#0f172a;color:#e5e7eb;border-radius:14px;padding:10px;margin-top:8px;font-size:12px}
 </style>
 </head><body>${content}<p style="text-align:center;color:#64748b">برای تصویر نهایی از گزینه Save as PDF یا Screenshot همین صفحه استفاده کن.</p>
+<script id="v255-viewer-share-safe">
+/* V255 Viewer Share SAFE: create read-only links and block editing in shared viewer mode. Login/Auth untouched. */
+(function(){
+  'use strict';
+  var qs=new URLSearchParams(location.search||'');
+  var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
+  var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
+  function cleanBase(){return location.origin+location.pathname;}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function copyText(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
+  }
+  function openViewerSharePanel(){
+    var link=viewerLink((window.currentRoute||'tree'));
+    var msg='این لینک فقط برای نمایش است؛ افزودن، ویرایش، حذف، مدیریت کاربران و بکاپ در آن بسته می‌شود.';
+    if(window.openModal){
+      window.openModal('لینک نمایشگر فقط مشاهده', '<div class="viewer-banner">🔒 '+msg+'</div><div class="viewer-link-box">'+link.replace(/[<>&]/g,'')+'</div><div class="toolbar"><button id="copyViewerLinkBtn" class="btn green">کپی لینک نمایشگر</button><button id="whatsappViewerLinkBtn" class="btn">ارسال واتساپ</button></div>');
+      setTimeout(function(){
+        var c=document.getElementById('copyViewerLinkBtn'); if(c)c.onclick=function(){copyText(link).then(function(){alert('لینک نمایشگر کپی شد')})};
+        var w=document.getElementById('whatsappViewerLinkBtn'); if(w)w.onclick=function(){location.href='https://wa.me/?text='+encodeURIComponent('لینک نمایش شجره‌نامه:
+'+link)};
+      },50);
+    }else{
+      copyText(link).then(function(){alert('لینک نمایشگر کپی شد')});
+    }
+  }
+  window.openViewerSharePanel=openViewerSharePanel;
+  function addViewerButtons(){
+    var tb=document.querySelector('.tree-toolbar')||document.querySelector('.toolbar');
+    if(tb&&!document.getElementById('viewerShareLinkBtn')){
+      var b=document.createElement('button');b.id='viewerShareLinkBtn';b.type='button';b.className='btn purple small no-print no-share';b.textContent='🔒 لینک نمایشگر';b.title='ساخت لینک فقط مشاهده';b.onclick=openViewerSharePanel;tb.appendChild(b);
+    }
+    var top=document.querySelector('.top-actions');
+    if(top&&!document.getElementById('viewerShareTopBtn')&&!viewerMode){
+      var t=document.createElement('button');t.id='viewerShareTopBtn';t.type='button';t.className='top-btn';t.textContent='🔒 نمایشگر';t.title='ساخت لینک فقط مشاهده';t.onclick=openViewerSharePanel;top.insertBefore(t,top.firstChild);
+    }
+  }
+  function applyViewerMode(){
+    addViewerButtons();
+    if(!viewerMode)return;
+    document.body.classList.add('viewer-readonly');
+    document.querySelectorAll('#mainNav button[data-route]').forEach(function(b){var r=b.getAttribute('data-route'); if(!allowedRoutes[r]) b.classList.add('viewer-hide');});
+    document.querySelectorAll('button').forEach(function(b){
+      var txt=(b.textContent||'').trim();
+      if(/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt)) b.classList.add('viewer-hide');
+    });
+    if(!document.getElementById('viewerReadonlyBanner')){
+      var main=document.getElementById('mainView');
+      if(main){var d=document.createElement('div');d.id='viewerReadonlyBanner';d.className='viewer-banner';d.textContent='🔒 حالت نمایشگر: فقط مشاهده فعال است و امکان تغییر اطلاعات وجود ندارد.';main.prepend(d);}
+    }
+    var route=qs.get('route')||'tree';
+    if(!allowedRoutes[route])route='tree';
+    if(window.setRoute&&window.__v255RouteApplied!==route){window.__v255RouteApplied=route;setTimeout(function(){try{window.setRoute(route)}catch(e){}},120)}
+  }
+  document.addEventListener('click',function(e){
+    if(!viewerMode)return;
+    var b=e.target.closest('button'); if(!b)return;
+    var txt=(b.textContent||'').trim();
+    var danger=b.matches('.editPerson,.deletePerson,.addChildForParent,.approveUser,.disableUser,.deleteUser,.roleChange,.resetUser,#savePersonBtn,#clearPersonBtn,#addChildRowBtn,#saveChildRowsBtn,#clearChildRowsBtn,#saveProfileMain,#saveProfileDates,#saveProfileRelations,#profilePickPhotoBtn,#profileRemovePhotoBtn,#importBackupBtn,#markAllReadBtn')||/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt);
+    if(danger){e.preventDefault();e.stopImmediatePropagation();alert('در حالت نمایشگر فقط مشاهده مجاز است.');}
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){applyViewerMode();setTimeout(applyViewerMode,500);setTimeout(applyViewerMode,1600)});
+  new MutationObserver(function(){applyViewerMode()}).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body></html>`);win.document.close();}
 function rerenderLastTree(){const root=val('treeRoot')||lastTreeRoot||peopleCache[0]?.id;if(lastTreeMode==='all')renderAllFamilyTree();else renderClassicTree(root)}
 function bindTreeEvents(){
@@ -770,7 +834,7 @@ function photoStats(){const total=peopleCache.length,withPhoto=peopleCache.filte
 function photoEngineView(){const st=photoStats();return`<div class="hero"><h2>موتور عکس</h2><p>طرح شجره تغییر نکرده؛ فقط مدیریت، فشرده‌سازی و کنترل عکس‌ها اضافه شد.</p></div><div class="grid stats"><div class="card stat photo-stat-ok"><div><small>کل افراد</small><div class="num">${st.total}</div></div><div class="icon">👥</div></div><div class="card stat photo-stat-ok"><div><small>دارای عکس</small><div class="num">${st.withPhoto}</div></div><div class="icon">📷</div></div><div class="card stat ${st.noPhoto?'photo-stat-warn':'photo-stat-ok'}"><div><small>بدون عکس</small><div class="num">${st.noPhoto}</div></div><div class="icon">🖼️</div></div><div class="card stat"><div><small>پوشش عکس</small><div class="num">${st.percent}%</div></div><div class="icon">✅</div></div><div class="card stat"><div><small>گالری‌دار</small><div class="num">${st.gallery}</div></div><div class="icon">🗂️</div></div></div><div class="card"><div class="photo-drop">📌 از این صفحه برای اضافه‌کردن عکس اصلی هر شخص استفاده کن. عکس قبل از ذخیره خودکار کوچک و سبک می‌شود تا روی موبایل بهتر بالا بیاید.</div><div class="photo-tools"><button id="photoRefreshBtn" class="btn gray">🔄 بروزرسانی</button><button id="photoReportBtn" class="btn purple">📋 گزارش عکس‌ها</button><button id="photoNoPicBtn" class="btn warn">نمایش بدون عکس‌ها</button><button id="photoAllBtn" class="btn">نمایش همه</button></div><div class="photo-progress hidden" id="photoProgress"><span></span></div></div><div class="card"><div class="photo-filter"><input id="photoSearch" class="field" placeholder="جستجوی نام، پدر، مادر، همسر"><select id="photoStatus" class="field"><option value="">همه</option><option value="with">دارای عکس</option><option value="without">بدون عکس</option></select><select id="photoGender" class="field"><option value="">همه جنسیت‌ها</option><option value="male">مرد</option><option value="female">زن</option></select></div><div id="photoList">${photoListHtml(peopleCache)}</div></div>`}
 function photoListHtml(list){if(!list.length)return'<div class="empty">موردی پیدا نشد.</div>';return`<div class="photo-grid">${list.map(p=>{const src=personPhotoSrc(p),parents=parentsOf(p),sp=spousesOf(p).map(x=>x.fullName).join('، ');return`<div class="photo-card" data-id="${esc(p.id)}">${photoThumbHtml(p)}<div class="photo-main"><b>${esc(p.fullName||'بدون نام')}</b><small>پدر: ${esc(parents.father?.fullName||'-')} | مادر: ${esc(parents.mother?.fullName||'-')}</small><small>${src?'✅ عکس دارد':'⚠️ عکس ندارد'} ${sp?`| همسر: ${esc(sp)}`:''}</small><div class="photo-actions"><button class="btn small blue openProfile" data-id="${esc(p.id)}">پروفایل</button><button class="btn small green pickPhotoBtn" data-id="${esc(p.id)}">افزودن/تعویض عکس</button>${src?`<button class="btn small red removePhotoBtn" data-id="${esc(p.id)}">حذف عکس</button>`:''}<input class="photo-file" id="photoFile_${esc(p.id)}" data-id="${esc(p.id)}" type="file" accept="image/*"></div></div></div>`}).join('')}</div>`}
 function filteredPhotos(forceStatus=''){const q=val('photoSearch').toLowerCase(),status=forceStatus||val('photoStatus'),gender=val('photoGender');return peopleCache.filter(p=>{const parents=parentsOf(p),sp=spousesOf(p).map(x=>x.fullName).join(' '),hay=[p.fullName,parents.father?.fullName,parents.mother?.fullName,sp,p.phone,p.job].join(' ').toLowerCase();const has=personHasPhoto(p);return(!q||hay.includes(q))&&(!gender||p.gender===gender)&&(!status||(status==='with'?has:!has))})}
-function refreshPhotoList(forceStatus=''){if(!$('photoList'))return;$('photoList').innerHTML=photoListHtml(filteredPhotos(forceStatus));bindPhotoButtons();document.querySelectorAll('.openProfile').forEach(b=>b.onclick=()=>goProfile(b.dataset.id));document.querySelectorAll('.familyBookPerson').forEach(b=>b.onclick=()=>{selectedPersonId=b.dataset.id;setRoute('familybook')});$('familyBookSearch')&&($('familyBookSearch').oninput=()=>{const q=val('familyBookSearch').toLowerCase();$('familyBookPeopleList').innerHTML=peopleCache.filter(p=>String(p.fullName||'').toLowerCase().includes(q)).map(p=>familyBookPersonButton(p,selectedPersonId)).join('')||'<div class="family-book-empty">نتیجه‌ای پیدا نشد</div>';document.querySelectorAll('.familyBookPerson').forEach(b=>b.onclick=()=>{selectedPersonId=b.dataset.id;setRoute('familybook')})});$('printFamilyBookBtn')&&($('printFamilyBookBtn').onclick=()=>{if(!isAdmin())return alert('چاپ فقط برای مدیر فعال است');window.print()});$('copyFamilyBookBtn')&&($('copyFamilyBookBtn').onclick=()=>{if(!isAdmin())return alert('کپی فقط برای مدیر فعال است');navigator.clipboard?.writeText(familyBookSummaryText()).then(()=>alert('خلاصه کپی شد')).catch(()=>alert('امکان کپی نبود'))});document.querySelectorAll('.bioPerson').forEach(b=>b.onclick=(e)=>{e.preventDefault();e.stopPropagation();showBiography(b.dataset.id)})}
+function refreshPhotoList(forceStatus=''){if(!$('photoList'))return;$('photoList').innerHTML=photoListHtml(filteredPhotos(forceStatus));bindPhotoButtons();document.querySelectorAll('.openProfile').forEach(b=>b.onclick=()=>goProfile(b.dataset.id));document.querySelectorAll('.bioPerson').forEach(b=>b.onclick=(e)=>{e.preventDefault();e.stopPropagation();showBiography(b.dataset.id)})}
 function setPhotoProgress(v){const box=$('photoProgress');if(!box)return;box.classList.toggle('hidden',v<=0||v>=100);const bar=box.querySelector('span');if(bar)bar.style.width=Math.max(0,Math.min(100,v))+'%'}
 function compressImageFile(file,maxSide=900,quality=.72){return new Promise((resolve,reject)=>{if(!file||!file.type.startsWith('image/'))return reject(new Error('فایل عکس نیست'));const reader=new FileReader();reader.onerror=()=>reject(new Error('خواندن فایل ناموفق بود'));reader.onload=()=>{const img=new Image();img.onerror=()=>reject(new Error('باز کردن عکس ناموفق بود'));img.onload=()=>{let w=img.width,h=img.height;const scale=Math.min(1,maxSide/Math.max(w,h));w=Math.max(1,Math.round(w*scale));h=Math.max(1,Math.round(h*scale));const canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;const ctx=canvas.getContext('2d');ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);let data=canvas.toDataURL('image/jpeg',quality);if(data.length>180000)data=canvas.toDataURL('image/jpeg',.58);if(data.length>140000)data=canvas.toDataURL('image/jpeg',.46);resolve(data)};img.src=reader.result};reader.readAsDataURL(file)})}
 async function savePersonPhoto(id,file){const p=personById(id);if(!p)return;try{setPhotoProgress(20);const data=await compressImageFile(file);setPhotoProgress(65);await updateDoc(doc(db,'people',id),{photo:data,photoUpdatedAt:serverTimestamp(),updatedAt:serverTimestamp()});await logChange('photo',id,['photo'],{details:'افزودن یا تعویض عکس'});setPhotoProgress(90);await loadPeople();if(currentRoute==='profile'){selectedPersonId=id;render()}else refreshPhotoList();setPhotoProgress(100);setTimeout(()=>setPhotoProgress(0),400)}catch(e){setPhotoProgress(0);alert('خطای عکس: '+e.message)}}
@@ -806,7 +870,7 @@ function showRefreshToast(text){let t=document.createElement('div');t.className=
 function updateQuickHealthIcon(){const b=$('quickHealthBtn');if(!b)return;const bad=dataQualityIssues().filter(i=>i.level==='bad').length;b.classList.toggle('quick-health-badge',true);b.classList.toggle('has-error',bad>0);b.title=bad?`تشخیص خطاها: ${bad} خطای مهم`:'تشخیص خطاها: خطای مهم پیدا نشد'}
 async function quickRefreshAll(){const b=$('quickRefreshBtn');try{b&&b.classList.add('loading');await loadAll();render();updateQuickHealthIcon();showRefreshToast('اطلاعات بروزرسانی شد ✅')}catch(e){alert('خطای بروزرسانی: '+(e.message||e))}finally{b&&b.classList.remove('loading')}}
 function openHealthCheck(){setRoute('quality');setTimeout(updateQuickHealthIcon,50)}
-function bindRouteEvents(){bindTreeEvents();document.querySelectorAll('.bioPerson').forEach(b=>b.onclick=(e)=>{e.preventDefault();e.stopPropagation();showBiography(b.dataset.id)});$('profilePickPhotoBtn')&&($('profilePickPhotoBtn').onclick=()=>{$('profilePhotoFile')&&$('profilePhotoFile').click()});$('profilePhotoFile')&&($('profilePhotoFile').onchange=()=>{const file=$('profilePhotoFile').files&&$('profilePhotoFile').files[0];if(file)savePersonPhoto(selectedPersonId,file);$('profilePhotoFile').value=''});$('profileRemovePhotoBtn')&&($('profileRemovePhotoBtn').onclick=()=>removePersonPhoto(selectedPersonId));$('downloadBackupBtn')&&($('downloadBackupBtn').onclick=downloadFullBackup);$('copyQualityBtn')&&($('copyQualityBtn').onclick=copyQualityReport);$('printQualityBtn')&&($('printQualityBtn').onclick=()=>window.print());$('reloadQualityBtn')&&($('reloadQualityBtn').onclick=async()=>{await loadAll();render()});$('qualitySearch')&&($('qualitySearch').oninput=filterQuality);$('qualityType')&&($('qualityType').onchange=filterQuality);$('historySearch')&&($('historySearch').oninput=filterHistory);$('reloadHistoryBtn')&&($('reloadHistoryBtn').onclick=async()=>{await loadChangeLogs();render()});$('photoRefreshBtn')&&($('photoRefreshBtn').onclick=async()=>{await loadPeople();refreshPhotoList()});$('photoReportBtn')&&($('photoReportBtn').onclick=()=>navigator.clipboard?.writeText(photoReportText()).then(()=>alert('گزارش عکس‌ها کپی شد')).catch(()=>downloadTextFile('FamilyTreePro_V251_Photo_Report.txt',photoReportText(),'text/plain')));$('photoNoPicBtn')&&($('photoNoPicBtn').onclick=()=>{if($('photoStatus'))$('photoStatus').value='without';refreshPhotoList('without')});$('photoAllBtn')&&($('photoAllBtn').onclick=()=>{if($('photoStatus'))$('photoStatus').value='';if($('photoSearch'))$('photoSearch').value='';refreshPhotoList('')});$('photoSearch')&&($('photoSearch').oninput=()=>refreshPhotoList());$('photoStatus')&&($('photoStatus').onchange=()=>refreshPhotoList());$('photoGender')&&($('photoGender').onchange=()=>refreshPhotoList());bindPhotoButtons();$('printContent')&&($('printContent').onchange=updatePrintPreview);$('printSize')&&($('printSize').onchange=updatePrintPreview);$('printDensity')&&($('printDensity').onchange=updatePrintPreview);$('printColor')&&($('printColor').onchange=updatePrintPreview);$('printPhotos')&&($('printPhotos').onchange=updatePrintPreview);$('printHeader')&&($('printHeader').onchange=updatePrintPreview);$('printWatermark')&&($('printWatermark').onchange=updatePrintPreview);$('printTitle')&&($('printTitle').oninput=updatePrintPreview);$('refreshPrintPreview')&&($('refreshPrintPreview').onclick=updatePrintPreview);$('printNowBtn')&&($('printNowBtn').onclick=printCenterNow);$('printTreeDirectBtn')&&($('printTreeDirectBtn').onclick=()=>{setRoute('tree');setTimeout(()=>window.print(),250)});$('timelineSearch')&&($('timelineSearch').oninput=filterTimeline);$('timelineType')&&($('timelineType').onchange=filterTimeline);$('timelineOrder')&&($('timelineOrder').onchange=filterTimeline);$('timelinePrint')&&($('timelinePrint').onclick=()=>window.print());$('occasionSearch')&&($('occasionSearch').oninput=filterOccasions);$('occasionType')&&($('occasionType').onchange=filterOccasions);$('occasionRange')&&($('occasionRange').onchange=filterOccasions);$('occasionPrint')&&($('occasionPrint').onclick=()=>window.print());$('runRelationBtn')&&($('runRelationBtn').onclick=runRelationSmart);$('swapRelationBtn')&&($('swapRelationBtn').onclick=()=>{const a=$('relationA').value;$('relationA').value=$('relationB').value;$('relationB').value=a;runRelationSmart()});$('printRelationBtn')&&($('printRelationBtn').onclick=()=>window.print());$('backupFile')&&($('backupFile').onchange=handleBackupFile);$('importBackupBtn')&&($('importBackupBtn').onclick=importBackupToFirebase);$('reloadAfterImportBtn')&&($('reloadAfterImportBtn').onclick=async()=>{await loadPeople();setRoute('dashboard')});$('reloadUsersBtn')&&($('reloadUsersBtn').onclick=async()=>{await loadUsers();render()});$('reloadPeopleBtn')&&($('reloadPeopleBtn').onclick=async()=>{await loadPeople();render()});$('reloadNotifBtn')&&($('reloadNotifBtn').onclick=async()=>{await loadNotifications();render()});$('userSearch')&&($('userSearch').oninput=filterUsers,$('roleFilter').onchange=filterUsers,$('approveFilter').onchange=filterUsers);$('peopleSearch')&&($('peopleSearch').oninput=filterPeople);$('savePersonBtn')&&($('savePersonBtn').onclick=savePerson);$('clearPersonBtn')&&($('clearPersonBtn').onclick=clearPersonForm);$('childRows')&&refreshChildRowsUI();$('addChildRowBtn')&&($('addChildRowBtn').onclick=()=>addChildRow());$('saveChildRowsBtn')&&($('saveChildRowsBtn').onclick=saveChildRows);$('clearChildRowsBtn')&&($('clearChildRowsBtn').onclick=clearChildRows);document.querySelectorAll('.togglePerson').forEach(b=>b.onclick=()=>{const box=b.closest('.person-accordion');box&&box.classList.toggle('open')});document.querySelectorAll('.openProfile').forEach(b=>b.onclick=()=>goProfile(b.dataset.id));document.querySelectorAll('.familyBookPerson').forEach(b=>b.onclick=()=>{selectedPersonId=b.dataset.id;setRoute('familybook')});$('familyBookSearch')&&($('familyBookSearch').oninput=()=>{const q=val('familyBookSearch').toLowerCase();$('familyBookPeopleList').innerHTML=peopleCache.filter(p=>String(p.fullName||'').toLowerCase().includes(q)).map(p=>familyBookPersonButton(p,selectedPersonId)).join('')||'<div class="family-book-empty">نتیجه‌ای پیدا نشد</div>';document.querySelectorAll('.familyBookPerson').forEach(b=>b.onclick=()=>{selectedPersonId=b.dataset.id;setRoute('familybook')})});$('printFamilyBookBtn')&&($('printFamilyBookBtn').onclick=()=>{if(!isAdmin())return alert('چاپ فقط برای مدیر فعال است');window.print()});$('copyFamilyBookBtn')&&($('copyFamilyBookBtn').onclick=()=>{if(!isAdmin())return alert('کپی فقط برای مدیر فعال است');navigator.clipboard?.writeText(familyBookSummaryText()).then(()=>alert('خلاصه کپی شد')).catch(()=>alert('امکان کپی نبود'))});$('saveProfileMain')&&($('saveProfileMain').onclick=()=>saveProfileSection('main'));$('saveProfileDates')&&($('saveProfileDates').onclick=()=>saveProfileSection('dates'));$('saveProfileRelations')&&($('saveProfileRelations').onclick=()=>saveProfileSection('relations'));document.querySelectorAll('.approveUser').forEach(b=>b.onclick=async()=>{await updateDoc(doc(db,'users',b.dataset.uid),{approved:true,disabled:false});await logChange('user','',[],{details:'تایید کاربر '+(usersCache.find(x=>x.id===b.dataset.uid)?.email||'')});await loadUsers();render()});document.querySelectorAll('.disableUser').forEach(b=>b.onclick=async()=>{const u=usersCache.find(x=>x.id===b.dataset.uid);await updateDoc(doc(db,'users',b.dataset.uid),{disabled:!u?.disabled});await logChange('user','',[],{details:'تغییر وضعیت فعال کاربر '+(u?.email||'')});await loadUsers();render()});document.querySelectorAll('.deleteUser').forEach(b=>b.onclick=async()=>{if(confirm('فقط سند users حذف شود؟')){await deleteDoc(doc(db,'users',b.dataset.uid));await loadUsers();render()}});document.querySelectorAll('.roleChange').forEach(s=>s.onchange=async()=>{await updateDoc(doc(db,'users',s.dataset.uid),{role:s.value});await logChange('user','',[],{details:'تغییر نقش کاربر به '+s.value});await loadUsers();render()});document.querySelectorAll('.resetUser').forEach(b=>b.onclick=async()=>{if(b.dataset.email)await sendPasswordResetEmail(auth,b.dataset.email).then(()=>alert('ارسال شد')).catch(e=>alert(e.message))});document.querySelectorAll('.editPerson').forEach(b=>b.onclick=()=>fillPerson(b.dataset.id));document.querySelectorAll('.deletePerson').forEach(b=>b.onclick=()=>safeDeletePerson(b.dataset.id));document.querySelectorAll('.showChildren').forEach(b=>b.onclick=()=>showChildrenModal(b.dataset.id));document.querySelectorAll('.addChildForParent').forEach(b=>b.onclick=()=>prepareChildForParent(b.dataset.id));document.querySelectorAll('.gotoPerson').forEach(b=>b.onclick=()=>{closeModal();goProfile(b.dataset.id)});document.querySelectorAll('.notifOpen').forEach(b=>b.onclick=()=>openNotif(b.dataset.id));$('markAllReadBtn')&&($('markAllReadBtn').onclick=async()=>{await Promise.all(notificationsCache.map(n=>updateDoc(doc(db,'notifications',n.id),{read:true}).catch(()=>{})));await loadNotifications();render()})}
+function bindRouteEvents(){bindTreeEvents();document.querySelectorAll('.bioPerson').forEach(b=>b.onclick=(e)=>{e.preventDefault();e.stopPropagation();showBiography(b.dataset.id)});$('profilePickPhotoBtn')&&($('profilePickPhotoBtn').onclick=()=>{$('profilePhotoFile')&&$('profilePhotoFile').click()});$('profilePhotoFile')&&($('profilePhotoFile').onchange=()=>{const file=$('profilePhotoFile').files&&$('profilePhotoFile').files[0];if(file)savePersonPhoto(selectedPersonId,file);$('profilePhotoFile').value=''});$('profileRemovePhotoBtn')&&($('profileRemovePhotoBtn').onclick=()=>removePersonPhoto(selectedPersonId));$('downloadBackupBtn')&&($('downloadBackupBtn').onclick=downloadFullBackup);$('copyQualityBtn')&&($('copyQualityBtn').onclick=copyQualityReport);$('printQualityBtn')&&($('printQualityBtn').onclick=()=>window.print());$('reloadQualityBtn')&&($('reloadQualityBtn').onclick=async()=>{await loadAll();render()});$('qualitySearch')&&($('qualitySearch').oninput=filterQuality);$('qualityType')&&($('qualityType').onchange=filterQuality);$('historySearch')&&($('historySearch').oninput=filterHistory);$('reloadHistoryBtn')&&($('reloadHistoryBtn').onclick=async()=>{await loadChangeLogs();render()});$('photoRefreshBtn')&&($('photoRefreshBtn').onclick=async()=>{await loadPeople();refreshPhotoList()});$('photoReportBtn')&&($('photoReportBtn').onclick=()=>navigator.clipboard?.writeText(photoReportText()).then(()=>alert('گزارش عکس‌ها کپی شد')).catch(()=>downloadTextFile('FamilyTreePro_V251_Photo_Report.txt',photoReportText(),'text/plain')));$('photoNoPicBtn')&&($('photoNoPicBtn').onclick=()=>{if($('photoStatus'))$('photoStatus').value='without';refreshPhotoList('without')});$('photoAllBtn')&&($('photoAllBtn').onclick=()=>{if($('photoStatus'))$('photoStatus').value='';if($('photoSearch'))$('photoSearch').value='';refreshPhotoList('')});$('photoSearch')&&($('photoSearch').oninput=()=>refreshPhotoList());$('photoStatus')&&($('photoStatus').onchange=()=>refreshPhotoList());$('photoGender')&&($('photoGender').onchange=()=>refreshPhotoList());bindPhotoButtons();$('printContent')&&($('printContent').onchange=updatePrintPreview);$('printSize')&&($('printSize').onchange=updatePrintPreview);$('printDensity')&&($('printDensity').onchange=updatePrintPreview);$('printColor')&&($('printColor').onchange=updatePrintPreview);$('printPhotos')&&($('printPhotos').onchange=updatePrintPreview);$('printHeader')&&($('printHeader').onchange=updatePrintPreview);$('printWatermark')&&($('printWatermark').onchange=updatePrintPreview);$('printTitle')&&($('printTitle').oninput=updatePrintPreview);$('refreshPrintPreview')&&($('refreshPrintPreview').onclick=updatePrintPreview);$('printNowBtn')&&($('printNowBtn').onclick=printCenterNow);$('printTreeDirectBtn')&&($('printTreeDirectBtn').onclick=()=>{setRoute('tree');setTimeout(()=>window.print(),250)});$('timelineSearch')&&($('timelineSearch').oninput=filterTimeline);$('timelineType')&&($('timelineType').onchange=filterTimeline);$('timelineOrder')&&($('timelineOrder').onchange=filterTimeline);$('timelinePrint')&&($('timelinePrint').onclick=()=>window.print());$('occasionSearch')&&($('occasionSearch').oninput=filterOccasions);$('occasionType')&&($('occasionType').onchange=filterOccasions);$('occasionRange')&&($('occasionRange').onchange=filterOccasions);$('occasionPrint')&&($('occasionPrint').onclick=()=>window.print());$('runRelationBtn')&&($('runRelationBtn').onclick=runRelationSmart);$('swapRelationBtn')&&($('swapRelationBtn').onclick=()=>{const a=$('relationA').value;$('relationA').value=$('relationB').value;$('relationB').value=a;runRelationSmart()});$('printRelationBtn')&&($('printRelationBtn').onclick=()=>window.print());$('backupFile')&&($('backupFile').onchange=handleBackupFile);$('importBackupBtn')&&($('importBackupBtn').onclick=importBackupToFirebase);$('reloadAfterImportBtn')&&($('reloadAfterImportBtn').onclick=async()=>{await loadPeople();setRoute('dashboard')});$('reloadUsersBtn')&&($('reloadUsersBtn').onclick=async()=>{await loadUsers();render()});$('reloadPeopleBtn')&&($('reloadPeopleBtn').onclick=async()=>{await loadPeople();render()});$('reloadNotifBtn')&&($('reloadNotifBtn').onclick=async()=>{await loadNotifications();render()});$('userSearch')&&($('userSearch').oninput=filterUsers,$('roleFilter').onchange=filterUsers,$('approveFilter').onchange=filterUsers);$('peopleSearch')&&($('peopleSearch').oninput=filterPeople);$('savePersonBtn')&&($('savePersonBtn').onclick=savePerson);$('clearPersonBtn')&&($('clearPersonBtn').onclick=clearPersonForm);$('childRows')&&refreshChildRowsUI();$('addChildRowBtn')&&($('addChildRowBtn').onclick=()=>addChildRow());$('saveChildRowsBtn')&&($('saveChildRowsBtn').onclick=saveChildRows);$('clearChildRowsBtn')&&($('clearChildRowsBtn').onclick=clearChildRows);document.querySelectorAll('.togglePerson').forEach(b=>b.onclick=()=>{const box=b.closest('.person-accordion');box&&box.classList.toggle('open')});document.querySelectorAll('.openProfile').forEach(b=>b.onclick=()=>goProfile(b.dataset.id));$('saveProfileMain')&&($('saveProfileMain').onclick=()=>saveProfileSection('main'));$('saveProfileDates')&&($('saveProfileDates').onclick=()=>saveProfileSection('dates'));$('saveProfileRelations')&&($('saveProfileRelations').onclick=()=>saveProfileSection('relations'));document.querySelectorAll('.approveUser').forEach(b=>b.onclick=async()=>{await updateDoc(doc(db,'users',b.dataset.uid),{approved:true,disabled:false});await logChange('user','',[],{details:'تایید کاربر '+(usersCache.find(x=>x.id===b.dataset.uid)?.email||'')});await loadUsers();render()});document.querySelectorAll('.disableUser').forEach(b=>b.onclick=async()=>{const u=usersCache.find(x=>x.id===b.dataset.uid);await updateDoc(doc(db,'users',b.dataset.uid),{disabled:!u?.disabled});await logChange('user','',[],{details:'تغییر وضعیت فعال کاربر '+(u?.email||'')});await loadUsers();render()});document.querySelectorAll('.deleteUser').forEach(b=>b.onclick=async()=>{if(confirm('فقط سند users حذف شود؟')){await deleteDoc(doc(db,'users',b.dataset.uid));await loadUsers();render()}});document.querySelectorAll('.roleChange').forEach(s=>s.onchange=async()=>{await updateDoc(doc(db,'users',s.dataset.uid),{role:s.value});await logChange('user','',[],{details:'تغییر نقش کاربر به '+s.value});await loadUsers();render()});document.querySelectorAll('.resetUser').forEach(b=>b.onclick=async()=>{if(b.dataset.email)await sendPasswordResetEmail(auth,b.dataset.email).then(()=>alert('ارسال شد')).catch(e=>alert(e.message))});document.querySelectorAll('.editPerson').forEach(b=>b.onclick=()=>fillPerson(b.dataset.id));document.querySelectorAll('.deletePerson').forEach(b=>b.onclick=()=>safeDeletePerson(b.dataset.id));document.querySelectorAll('.showChildren').forEach(b=>b.onclick=()=>showChildrenModal(b.dataset.id));document.querySelectorAll('.addChildForParent').forEach(b=>b.onclick=()=>prepareChildForParent(b.dataset.id));document.querySelectorAll('.gotoPerson').forEach(b=>b.onclick=()=>{closeModal();goProfile(b.dataset.id)});document.querySelectorAll('.notifOpen').forEach(b=>b.onclick=()=>openNotif(b.dataset.id));$('markAllReadBtn')&&($('markAllReadBtn').onclick=async()=>{await Promise.all(notificationsCache.map(n=>updateDoc(doc(db,'notifications',n.id),{read:true}).catch(()=>{})));await loadNotifications();render()})}
 function filterUsers(){const q=val('userSearch').toLowerCase(),r=val('roleFilter'),a=val('approveFilter');let list=usersCache.filter(u=>(!q||String(u.email||'').toLowerCase().includes(q))&&(!r||u.role===r)&&(!a||(a==='approved'?u.approved:!u.approved)));$('usersTable').innerHTML=usersTable(list);bindRouteEvents()}function filterPeople(){const q=val('peopleSearch').toLowerCase();const list=peopleCache.filter(p=>{const hay=[p.fullName,personName(p.fatherId),personName(p.motherId),...spousesOf(p.id).map(s=>s.fullName)].join(' ').toLowerCase();return !q||hay.includes(q)});$('peopleList').innerHTML=peopleList(list,true);bindRouteEvents()}
 async function savePerson(){const id=val('editingPersonId'),oldData=id?personById(id):null,data={fullName:val('personName'),gender:val('personGender'),lifeStatus:val('personLife'),birthYear:val('birthYear'),birthMonth:val('birthMonth'),birthDay:val('birthDay'),fatherId:val('fatherId'),motherId:val('motherId'),spouseId:val('spouseId'),updatedAt:serverTimestamp()};if(!data.fullName){$('peopleMsg').textContent='نام را وارد کن';return}if(duplicatePerson(data.fullName,data.fatherId,id)){$('peopleMsg').textContent='این فرد با همین نام و پدر قبلاً ثبت شده است.';return}if(id&&(data.fatherId===id||data.motherId===id||data.spouseId===id)){$('peopleMsg').textContent='فرد نمی‌تواند پدر، مادر یا همسر خودش باشد.';return}let savedId=id;if(id){await updateDoc(doc(db,'people',id),data);await logChange('update',id,changedFields(oldData,data),{details:'ویرایش سریع فرد'})}else{const ref=await addDoc(collection(db,'people'),{...data,createdAt:serverTimestamp()});savedId=ref.id;await logChange('create',savedId,Object.keys(data),{personName:data.fullName,details:'افزودن فرد جدید'})}await syncSpouse(savedId,data.spouseId);clearPersonForm();await loadPeople();render()}
 async function syncSpouse(personId,spouseId){personId=String(personId||'');spouseId=String(spouseId||'');if(!personId||!spouseId||personId===spouseId)return;const p=personById(personId),sp=personById(spouseId);const pIds=new Set(getSpouseIds(p));pIds.add(spouseId);await updateDoc(doc(db,'people',personId),{spouseId:[...pIds][0]||'',spouseIds:[...pIds],updatedAt:serverTimestamp()}).catch(()=>{});if(sp){const sIds=new Set(getSpouseIds(sp));sIds.add(personId);await updateDoc(doc(db,'people',spouseId),{spouseId:[...sIds][0]||'',spouseIds:[...sIds],updatedAt:serverTimestamp()}).catch(()=>{})}}let childRowsState=[{name:'',gender:'male',fatherId:'',motherId:''}],backupData=null,backupStats=null;
@@ -871,10 +935,216 @@ function openModal(title,body){$('modalTitle').textContent=title;$('modalBody').
 function openDrawer(){$('dashboardDrawer').classList.add('open');$('drawerBack').classList.add('open')}function closeDrawer(){$('dashboardDrawer').classList.remove('open');$('drawerBack').classList.remove('open')}$('openDrawerBtn').onclick=openDrawer;$('closeDrawerBtn').onclick=closeDrawer;$('drawerBack').onclick=closeDrawer;$('mainNav').onclick=e=>{const b=e.target.closest('button[data-route]');if(b)setRoute(b.dataset.route)};$('homeBtn').onclick=()=>setRoute('dashboard');$('notifTopBtn').onclick=()=>setRoute('notifications');$('globalSearchBtn').onclick=openGlobalSearch;$('quickRefreshBtn')&&($('quickRefreshBtn').onclick=quickRefreshAll);$('quickHealthBtn')&&($('quickHealthBtn').onclick=openHealthCheck);$('globalSearchClose').onclick=closeGlobalSearch;$('globalSearchInput').oninput=globalSearchRender;$('globalSearchOverlay').onclick=e=>{if(e.target===$('globalSearchOverlay'))closeGlobalSearch()};document.addEventListener('keydown',e=>{if(e.key==='Escape')closeGlobalSearch();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openGlobalSearch()}});$('logoutBtn').onclick=()=>signOut(auth);
 $('showRegisterBtn').onclick=()=>$('registerBox').classList.toggle('hidden');$('resetBtn').onclick=async()=>{const email=val('loginEmail');if(!email)return msg('ایمیل را وارد کن');await sendPasswordResetEmail(auth,email).then(()=>msg('ایمیل بازیابی ارسال شد',true)).catch(e=>msg(e.message))};$('loginBtn').onclick=async()=>{msg('');await signInWithEmailAndPassword(auth,val('loginEmail'),val('loginPass')).catch(e=>msg('خطا: '+e.message))};$('registerBtn').onclick=async()=>{msg('');await createUserWithEmailAndPassword(auth,val('regEmail'),val('regPass')).then(async cred=>{await ensureUserDoc(cred.user);msg('ثبت‌نام انجام شد. منتظر تایید مدیر باشید.',true)}).catch(e=>msg('خطا: '+e.message))};
 onAuthStateChanged(auth,async user=>{currentUser=user;if(!user){showLogin(true);return}try{currentProfile=await ensureUserDoc(user);if(currentProfile.disabled){msg('حساب غیرفعال است');await signOut(auth);return}if(!currentProfile.approved){showLogin(true);msg('حساب شما در انتظار تایید مدیر است.');return}showLogin(false);await loadAll();setRoute(currentRoute||'dashboard')}catch(e){showLogin(true);msg('خطای Firebase: '+e.message)}});
-if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js?v=258-family-book-safe-fixed').catch(()=>{})}
+if('serviceWorker'in navigator){navigator.serviceWorker.register('./service-worker.js?v=255-viewer-share-safe').catch(()=>{})}
+</script>
+
+<script id="v254-share-tree-safe">
+/* V254 Share Tree SAFE: adds sharing only; login/auth/Firebase untouched */
+(function(){
+  'use strict';
+  if(window.__FTP_V254_SHARE_TREE_SAFE__) return;
+  window.__FTP_V254_SHARE_TREE_SAFE__ = true;
+  function text(el){return (el && (el.innerText || el.textContent) || '').replace(/\s+/g,' ').trim();}
+  function treeTitle(){
+    var h=document.querySelector('#mainView .hero h2') || document.querySelector('.tree-board-title') || document.querySelector('.classic-note');
+    var t=text(h);
+    return t || 'شجره‌نامه خانواده';
+  }
+  function buildShareText(){
+    var title=treeTitle();
+    var count=(document.querySelectorAll('.classic-node,.tree-card,.tree-grid-person').length)||0;
+    var url=location.href.split('#')[0];
+    return title + (count?('\nتعداد گره‌های شجره: '+count):'') + '\n' + url;
+  }
+  function buildStandaloneTreeHtml(){
+    var tree=document.querySelector('.tree-shell') || document.querySelector('.classic-tree-wrap') || document.querySelector('#mainView');
+    var styles=Array.from(document.querySelectorAll('style')).map(function(s){return s.textContent||'';}).join('\n');
+    var title=treeTitle();
+    var body=tree?tree.outerHTML:'<p>شجره در این صفحه پیدا نشد.</p>';
+    return '<!doctype html><html lang="fa" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+title.replace(/[<>&]/g,'')+'</title><style>'+styles+' body{background:#fff!important;padding:12px}.topbar,.drawer,.drawer-back,.tree-toolbar,.hero button,.no-share{display:none!important}</style>
+<style id="v255-viewer-share-styles">
+/* V255 Viewer Share SAFE: read-only share mode; auth/login untouched */
+body.viewer-readonly .viewer-hide,body.viewer-readonly .write-action,body.viewer-readonly .editPerson,body.viewer-readonly .deletePerson,body.viewer-readonly .addChildForParent,body.viewer-readonly #savePersonBtn,body.viewer-readonly #clearPersonBtn,body.viewer-readonly #addChildRowBtn,body.viewer-readonly #saveChildRowsBtn,body.viewer-readonly #clearChildRowsBtn,body.viewer-readonly #saveProfileMain,body.viewer-readonly #saveProfileDates,body.viewer-readonly #saveProfileRelations,body.viewer-readonly #profilePickPhotoBtn,body.viewer-readonly #profileRemovePhotoBtn,body.viewer-readonly #importBackupBtn,body.viewer-readonly #markAllReadBtn,body.viewer-readonly .approveUser,body.viewer-readonly .disableUser,body.viewer-readonly .deleteUser,body.viewer-readonly .roleChange,body.viewer-readonly .resetUser{display:none!important}
+body.viewer-readonly #mainNav button[data-route="users"],body.viewer-readonly #mainNav button[data-route="people"],body.viewer-readonly #mainNav button[data-route="quality"],body.viewer-readonly #mainNav button[data-route="history"],body.viewer-readonly #mainNav button[data-route="photos"],body.viewer-readonly #mainNav button[data-route="import"],body.viewer-readonly #mainNav button[data-route="notifications"]{display:none!important}
+.viewer-banner{background:#ecfdf5;border:1px solid #bbf7d0;color:#166534;border-radius:16px;padding:10px 14px;margin:10px 0;font-weight:900;line-height:1.8;text-align:center}
+.viewer-link-box{direction:ltr;text-align:left;word-break:break-all;background:#0f172a;color:#e5e7eb;border-radius:14px;padding:10px;margin-top:8px;font-size:12px}
+</style>
+</head><body><h2 style="text-align:center">'+title.replace(/[<>&]/g,'')+'</h2>'+body+'
+<script id="v255-viewer-share-safe">
+/* V255 Viewer Share SAFE: create read-only links and block editing in shared viewer mode. Login/Auth untouched. */
+(function(){
+  'use strict';
+  var qs=new URLSearchParams(location.search||'');
+  var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
+  var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
+  function cleanBase(){return location.origin+location.pathname;}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function copyText(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
+  }
+  function openViewerSharePanel(){
+    var link=viewerLink((window.currentRoute||'tree'));
+    var msg='این لینک فقط برای نمایش است؛ افزودن، ویرایش، حذف، مدیریت کاربران و بکاپ در آن بسته می‌شود.';
+    if(window.openModal){
+      window.openModal('لینک نمایشگر فقط مشاهده', '<div class="viewer-banner">🔒 '+msg+'</div><div class="viewer-link-box">'+link.replace(/[<>&]/g,'')+'</div><div class="toolbar"><button id="copyViewerLinkBtn" class="btn green">کپی لینک نمایشگر</button><button id="whatsappViewerLinkBtn" class="btn">ارسال واتساپ</button></div>');
+      setTimeout(function(){
+        var c=document.getElementById('copyViewerLinkBtn'); if(c)c.onclick=function(){copyText(link).then(function(){alert('لینک نمایشگر کپی شد')})};
+        var w=document.getElementById('whatsappViewerLinkBtn'); if(w)w.onclick=function(){location.href='https://wa.me/?text='+encodeURIComponent('لینک نمایش شجره‌نامه:
+'+link)};
+      },50);
+    }else{
+      copyText(link).then(function(){alert('لینک نمایشگر کپی شد')});
+    }
+  }
+  window.openViewerSharePanel=openViewerSharePanel;
+  function addViewerButtons(){
+    var tb=document.querySelector('.tree-toolbar')||document.querySelector('.toolbar');
+    if(tb&&!document.getElementById('viewerShareLinkBtn')){
+      var b=document.createElement('button');b.id='viewerShareLinkBtn';b.type='button';b.className='btn purple small no-print no-share';b.textContent='🔒 لینک نمایشگر';b.title='ساخت لینک فقط مشاهده';b.onclick=openViewerSharePanel;tb.appendChild(b);
+    }
+    var top=document.querySelector('.top-actions');
+    if(top&&!document.getElementById('viewerShareTopBtn')&&!viewerMode){
+      var t=document.createElement('button');t.id='viewerShareTopBtn';t.type='button';t.className='top-btn';t.textContent='🔒 نمایشگر';t.title='ساخت لینک فقط مشاهده';t.onclick=openViewerSharePanel;top.insertBefore(t,top.firstChild);
+    }
+  }
+  function applyViewerMode(){
+    addViewerButtons();
+    if(!viewerMode)return;
+    document.body.classList.add('viewer-readonly');
+    document.querySelectorAll('#mainNav button[data-route]').forEach(function(b){var r=b.getAttribute('data-route'); if(!allowedRoutes[r]) b.classList.add('viewer-hide');});
+    document.querySelectorAll('button').forEach(function(b){
+      var txt=(b.textContent||'').trim();
+      if(/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt)) b.classList.add('viewer-hide');
+    });
+    if(!document.getElementById('viewerReadonlyBanner')){
+      var main=document.getElementById('mainView');
+      if(main){var d=document.createElement('div');d.id='viewerReadonlyBanner';d.className='viewer-banner';d.textContent='🔒 حالت نمایشگر: فقط مشاهده فعال است و امکان تغییر اطلاعات وجود ندارد.';main.prepend(d);}
+    }
+    var route=qs.get('route')||'tree';
+    if(!allowedRoutes[route])route='tree';
+    if(window.setRoute&&window.__v255RouteApplied!==route){window.__v255RouteApplied=route;setTimeout(function(){try{window.setRoute(route)}catch(e){}},120)}
+  }
+  document.addEventListener('click',function(e){
+    if(!viewerMode)return;
+    var b=e.target.closest('button'); if(!b)return;
+    var txt=(b.textContent||'').trim();
+    var danger=b.matches('.editPerson,.deletePerson,.addChildForParent,.approveUser,.disableUser,.deleteUser,.roleChange,.resetUser,#savePersonBtn,#clearPersonBtn,#addChildRowBtn,#saveChildRowsBtn,#clearChildRowsBtn,#saveProfileMain,#saveProfileDates,#saveProfileRelations,#profilePickPhotoBtn,#profileRemovePhotoBtn,#importBackupBtn,#markAllReadBtn')||/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt);
+    if(danger){e.preventDefault();e.stopImmediatePropagation();alert('در حالت نمایشگر فقط مشاهده مجاز است.');}
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){applyViewerMode();setTimeout(applyViewerMode,500);setTimeout(applyViewerMode,1600)});
+  new MutationObserver(function(){applyViewerMode()}).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
+</body></html>';
+  }
+  async function shareTree(){
+    var shareText=buildShareText();
+    try{
+      if(navigator.share){
+        var html=buildStandaloneTreeHtml();
+        var file=new File([html],'FamilyTreePro-Tree.html',{type:'text/html'});
+        if(navigator.canShare && navigator.canShare({files:[file]})){
+          await navigator.share({title:'شجره‌نامه خانواده',text:'فایل شجره‌نامه خانواده',files:[file]});
+          return;
+        }
+        await navigator.share({title:'شجره‌نامه خانواده',text:shareText,url:location.href.split('#')[0]});
+        return;
+      }
+    }catch(e){
+      if(String(e && e.name || '')==='AbortError') return;
+    }
+    var wa='https://wa.me/?text='+encodeURIComponent(shareText);
+    window.open(wa,'_blank');
+  }
+  function addButton(){
+    var toolbar=document.querySelector('#mainView .tree-toolbar') || document.querySelector('#mainView .toolbar');
+    var main=document.querySelector('#mainView');
+    if(!toolbar || !main) return;
+    var looksLikeTree=main.textContent.indexOf('شجره')>-1 || main.querySelector('.classic-tree,.tree-shell,.tree-board,.tree-stage');
+    if(!looksLikeTree) return;
+    if(document.getElementById('shareTreeBtn')) return;
+    var btn=document.createElement('button');
+    btn.id='shareTreeBtn';
+    btn.type='button';
+    btn.className='btn green small no-print no-share';
+    btn.textContent='📤 ارسال شجره';
+    btn.title='ارسال شجره به واتساپ یا برنامه‌های دیگر';
+    btn.onclick=shareTree;
+    toolbar.appendChild(btn);
+  }
+  var mo=new MutationObserver(function(){setTimeout(addButton,60);});
+  document.addEventListener('DOMContentLoaded',function(){addButton();var m=document.getElementById('mainView')||document.body;mo.observe(m,{childList:true,subtree:true});});
+  setInterval(addButton,1500);
+})();
 </script>
 
 
-
+<script id="v255-viewer-share-safe">
+/* V255 Viewer Share SAFE: create read-only links and block editing in shared viewer mode. Login/Auth untouched. */
+(function(){
+  'use strict';
+  var qs=new URLSearchParams(location.search||'');
+  var viewerMode=qs.get('mode')==='viewer'||qs.get('share')==='viewer'||qs.get('readonly')==='1'||location.hash==='#viewer';
+  var allowedRoutes={dashboard:1,tree:1,profile:1,relations:1,timeline:1,occasions:1,print:1};
+  function cleanBase(){return location.origin+location.pathname;}
+  function viewerLink(route){return cleanBase()+'?mode=viewer&route='+(route||'tree')+'&v=255-viewer-share-safe';}
+  function copyText(text){
+    if(navigator.clipboard&&navigator.clipboard.writeText)return navigator.clipboard.writeText(text);
+    var ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();return Promise.resolve();
+  }
+  function openViewerSharePanel(){
+    var link=viewerLink((window.currentRoute||'tree'));
+    var msg='این لینک فقط برای نمایش است؛ افزودن، ویرایش، حذف، مدیریت کاربران و بکاپ در آن بسته می‌شود.';
+    if(window.openModal){
+      window.openModal('لینک نمایشگر فقط مشاهده', '<div class="viewer-banner">🔒 '+msg+'</div><div class="viewer-link-box">'+link.replace(/[<>&]/g,'')+'</div><div class="toolbar"><button id="copyViewerLinkBtn" class="btn green">کپی لینک نمایشگر</button><button id="whatsappViewerLinkBtn" class="btn">ارسال واتساپ</button></div>');
+      setTimeout(function(){
+        var c=document.getElementById('copyViewerLinkBtn'); if(c)c.onclick=function(){copyText(link).then(function(){alert('لینک نمایشگر کپی شد')})};
+        var w=document.getElementById('whatsappViewerLinkBtn'); if(w)w.onclick=function(){location.href='https://wa.me/?text='+encodeURIComponent('لینک نمایش شجره‌نامه:
+'+link)};
+      },50);
+    }else{
+      copyText(link).then(function(){alert('لینک نمایشگر کپی شد')});
+    }
+  }
+  window.openViewerSharePanel=openViewerSharePanel;
+  function addViewerButtons(){
+    var tb=document.querySelector('.tree-toolbar')||document.querySelector('.toolbar');
+    if(tb&&!document.getElementById('viewerShareLinkBtn')){
+      var b=document.createElement('button');b.id='viewerShareLinkBtn';b.type='button';b.className='btn purple small no-print no-share';b.textContent='🔒 لینک نمایشگر';b.title='ساخت لینک فقط مشاهده';b.onclick=openViewerSharePanel;tb.appendChild(b);
+    }
+    var top=document.querySelector('.top-actions');
+    if(top&&!document.getElementById('viewerShareTopBtn')&&!viewerMode){
+      var t=document.createElement('button');t.id='viewerShareTopBtn';t.type='button';t.className='top-btn';t.textContent='🔒 نمایشگر';t.title='ساخت لینک فقط مشاهده';t.onclick=openViewerSharePanel;top.insertBefore(t,top.firstChild);
+    }
+  }
+  function applyViewerMode(){
+    addViewerButtons();
+    if(!viewerMode)return;
+    document.body.classList.add('viewer-readonly');
+    document.querySelectorAll('#mainNav button[data-route]').forEach(function(b){var r=b.getAttribute('data-route'); if(!allowedRoutes[r]) b.classList.add('viewer-hide');});
+    document.querySelectorAll('button').forEach(function(b){
+      var txt=(b.textContent||'').trim();
+      if(/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt)) b.classList.add('viewer-hide');
+    });
+    if(!document.getElementById('viewerReadonlyBanner')){
+      var main=document.getElementById('mainView');
+      if(main){var d=document.createElement('div');d.id='viewerReadonlyBanner';d.className='viewer-banner';d.textContent='🔒 حالت نمایشگر: فقط مشاهده فعال است و امکان تغییر اطلاعات وجود ندارد.';main.prepend(d);}
+    }
+    var route=qs.get('route')||'tree';
+    if(!allowedRoutes[route])route='tree';
+    if(window.setRoute&&window.__v255RouteApplied!==route){window.__v255RouteApplied=route;setTimeout(function(){try{window.setRoute(route)}catch(e){}},120)}
+  }
+  document.addEventListener('click',function(e){
+    if(!viewerMode)return;
+    var b=e.target.closest('button'); if(!b)return;
+    var txt=(b.textContent||'').trim();
+    var danger=b.matches('.editPerson,.deletePerson,.addChildForParent,.approveUser,.disableUser,.deleteUser,.roleChange,.resetUser,#savePersonBtn,#clearPersonBtn,#addChildRowBtn,#saveChildRowsBtn,#clearChildRowsBtn,#saveProfileMain,#saveProfileDates,#saveProfileRelations,#profilePickPhotoBtn,#profileRemovePhotoBtn,#importBackupBtn,#markAllReadBtn')||/ذخیره|حذف|ویرایش|افزودن|تایید|غیرفعال|رمز|ورود بکاپ|ثبت همه|پاک/.test(txt);
+    if(danger){e.preventDefault();e.stopImmediatePropagation();alert('در حالت نمایشگر فقط مشاهده مجاز است.');}
+  },true);
+  document.addEventListener('DOMContentLoaded',function(){applyViewerMode();setTimeout(applyViewerMode,500);setTimeout(applyViewerMode,1600)});
+  new MutationObserver(function(){applyViewerMode()}).observe(document.documentElement,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
