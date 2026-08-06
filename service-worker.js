@@ -1,5 +1,5 @@
-// FamilyTreePro V256 Auto Family Relations
-const CACHE_NAME='familytreepro-v256-auto-family-relations';
+// FamilyTreePro V257 Auto Mother Sync
+const CACHE_NAME='familytreepro-v257-auto-mother-sync';
 const CORE_ASSETS=['./','./index.html','./manifest.json'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(CORE_ASSETS).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
